@@ -1,26 +1,62 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* ============================================================
+   DESIGN SYSTEM — Ivo Zanacchi Portfolio
+   Stack: Next.js 16 · Tailwind v4 CSS-first · Motion · Lenis
+   ============================================================ */
 
+/* --- Font variables registered in the theme layer --- */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-fira-code);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* --- Global resets & base dark-mode declarations --- */
+:root {
+  color-scheme: dark;
 }
 
+html,
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  height: 100%;
+}
+
+/* Smooth scroll is handled by Lenis — disable native scroll snapping interference */
+html {
+  scroll-behavior: auto;
+}
+
+/* === Typography baseline === */
+body {
+  /* Prevent subpixel aliasing on dark backgrounds */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* === Focus ring — accessible but dark-mode premium === */
+*:focus-visible {
+  outline: 2px solid rgb(6 182 212 / 0.6); /* cyan-500/60 */
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* === Selection highlight (backs up Tailwind utility in layout) === */
+::selection {
+  background-color: rgb(6 182 212 / 0.2);
+  color: rgb(34 211 238);
+}
+
+/* === Scrollbar — styled to match dark theme === */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgb(10 10 10);
+}
+::-webkit-scrollbar-thumb {
+  background: rgb(6 182 212 / 0.35);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(6 182 212 / 0.6);
 }
