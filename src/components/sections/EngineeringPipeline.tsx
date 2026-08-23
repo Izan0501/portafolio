@@ -3,6 +3,7 @@
 import React, { useRef } from "react";
 import { useScroll, useTransform, type MotionValue } from "motion/react";
 import { m } from "motion/react";
+import { SiGithubactions } from "react-icons/si";
 import { VerticalCutReveal } from "@/components/ui/vertical-cut-reveal";
 
 interface PipelineStage {
@@ -16,30 +17,30 @@ interface PipelineStage {
 const stages: PipelineStage[] = [
   {
     phase: "01",
-    badge: "PROTOCOL // THREAT MODELING",
-    title: "Architecture & OSI Layer Security Audits",
-    desc: "Rigorous schema design, zero-trust network routing, and API gateway vulnerability mapping before executing a single line of application logic.",
+    badge: "PROTOCOL // ACCESS & AUTH DESIGN",
+    title: "Access-Layer Architecture & Security Review",
+    desc: "Designing session and permission boundaries before implementation — JWT/OAuth2 token flows with access & refresh rotation, and a manual review pass on every auth-adjacent endpoint.",
     artifactType: "security",
   },
   {
     phase: "02",
     badge: "INFRASTRUCTURE // ISOLATION",
     title: "Containerization & Reproducible Environments",
-    desc: "Encapsulating microservices into lightweight Docker images, defining multi-stage build matrices, and hardening environment variable vaults.",
+    desc: "Multi-stage Docker builds with Swarm-based scaling for backend services (VeeBot), and Turbopack-optimized production builds for frontend platforms (Axon Crafts).",
     artifactType: "docker",
   },
   {
     phase: "03",
-    badge: "AUTOMATION // CI-CD PIPELINES",
-    title: "Automated Verification & Zero-Regression Testing",
-    desc: "Continuous integration pipelines executing strict type-checking, asynchronous integration tests, and automated dependency vulnerability scanning.",
+    badge: "AUTOMATION // CI PIPELINES",
+    title: "CI Automation & Manual QA Gate",
+    desc: "GitHub Actions runs build, type-check, and lint on every push. A manual QA pass is still the gate before merging to main — automated test coverage is on the roadmap, not a claim we make yet.",
     artifactType: "cicd",
   },
   {
     phase: "04",
-    badge: "TELEMETRY // GLOBAL EDGE",
-    title: "Zero-Downtime Release & Sub-ms Monitoring",
-    desc: "Orchestrating global cloud releases with instant failover routing, active WebSocket telemetry streams, and real-time cluster health monitoring.",
+    badge: "RELEASE // DEPLOYMENT",
+    title: "Zero-Downtime Release & Manual Verification",
+    desc: "Rolling Swarm deploys on AWS for backend services, instant edge deploys via Vercel + Cloudflare for frontend platforms — verified manually post-release while dedicated observability tooling is still on the roadmap.",
     artifactType: "edge",
   },
 ];
@@ -108,15 +109,12 @@ const PipelineStepCard: React.FC<PipelineStepCardProps> = ({ stage, index, total
         <div className="mt-6 pt-6 border-t border-white/10">
           {stage.artifactType === "security" && (
             <div className="flex flex-wrap items-center gap-3 font-mono text-xs">
-              <span className="px-3 py-1.5 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-red-400 animate-ping" />
-                DDoS Mitigation: ACTIVE
+              <span className="px-3 py-1.5 rounded-lg bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+                JWT / OAuth2 — Access & Refresh Rotation
               </span>
               <span className="px-3 py-1.5 rounded-lg bg-black/60 border border-white/10 text-neutral-300">
-                OSI Layer 7 Inspected
-              </span>
-              <span className="px-3 py-1.5 rounded-lg bg-black/60 border border-white/10 text-neutral-300">
-                Zero-Trust JWT Vault
+                Manual Code Review — Auth & Session Paths
               </span>
             </div>
           )}
@@ -125,36 +123,38 @@ const PipelineStepCard: React.FC<PipelineStepCardProps> = ({ stage, index, total
             <div className="bg-black/90 p-4 rounded-xl border border-white/10 font-mono text-xs text-neutral-300 overflow-x-auto shadow-inner space-y-1">
               <div className="text-neutral-500">{"// Multi-stage production container build"}</div>
               <div><span className="text-cyan-400">FROM</span> node:20-alpine <span className="text-cyan-400">AS</span> builder</div>
-              <div><span className="text-cyan-400">COPY</span> --chown=nextjs:nodejs . /app</div>
-              <div><span className="text-emerald-400">RUN</span> docker compose up -d --scale api=4 --no-recreate</div>
+              <div><span className="text-cyan-400">WORKDIR</span> /app</div>
+              <div><span className="text-cyan-400">RUN</span> npm ci && npm run build</div>
+              <div className="text-neutral-500 pt-1">{"// Swarm scaling (VeeBot)"}</div>
+              <div><span className="text-emerald-400">$</span> docker service scale veebot_api=4</div>
             </div>
           )}
 
           {stage.artifactType === "cicd" && (
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 font-mono text-xs">
-              <div className="p-2.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-between">
-                <span>TypeScript Check</span>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 font-mono text-xs">
+              <div className="p-2.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex flex-wrap items-center gap-x-1.5 gap-y-1 justify-between">
+                <span className="flex items-center gap-1.5"><SiGithubactions className="text-sm" /> Actions — Build</span>
                 <span className="font-bold">✓ PASS</span>
               </div>
-              <div className="p-2.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-between">
-                <span>FastAPI Unit Tests</span>
+              <div className="p-2.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex flex-wrap items-center justify-between gap-x-1.5 gap-y-1">
+                <span>TypeScript Strict</span>
                 <span className="font-bold">✓ PASS</span>
               </div>
-              <div className="p-2.5 rounded-lg bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 flex items-center justify-between col-span-2 sm:col-span-1">
-                <span>SonarQube Audit</span>
-                <span className="font-bold">A+ RATED</span>
+              <div className="p-2.5 rounded-lg bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 flex flex-wrap items-center justify-between gap-x-1.5 gap-y-1">
+                <span>Manual QA — Pre-Merge</span>
+                <span className="font-bold">✓ CHECKED</span>
               </div>
             </div>
           )}
 
           {stage.artifactType === "edge" && (
-            <div className="flex items-center justify-between p-3 rounded-xl bg-gradient-to-r from-cyan-950/40 to-black/80 border border-cyan-500/20 font-mono text-xs">
+            <div className="flex flex-wrap items-center justify-between gap-2 p-3 rounded-xl bg-gradient-to-r from-cyan-950/40 to-black/80 border border-cyan-500/20 font-mono text-xs">
               <div className="flex items-center gap-2 text-cyan-300">
                 <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-                <span>GLOBAL ROUTING: US-EAST {"//"} SA-EAST</span>
+                <span>AWS Docker Swarm {"//"} Vercel Edge + Cloudflare</span>
               </div>
               <span className="text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
-                LATENCY: 0.38ms
+                Manual Post-Deploy Verification
               </span>
             </div>
           )}
@@ -175,7 +175,7 @@ export const EngineeringPipeline = () => {
   const laserHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
   return (
-    <section ref={containerRef} className="w-full bg-neutral-950 py-32 relative z-10 overflow-hidden border-t border-white/5">
+    <section ref={containerRef} className="w-full bg-neutral-950 py-32 relative z-10 overflow-visible border-t border-white/5">
       {/* Background Cyber Grid */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:48px_48px] pointer-events-none" />
 
@@ -184,15 +184,15 @@ export const EngineeringPipeline = () => {
         <div className="mb-24 flex flex-col items-center text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-neutral-900 border border-white/10 text-cyan-400 font-mono text-xs mb-4 shadow-inner">
             <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-            <span>{"// 03. ARCHITECTURAL PROTOCOL & LIFECYCLE"}</span>
+            <span>{"// 03. ARCHITECTURE & DELIVERY LIFECYCLE"}</span>
           </div>
           <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold text-white tracking-tight !leading-[1.1] mb-6 antialiased subpixel-antialiased select-none">
             <VerticalCutReveal splitBy="words" staggerDuration={0.05} staggerFrom="first">
-              THE PRECISION ENGINEERING LIFECYCLE.
+              THE ENGINEERING LIFECYCLE.
             </VerticalCutReveal>
           </h2>
           <p className="text-neutral-400 text-base sm:text-lg font-sans max-w-2xl leading-relaxed">
-            From initial threat modeling and container isolation to zero-regression automated CI/CD deployment. Every software build is executed under a rigorous, fault-tolerant protocol.
+            From access-layer architecture and container isolation to CI-driven builds and manually verified deployments — the real workflow behind every shipped system.
           </p>
         </div>
 

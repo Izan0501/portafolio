@@ -40,7 +40,7 @@ const TopologyNode: React.FC<TopologyNodeProps> = ({ node, progress }) => {
     >
       <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/10 rounded-full blur-2xl pointer-events-none group-hover:bg-cyan-400/20 transition-all duration-500" />
       
-      <div className="flex justify-between items-start mb-3">
+      <div className="flex flex-wrap justify-between items-start gap-x-3 gap-y-1.5 mb-3">
         <span className="font-mono text-xs text-cyan-400 tracking-wider bg-cyan-500/10 px-2.5 py-1 rounded-md border border-cyan-500/20">
           {node.layer}
         </span>
@@ -54,7 +54,7 @@ const TopologyNode: React.FC<TopologyNodeProps> = ({ node, progress }) => {
         {node.title}
       </h3>
       
-      <div className="font-mono text-xs text-neutral-400 border-t border-white/5 pt-3 mt-3 flex justify-between items-center">
+      <div className="font-mono text-xs text-neutral-400 border-t border-white/5 pt-3 mt-3 flex flex-wrap justify-between items-center gap-x-2 gap-y-1">
         <span>PROTOCOL:</span>
         <span className="text-neutral-200 font-semibold">{node.protocol}</span>
       </div>

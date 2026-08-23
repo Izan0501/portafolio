@@ -178,15 +178,15 @@ export const Footer = () => {
           <span className="text-white font-bold tracking-wider mb-2 border-l-2 border-cyan-400 pl-2">
             {"// TRANSMISSION CHANNELS"}
           </span>
-          <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="text-neutral-400 hover:text-white transition-colors flex items-center justify-between p-2.5 rounded-lg bg-neutral-900/60 border border-white/5 hover:border-white/20">
+          <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="text-neutral-400 hover:text-white transition-colors flex flex-wrap items-center justify-between gap-x-2 gap-y-1 p-2.5 rounded-lg bg-neutral-900/60 border border-white/5 hover:border-white/20">
             <span>GITHUB PROTOCOL</span>
             <span className="text-cyan-400">→ /ivozanacchi</span>
           </a>
-          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-neutral-400 hover:text-white transition-colors flex items-center justify-between p-2.5 rounded-lg bg-neutral-900/60 border border-white/5 hover:border-white/20">
+          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-neutral-400 hover:text-white transition-colors flex flex-wrap items-center justify-between gap-x-2 gap-y-1 p-2.5 rounded-lg bg-neutral-900/60 border border-white/5 hover:border-white/20">
             <span>LINKEDIN NETWORK</span>
             <span className="text-cyan-400">→ /in/ivozanacchi</span>
           </a>
-          <a href="mailto:ivozanacchi@example.com" className="text-neutral-400 hover:text-white transition-colors flex items-center justify-between p-2.5 rounded-lg bg-neutral-900/60 border border-white/5 hover:border-white/20">
+          <a href="mailto:ivozanacchi@example.com" className="text-neutral-400 hover:text-white transition-colors flex flex-wrap items-center justify-between gap-x-2 gap-y-1 p-2.5 rounded-lg bg-neutral-900/60 border border-white/5 hover:border-white/20">
             <span>DIRECT ENCRYPTION (EMAIL)</span>
             <span className="text-emerald-400">→ INITIATE</span>
           </a>

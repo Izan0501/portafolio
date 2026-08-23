@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { m, AnimatePresence, useScroll, useMotionValueEvent } from "motion/react";
 import { useLenis } from "lenis/react";
 import { cn } from "@/lib/utils";
-import { FiChevronDown, FiLayers, FiCpu, FiActivity, FiTerminal, FiDatabase } from "react-icons/fi";
+import { FiChevronDown, FiLayers, FiActivity, FiTerminal, FiDatabase } from "react-icons/fi";
 
 interface NavItem {
   label: string;
@@ -23,27 +23,8 @@ const dropdownNavItems: NavItem[] = [
   { label: "// 03. PIPELINE", id: "pipeline", icon: <FiDatabase className="text-cyan-400"/>, description: "Distributed RAG & Vector Storage" },
   { label: "// 04. TOPOLOGY", id: "topology", icon: <FiLayers className="text-emerald-400"/>, description: "Network Architecture & Routing" },
   { label: "// 05. TELEMETRY", id: "telemetry", icon: <FiActivity className="text-purple-400"/>, description: "Sub-millisecond Cluster Audits" },
-  { label: "// 06. TERMINAL", id: "terminal", icon: <FiTerminal className="text-cyan-300"/>, badge: "CLI", description: "Interactive Command Execution" },
+  { label: "// 06. TERMINAL", id: "terminal-card", icon: <FiTerminal className="text-cyan-300"/>, badge: "CLI", description: "Interactive Command Execution" },
 ];
-
-// ==========================================
-// EMBEDDED LIQUID GLASS SVG DISTORTION FILTER
-// ==========================================
-function NavbarGlassFilter() {
-  return (
-    <svg className="hidden">
-      <defs>
-        <filter id="navbar-glass" x="0%" y="0%" width="100%" height="100%" colorInterpolationFilters="sRGB">
-          <feTurbulence type="fractalNoise" baseFrequency="0.04 0.04" numOctaves="1" seed="2" result="noise" />
-          <feGaussianBlur in="noise" stdDeviation="1.5" result="blurredNoise" />
-          <feDisplacementMap in="SourceGraphic" in2="blurredNoise" scale="25" xChannelSelector="R" yChannelSelector="B" result="displaced" />
-          <feGaussianBlur in="displaced" stdDeviation="0.5" result="finalBlur" />
-          <feComposite in="finalBlur" in2="finalBlur" operator="over" />
-        </filter>
-      </defs>
-    </svg>
-  );
-}
 
 export const Navbar: React.FC = () => {
   const lenis = useLenis();
@@ -83,7 +64,6 @@ export const Navbar: React.FC = () => {
 
   return (
     <>
-      <NavbarGlassFilter/>
       <m.header
         variants={{
           visible: { y: 0, scale: 1, opacity: 1 },
@@ -107,12 +87,6 @@ export const Navbar: React.FC = () => {
           {/* LAYER 1: MAIN ISLAND LIQUID GLASS REFRACTIVE SHELL */}
           <div className="absolute inset-0 z-0 rounded-full pointer-events-none transition-all duration-500 shadow-[0_0_8px_rgba(0,0,0,0.03),0_2px_6px_rgba(0,0,0,0.08),inset_3px_3px_0.5px_-3.5px_rgba(255,255,255,0.15),inset_-3px_-3px_0.5px_-3.5px_rgba(255,255,255,0.85),inset_1px_1px_1px_-0.5px_rgba(255,255,255,0.6),inset_-1px_-1px_1px_-0.5px_rgba(255,255,255,0.6),inset_0_0_6px_6px_rgba(255,255,255,0.12),inset_0_0_2px_2px_rgba(255,255,255,0.06),0_0_15px_rgba(34,211,238,0.15)] group-hover:shadow-[0_0_8px_rgba(0,0,0,0.03),0_2px_6px_rgba(0,0,0,0.08),inset_3px_3px_0.5px_-3.5px_rgba(255,255,255,0.2),inset_-3px_-3px_0.5px_-3.5px_rgba(255,255,255,0.9),inset_1px_1px_1px_-0.5px_rgba(255,255,255,0.7),inset_-1px_-1px_1px_-0.5px_rgba(255,255,255,0.7),inset_0_0_6px_6px_rgba(255,255,255,0.15),inset_0_0_2px_2px_rgba(255,255,255,0.08),0_0_25px_rgba(34,211,238,0.3)]" />
           
-          {/* LAYER 1.5: SVG Liquid Distortion overlay */}
-          <div
-            className="absolute inset-0 -z-10 h-full w-full opacity-30 pointer-events-none rounded-full"
-            style={{ backdropFilter: 'url("#navbar-glass")' }}
-          />
-
           {/* LAYER 2: COMPACT KINETIC UI CONTENT */}
           <div className="relative z-10 flex items-center gap-1.5 w-full">
             
@@ -179,17 +153,18 @@ export const Navbar: React.FC = () => {
             {/* DROPDOWN TRIGGER PILL (Architecture & Deep Dive) */}
             <div className="relative">
               <button
+                aria-label="Architecture menu"
                 type="button"
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 onMouseEnter={() => setIsDropdownOpen(true)}
                 className={cn(
-                  "relative px-3.5 py-1.5 rounded-full font-mono text-xs transition-all duration-300 cursor-pointer flex items-center gap-1.5 border",
+                  "relative px-2.5 sm:px-3.5 py-1.5 rounded-full font-mono text-xs transition-all duration-300 cursor-pointer flex items-center gap-1.5 border",
                   isDropdownOpen
                     ? "bg-white/15 text-white border-cyan-500/50 shadow-[0_0_15px_rgba(34,211,238,0.3)]"
                     : "text-neutral-400 hover:text-white bg-transparent border-transparent hover:bg-white/5 hover:border-white/10"
                 )}
               >
-                <span>{"// ARCHITECTURE"}</span>
+                <span className="hidden sm:inline">{"// ARCHITECTURE"}</span>
                 <FiChevronDown className={cn("transition-transform duration-300 text-cyan-400", isDropdownOpen ? "rotate-180" : "")} />
               </button>
 
@@ -201,17 +176,11 @@ export const Navbar: React.FC = () => {
                     animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
                     exit={{ opacity: 0, y: -10, scale: 0.94, filter: "blur(6px)" }}
                     transition={{ type: "spring", stiffness: 420, damping: 28, mass: 0.7 }}
-                    className="absolute top-full mt-3 left-0 sm:left-auto sm:right-0 w-64 sm:w-72 p-2 rounded-2xl bg-neutral-950/85 backdrop-blur-2xl border border-white/15 shadow-[0_30px_70px_rgba(0,0,0,0.95)] overflow-hidden z-50 will-change-transform transform-gpu"
+                    className="absolute top-full mt-3 left-1/2 -translate-x-1/2 sm:left-auto sm:right-0 sm:translate-x-0 w-[min(85vw,16rem)] sm:w-72 p-2 rounded-2xl bg-neutral-950/85 backdrop-blur-2xl border border-white/15 shadow-[0_30px_70px_rgba(0,0,0,0.95)] overflow-hidden z-50 will-change-transform transform-gpu"
                   >
                     {/* DROPDOWN LAYER 1: LIQUID GLASS REFRACTIVE SHELL */}
                     <div className="absolute inset-0 z-0 rounded-2xl pointer-events-none shadow-[0_0_8px_rgba(0,0,0,0.03),0_2px_6px_rgba(0,0,0,0.08),inset_3px_3px_0.5px_-3.5px_rgba(255,255,255,0.15),inset_-3px_-3px_0.5px_-3.5px_rgba(255,255,255,0.85),inset_1px_1px_1px_-0.5px_rgba(255,255,255,0.6),inset_-1px_-1px_1px_-0.5px_rgba(255,255,255,0.6),inset_0_0_6px_6px_rgba(255,255,255,0.12),inset_0_0_2px_2px_rgba(255,255,255,0.06),0_0_15px_rgba(34,211,238,0.15)]" />
                     
-                    {/* DROPDOWN LAYER 1.5: SVG Liquid Distortion */}
-                    <div
-                      className="absolute inset-0 -z-10 h-full w-full opacity-30 pointer-events-none rounded-2xl"
-                      style={{ backdropFilter: 'url("#navbar-glass")' }}
-                    />
-
                     {/* DROPDOWN LAYER 2: KINETIC LINKS */}
                     <div className="relative z-10 flex flex-col gap-1">
                       <div className="px-3 py-1.5 font-mono text-[10px] text-neutral-500 uppercase tracking-widest border-b border-white/10 mb-1">
@@ -257,12 +226,14 @@ export const Navbar: React.FC = () => {
 
             {/* Right Liquid-Metal Executive Action Chip */}
             <a
-              href="#terminal"
-              onClick={(e) => handleSmoothScroll(e, "terminal")}
+              href="#terminal-card"
+              onClick={(e) => handleSmoothScroll(e, "terminal-card")}
               className="relative group/btn px-4 sm:px-5 py-2 rounded-full bg-gradient-to-r from-cyan-400 via-teal-300 to-emerald-400 hover:from-cyan-300 hover:to-emerald-300 text-neutral-950 font-sans font-extrabold text-xs tracking-tight transition-all duration-300 shadow-[0_0_20px_rgba(34,211,238,0.5),inset_0_1px_1px_rgba(255,255,255,0.8)] hover:shadow-[0_0_30px_rgba(34,211,238,0.9),inset_0_1px_2px_rgba(255,255,255,1)] hover:scale-105 cursor-pointer flex items-center gap-1.5 overflow-hidden shrink-0"
             >
               <div className="absolute top-0 inset-x-0 h-[1px] bg-white opacity-80 group-hover/btn:opacity-100 transition-opacity" />
-              <span className="relative z-10">INITIATE CLI ↵</span>
+              <span className="relative z-10">
+                <span className="hidden sm:inline">INITIATE </span>CLI ↵
+              </span>
             </a>
 
           </div>

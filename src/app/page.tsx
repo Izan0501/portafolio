@@ -4,8 +4,6 @@ import { TechStackBento } from "@/components/sections/TechStackBento";
 import { FeaturedSystems } from "@/components/sections/FeaturedSystems";
 import { EngineeringPipeline } from "@/components/sections/EngineeringPipeline";
 import { ArchitectureTopology } from "@/components/sections/ArchitectureTopology";
-import { LiveTelemetryMatrix } from "@/components/sections/LiveTelemetryMatrix";
-import { TerminalContact } from "@/components/sections/TerminalContact";
 
 export default function Home() {
   return (
@@ -15,8 +13,6 @@ export default function Home() {
       <div id="systems" className="scroll-mt-28"><FeaturedSystems/></div>
       <div id="pipeline" className="scroll-mt-28"><EngineeringPipeline/></div>
       <div id="topology" className="scroll-mt-28"><ArchitectureTopology/></div>
-      <div id="telemetry" className="scroll-mt-28"><LiveTelemetryMatrix/></div>
-      <div id="terminal" className="scroll-mt-28"><TerminalContact/></div>
     </main>
   );
 }

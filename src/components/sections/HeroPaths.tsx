@@ -1,42 +1,106 @@
 "use client";
 
-import React, { useRef } from "react";
-import { m, useScroll, useTransform } from "motion/react";
-import { FloatingPaths } from "@/components/ui/floating-paths";
-import { VerticalCutReveal } from "@/components/ui/vertical-cut-reveal";
-import { TextRotate } from "@/components/ui/text-rotate";
+import React, { useEffect, useState } from "react";
+import { m, AnimatePresence, MotionValue, useScroll, useTransform } from "motion/react";
 import { useLenis } from "lenis/react";
+import { FiArrowDownCircle, FiPlayCircle } from "react-icons/fi";
+
+const ROLES = ["ARCHITECT", "ENGINEER", "DEVELOPER"];
+
+// ─── Sub-component: RoleRotator ────────────────────────────────────────────
+// Whole-word transitions only (never per-character), solid neon color (never
+// bg-clip-text), no 3D transform — avoids every ingredient of the earlier bug.
+const RoleRotator: React.FC = () => {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setIndex((prev) => (prev + 1) % ROLES.length);
+    }, 2200);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <span className="relative block h-[1.15em] overflow-hidden">
+      <AnimatePresence mode="wait">
+        <m.span
+          animate={{ y: 0, opacity: 1 }}
+          className="block text-emerald-400 drop-shadow-[0_0_20px_rgba(52,211,153,0.6)] will-change-transform transform-gpu"
+          exit={{ y: -32, opacity: 0 }}
+          initial={{ y: 32, opacity: 0 }}
+          key={ROLES[index]}
+          transition={{ duration: 0.4, ease: "easeInOut" }}
+        >
+          {ROLES[index]}
+        </m.span>
+      </AnimatePresence>
+    </span>
+  );
+};
+
+// ─── Sub-component: HexagonAvatar ──────────────────────────────────────────
+// Mathematically precise SVG brackets (no CSS-border hacks) + a CSS clip-path
+// hexagon image. Outer div carries the scroll-linked parallax `y`; the inner
+// div carries the separate continuous levitation `y` — two different motion
+// values on two different elements, so they compose instead of fighting.
+interface HexagonAvatarProps {
+  y: MotionValue<number>;
+}
+
+const HexagonAvatar: React.FC<HexagonAvatarProps> = ({ y }) => (
+  <m.div
+    style={{ y }}
+    className="relative w-[min(78vw,320px)] aspect-[9/10] sm:w-[450px] sm:aspect-auto sm:h-[500px] mx-auto flex items-center justify-center will-change-transform transform-gpu"
+  >
+    {/* Inner Levitation Container — continuous idle float, independent of scroll */}
+    <m.div
+      animate={{ y: [-15, 15, -15] }}
+      className="relative w-full h-full flex items-center justify-center will-change-transform transform-gpu"
+      transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+    >
+      {/* Mathematical SVG Tech Brackets */}
+      <svg
+        className="absolute inset-0 w-full h-full text-emerald-400 drop-shadow-[0_0_20px_currentColor] scale-[1.12]"
+        fill="none"
+        preserveAspectRatio="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        viewBox="0 0 100 100"
+      >
+        {/* Left Bracket */}
+        <path className="opacity-80" d="M 20 10 L 0 25 L 0 75 L 20 90" strokeLinecap="round" strokeLinejoin="round" />
+        {/* Right Bracket */}
+        <path className="opacity-80" d="M 80 10 L 100 25 L 100 75 L 80 90" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+
+      {/* The Clipped Image */}
+      <div
+        className="absolute inset-4 sm:inset-6 bg-neutral-800"
+        style={{ clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)" }}
+      >
+        {/* mix-blend-mode swapped for a static grayscale filter — blend modes force the browser
+            to re-flatten this element against its backdrop every frame it moves, and this sits
+            inside a continuously-levitating parent. A filter can be cached as its own GPU layer
+            and just transformed, so this keeps the moody desaturated look at a fraction of the cost. */}
+        {/* eslint-disable-next-line @next/next/no-img-element -- intentional plain <img>, see conversation */}
+        <img
+          alt="System Architect"
+          className="w-full h-full object-cover opacity-90 grayscale contrast-125 hover:grayscale-0 transition-all duration-700"
+          src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?q=80&w=600&auto=format&fit=crop"
+        />
+        <div className="absolute inset-0 bg-emerald-500/10 pointer-events-none" />
+      </div>
+    </m.div>
+  </m.div>
+);
 
 export const HeroPaths: React.FC = () => {
   const lenis = useLenis();
-  const heroRef = useRef<HTMLElement>(null);
+  const { scrollY } = useScroll();
 
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"],
-  });
-
-  // ==========================================
-  // SYNCHRONIZED MULTI-LAYER PARALLAX (Z-Depth)
-  // ==========================================
-  const bgY = useTransform(scrollYProgress, [0, 1], [0, 260]);
-  const bgOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0.15]);
-
-  const pillY = useTransform(scrollYProgress, [0, 0.5], [0, -90]);
-  const pillOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0]);
-
-  const titleY = useTransform(scrollYProgress, [0, 1], [0, -170]);
-  const titleScale = useTransform(scrollYProgress, [0, 1], [1, 0.94]);
-  const titleOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
-
-  const descY = useTransform(scrollYProgress, [0, 1], [0, -230]);
-  const descOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
-
-  const dockY = useTransform(scrollYProgress, [0, 1], [0, -290]);
-  const dockOpacity = useTransform(scrollYProgress, [0, 0.65], [1, 0]);
-
-  const tickerY = useTransform(scrollYProgress, [0, 0.5], [0, 80]);
-  const tickerOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0]);
+  // Left column parallaxes slower than the right column on the same scroll input.
+  const leftY = useTransform(scrollY, [0, 600], [0, 30]);
+  const rightY = useTransform(scrollY, [0, 600], [0, 80]);
 
   const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
     e.preventDefault();
@@ -52,151 +116,94 @@ export const HeroPaths: React.FC = () => {
 
   return (
     <section
-      ref={heroRef}
       id="hero"
-      className="relative min-h-screen w-full flex flex-col justify-between items-center overflow-hidden bg-neutral-950 pt-32 pb-16 px-6 select-none border-b border-white/10"
+      className="relative min-h-screen w-full flex items-center justify-center overflow-visible bg-neutral-950 pt-20 pb-32 px-6 select-none border-b border-white/10"
     >
-      {/* 1. HIGH-VISIBILITY KINETIC BÉZIER BACKGROUND */}
-      <m.div
-        style={{ y: bgY, opacity: bgOpacity }}
-        className="absolute inset-0 z-0 pointer-events-none will-change-transform transform-gpu"
-      >
-        <FloatingPaths position={1} />
-        <FloatingPaths position={-1} />
-        <div className="absolute inset-0 bg-gradient-to-b from-neutral-950 via-transparent to-neutral-950/90 pointer-events-none" />
-      </m.div>
-
-      {/* Top Spacer for layout balance */}
-      <div className="w-full" />
-
-      {/* 2. THE CENTERED COMMAND CENTER (Restored Architectural Balance) */}
-      <div className="relative z-10 max-w-5xl mx-auto text-center flex flex-col items-center justify-center my-auto w-full">
-        
-        {/* Centered Status Pill (PARALLAX LAYER 1) */}
+      {/* ATMOSPHERIC DEPTH — volumetric light orbs. Blur radius cut from 150px to 90px: filter
+          cost scales sharply with radius, and these move continuously forever, so this is the
+          single biggest lever without losing the effect. Position animation is unchanged. */}
+      <div aria-hidden="true" className="absolute inset-0 overflow-hidden pointer-events-none">
         <m.div
-          style={{ y: pillY, opacity: pillOpacity }}
-          className="will-change-transform transform-gpu"
-        >
+          animate={{ x: [-40, 40, -40], y: [-30, 30, -30] }}
+          className="absolute -top-32 -left-32 w-[600px] h-[600px] rounded-full bg-cyan-900 blur-[90px] opacity-40 will-change-transform transform-gpu"
+          transition={{ duration: 24, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <m.div
+          animate={{ x: [40, -40, 40], y: [30, -30, 30] }}
+          className="absolute -bottom-32 -right-32 w-[600px] h-[600px] rounded-full bg-emerald-900/30 blur-[90px] opacity-40 will-change-transform transform-gpu"
+          transition={{ duration: 28, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:32px_32px]" />
+      </div>
+
+      <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-7xl mx-auto px-6 items-center w-full">
+
+        {/* LEFT COLUMN — text, rotator, CTAs */}
+        <m.div style={{ y: leftY }} className="relative z-10 will-change-transform transform-gpu text-center lg:text-left">
           <m.div
-            initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
-            className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-neutral-900/90 backdrop-blur-md border border-white/15 shadow-[0_0_20px_rgba(34,211,238,0.15)] mb-8 font-mono text-xs text-neutral-300 mx-auto"
+            className="font-mono text-cyan-400 text-sm mb-4 tracking-widest uppercase flex items-center justify-center lg:justify-start gap-2 will-change-transform transform-gpu"
+            initial={{ opacity: 0, y: 16 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
           >
-            <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_10px_rgba(34,211,238,1)]" />
-            <span>IVO ZANACCHI // FULL-STACK & DEVOPS ARCHITECT</span>
+            <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
+            {"// SYSTEM ARCHITECT: IVO ZANACCHI"}
           </m.div>
-        </m.div>
 
-        {/* Centered Kinetic Headline with Strict Flex Centering (PARALLAX LAYER 2) */}
-        <m.div
-          style={{ y: titleY, scale: titleScale, opacity: titleOpacity }}
-          className="w-full will-change-transform transform-gpu flex justify-center"
-        >
-          <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold font-sans tracking-tight text-white !leading-[1.18] mb-8 antialiased subpixel-antialiased max-w-5xl mx-auto drop-shadow-[0_10px_20px_rgba(0,0,0,0.9)] flex flex-col items-center justify-center gap-2 sm:gap-3 text-center w-full">
-            
-            {/* ROW 1: Strictly Centered Static Authority Line */}
-            <div className="w-full flex justify-center items-center">
-              <VerticalCutReveal containerClassName="justify-center text-center w-full flex-wrap" splitBy="words" staggerDuration={0.05} staggerFrom="first">
-                Architecting High-Performance Systems &
-              </VerticalCutReveal>
-            </div>
-
-            {/* ROW 2: Strictly Centered 3D Kinetic Rotor (Dedicated Row prevents layout shifting) */}
-            <div className="w-full flex justify-center items-center pt-1">
-              <TextRotate
-                texts={[
-                  "Cloud-Native Infrastructure.",
-                  "Distributed RAG Pipelines.",
-                  "High-Concurrency APIs.",
-                  "Resilient Microservices.",
-                  "Zero-Downtime DevOps."
-                ]}
-                className="justify-center text-center"
-                rotationInterval={3500}
-              />
-            </div>
-
-          </h1>
-        </m.div>
-
-        {/* Centered Engineering Narrative (PARALLAX LAYER 3) */}
-        <m.div
-          style={{ y: descY, opacity: descOpacity }}
-          className="will-change-transform transform-gpu w-full"
-        >
-          <m.p
-            initial={{ opacity: 0, y: 15 }}
+          <m.h1
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
-            className="max-w-xl text-sm sm:text-base md:text-lg text-neutral-300 font-sans leading-relaxed mb-10 drop-shadow-md mx-auto text-center"
-          >
-            We engineer zero-regression backend microservices, resilient cloud infrastructure, and ultra-fluid web ecosystems. Built for high concurrency and absolute precision.
-          </m.p>
-        </m.div>
-
-        {/* CENTERED SILICON VALLEY ACTION DOCK (PARALLAX LAYER 4) */}
-        <m.div
-          style={{ y: dockY, opacity: dockOpacity }}
-          className="will-change-transform transform-gpu w-full flex justify-center"
-        >
-          <m.div
+            className="text-4xl sm:text-6xl lg:text-8xl font-black tracking-tighter leading-[1.02] text-white drop-shadow-2xl mb-6 will-change-transform transform-gpu"
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.5, type: "spring", stiffness: 250, damping: 25 }}
-            className="p-2 sm:p-2.5 rounded-2xl sm:rounded-full bg-neutral-900/80 backdrop-blur-2xl border border-white/15 shadow-[0_25px_60px_rgba(0,0,0,0.9),inset_0_1px_1px_rgba(255,255,255,0.2)] flex flex-col sm:flex-row items-center gap-3 sm:gap-6 max-w-fit mx-auto"
+            transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
           >
-            {/* Primary Executable Button */}
+            <span className="block">FULL-STACK</span>
+            <RoleRotator />
+          </m.h1>
+
+          <m.p
+            animate={{ opacity: 1, y: 0 }}
+            className="text-neutral-400 text-base sm:text-lg leading-relaxed max-w-xl mx-auto lg:mx-0 mb-8 will-change-transform transform-gpu"
+            initial={{ opacity: 0, y: 16 }}
+            transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+          >
+            A passionate Full-Stack Developer and DevOps Architect based in Tucumán, Argentina —
+            focused on building resilient systems that hold up under real-world load.
+          </m.p>
+
+          <m.div
+            animate={{ opacity: 1, y: 0 }}
+            className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 will-change-transform transform-gpu"
+            initial={{ opacity: 0, y: 16 }}
+            transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
+          >
+            {/* Routed to the interactive CLI's "resume" command until a real file exists — never a dead download link */}
             <a
-              href="#stack"
-              onClick={(e) => handleSmoothScroll(e, "stack")}
-              className="w-full sm:w-auto px-8 py-3.5 rounded-xl sm:rounded-full bg-gradient-to-r from-cyan-400 to-emerald-400 hover:from-cyan-300 hover:to-emerald-300 text-neutral-950 font-sans font-extrabold text-sm tracking-tight transition-all duration-300 shadow-[0_0_20px_rgba(34,211,238,0.4)] hover:shadow-[0_0_30px_rgba(34,211,238,0.8)] hover:scale-[1.02] cursor-pointer flex items-center justify-center gap-2 group"
+              className="w-full sm:w-auto px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-400 to-emerald-500 text-black font-bold text-sm tracking-tight shadow-[0_0_20px_rgba(52,211,153,0.3),inset_0_1px_1px_rgba(255,255,255,0.4)] hover:from-emerald-300 hover:to-emerald-400 transition-colors duration-300 cursor-pointer flex items-center justify-center gap-2"
+              href="#terminal-card"
+              onClick={(e) => handleSmoothScroll(e, "terminal-card")}
             >
-              <span>INSPECT ARCHITECTURE</span>
-              <span className="font-mono group-hover:translate-x-1 transition-transform">→</span>
+              <span>DOWNLOAD CV</span>
+              <FiArrowDownCircle className="text-lg" />
             </a>
 
-            {/* Integrated Cluster Telemetry Indicators */}
-            <div className="flex items-center gap-4 px-4 py-2 sm:py-0 font-mono text-xs text-neutral-400 border-t sm:border-t-0 sm:border-l border-white/10 w-full sm:w-auto justify-center">
-              <div className="flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
-                <span className="text-neutral-200 font-semibold">0.38ms</span>
-              </div>
-              <span className="text-white/20">|</span>
-              <div className="flex items-center gap-1.5">
-                <span className="text-cyan-400">PODS:</span>
-                <span className="text-neutral-200">24 ACTIVE</span>
-              </div>
-              <span className="text-white/20 hidden md:inline">|</span>
-              <div className="hidden md:flex items-center gap-1.5">
-                <span className="text-purple-400">RAG:</span>
-                <span className="text-neutral-200">INDEXED</span>
-              </div>
-            </div>
+            <a
+              className="w-full sm:w-auto px-6 py-3 rounded-xl bg-white/5 border border-white/10 backdrop-blur-lg hover:bg-white/10 transition-all shadow-xl text-white font-bold text-sm tracking-tight cursor-pointer flex items-center justify-center gap-2 group"
+              href="#stack"
+              onClick={(e) => handleSmoothScroll(e, "stack")}
+            >
+              <FiPlayCircle className="text-emerald-400 text-lg group-hover:scale-110 transition-transform" />
+              <span>INSPECT ARCHITECTURE</span>
+            </a>
           </m.div>
         </m.div>
+
+        {/* RIGHT COLUMN — hexagon avatar */}
+        <HexagonAvatar y={rightY} />
 
       </div>
 
-      {/* 3. BOTTOM ARCHITECTURAL TICKER (PARALLAX LAYER 5) */}
-      <m.div
-        style={{ y: tickerY, opacity: tickerOpacity }}
-        className="relative z-10 w-full max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4 font-mono text-xs text-neutral-500 border-t border-white/10 pt-6 mt-16 uppercase tracking-wider will-change-transform transform-gpu"
-      >
-        <div className="flex items-center gap-2">
-          <span className="text-cyan-400">{"// INFRASTRUCTURE STACK:"}</span>
-          <span className="text-neutral-300">{"NEXT.JS 16 // TURBOPACK // DOCKER // FASTAPI"}</span>
-        </div>
-        <div className="flex items-center gap-4">
-          <a href="#systems" onClick={(e) => handleSmoothScroll(e, "systems")} className="hover:text-cyan-400 transition-colors cursor-pointer">
-            {"[01. PROD SYSTEMS ↓]"}
-          </a>
-          <a href="#pipeline" onClick={(e) => handleSmoothScroll(e, "pipeline")} className="hover:text-cyan-400 transition-colors cursor-pointer">
-            {"[02. PIPELINE ↓]"}
-          </a>
-        </div>
-      </m.div>
-
+      {/* Fade-out seam into the next section — fixes the height/bleed complaint */}
+      <div className="absolute bottom-0 inset-x-0 h-48 bg-gradient-to-t from-neutral-950 via-neutral-950/80 to-transparent z-10 pointer-events-none" />
     </section>
   );
 };

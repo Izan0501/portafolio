@@ -3,8 +3,10 @@
 import React, { useRef } from "react";
 import { m, useScroll, useTransform, useMotionTemplate, MotionValue } from "motion/react";
 import Image from "next/image";
-import { FiArrowRight, FiActivity, FiServer, FiShield, FiCpu, FiMapPin, FiGlobe, FiDatabase, FiCheckCircle, FiClock } from "react-icons/fi";
+import Link from "next/link";
+import { FiArrowRight, FiCheckCircle, FiClock } from "react-icons/fi";
 import { VerticalCutReveal } from "@/components/ui/vertical-cut-reveal";
+import { PROJECTS_DATA, STATUS_STYLES, type Project } from "@/data/projects";
 
 const SECTION_HEIGHT = 1500;
 
@@ -143,19 +145,21 @@ const CenterImage: React.FC<CenterImageProps> = ({ progress }) => {
 // ==========================================
 const ParallaxImages: React.FC = () => {
   return (
-    <div className="relative z-20 mx-auto max-w-5xl px-4 pt-[200px] pointer-events-none flex flex-col gap-12">
-      
-      {/* 1: w-1/3 | [-200, 200] */}
-      <ParallaxImg alt="VeeBot SaaS v2.4 / Automated OCR Engine" caption="VeeBot SaaS // PDF & Reservation Engine" className="w-full sm:w-1/3" end={200} src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop" start={-200} />
+    <div className="relative z-20 mx-auto max-w-5xl px-4 pt-24 sm:pt-[200px] pointer-events-none flex flex-col gap-8 sm:gap-12">
+
+      {/* 1: w-1/3 | [-200, 200] — sized down + kept off-center on mobile so the staggered
+          composition (the whole point of the effect) survives instead of collapsing into a
+          stack of full-width blocks */}
+      <ParallaxImg alt="VeeBot SaaS v2.4 / Automated OCR Engine" caption="VeeBot SaaS // PDF & Reservation Engine" className="w-[72%] sm:w-1/3" end={200} src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop" start={-200} />
 
       {/* 2: mx-auto w-2/3 | [200, -250] */}
-      <ParallaxImg alt="Axon Crafts Agency Ecosystem" caption="Axon Crafts // Silicon Valley Grade Platform" className="mx-auto w-full sm:w-2/3 mt-8 sm:mt-0" end={-250} src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=1200&auto=format&fit=crop" start={200} />
+      <ParallaxImg alt="Axon Crafts Agency Ecosystem" caption="Axon Crafts // Silicon Valley Grade Platform" className="mx-auto w-[86%] sm:w-2/3 mt-6 sm:mt-0" end={-250} src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=1200&auto=format&fit=crop" start={200} />
 
       {/* 3: ml-auto w-1/3 | [-200, 200] */}
-      <ParallaxImg alt="Real-Time Cyber Threat Map" caption="Cyber Threat Map // TCP/IP Telemetry" className="ml-auto w-full sm:w-1/3 mt-8 sm:mt-0" end={200} src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1200&auto=format&fit=crop" start={-200} />
+      <ParallaxImg alt="Real-Time Cyber Threat Map" caption="Cyber Threat Map // TCP/IP Telemetry" className="ml-auto w-[72%] sm:w-1/3 mt-6 sm:mt-0" end={200} src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1200&auto=format&fit=crop" start={-200} />
 
       {/* 4: ml-24 w-5/12 | [0, -500] */}
-      <ParallaxImg alt="Pinecone RAG Vector Cluster" caption="Pinecone RAG // Distributed Vector DB" className="sm:ml-24 w-full sm:w-5/12 mt-8 sm:mt-0" end={-500} src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=1200&auto=format&fit=crop" start={0} />
+      <ParallaxImg alt="Pinecone RAG Vector Cluster" caption="Pinecone RAG // Distributed Vector DB" className="w-[64%] sm:ml-24 sm:w-5/12 mt-6 sm:mt-0" end={-500} src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=1200&auto=format&fit=crop" start={0} />
 
     </div>
   );
@@ -191,7 +195,7 @@ const ParallaxImg: React.FC<ParallaxImgProps> = ({ className, alt, src, start, e
       className={`${className} pointer-events-auto will-change-transform transform-gpu`}
     >
       <div className="group relative w-full rounded-2xl overflow-hidden bg-neutral-900 shadow-[0_30px_80px_rgba(0,0,0,0.95)] border border-white/15 hover:border-cyan-500/60 transition-all duration-300">
-        <Image alt={alt} className="w-full h-auto object-cover transition-transform duration-700 ease-out group-hover:scale-105 opacity-90 group-hover:opacity-100" decoding="async" height={750} loading="lazy" sizes="(max-width: 768px) 100vw, 600px" src={src} width={1200} />
+        <Image alt={alt} className="w-full h-auto object-cover transition-transform duration-700 ease-out group-hover:scale-105 opacity-90 group-hover:opacity-100" decoding="async" height={750} loading="lazy" sizes="(max-width: 640px) 90vw, 600px" src={src} width={1200} />
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
         
         {caption && (
@@ -211,6 +215,9 @@ const ParallaxImg: React.FC<ParallaxImgProps> = ({ className, alt, src, start, e
 // 5. DEPLOYMENT MATRIX (Surgically Pulled Up via Negative Margin)
 // ==========================================
 const DeploymentMatrix: React.FC = () => {
+  const prodCount = PROJECTS_DATA.filter((project) => project.status === "PROD").length;
+  const devCount = PROJECTS_DATA.length - prodCount;
+
   return (
     <section
       id="deployment-matrix"
@@ -242,141 +249,95 @@ const DeploymentMatrix: React.FC = () => {
         <div className="flex flex-wrap items-center gap-3 sm:gap-6 bg-neutral-900/90 backdrop-blur-xl p-3 sm:p-4 rounded-2xl border border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.8)] self-start lg:self-auto font-mono text-xs">
           <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-black/60 border border-white/5">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,1)]" />
-            <span className="text-neutral-300">CLUSTERS: <strong className="text-white">5/5 ONLINE</strong></span>
+            <span className="text-neutral-300">SYSTEMS: <strong className="text-white">{PROJECTS_DATA.length} TRACKED</strong></span>
           </div>
           <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-black/60 border border-white/5">
             <FiClock className="text-cyan-400"/>
-            <span className="text-neutral-300">AVG LATENCY: <strong className="text-cyan-300">0.38ms</strong></span>
+            <span className="text-neutral-300">
+              <strong className="text-emerald-300">{prodCount} PROD</strong> {"//"} <strong className="text-amber-300">{devCount} DEV</strong>
+            </span>
           </div>
         </div>
       </m.div>
 
       {/* Kinetic Architectural Data Grid */}
       <div className="flex flex-col gap-4">
-        <DeploymentRow className="text-cyan-400 text-xl sm:text-2xl" icon={<FiDatabase />}
-          index="01"
-          latency="0.42ms"
-          location="AWS US-EAST // DOCKER SWARM"
-          stack={["MongoDB", "FastAPI", "Python", "OCR Engine"]}
-          status="99.99% UPTIME"
-          title="VeeBot SaaS v2.4"
-        />
-        <DeploymentRow className="text-emerald-400 text-xl sm:text-2xl" icon={<FiGlobe />}
-          index="02"
-          latency="0.18ms"
-          location="VERCEL EDGE // CLOUDFLARE"
-          stack={["Next.js 16", "Turbopack", "Framer Motion", "Tailwind"]}
-          status="EDGE DEPLOYED"
-          title="Axon Crafts Platform"
-        />
-        <DeploymentRow className="text-purple-400 text-xl sm:text-2xl" icon={<FiActivity />}
-          index="03"
-          latency="1.12ms"
-          location="GLOBAL EDGE // KUBERNETES"
-          stack={["Python AsyncIO", "TCP/IP Telemetry", "WebSockets", "Redis"]}
-          status="ACTIVE STREAM"
-          title="Real-Time Cyber Threat Map"
-        />
-        <DeploymentRow className="text-cyan-400 text-xl sm:text-2xl" icon={<FiCpu />}
-          index="04"
-          latency="0.85ms"
-          location="PINECONE CLUSTER 01"
-          stack={["High-Dim Vector DB", "RAG Pipeline", "LangChain", "gRPC"]}
-          status="INDEXED // RAG"
-          title="Vector Embedding Engine"
-        />
-        <DeploymentRow className="text-emerald-400 text-xl sm:text-2xl" icon={<FiShield />}
-          index="05"
-          latency="0.24ms"
-          location="ZERO-TRUST VAULT"
-          stack={["mTLS", "JWT Auth", "OAuth2", "Security Gateway"]}
-          status="HARDENED // SSL"
-          title="Identity & Auth Vault"
-        />
+        {PROJECTS_DATA.map((project) => (
+          <DeploymentRow key={project.id} project={project} />
+        ))}
       </div>
     </section>
   );
 };
 
 interface DeploymentRowProps {
-  index: string;
-  title: string;
-  stack: string[];
-  status: string;
-  location: string;
-  latency: string;
-  icon: React.ReactNode;
-  className?: string;
+  project: Project;
 }
 
-const DeploymentRow: React.FC<DeploymentRowProps> = ({
-  index,
-  title,
-  stack,
-  status,
-  location,
-  latency,
-  icon,
-  className,
-}) => {
+const DeploymentRow: React.FC<DeploymentRowProps> = ({ project }) => {
+  const { id, index, title, stack, status, statusLabel, location, latency, icon: Icon } = project;
+  const accent = STATUS_STYLES[status];
+
   return (
-    <m.div
-      initial={{ y: 25, opacity: 0 }}
-      whileInView={{ y: 0, opacity: 1 }}
-      viewport={{ once: true }}
-      transition={{ ease: "easeOut", duration: 0.5 }}
-      className="group relative rounded-2xl sm:rounded-3xl bg-neutral-900/60 backdrop-blur-xl border border-white/10 p-5 sm:p-7 hover:bg-neutral-900/90 hover:border-cyan-500/50 transition-all duration-300 shadow-[0_10px_30px_rgba(0,0,0,0.5)] hover:shadow-[0_0_30px_rgba(34,211,238,0.15)] flex flex-col lg:flex-row lg:items-center justify-between gap-6 cursor-pointer overflow-hidden"
-    >
-      {/* Subtle background glow on hover */}
-      <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/5 via-transparent to-emerald-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+    <Link href={`/projects/${id}`}>
+      <m.div
+        initial={{ y: 25, opacity: 0 }}
+        whileInView={{ y: 0, opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ ease: "easeOut", duration: 0.5 }}
+        className="group relative rounded-2xl sm:rounded-3xl bg-neutral-900/60 backdrop-blur-xl border border-white/10 p-5 sm:p-7 hover:-translate-y-1 hover:bg-neutral-900/90 hover:border-cyan-500/50 transition-all duration-300 shadow-[0_10px_30px_rgba(0,0,0,0.5)] hover:shadow-[0_0_30px_rgba(34,211,238,0.15)] flex flex-col lg:flex-row lg:items-center justify-between gap-6 cursor-pointer overflow-hidden will-change-transform transform-gpu"
+      >
+        {/* Subtle background glow on hover */}
+        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/5 via-transparent to-emerald-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
-      {/* Left Column: Icon Gateway, Index & System Title */}
-      <div className="flex items-start sm:items-center gap-4 sm:gap-6 relative z-10">
-        {/* Obsidian Glass Icon Badge */}
-        <div className={`p-3.5 sm:p-4 rounded-2xl bg-black/80 border border-white/10 shadow-inner group-hover:scale-110 group-hover:border-cyan-500/40 transition-all duration-300 shrink-0 ${className || ""}`}>
-          {icon}
-        </div>
-
-        <div>
-          <div className="flex items-center gap-2.5 mb-1">
-            <span className="font-mono text-xs sm:text-sm text-cyan-400 font-bold">
-              {"//"}{index}
-            </span>
-            <span className="h-3 w-[1px] bg-white/20" />
-            <span className="font-mono text-[10px] sm:text-xs text-neutral-400 tracking-wider uppercase">
-              {location}
-            </span>
+        {/* Left Column: Icon Gateway, Index & System Title */}
+        <div className="flex items-start sm:items-center gap-4 sm:gap-6 relative z-10">
+          {/* Obsidian Glass Icon Badge */}
+          <div className={`p-3.5 sm:p-4 rounded-2xl bg-black/80 border border-white/10 shadow-inner group-hover:scale-110 group-hover:border-cyan-500/40 transition-all duration-300 shrink-0 text-xl sm:text-2xl ${accent.accent}`}>
+            <Icon />
           </div>
-          <h4 className="text-xl sm:text-3xl font-extrabold font-sans text-white group-hover:text-cyan-300 transition-colors tracking-tight">
-            {title}
-          </h4>
-        </div>
-      </div>
 
-      {/* Center/Right Column: Tech Stack Array Badges */}
-      <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 relative z-10 lg:max-w-md">
-        {stack.map((tech) => (
-          <span
-            key={tech}
-            className="font-mono text-[11px] sm:text-xs px-3 py-1 rounded-lg bg-white/5 text-neutral-300 border border-white/10 group-hover:border-white/20 group-hover:text-white transition-all shadow-sm"
-          >
-            {tech}
-          </span>
-        ))}
-      </div>
-
-      {/* Right Column: Live Telemetry Status & Latency */}
-      <div className="flex items-center justify-between sm:justify-end gap-4 sm:gap-6 border-t lg:border-t-0 border-white/10 pt-4 lg:pt-0 relative z-10 shrink-0">
-        <div className="flex items-center gap-1.5 font-mono text-xs text-neutral-400 bg-black/50 px-3 py-1.5 rounded-xl border border-white/5">
-          <FiClock className="text-cyan-400 text-xs"/>
-          <span>{latency}</span>
+          <div>
+            <div className="flex items-center gap-2.5 mb-1">
+              <span className="font-mono text-xs sm:text-sm text-cyan-400 font-bold">
+                {"//"}{index}
+              </span>
+              <span className="h-3 w-[1px] bg-white/20" />
+              <span className="font-mono text-[10px] sm:text-xs text-neutral-400 tracking-wider uppercase">
+                {location}
+              </span>
+            </div>
+            <h4 className="text-xl sm:text-3xl font-extrabold font-sans text-white group-hover:text-cyan-300 transition-colors tracking-tight">
+              {title}
+            </h4>
+          </div>
         </div>
 
-        <div className="flex items-center gap-2 text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-4 py-1.5 rounded-full shadow-inner">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,1)]" />
-          <span className="font-mono text-xs font-bold tracking-wide">{status}</span>
+        {/* Center/Right Column: Tech Stack Array Badges */}
+        <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 relative z-10 lg:max-w-md">
+          {stack.map((tech) => (
+            <span
+              key={tech}
+              className="font-mono text-[11px] sm:text-xs px-3 py-1 rounded-lg bg-white/5 text-neutral-300 border border-white/10 group-hover:border-white/20 group-hover:text-white transition-all shadow-sm"
+            >
+              {tech}
+            </span>
+          ))}
         </div>
-      </div>
-    </m.div>
+
+        {/* Right Column: Live Telemetry Status & Latency */}
+        <div className="flex flex-wrap items-center justify-between sm:justify-end gap-x-4 gap-y-2 sm:gap-x-6 border-t lg:border-t-0 border-white/10 pt-4 lg:pt-0 relative z-10 shrink-0">
+          <div className="flex items-center gap-1.5 font-mono text-xs text-neutral-400 bg-black/50 px-3 py-1.5 rounded-xl border border-white/5">
+            <FiClock className="text-cyan-400 text-xs"/>
+            <span>{latency}</span>
+          </div>
+
+          <div className={`flex items-center gap-2 ${accent.accent} ${accent.badgeBg} border ${accent.badgeBorder} px-4 py-1.5 rounded-full shadow-inner`}>
+            <span className={`w-2 h-2 rounded-full bg-current ${accent.dotGlow} ${accent.pulse ? "animate-pulse" : ""}`} />
+            <span className="font-mono text-xs font-bold tracking-wide">{statusLabel}</span>
+          </div>
+        </div>
+      </m.div>
+    </Link>
   );
 };

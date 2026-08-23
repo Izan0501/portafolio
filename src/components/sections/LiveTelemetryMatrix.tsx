@@ -37,7 +37,7 @@ const TelemetryCard: React.FC<TelemetryCardProps> = ({ metric, progress }) => {
       <div className="absolute -right-10 -top-10 w-40 h-40 bg-cyan-500/5 rounded-full blur-3xl group-hover:bg-cyan-400/10 transition-all duration-500 pointer-events-none" />
       
       <div>
-        <div className="flex justify-between items-center mb-6">
+        <div className="flex flex-wrap justify-between items-center gap-x-3 gap-y-1.5 mb-6">
           <span className="font-mono text-xs text-neutral-400 tracking-wider">
             {metric.label}
           </span>

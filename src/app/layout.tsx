@@ -3,7 +3,7 @@ import { Inter, Fira_Code } from "next/font/google";
 import "./globals.css";
 import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
 import { Navbar } from "@/components/navigation/Navbar";
-import { Footer } from "@/components/navigation/Footer";
+import { ConditionalFooter } from "@/components/navigation/ConditionalFooter";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const firaCode = Fira_Code({ subsets: ["latin"], variable: "--font-fira-code" });
@@ -41,7 +41,7 @@ export default function RootLayout({
             <main className="relative z-10 flex-grow w-full">
               {children}
             </main>
-            <Footer />
+            <ConditionalFooter />
           </div>
         </SmoothScrollProvider>
       </body>
