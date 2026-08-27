@@ -4,21 +4,28 @@ import React, { useEffect, useState } from "react";
 import { m, AnimatePresence, MotionValue, useScroll, useTransform } from "motion/react";
 import { useLenis } from "lenis/react";
 import { FiArrowDownCircle, FiPlayCircle } from "react-icons/fi";
-
-const ROLES = ["ARCHITECT", "ENGINEER", "DEVELOPER"];
+import { useI18n } from "@/i18n/LanguageProvider";
 
 // ─── Sub-component: RoleRotator ────────────────────────────────────────────
 // Whole-word transitions only (never per-character), solid neon color (never
 // bg-clip-text), no 3D transform — avoids every ingredient of the earlier bug.
-const RoleRotator: React.FC = () => {
+interface RoleRotatorProps {
+  roles: string[];
+}
+
+const RoleRotator: React.FC<RoleRotatorProps> = ({ roles }) => {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setIndex((prev) => (prev + 1) % ROLES.length);
+      setIndex((prev) => (prev + 1) % roles.length);
     }, 2200);
     return () => clearInterval(timer);
-  }, []);
+  }, [roles.length]);
+
+  // A locale switch can leave the index pointing past the new array's end only
+  // if the arrays differ in length; clamping keeps this safe either way.
+  const role = roles[index % roles.length];
 
   return (
     <span className="relative block h-[1.15em] overflow-hidden">
@@ -28,10 +35,10 @@ const RoleRotator: React.FC = () => {
           className="block text-emerald-400 drop-shadow-[0_0_20px_rgba(52,211,153,0.6)] will-change-transform transform-gpu"
           exit={{ y: -32, opacity: 0 }}
           initial={{ y: 32, opacity: 0 }}
-          key={ROLES[index]}
+          key={role}
           transition={{ duration: 0.4, ease: "easeInOut" }}
         >
-          {ROLES[index]}
+          {role}
         </m.span>
       </AnimatePresence>
     </span>
@@ -45,9 +52,10 @@ const RoleRotator: React.FC = () => {
 // values on two different elements, so they compose instead of fighting.
 interface HexagonAvatarProps {
   y: MotionValue<number>;
+  alt: string;
 }
 
-const HexagonAvatar: React.FC<HexagonAvatarProps> = ({ y }) => (
+const HexagonAvatar: React.FC<HexagonAvatarProps> = ({ y, alt }) => (
   <m.div
     style={{ y }}
     className="relative w-[min(78vw,320px)] aspect-[9/10] sm:w-[450px] sm:aspect-auto sm:h-[500px] mx-auto flex items-center justify-center will-change-transform transform-gpu"
@@ -84,7 +92,7 @@ const HexagonAvatar: React.FC<HexagonAvatarProps> = ({ y }) => (
             and just transformed, so this keeps the moody desaturated look at a fraction of the cost. */}
         {/* eslint-disable-next-line @next/next/no-img-element -- intentional plain <img>, see conversation */}
         <img
-          alt="System Architect"
+          alt={alt}
           className="w-full h-full object-cover opacity-90 grayscale contrast-125 hover:grayscale-0 transition-all duration-700"
           src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?q=80&w=600&auto=format&fit=crop"
         />
@@ -96,6 +104,7 @@ const HexagonAvatar: React.FC<HexagonAvatarProps> = ({ y }) => (
 
 export const HeroPaths: React.FC = () => {
   const lenis = useLenis();
+  const { t } = useI18n();
   const { scrollY } = useScroll();
 
   // Left column parallaxes slower than the right column on the same scroll input.
@@ -147,7 +156,7 @@ export const HeroPaths: React.FC = () => {
             transition={{ duration: 0.6, ease: "easeOut" }}
           >
             <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
-            {"// SYSTEM ARCHITECT: IVO ZANACCHI"}
+            {t.hero.eyebrow}
           </m.div>
 
           <m.h1
@@ -156,8 +165,8 @@ export const HeroPaths: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
           >
-            <span className="block">FULL-STACK</span>
-            <RoleRotator />
+            <span className="block">{t.hero.titleLine}</span>
+            <RoleRotator roles={t.hero.roles} />
           </m.h1>
 
           <m.p
@@ -166,8 +175,7 @@ export const HeroPaths: React.FC = () => {
             initial={{ opacity: 0, y: 16 }}
             transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
           >
-            A passionate Full-Stack Developer and DevOps Architect based in Tucumán, Argentina —
-            focused on building resilient systems that hold up under real-world load.
+            {t.hero.description}
           </m.p>
 
           <m.div
@@ -182,7 +190,7 @@ export const HeroPaths: React.FC = () => {
               href="#terminal-card"
               onClick={(e) => handleSmoothScroll(e, "terminal-card")}
             >
-              <span>DOWNLOAD CV</span>
+              <span>{t.hero.ctaResume}</span>
               <FiArrowDownCircle className="text-lg" />
             </a>
 
@@ -192,13 +200,13 @@ export const HeroPaths: React.FC = () => {
               onClick={(e) => handleSmoothScroll(e, "stack")}
             >
               <FiPlayCircle className="text-emerald-400 text-lg group-hover:scale-110 transition-transform" />
-              <span>INSPECT ARCHITECTURE</span>
+              <span>{t.hero.ctaInspect}</span>
             </a>
           </m.div>
         </m.div>
 
         {/* RIGHT COLUMN — hexagon avatar */}
-        <HexagonAvatar y={rightY} />
+        <HexagonAvatar alt={t.hero.avatarAlt} y={rightY} />
 
       </div>
 

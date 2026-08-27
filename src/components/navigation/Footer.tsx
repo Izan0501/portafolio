@@ -3,12 +3,14 @@
 import React, { useState } from "react";
 import { useLenis } from "lenis/react";
 import { m, useMotionValue, useSpring, useMotionTemplate } from "motion/react";
+import { useI18n } from "@/i18n/LanguageProvider";
 
 // ==========================================
 // ELITE KINETIC CAD SPOTLIGHT WATERMARK
 // ==========================================
 const KineticWatermark: React.FC = () => {
   const [isHovered, setIsHovered] = useState(false);
+  const { t } = useI18n();
   
   // GPU-accelerated mouse coordinate tracking (Zero React re-renders)
   const mouseX = useMotionValue(0);
@@ -38,15 +40,15 @@ const KineticWatermark: React.FC = () => {
       <div className="flex flex-wrap justify-center gap-4 sm:gap-8 font-mono text-[10px] sm:text-xs text-neutral-500 mb-6 z-20 tracking-widest pointer-events-none">
         <span className="flex items-center gap-1.5 bg-neutral-900/90 px-3.5 py-1 rounded-full border border-white/10 shadow-lg">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
-          SYS_ARCH // CLUSTER 100/100
+          {t.footer.badges.cluster}
         </span>
         <span className="flex items-center gap-1.5 bg-neutral-900/90 px-3.5 py-1 rounded-full border border-white/10 shadow-lg">
           <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.8)]" />
-          CAD DIAGNOSTIC: READY FOR SCAN
+          {t.footer.badges.diagnostic}
         </span>
         <span className="flex items-center gap-1.5 bg-neutral-900/90 px-3.5 py-1 rounded-full border border-white/10 shadow-lg">
           <span className="w-1.5 h-1.5 rounded-full bg-purple-400" />
-          ZERO-REGRESSION PROTOCOL
+          {t.footer.badges.protocol}
         </span>
       </div>
 
@@ -90,8 +92,8 @@ const KineticWatermark: React.FC = () => {
 
       {/* 3. Bottom Engineering Legend */}
       <div className="font-mono text-[11px] text-neutral-500 tracking-widest mt-4 uppercase z-20 flex items-center gap-2">
-        <span>{"// ARCHITECTED WITHOUT COMPROMISE //"}</span>
-        <span className="text-cyan-400 font-semibold">[HOVER TO EXECUTE BLUEPRINT SCAN]</span>
+        <span>{t.footer.watermarkLegend}</span>
+        <span className="text-cyan-400 font-semibold">{t.footer.watermarkHint}</span>
       </div>
     </div>
   );
@@ -99,6 +101,7 @@ const KineticWatermark: React.FC = () => {
 
 export const Footer = () => {
   const lenis = useLenis();
+  const { t } = useI18n();
 
   const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
     e.preventDefault();
@@ -120,13 +123,13 @@ export const Footer = () => {
       <div className="max-w-7xl mx-auto px-6 mb-16 pb-8 border-b border-white/10 flex flex-wrap justify-between items-center gap-4 font-mono text-xs text-neutral-400">
         <div className="flex items-center gap-2 text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-md border border-emerald-500/20">
           <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-          <span>ALL CLUSTERS OPERATIONAL // GLOBAL EDGE</span>
+          <span>{t.footer.ticker.operational}</span>
         </div>
         <div className="flex flex-wrap gap-6 text-neutral-400">
-          <span>LATENCY: <strong className="text-cyan-400">0.38ms</strong></span>
-          <span>UPTIME: <strong className="text-white">99.999%</strong></span>
-          <span>LOCATION: <strong className="text-white">SALTA, AR // UTC-3</strong></span>
-          <span>BUILD: <strong className="text-cyan-400">NEXT.JS 16 TURBO</strong></span>
+          <span>{t.footer.ticker.latencyLabel} <strong className="text-cyan-400">0.38ms</strong></span>
+          <span>{t.footer.ticker.uptimeLabel} <strong className="text-white">99.999%</strong></span>
+          <span>{t.footer.ticker.locationLabel} <strong className="text-white">{t.footer.ticker.locationValue}</strong></span>
+          <span>{t.footer.ticker.buildLabel} <strong className="text-cyan-400">NEXT.JS 16 TURBO</strong></span>
         </div>
       </div>
 
@@ -138,29 +141,31 @@ export const Footer = () => {
           <div>
             <div className="flex items-center gap-2 mb-4 font-mono text-sm font-bold text-white tracking-tight">
               <span className="w-3 h-3 rounded-full bg-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.8)]" />
-              <span>IVO ZANACCHI</span>
+              <span>{t.footer.brandName}</span>
             </div>
             <p className="text-neutral-400 text-sm md:text-base leading-relaxed max-w-sm mb-6">
-              Engineering high-concurrency backend microservices, resilient cloud infrastructure, and ultra-fluid web applications. Built for zero-regression and maximum scalability.
+              {t.footer.philosophy}
             </p>
           </div>
           <div className="font-mono text-xs text-neutral-400">
-            <span>READY FOR HIGH-TICKET ENGINEERING COLLABORATION.</span>
+            <span>{t.footer.availability}</span>
           </div>
         </div>
 
         {/* Col 2: Architecture Navigation (Span 3) */}
         <div className="md:col-span-3 flex flex-col gap-3 font-mono text-xs">
           <span className="text-white font-bold tracking-wider mb-2 border-l-2 border-cyan-400 pl-2">
-            {"// SYSTEM MODULES"}
+            {t.footer.modulesHeading}
           </span>
           {[
-            { label: "01. ARCHITECTURE STACK", id: "stack" },
-            { label: "02. FLAGSHIP SYSTEMS", id: "systems" },
-            { label: "03. EXECUTION PIPELINE", id: "pipeline" },
-            { label: "04. SYSTEM TOPOLOGY", id: "topology" },
-            { label: "05. LIVE TELEMETRY", id: "telemetry" },
-            { label: "06. CLI TERMINAL HUB", id: "terminal" },
+            { label: t.footer.modules.stack, id: "stack" },
+            { label: t.footer.modules.systems, id: "systems" },
+            { label: t.footer.modules.pipeline, id: "pipeline" },
+            { label: t.footer.modules.topology, id: "topology" },
+            { label: t.footer.modules.telemetry, id: "telemetry" },
+            // Target is #terminal-card (the id TerminalCard renders); "terminal"
+            // was a dangling anchor that scrolled nowhere.
+            { label: t.footer.modules.terminal, id: "terminal-card" },
           ].map((link) => (
             <a
               key={link.id}
@@ -176,19 +181,19 @@ export const Footer = () => {
         {/* Col 3: Protocols & Socials (Span 4) */}
         <div className="md:col-span-4 flex flex-col gap-3 font-mono text-xs">
           <span className="text-white font-bold tracking-wider mb-2 border-l-2 border-cyan-400 pl-2">
-            {"// TRANSMISSION CHANNELS"}
+            {t.footer.channelsHeading}
           </span>
           <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="text-neutral-400 hover:text-white transition-colors flex flex-wrap items-center justify-between gap-x-2 gap-y-1 p-2.5 rounded-lg bg-neutral-900/60 border border-white/5 hover:border-white/20">
-            <span>GITHUB PROTOCOL</span>
+            <span>{t.footer.channels.github}</span>
             <span className="text-cyan-400">→ /ivozanacchi</span>
           </a>
           <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-neutral-400 hover:text-white transition-colors flex flex-wrap items-center justify-between gap-x-2 gap-y-1 p-2.5 rounded-lg bg-neutral-900/60 border border-white/5 hover:border-white/20">
-            <span>LINKEDIN NETWORK</span>
+            <span>{t.footer.channels.linkedin}</span>
             <span className="text-cyan-400">→ /in/ivozanacchi</span>
           </a>
           <a href="mailto:ivozanacchi@example.com" className="text-neutral-400 hover:text-white transition-colors flex flex-wrap items-center justify-between gap-x-2 gap-y-1 p-2.5 rounded-lg bg-neutral-900/60 border border-white/5 hover:border-white/20">
-            <span>DIRECT ENCRYPTION (EMAIL)</span>
-            <span className="text-emerald-400">→ INITIATE</span>
+            <span>{t.footer.channels.email}</span>
+            <span className="text-emerald-400">{t.footer.channels.emailAction}</span>
           </a>
         </div>
 
@@ -199,8 +204,8 @@ export const Footer = () => {
 
       {/* Bottom Legal & Tech Stack Note */}
       <div className="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-4 font-mono text-xs text-neutral-400 pt-6">
-        <span>© {new Date().getFullYear()} IVO ZANACCHI. ALL RIGHTS RESERVED.</span>
-        <span>{"ENGINEERED WITH NEXT.JS 16 // FRAMER MOTION // TAILWIND CSS"}</span>
+        <span>{t.footer.copyright(new Date().getFullYear())}</span>
+        <span>{t.footer.builtWith}</span>
       </div>
     </footer>
   );

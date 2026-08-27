@@ -6,7 +6,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { FiArrowRight, FiCheckCircle, FiClock } from "react-icons/fi";
 import { VerticalCutReveal } from "@/components/ui/vertical-cut-reveal";
-import { PROJECTS_DATA, STATUS_STYLES, type Project } from "@/data/projects";
+import { PROJECTS_DATA, STATUS_STYLES, resolveProject, type ResolvedProject } from "@/data/projects";
+import { useI18n } from "@/i18n/LanguageProvider";
 
 const SECTION_HEIGHT = 1500;
 
@@ -14,6 +15,8 @@ const SECTION_HEIGHT = 1500;
 // 1. MASTER SHOWCASE WRAPPER
 // ==========================================
 export const FeaturedSystems: React.FC = () => {
+  const { t } = useI18n();
+
   return (
     <section id="systems" className="bg-neutral-950 text-white select-none border-t border-white/10 pt-20 relative z-10 overflow-visible">
       
@@ -22,11 +25,11 @@ export const FeaturedSystems: React.FC = () => {
         <div>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-neutral-900 border border-white/10 text-cyan-400 font-mono text-xs mb-4 shadow-inner">
             <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_8px_rgba(34,211,238,1)]" />
-            <span>{"// 02. FLAGSHIP SYSTEMS & ARCHITECTURE"}</span>
+            <span>{t.systems.eyebrow}</span>
           </div>
           <h2 className="text-3xl sm:text-5xl md:text-6xl font-black font-sans tracking-tight text-white uppercase !leading-[1.1]">
             <VerticalCutReveal splitBy="words" staggerDuration={0.05} staggerFrom="first">
-              Production Architecture
+              {t.systems.heading}
             </VerticalCutReveal>
           </h2>
         </div>
@@ -39,7 +42,7 @@ export const FeaturedSystems: React.FC = () => {
           }}
           className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 font-mono text-xs text-neutral-300 hover:text-cyan-300 transition-all cursor-pointer self-start md:self-auto group"
         >
-          <span>INSPECT DEPLOYMENT MATRIX</span>
+          <span>{t.systems.inspectMatrix}</span>
           <FiArrowRight className="group-hover:translate-x-1 transition-transform text-cyan-400"/>
         </button>
       </div>
@@ -91,6 +94,8 @@ interface CenterImageProps {
 }
 
 const CenterImage: React.FC<CenterImageProps> = ({ progress }) => {
+  const { t } = useI18n();
+
   // Over the first 70% of scroll (the 1500px sticky zone), clipPath opens from 25% down to 0%
   const clip1 = useTransform(progress, [0, 0.7], [25, 0]);
   const clip2 = useTransform(progress, [0, 0.7], [75, 100]);
@@ -125,13 +130,13 @@ const CenterImage: React.FC<CenterImageProps> = ({ progress }) => {
         {/* Sleek center typography inside the frozen cinematic window */}
         <div className="text-center p-8 max-w-xl mx-6 select-none pointer-events-none z-10">
           <span className="font-mono text-xs text-cyan-400 tracking-widest block mb-3 bg-black/60 border border-cyan-500/30 py-1 px-3 rounded-full w-fit mx-auto shadow-md">
-            {"// CENTRAL CLUSTER CORE"}
+            {t.systems.core.eyebrow}
           </span>
           <h3 className="text-3xl sm:text-6xl font-black uppercase tracking-tight text-white drop-shadow-2xl">
-            Zero-Regression
+            {t.systems.core.title}
           </h3>
           <p className="text-neutral-300 text-sm sm:text-base font-sans mt-3 drop-shadow-md max-w-md mx-auto">
-            High-concurrency backend microservices, containerized orchestration, and sub-millisecond edge routing.
+            {t.systems.core.description}
           </p>
         </div>
       </m.div>
@@ -144,22 +149,25 @@ const CenterImage: React.FC<CenterImageProps> = ({ progress }) => {
 // 4. PARALLAX FLOATING IMAGES (Passes over the frozen sticky core!)
 // ==========================================
 const ParallaxImages: React.FC = () => {
+  const { t } = useI18n();
+  const copy = t.systems.parallax;
+
   return (
     <div className="relative z-20 mx-auto max-w-5xl px-4 pt-24 sm:pt-[200px] pointer-events-none flex flex-col gap-8 sm:gap-12">
 
       {/* 1: w-1/3 | [-200, 200] — sized down + kept off-center on mobile so the staggered
           composition (the whole point of the effect) survives instead of collapsing into a
           stack of full-width blocks */}
-      <ParallaxImg alt="VeeBot SaaS v2.4 / Automated OCR Engine" caption="VeeBot SaaS // PDF & Reservation Engine" className="w-[72%] sm:w-1/3" end={200} src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop" start={-200} />
+      <ParallaxImg alt={copy.veebot.alt} badge={copy.badge} caption={copy.veebot.caption} className="w-[72%] sm:w-1/3" end={200} src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop" start={-200} />
 
       {/* 2: mx-auto w-2/3 | [200, -250] */}
-      <ParallaxImg alt="Axon Crafts Agency Ecosystem" caption="Axon Crafts // Silicon Valley Grade Platform" className="mx-auto w-[86%] sm:w-2/3 mt-6 sm:mt-0" end={-250} src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=1200&auto=format&fit=crop" start={200} />
+      <ParallaxImg alt={copy.axon.alt} badge={copy.badge} caption={copy.axon.caption} className="mx-auto w-[86%] sm:w-2/3 mt-6 sm:mt-0" end={-250} src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=1200&auto=format&fit=crop" start={200} />
 
       {/* 3: ml-auto w-1/3 | [-200, 200] */}
-      <ParallaxImg alt="Real-Time Cyber Threat Map" caption="Cyber Threat Map // TCP/IP Telemetry" className="ml-auto w-[72%] sm:w-1/3 mt-6 sm:mt-0" end={200} src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1200&auto=format&fit=crop" start={-200} />
+      <ParallaxImg alt={copy.threatMap.alt} badge={copy.badge} caption={copy.threatMap.caption} className="ml-auto w-[72%] sm:w-1/3 mt-6 sm:mt-0" end={200} src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1200&auto=format&fit=crop" start={-200} />
 
       {/* 4: ml-24 w-5/12 | [0, -500] */}
-      <ParallaxImg alt="Pinecone RAG Vector Cluster" caption="Pinecone RAG // Distributed Vector DB" className="w-[64%] sm:ml-24 sm:w-5/12 mt-6 sm:mt-0" end={-500} src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=1200&auto=format&fit=crop" start={0} />
+      <ParallaxImg alt={copy.pinecone.alt} badge={copy.badge} caption={copy.pinecone.caption} className="w-[64%] sm:ml-24 sm:w-5/12 mt-6 sm:mt-0" end={-500} src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=1200&auto=format&fit=crop" start={0} />
 
     </div>
   );
@@ -172,9 +180,10 @@ interface ParallaxImgProps {
   start: number;
   end: number;
   caption?: string;
+  badge: string;
 }
 
-const ParallaxImg: React.FC<ParallaxImgProps> = ({ className, alt, src, start, end, caption }) => {
+const ParallaxImg: React.FC<ParallaxImgProps> = ({ className, alt, src, start, end, caption, badge }) => {
   const ref = useRef<HTMLDivElement>(null);
 
   // Exact 1:1 offset mapping from original reference code
@@ -203,7 +212,7 @@ const ParallaxImg: React.FC<ParallaxImgProps> = ({ className, alt, src, start, e
             <p className="font-mono text-xs text-cyan-300 font-bold tracking-tight drop-shadow-md">
               {caption}
             </p>
-            <span className="font-mono text-[10px] bg-white/10 px-2 py-0.5 rounded text-white border border-white/10">PROD</span>
+            <span className="font-mono text-[10px] bg-white/10 px-2 py-0.5 rounded text-white border border-white/10">{badge}</span>
           </div>
         )}
       </div>
@@ -215,6 +224,7 @@ const ParallaxImg: React.FC<ParallaxImgProps> = ({ className, alt, src, start, e
 // 5. DEPLOYMENT MATRIX (Surgically Pulled Up via Negative Margin)
 // ==========================================
 const DeploymentMatrix: React.FC = () => {
+  const { locale, t } = useI18n();
   const prodCount = PROJECTS_DATA.filter((project) => project.status === "PROD").length;
   const devCount = PROJECTS_DATA.length - prodCount;
 
@@ -238,10 +248,10 @@ const DeploymentMatrix: React.FC = () => {
         <div>
           <div className="flex items-center gap-2 font-mono text-xs text-cyan-400 mb-3">
             <FiCheckCircle className="text-emerald-400 text-sm"/>
-            <span>{"// AUDIT LOG: PRODUCTION SYSTEMS STATUS"}</span>
+            <span>{t.systems.matrix.eyebrow}</span>
           </div>
           <h3 className="text-3xl sm:text-5xl md:text-6xl font-black font-sans tracking-tight text-white uppercase">
-            Deployment Matrix
+            {t.systems.matrix.heading}
           </h3>
         </div>
 
@@ -249,12 +259,12 @@ const DeploymentMatrix: React.FC = () => {
         <div className="flex flex-wrap items-center gap-3 sm:gap-6 bg-neutral-900/90 backdrop-blur-xl p-3 sm:p-4 rounded-2xl border border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.8)] self-start lg:self-auto font-mono text-xs">
           <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-black/60 border border-white/5">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,1)]" />
-            <span className="text-neutral-300">SYSTEMS: <strong className="text-white">{PROJECTS_DATA.length} TRACKED</strong></span>
+            <span className="text-neutral-300">{t.systems.matrix.systemsLabel} <strong className="text-white">{t.systems.matrix.tracked(PROJECTS_DATA.length)}</strong></span>
           </div>
           <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-black/60 border border-white/5">
             <FiClock className="text-cyan-400"/>
             <span className="text-neutral-300">
-              <strong className="text-emerald-300">{prodCount} PROD</strong> {"//"} <strong className="text-amber-300">{devCount} DEV</strong>
+              <strong className="text-emerald-300">{t.systems.matrix.prod(prodCount)}</strong> {"//"} <strong className="text-amber-300">{t.systems.matrix.dev(devCount)}</strong>
             </span>
           </div>
         </div>
@@ -263,7 +273,7 @@ const DeploymentMatrix: React.FC = () => {
       {/* Kinetic Architectural Data Grid */}
       <div className="flex flex-col gap-4">
         {PROJECTS_DATA.map((project) => (
-          <DeploymentRow key={project.id} project={project} />
+          <DeploymentRow key={project.id} project={resolveProject(project, locale)} />
         ))}
       </div>
     </section>
@@ -271,7 +281,7 @@ const DeploymentMatrix: React.FC = () => {
 };
 
 interface DeploymentRowProps {
-  project: Project;
+  project: ResolvedProject;
 }
 
 const DeploymentRow: React.FC<DeploymentRowProps> = ({ project }) => {

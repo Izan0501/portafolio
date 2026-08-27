@@ -5,6 +5,8 @@ import { m, AnimatePresence, useScroll, useMotionValueEvent } from "motion/react
 import { useLenis } from "lenis/react";
 import { cn } from "@/lib/utils";
 import { FiChevronDown, FiLayers, FiActivity, FiTerminal, FiDatabase } from "react-icons/fi";
+import { useI18n } from "@/i18n/LanguageProvider";
+import { LanguageToggle } from "@/components/navigation/LanguageToggle";
 
 interface NavItem {
   label: string;
@@ -14,20 +16,25 @@ interface NavItem {
   description?: string;
 }
 
-const primaryNavItems: NavItem[] = [
-  { label: "// 01. STACK", id: "stack" },
-  { label: "// 02. SYSTEMS", id: "systems", badge: "PROD" },
-];
-
-const dropdownNavItems: NavItem[] = [
-  { label: "// 03. PIPELINE", id: "pipeline", icon: <FiDatabase className="text-cyan-400"/>, description: "Distributed RAG & Vector Storage" },
-  { label: "// 04. TOPOLOGY", id: "topology", icon: <FiLayers className="text-emerald-400"/>, description: "Network Architecture & Routing" },
-  { label: "// 05. TELEMETRY", id: "telemetry", icon: <FiActivity className="text-purple-400"/>, description: "Sub-millisecond Cluster Audits" },
-  { label: "// 06. TERMINAL", id: "terminal-card", icon: <FiTerminal className="text-cyan-300"/>, badge: "CLI", description: "Interactive Command Execution" },
-];
-
 export const Navbar: React.FC = () => {
   const lenis = useLenis();
+  const { t } = useI18n();
+
+  // Built from the active dictionary rather than module scope, so the labels
+  // re-render on a locale switch. Section ids stay locale-invariant — they are
+  // anchor targets, not copy.
+  const primaryNavItems: NavItem[] = [
+    { label: t.nav.items.stack.label, id: "stack" },
+    { label: t.nav.items.systems.label, id: "systems", badge: t.nav.items.systems.badge },
+  ];
+
+  const dropdownNavItems: NavItem[] = [
+    { label: t.nav.items.pipeline.label, id: "pipeline", icon: <FiDatabase className="text-cyan-400"/>, description: t.nav.items.pipeline.description },
+    { label: t.nav.items.topology.label, id: "topology", icon: <FiLayers className="text-emerald-400"/>, description: t.nav.items.topology.description },
+    { label: t.nav.items.telemetry.label, id: "telemetry", icon: <FiActivity className="text-purple-400"/>, description: t.nav.items.telemetry.description },
+    { label: t.nav.items.terminal.label, id: "terminal-card", icon: <FiTerminal className="text-cyan-300"/>, badge: t.nav.items.terminal.badge, description: t.nav.items.terminal.description },
+  ];
+
   const { scrollY } = useScroll();
   const [hidden, setHidden] = useState(false);
   const [activeSection, setActiveSection] = useState<string>("");
@@ -77,24 +84,24 @@ export const Navbar: React.FC = () => {
           damping: 32,
           mass: 0.8,
         }}
-        className="fixed top-6 inset-x-0 mx-auto z-50 flex justify-center px-4 pointer-events-none select-none w-fit"
+        className="fixed top-6 inset-x-0 mx-auto z-50 flex justify-center px-3 min-[740px]:px-4 pointer-events-none select-none w-fit"
       >
         {/* MAIN COMPACT DYNAMIC ISLAND CONTAINER */}
         <nav
           onMouseLeave={() => setIsDropdownOpen(false)}
-          className="relative pointer-events-auto flex items-center gap-1.5 p-1.5 rounded-full bg-neutral-950/80 backdrop-blur-2xl will-change-transform transform-gpu shadow-[0_25px_60px_rgba(0,0,0,0.95)] overflow-visible group"
+          className="relative pointer-events-auto flex items-center gap-1.5 p-1 min-[740px]:p-1.5 rounded-full bg-neutral-950/80 backdrop-blur-2xl will-change-transform transform-gpu shadow-[0_25px_60px_rgba(0,0,0,0.95)] overflow-visible group"
         >
           {/* LAYER 1: MAIN ISLAND LIQUID GLASS REFRACTIVE SHELL */}
           <div className="absolute inset-0 z-0 rounded-full pointer-events-none transition-all duration-500 shadow-[0_0_8px_rgba(0,0,0,0.03),0_2px_6px_rgba(0,0,0,0.08),inset_3px_3px_0.5px_-3.5px_rgba(255,255,255,0.15),inset_-3px_-3px_0.5px_-3.5px_rgba(255,255,255,0.85),inset_1px_1px_1px_-0.5px_rgba(255,255,255,0.6),inset_-1px_-1px_1px_-0.5px_rgba(255,255,255,0.6),inset_0_0_6px_6px_rgba(255,255,255,0.12),inset_0_0_2px_2px_rgba(255,255,255,0.06),0_0_15px_rgba(34,211,238,0.15)] group-hover:shadow-[0_0_8px_rgba(0,0,0,0.03),0_2px_6px_rgba(0,0,0,0.08),inset_3px_3px_0.5px_-3.5px_rgba(255,255,255,0.2),inset_-3px_-3px_0.5px_-3.5px_rgba(255,255,255,0.9),inset_1px_1px_1px_-0.5px_rgba(255,255,255,0.7),inset_-1px_-1px_1px_-0.5px_rgba(255,255,255,0.7),inset_0_0_6px_6px_rgba(255,255,255,0.15),inset_0_0_2px_2px_rgba(255,255,255,0.08),0_0_25px_rgba(34,211,238,0.3)]" />
           
           {/* LAYER 2: COMPACT KINETIC UI CONTENT */}
-          <div className="relative z-10 flex items-center gap-1.5 w-full">
+          <div className="relative z-10 flex items-center gap-1 min-[740px]:gap-1.5 w-full">
             
             {/* Brand Core LED Indicator */}
             <a
               href="#hero"
               onClick={(e) => handleSmoothScroll(e, "hero")}
-              className="flex items-center gap-2.5 pl-4 pr-3 py-1.5 rounded-full bg-white/5 border border-white/10 hover:border-cyan-500/50 transition-all duration-300 cursor-pointer"
+              className="flex items-center gap-2 min-[740px]:gap-2.5 pl-3 pr-2.5 min-[740px]:pl-4 min-[740px]:pr-3 py-1.5 rounded-full bg-white/5 border border-white/10 hover:border-cyan-500/50 transition-all duration-300 cursor-pointer"
             >
               <div className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75" />
@@ -105,10 +112,10 @@ export const Navbar: React.FC = () => {
               </span>
             </a>
 
-            <div className="h-4 w-[1px] bg-white/15 mx-1 hidden sm:block" />
+            <div className="h-4 w-[1px] bg-white/15 mx-1 hidden min-[740px]:block" />
 
             {/* Top-Level Primary Nav Links */}
-            <div className="hidden sm:flex items-center gap-1">
+            <div className="hidden min-[740px]:flex items-center gap-1">
               {primaryNavItems.map((item) => {
                 const isActive = activeSection === item.id;
                 const isCurrentHover = isHovered === item.id;
@@ -153,18 +160,18 @@ export const Navbar: React.FC = () => {
             {/* DROPDOWN TRIGGER PILL (Architecture & Deep Dive) */}
             <div className="relative">
               <button
-                aria-label="Architecture menu"
+                aria-label={t.nav.architectureAria}
                 type="button"
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 onMouseEnter={() => setIsDropdownOpen(true)}
                 className={cn(
-                  "relative px-2.5 sm:px-3.5 py-1.5 rounded-full font-mono text-xs transition-all duration-300 cursor-pointer flex items-center gap-1.5 border",
+                  "relative px-2 min-[740px]:px-3.5 py-1.5 rounded-full font-mono text-xs transition-all duration-300 cursor-pointer flex items-center gap-1.5 border",
                   isDropdownOpen
                     ? "bg-white/15 text-white border-cyan-500/50 shadow-[0_0_15px_rgba(34,211,238,0.3)]"
                     : "text-neutral-400 hover:text-white bg-transparent border-transparent hover:bg-white/5 hover:border-white/10"
                 )}
               >
-                <span className="hidden sm:inline">{"// ARCHITECTURE"}</span>
+                <span className="hidden min-[740px]:inline">{t.nav.architectureLabel}</span>
                 <FiChevronDown className={cn("transition-transform duration-300 text-cyan-400", isDropdownOpen ? "rotate-180" : "")} />
               </button>
 
@@ -176,7 +183,7 @@ export const Navbar: React.FC = () => {
                     animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
                     exit={{ opacity: 0, y: -10, scale: 0.94, filter: "blur(6px)" }}
                     transition={{ type: "spring", stiffness: 420, damping: 28, mass: 0.7 }}
-                    className="absolute top-full mt-3 left-1/2 -translate-x-1/2 sm:left-auto sm:right-0 sm:translate-x-0 w-[min(85vw,16rem)] sm:w-72 p-2 rounded-2xl bg-neutral-950/85 backdrop-blur-2xl border border-white/15 shadow-[0_30px_70px_rgba(0,0,0,0.95)] overflow-hidden z-50 will-change-transform transform-gpu"
+                    className="absolute top-full mt-3 left-1/2 -translate-x-1/2 min-[740px]:left-auto min-[740px]:right-0 min-[740px]:translate-x-0 w-[min(85vw,16rem)] min-[740px]:w-72 p-2 rounded-2xl bg-neutral-950/85 backdrop-blur-2xl border border-white/15 shadow-[0_30px_70px_rgba(0,0,0,0.95)] overflow-hidden z-50 will-change-transform transform-gpu"
                   >
                     {/* DROPDOWN LAYER 1: LIQUID GLASS REFRACTIVE SHELL */}
                     <div className="absolute inset-0 z-0 rounded-2xl pointer-events-none shadow-[0_0_8px_rgba(0,0,0,0.03),0_2px_6px_rgba(0,0,0,0.08),inset_3px_3px_0.5px_-3.5px_rgba(255,255,255,0.15),inset_-3px_-3px_0.5px_-3.5px_rgba(255,255,255,0.85),inset_1px_1px_1px_-0.5px_rgba(255,255,255,0.6),inset_-1px_-1px_1px_-0.5px_rgba(255,255,255,0.6),inset_0_0_6px_6px_rgba(255,255,255,0.12),inset_0_0_2px_2px_rgba(255,255,255,0.06),0_0_15px_rgba(34,211,238,0.15)]" />
@@ -184,7 +191,7 @@ export const Navbar: React.FC = () => {
                     {/* DROPDOWN LAYER 2: KINETIC LINKS */}
                     <div className="relative z-10 flex flex-col gap-1">
                       <div className="px-3 py-1.5 font-mono text-[10px] text-neutral-500 uppercase tracking-widest border-b border-white/10 mb-1">
-                        {"// CLUSTER SPECS & TELEMETRY"}
+                        {t.nav.dropdownHeader}
                       </div>
                       
                       {dropdownNavItems.map((item) => (
@@ -222,17 +229,23 @@ export const Navbar: React.FC = () => {
               </AnimatePresence>
             </div>
 
-            <div className="h-4 w-[1px] bg-white/15 mx-1 hidden sm:block" />
+            {/* Language switch — sits in the middle cluster, matching the
+                dropdown trigger's geometry. Closing the architecture dropdown on
+                hover keeps the two panels from ever overlapping, since the pill's
+                own onMouseLeave only fires when the pointer leaves the whole nav. */}
+            <LanguageToggle onMouseEnter={() => setIsDropdownOpen(false)} />
+
+            <div className="h-4 w-[1px] bg-white/15 mx-1 hidden min-[740px]:block" />
 
             {/* Right Liquid-Metal Executive Action Chip */}
             <a
               href="#terminal-card"
               onClick={(e) => handleSmoothScroll(e, "terminal-card")}
-              className="relative group/btn px-4 sm:px-5 py-2 rounded-full bg-gradient-to-r from-cyan-400 via-teal-300 to-emerald-400 hover:from-cyan-300 hover:to-emerald-300 text-neutral-950 font-sans font-extrabold text-xs tracking-tight transition-all duration-300 shadow-[0_0_20px_rgba(34,211,238,0.5),inset_0_1px_1px_rgba(255,255,255,0.8)] hover:shadow-[0_0_30px_rgba(34,211,238,0.9),inset_0_1px_2px_rgba(255,255,255,1)] hover:scale-105 cursor-pointer flex items-center gap-1.5 overflow-hidden shrink-0"
+              className="relative group/btn px-3 min-[740px]:px-5 py-2 rounded-full bg-gradient-to-r from-cyan-400 via-teal-300 to-emerald-400 hover:from-cyan-300 hover:to-emerald-300 text-neutral-950 font-sans font-extrabold text-xs tracking-tight transition-all duration-300 shadow-[0_0_20px_rgba(34,211,238,0.5),inset_0_1px_1px_rgba(255,255,255,0.8)] hover:shadow-[0_0_30px_rgba(34,211,238,0.9),inset_0_1px_2px_rgba(255,255,255,1)] hover:scale-105 cursor-pointer flex items-center gap-1.5 overflow-hidden shrink-0"
             >
               <div className="absolute top-0 inset-x-0 h-[1px] bg-white opacity-80 group-hover/btn:opacity-100 transition-opacity" />
               <span className="relative z-10">
-                <span className="hidden sm:inline">INITIATE </span>CLI ↵
+                <span className="hidden min-[740px]:inline">{t.nav.ctaPrefix}</span>{t.nav.ctaCore}
               </span>
             </a>
 

@@ -4,9 +4,13 @@ import React, { useRef } from "react";
 import { useScroll, useTransform, type MotionValue } from "motion/react";
 import { m } from "motion/react";
 import { VerticalCutReveal } from "@/components/ui/vertical-cut-reveal";
+import { useI18n } from "@/i18n/LanguageProvider";
+import type { Dictionary } from "@/i18n/dictionaries/en";
+
+type MetricId = keyof Dictionary["telemetry"]["metrics"];
 
 interface TelemetryMetric {
-  id: string;
+  id: MetricId;
   label: string;
   value: string;
   subtext: string;
@@ -14,12 +18,22 @@ interface TelemetryMetric {
   speed: number;
 }
 
-const metrics: TelemetryMetric[] = [
-  { id: "uptime", label: "GLOBAL CLUSTER UPTIME", value: "99.999%", subtext: "Zero unplanned outages over 24 months of production deployments.", badge: "HIGH AVAILABILITY", speed: 25 },
-  { id: "latency", label: "API GATEWAY LATENCY", value: "0.42ms", subtext: "Average response time across US-East and South American edge regions.", badge: "ULTRA-LOW LATENCY", speed: -25 },
-  { id: "concurrency", label: "THROUGHPUT CAPACITY", value: "25k+", subtext: "Simultaneous WebSocket connections handled per containerized instance.", badge: "CONCURRENCY", speed: 35 },
-  { id: "security", label: "VULNERABILITY MITIGATION", value: "100%", subtext: "Automated CI/CD security audits and zero-trust protocol enforcement.", badge: "OSI HARDENED", speed: -15 },
+/** Numeric values and parallax speeds are data, not copy. */
+const METRIC_STATS: { id: MetricId; value: string; speed: number }[] = [
+  { id: "uptime", value: "99.999%", speed: 25 },
+  { id: "latency", value: "0.42ms", speed: -25 },
+  { id: "concurrency", value: "25k+", speed: 35 },
+  { id: "security", value: "100%", speed: -15 },
 ];
+
+function buildMetrics(t: Dictionary): TelemetryMetric[] {
+  return METRIC_STATS.map(({ id, value, speed }) => ({
+    id,
+    value,
+    speed,
+    ...t.telemetry.metrics[id],
+  }));
+}
 
 interface TelemetryCardProps {
   metric: TelemetryMetric;
@@ -58,6 +72,8 @@ const TelemetryCard: React.FC<TelemetryCardProps> = ({ metric, progress }) => {
 };
 
 export const LiveTelemetryMatrix = () => {
+  const { t } = useI18n();
+  const metrics = buildMetrics(t);
   const sectionRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -70,17 +86,17 @@ export const LiveTelemetryMatrix = () => {
         <div className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-neutral-900 border border-white/10 text-cyan-400 font-mono text-xs mb-4">
-              <span>{"// 05. PRODUCTION TELEMETRY"}</span>
+              <span>{t.telemetry.eyebrow}</span>
             </div>
             <h2 className="text-3xl md:text-5xl font-bold text-white tracking-tight !leading-[1.1] antialiased subpixel-antialiased select-none">
               <VerticalCutReveal splitBy="words" staggerDuration={0.05} staggerFrom="first">
-                VERIFIED PERFORMANCE BENCHMARKS.
+                {t.telemetry.heading}
               </VerticalCutReveal>
             </h2>
           </div>
           <div className="font-mono text-xs text-neutral-400 bg-neutral-900/80 px-4 py-2 rounded-lg border border-white/10 self-start md:self-auto flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-            <span>{"STREAMING LIVE TELEMETRY FROM PROD // US-EAST"}</span>
+            <span>{t.telemetry.streamingLabel}</span>
           </div>
         </div>
 

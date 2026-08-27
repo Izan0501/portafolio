@@ -1,20 +1,22 @@
 "use client";
 
-import React, { useRef } from "react";
-import { m, useScroll, useTransform } from "motion/react";
+import React, { useRef, useState } from "react";
+import { m, useMotionValueEvent, useScroll, useTransform } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { FiArrowLeft, FiArrowUpRight, FiCpu, FiRadio, FiZap } from "react-icons/fi";
-import { getProjectById, STATUS_STYLES } from "@/data/projects";
+import { getResolvedProject, STATUS_STYLES } from "@/data/projects";
 import { VerticalCutReveal } from "@/components/ui/vertical-cut-reveal";
+import { useI18n } from "@/i18n/LanguageProvider";
 
 interface ProjectDetailProps {
   id: string;
 }
 
 export const ProjectDetail: React.FC<ProjectDetailProps> = ({ id }) => {
-  const project = getProjectById(id);
+  const { locale, t } = useI18n();
+  const project = getResolvedProject(id, locale);
   if (!project) {
     notFound();
   }
@@ -36,7 +38,7 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({ id }) => {
   } = project;
 
   const accent = STATUS_STYLES[status];
-  const deployStatus = status === "PROD" ? "LIVE" : "BUILDING";
+  const deployStatus = status === "PROD" ? t.projectDetail.live : t.projectDetail.building;
 
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -45,6 +47,22 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({ id }) => {
   });
   const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
   const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "12%"]);
+
+  // Action bar hides on scroll down, returns on scroll up — same thresholds and
+  // spring as the navbar, so both pieces of floating chrome move as a pair.
+  // Reading direction off the motion value keeps this off the React render path;
+  // only the boolean flip re-renders.
+  const { scrollY } = useScroll();
+  const [isBarHidden, setIsBarHidden] = useState(false);
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const previous = scrollY.getPrevious() ?? 0;
+    if (latest > 120 && latest > previous) {
+      setIsBarHidden(true);
+    } else if (latest < previous || latest <= 120) {
+      setIsBarHidden(false);
+    }
+  });
 
   // Scroll-to-top + Lenis resize on navigation now lives in SmoothScrollProvider,
   // keyed off the route pathname — it handles both entering AND leaving this page,
@@ -69,7 +87,7 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({ id }) => {
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-black/70 border border-white/15 font-mono text-xs text-neutral-300 hover:text-cyan-300 hover:border-cyan-500/40 transition-all mb-10"
           >
             <FiArrowLeft />
-            <span>BACK TO MATRIX</span>
+            <span>{t.projectDetail.backToMatrix}</span>
           </Link>
 
           <div className="flex items-center gap-3 mb-6 font-mono text-xs">
@@ -102,17 +120,17 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({ id }) => {
           <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 bg-neutral-900/85 border border-white/15 rounded-2xl sm:rounded-full pl-5 pr-6 py-3 shadow-[0_20px_60px_rgba(0,0,0,0.7)]">
             <div className={`flex items-center gap-2 pr-5 border-r border-white/10 font-mono text-sm ${accent.accent}`}>
               <FiRadio className={`text-lg ${accent.pulse ? "animate-pulse" : ""}`} />
-              <span className="text-neutral-500 text-xs">DEPLOY STATUS:</span>
+              <span className="text-neutral-500 text-xs">{t.projectDetail.deployStatusLabel}</span>
               <span className="font-bold">{deployStatus}</span>
             </div>
             <div className="flex items-center gap-2 font-mono text-xs sm:text-sm text-neutral-300">
               <FiZap className="text-cyan-400" />
-              <span className="text-neutral-500">LATENCY:</span>
+              <span className="text-neutral-500">{t.projectDetail.latencyLabel}</span>
               <span className="font-bold text-cyan-300">{latency}</span>
             </div>
             <div className="flex items-center gap-2 font-mono text-xs sm:text-sm text-neutral-300">
               <FiCpu className="text-cyan-400" />
-              <span className="text-neutral-500">ARCHITECTURE:</span>
+              <span className="text-neutral-500">{t.projectDetail.architectureLabel}</span>
               <span className="font-bold text-cyan-300">{architecture}</span>
             </div>
           </div>
@@ -126,12 +144,12 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({ id }) => {
           <div className="lg:col-span-7 relative rounded-3xl bg-neutral-900/70 border border-white/10 p-8 sm:p-10 shadow-[0_20px_60px_rgba(0,0,0,0.6)] overflow-hidden">
             <div className="absolute -top-32 -left-32 w-72 h-72 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
             <div className="relative z-10">
-              <div className="font-mono text-xs text-cyan-400 mb-4">{"// THE CHALLENGE"}</div>
+              <div className="font-mono text-xs text-cyan-400 mb-4">{t.projectDetail.challengeHeading}</div>
               <p className="text-neutral-100 text-base sm:text-lg leading-relaxed mb-8">
                 {challenge}
               </p>
 
-              <div className="font-mono text-xs text-cyan-400 mb-4">{"// SCOPE & SOLUTION"}</div>
+              <div className="font-mono text-xs text-cyan-400 mb-4">{t.projectDetail.scopeHeading}</div>
               <p className="text-neutral-300 text-sm sm:text-base leading-relaxed mb-6">
                 {scope}
               </p>
@@ -152,16 +170,16 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({ id }) => {
               <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F57]" />
               <span className="w-2.5 h-2.5 rounded-full bg-[#FEBC2E]" />
               <span className="w-2.5 h-2.5 rounded-full bg-[#28C840]" />
-              <span className="ml-3 font-mono text-[10px] text-neutral-500">deploy.sh — {id}</span>
+              <span className="ml-3 font-mono text-[10px] text-neutral-500">{t.projectDetail.terminal.fileName(id)}</span>
             </div>
             <div className="p-4 sm:p-6 font-mono text-[11px] sm:text-xs leading-relaxed overflow-x-auto space-y-1.5">
-              <div className="text-cyan-400">$ deploy --target={location.split(" // ")[0]}</div>
-              <div className="text-neutral-400">{"> "}Provisioning {architecture} services...</div>
-              <div className="text-neutral-400">{"> "}Stack: {stack.join(", ")}</div>
-              <div className="text-neutral-400">{"> "}Health check... <span className={accent.accent}>{deployStatus}</span></div>
-              <div className="text-neutral-400">{"> "}Latency probe: <span className="text-cyan-300">{latency}</span></div>
+              <div className="text-cyan-400">{t.projectDetail.terminal.deployCommand(location.split(" // ")[0])}</div>
+              <div className="text-neutral-400">{"> "}{t.projectDetail.terminal.provisioning(architecture)}</div>
+              <div className="text-neutral-400">{"> "}{t.projectDetail.terminal.stack(stack.join(", "))}</div>
+              <div className="text-neutral-400">{"> "}{t.projectDetail.terminal.healthCheck}<span className={accent.accent}>{deployStatus}</span></div>
+              <div className="text-neutral-400">{"> "}{t.projectDetail.terminal.latencyProbe}<span className="text-cyan-300">{latency}</span></div>
               <div className="text-emerald-400 pt-1">
-                ✓ {status === "PROD" ? "Deployment stable" : "Staging build ready"}
+                ✓ {status === "PROD" ? t.projectDetail.terminal.stable : t.projectDetail.terminal.stagingReady}
               </div>
             </div>
           </div>
@@ -170,7 +188,7 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({ id }) => {
 
       {/* 3. FEATURE SHOWCASE — alternating macOS-framed windows */}
       <section className="max-w-6xl mx-auto px-6 mt-16 sm:mt-24">
-        <div className="font-mono text-xs text-cyan-400 mb-10">{"// ARCHITECTURE & FEATURES"}</div>
+        <div className="font-mono text-xs text-cyan-400 mb-10">{t.projectDetail.featuresHeading}</div>
         <div className="space-y-16 sm:space-y-24">
           {gallery.map((image, i) => {
             const reversed = i % 2 === 1;
@@ -217,29 +235,38 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({ id }) => {
       {/* 4. FLOATING COMMAND ACTION BAR — dynamic island. Stacks to a full-width column on
           mobile (two full-length text buttons side-by-side in a fixed pill guaranteed to
           overflow a phone screen); becomes the horizontal pill again from sm+. */}
-      <div className="fixed bottom-8 inset-x-0 z-50 flex justify-center px-6 pointer-events-none">
+      <m.div
+        animate={isBarHidden ? "hidden" : "visible"}
+        initial="visible"
+        transition={{ type: "spring", stiffness: 380, damping: 32, mass: 0.8 }}
+        variants={{
+          visible: { y: 0, opacity: 1 },
+          // 140px clears the pill's own height plus the bottom-8 offset, so it
+          // parks fully outside the viewport rather than peeking at the edge.
+          hidden: { y: 140, opacity: 0 },
+        }}
+        className="fixed bottom-8 inset-x-0 z-50 flex justify-center px-6 pointer-events-none will-change-transform transform-gpu"
+      >
         <div className="pointer-events-auto w-full max-w-xs sm:max-w-none sm:w-auto flex flex-col sm:flex-row items-stretch sm:items-center gap-2 bg-neutral-900/90 backdrop-blur-sm border border-white/15 rounded-2xl sm:rounded-full p-2 shadow-[0_20px_60px_rgba(0,0,0,0.8)]">
           <Link className="px-4 py-2 rounded-xl sm:rounded-full bg-white/5 hover:bg-white/10 text-white font-mono text-xs transition-colors border border-white/10 text-center" href="/#deployment-matrix">
-            &lt; RETURN TO MATRIX
+            {t.projectDetail.returnToMatrix}
           </Link>
 
-          {liveUrl ? (
+          {/* No placeholder when there is no live URL — the bar simply shows the
+              return action rather than a disabled "pending" chip. */}
+          {liveUrl && (
             <Link
               href={liveUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-2 px-4 sm:px-5 py-2.5 rounded-xl sm:rounded-full bg-gradient-to-r from-cyan-500 to-emerald-500 text-neutral-950 font-bold font-mono text-xs shadow-[0_0_20px_rgba(34,211,238,0.5)] hover:shadow-[0_0_30px_rgba(34,211,238,0.8)] transition-all"
             >
-              <span>INITIALIZE LIVE SYSTEM</span>
+              <span>{t.projectDetail.initializeLive}</span>
               <FiArrowUpRight />
             </Link>
-          ) : (
-            <span className="flex items-center justify-center gap-2 px-4 sm:px-5 py-2.5 rounded-xl sm:rounded-full bg-white/5 text-neutral-500 font-mono text-xs cursor-not-allowed">
-              <span>LIVE SYSTEM PENDING</span>
-            </span>
           )}
         </div>
-      </div>
+      </m.div>
     </main>
   );
 };

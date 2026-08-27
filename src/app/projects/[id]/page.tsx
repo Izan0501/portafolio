@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PROJECTS_DATA, getProjectById } from "@/data/projects";
 import { ProjectDetail } from "@/components/sections/ProjectDetail";
+import { DEFAULT_LOCALE } from "@/i18n/config";
 
 interface ProjectPageProps {
   params: Promise<{ id: string }>;
@@ -19,9 +20,12 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
     return {};
   }
 
+  // Metadata is emitted at build time, before any client locale exists, so it is
+  // always the default locale. That is the accepted cost of keeping one URL per
+  // project instead of locale-prefixed routes.
   return {
     title: `${project.title} | Ivo Zanacchi`,
-    description: project.scope,
+    description: project.scope[DEFAULT_LOCALE],
   };
 }
 
