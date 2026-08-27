@@ -177,23 +177,22 @@ export const es: Dictionary = {
     },
 
     parallax: {
+      nave24: {
+        alt: "Nave24 Stock — pantalla de login de operaciones de depósito",
+        caption: "Nave24 Stock // Login de Operaciones",
+      },
       veebot: {
-        alt: "VeeBot SaaS v2.4 / Motor OCR automatizado",
-        caption: "VeeBot SaaS // Motor de PDF y Reservas",
+        alt: "VeeBot SaaS — panel de selección de candidatos con IA",
+        caption: "VeeBot SaaS // Selección de Candidatos con IA",
       },
-      axon: {
-        alt: "Ecosistema de agencia Axon Crafts",
-        caption: "Axon Crafts // Plataforma nivel Silicon Valley",
+      estudio: {
+        alt: "Estudio Zanacchi — página de inicio del estudio jurídico",
+        caption: "Estudio Zanacchi // Sitio del Estudio Jurídico",
       },
-      threatMap: {
-        alt: "Mapa de amenazas cibernéticas en tiempo real",
-        caption: "Cyber Threat Map // Telemetría TCP/IP",
+      portafolioMel: {
+        alt: "Portafolio Mel — página de inicio del portafolio de fotografía",
+        caption: "Portafolio Mel // Portafolio de Fotografía",
       },
-      pinecone: {
-        alt: "Clúster vectorial Pinecone RAG",
-        caption: "Pinecone RAG // Base vectorial distribuida",
-      },
-      badge: "PROD",
     },
 
     matrix: {

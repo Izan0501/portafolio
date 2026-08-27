@@ -78,73 +78,8 @@ const STATUS_LABELS = {
 
 export const PROJECTS_DATA: Project[] = [
   {
-    id: "estudio-zanacchi",
-    index: "01",
-    title: "Estudio Zanacchi",
-    status: "PROD",
-    statusLabel: STATUS_LABELS.production,
-    architecture: { en: "JAMSTACK / SSR", es: "JAMSTACK / SSR" },
-    stack: ["Next.js 16", "Tailwind", "Sanity CMS", "Vercel"],
-    location: { en: "VERCEL EDGE // GLOBAL CDN", es: "VERCEL EDGE // CDN GLOBAL" },
-    latency: { en: "0.29ms", es: "0.29ms" },
-    icon: FiGlobe,
-    heroImage: STOCK_PHOTOS.workspace,
-    scope: {
-      en: "A high-performance marketing and client-facing site built to represent the studio's brand with an editorial, content-driven layout backed by a headless CMS.",
-      es: "Un sitio institucional de alto rendimiento construido para representar la marca del estudio con un layout editorial orientado al contenido y respaldado por un CMS headless.",
-    },
-    challenge: {
-      en: "Give non-technical staff full editorial control without ever letting a content edit regress the site's Core Web Vitals — the CMS layer had to stay invisible to performance.",
-      es: "Dar control editorial total a personas sin perfil técnico sin que una edición de contenido degrade nunca los Core Web Vitals del sitio — la capa del CMS tenía que ser invisible para el rendimiento.",
-    },
-    objectives: {
-      en: [
-        "Ship a fast, SEO-ready marketing site on the App Router",
-        "Give non-technical editors full control over content via Sanity",
-        "Hit 100/100 Lighthouse performance on every core route",
-      ],
-      es: [
-        "Publicar un sitio institucional rápido y listo para SEO sobre el App Router",
-        "Dar a editores sin perfil técnico control total del contenido vía Sanity",
-        "Alcanzar 100/100 de rendimiento en Lighthouse en cada ruta principal",
-      ],
-    },
-    gallery: [
-      {
-        alt: {
-          en: "Estudio Zanacchi — homepage layout",
-          es: "Estudio Zanacchi — layout de la página principal",
-        },
-        caption: {
-          en: "Homepage // Editorial Grid",
-          es: "Página principal // Grilla editorial",
-        },
-        specs: {
-          en: ["Statically generated with on-demand ISR revalidation", "Sanity webhook triggers targeted route revalidation"],
-          es: ["Generación estática con revalidación ISR bajo demanda", "El webhook de Sanity dispara la revalidación de rutas puntuales"],
-        },
-        src: STOCK_PHOTOS.workspace,
-      },
-      {
-        alt: {
-          en: "Estudio Zanacchi — content management",
-          es: "Estudio Zanacchi — gestión de contenido",
-        },
-        caption: {
-          en: "Sanity Studio // Content Layer",
-          es: "Sanity Studio // Capa de contenido",
-        },
-        specs: {
-          en: ["Structured content schema decoupled from layout", "Editors publish without touching a deploy pipeline"],
-          es: ["Esquema de contenido estructurado y desacoplado del layout", "Los editores publican sin tocar el pipeline de despliegue"],
-        },
-        src: STOCK_PHOTOS.darkTerminal,
-      },
-    ],
-  },
-  {
     id: "nave24-stock",
-    index: "02",
+    index: "01",
     title: "Nave24 Stock",
     status: "PROD",
     statusLabel: STATUS_LABELS.production,
@@ -240,65 +175,130 @@ export const PROJECTS_DATA: Project[] = [
     ],
   },
   {
-    id: "consultorio-odontologico",
-    index: "03",
-    title: "Consultorio Odontológico",
+    id: "veebot-saas",
+    index: "02",
+    title: "VeeBot SaaS",
     status: "DEV",
     statusLabel: STATUS_LABELS.inDevelopment,
-    architecture: { en: "SSR MONOLITH", es: "MONOLITO SSR" },
-    stack: ["Next.js", "MongoDB", "Booking Engine", "Tailwind"],
-    location: { en: "STAGING CLUSTER // DEV", es: "CLÚSTER DE STAGING // DEV" },
-    latency: { en: "8.4ms (staging)", es: "8.4ms (staging)" },
-    icon: FiCalendar,
-    heroImage: STOCK_PHOTOS.codeClose,
+    architecture: { en: "MICROSERVICES", es: "MICROSERVICIOS" },
+    stack: ["MongoDB", "FastAPI", "Python", "OCR Engine"],
+    location: { en: "DOCKER SWARM // STAGING", es: "DOCKER SWARM // STAGING" },
+    latency: { en: "5.7ms (staging)", es: "5.7ms (staging)" },
+    icon: FiServer,
+    heroImage: "/projects/veeBot/bot-back.png",
     scope: {
-      en: "A patient-facing booking and scheduling platform for a dental practice — appointment requests, availability, and treatment history in one place.",
-      es: "Una plataforma de turnos y agenda orientada al paciente para un consultorio odontológico — solicitudes de turno, disponibilidad e historial de tratamientos en un solo lugar.",
+      en: "A multi-tenant SaaS platform that ingests PDFs and scanned documents, extracts structured data via OCR, and automates reservation workflows.",
+      es: "Una plataforma SaaS multi-tenant que ingiere PDFs y documentos escaneados, extrae datos estructurados mediante OCR y automatiza flujos de reservas.",
     },
     challenge: {
-      en: "Several practitioners share overlapping availability windows — the booking engine has to guarantee no two patients can ever claim the same slot, even under simultaneous requests.",
-      es: "Varios profesionales comparten ventanas de disponibilidad superpuestas — el motor de turnos debe garantizar que dos pacientes nunca puedan tomar el mismo horario, incluso con solicitudes simultáneas.",
+      en: "Every tenant's documents flow through the same OCR pipeline — services have to scale independently under load while keeping tenant data fully isolated end-to-end.",
+      es: "Los documentos de cada tenant atraviesan el mismo pipeline de OCR — los servicios tienen que escalar de forma independiente bajo carga manteniendo los datos de cada tenant completamente aislados de punta a punta.",
     },
     objectives: {
       en: [
-        "Let patients book and reschedule appointments online",
-        "Give the front desk a single calendar view across practitioners",
-        "Store treatment history per patient in a structured, searchable form",
+        "Automate document intake with an OCR extraction pipeline",
+        "Support multiple tenants on isolated Docker Swarm services",
+        "Turn extracted data into an automated reservation workflow",
       ],
       es: [
-        "Permitir que los pacientes reserven y reprogramen turnos en línea",
-        "Dar a recepción una vista de calendario unificada entre profesionales",
-        "Guardar el historial de tratamientos por paciente de forma estructurada y consultable",
+        "Automatizar la recepción de documentos con un pipeline de extracción OCR",
+        "Soportar múltiples tenants sobre servicios aislados en Docker Swarm",
+        "Convertir los datos extraídos en un flujo de reservas automatizado",
       ],
     },
     gallery: [
       {
         alt: {
-          en: "Consultorio Odontológico — booking calendar",
-          es: "Consultorio Odontológico — calendario de turnos",
+          en: "VeeBot SaaS — OCR extraction pipeline",
+          es: "VeeBot SaaS — pipeline de extracción OCR",
         },
         caption: {
-          en: "Booking Engine // Availability View",
-          es: "Motor de turnos // Vista de disponibilidad",
+          en: "OCR Engine // Document Pipeline",
+          es: "Motor OCR // Pipeline de documentos",
         },
         specs: {
-          en: ["Atomic slot-claim to prevent double-booking", "Per-practitioner calendar merge view"],
-          es: ["Reserva atómica del horario para evitar duplicados", "Vista combinada de calendarios por profesional"],
+          en: ["Async ingestion queue decouples upload from processing", "Per-tenant isolated processing services"],
+          es: ["La cola de ingesta asíncrona desacopla la carga del procesamiento", "Servicios de procesamiento aislados por tenant"],
         },
-        src: STOCK_PHOTOS.codeClose,
+        src: STOCK_PHOTOS.serverRack,
       },
       {
         alt: {
-          en: "Consultorio Odontológico — patient records",
-          es: "Consultorio Odontológico — fichas de pacientes",
+          en: "VeeBot SaaS — reservation workflow",
+          es: "VeeBot SaaS — flujo de reservas",
         },
         caption: {
-          en: "MongoDB // Patient Records",
-          es: "MongoDB // Fichas de pacientes",
+          en: "FastAPI // Reservation Workflow",
+          es: "FastAPI // Flujo de reservas",
         },
         specs: {
-          en: ["Structured treatment-history documents per patient", "Indexed search across appointment history"],
-          es: ["Documentos estructurados de historial clínico por paciente", "Búsqueda indexada sobre el historial de turnos"],
+          en: ["Extracted fields auto-populate reservation records", "Swarm-scaled API services behind a load balancer"],
+          es: ["Los campos extraídos completan automáticamente los registros de reserva", "Servicios de API escalados en Swarm detrás de un balanceador de carga"],
+        },
+        src: STOCK_PHOTOS.dataStream,
+      },
+    ],
+  },
+  {
+    id: "estudio-zanacchi",
+    index: "03",
+    title: "Estudio Zanacchi",
+    status: "PROD",
+    statusLabel: STATUS_LABELS.production,
+    architecture: { en: "JAMSTACK / SSR", es: "JAMSTACK / SSR" },
+    stack: ["Next.js 16", "Tailwind", "Sanity CMS", "Vercel"],
+    location: { en: "VERCEL EDGE // GLOBAL CDN", es: "VERCEL EDGE // CDN GLOBAL" },
+    latency: { en: "0.29ms", es: "0.29ms" },
+    icon: FiGlobe,
+    heroImage: "/projects/estudio/estudio-back.png",
+    scope: {
+      en: "A high-performance marketing and client-facing site built to represent the studio's brand with an editorial, content-driven layout backed by a headless CMS.",
+      es: "Un sitio institucional de alto rendimiento construido para representar la marca del estudio con un layout editorial orientado al contenido y respaldado por un CMS headless.",
+    },
+    challenge: {
+      en: "Give non-technical staff full editorial control without ever letting a content edit regress the site's Core Web Vitals — the CMS layer had to stay invisible to performance.",
+      es: "Dar control editorial total a personas sin perfil técnico sin que una edición de contenido degrade nunca los Core Web Vitals del sitio — la capa del CMS tenía que ser invisible para el rendimiento.",
+    },
+    objectives: {
+      en: [
+        "Ship a fast, SEO-ready marketing site on the App Router",
+        "Give non-technical editors full control over content via Sanity",
+        "Hit 100/100 Lighthouse performance on every core route",
+      ],
+      es: [
+        "Publicar un sitio institucional rápido y listo para SEO sobre el App Router",
+        "Dar a editores sin perfil técnico control total del contenido vía Sanity",
+        "Alcanzar 100/100 de rendimiento en Lighthouse en cada ruta principal",
+      ],
+    },
+    gallery: [
+      {
+        alt: {
+          en: "Estudio Zanacchi — homepage layout",
+          es: "Estudio Zanacchi — layout de la página principal",
+        },
+        caption: {
+          en: "Homepage // Editorial Grid",
+          es: "Página principal // Grilla editorial",
+        },
+        specs: {
+          en: ["Statically generated with on-demand ISR revalidation", "Sanity webhook triggers targeted route revalidation"],
+          es: ["Generación estática con revalidación ISR bajo demanda", "El webhook de Sanity dispara la revalidación de rutas puntuales"],
+        },
+        src: STOCK_PHOTOS.workspace,
+      },
+      {
+        alt: {
+          en: "Estudio Zanacchi — content management",
+          es: "Estudio Zanacchi — gestión de contenido",
+        },
+        caption: {
+          en: "Sanity Studio // Content Layer",
+          es: "Sanity Studio // Capa de contenido",
+        },
+        specs: {
+          en: ["Structured content schema decoupled from layout", "Editors publish without touching a deploy pipeline"],
+          es: ["Esquema de contenido estructurado y desacoplado del layout", "Los editores publican sin tocar el pipeline de despliegue"],
         },
         src: STOCK_PHOTOS.darkTerminal,
       },
@@ -315,7 +315,7 @@ export const PROJECTS_DATA: Project[] = [
     location: { en: "PREVIEW BUILD // DEV", es: "BUILD DE PREVIEW // DEV" },
     latency: { en: "6.1ms (staging)", es: "6.1ms (staging)" },
     icon: FiLayout,
-    heroImage: STOCK_PHOTOS.workspace,
+    heroImage: "/projects/portafolio-mel/portafolio-back.png",
     scope: {
       en: "A kinetic, image-forward personal portfolio built to showcase creative work with fluid page transitions and a distinct visual identity.",
       es: "Un portfolio personal cinético y centrado en la imagen, construido para exhibir trabajo creativo con transiciones fluidas y una identidad visual propia.",
@@ -370,70 +370,71 @@ export const PROJECTS_DATA: Project[] = [
     ],
   },
   {
-    id: "veebot-saas",
+    id: "consultorio-odontologico",
     index: "05",
-    title: "VeeBot SaaS",
+    title: "Consultorio Odontológico",
     status: "DEV",
     statusLabel: STATUS_LABELS.inDevelopment,
-    architecture: { en: "MICROSERVICES", es: "MICROSERVICIOS" },
-    stack: ["MongoDB", "FastAPI", "Python", "OCR Engine"],
-    location: { en: "DOCKER SWARM // STAGING", es: "DOCKER SWARM // STAGING" },
-    latency: { en: "5.7ms (staging)", es: "5.7ms (staging)" },
-    icon: FiServer,
-    heroImage: STOCK_PHOTOS.serverRack,
+    architecture: { en: "SSR MONOLITH", es: "MONOLITO SSR" },
+    stack: ["Next.js", "MongoDB", "Booking Engine", "Tailwind"],
+    location: { en: "STAGING CLUSTER // DEV", es: "CLÚSTER DE STAGING // DEV" },
+    latency: { en: "8.4ms (staging)", es: "8.4ms (staging)" },
+    icon: FiCalendar,
+    heroImage: "/projects/consultorio/consul-back.png",
     scope: {
-      en: "A multi-tenant SaaS platform that ingests PDFs and scanned documents, extracts structured data via OCR, and automates reservation workflows.",
-      es: "Una plataforma SaaS multi-tenant que ingiere PDFs y documentos escaneados, extrae datos estructurados mediante OCR y automatiza flujos de reservas.",
+      en: "A patient-facing booking and scheduling platform for a dental practice — appointment requests, availability, and treatment history in one place.",
+      es: "Una plataforma de turnos y agenda orientada al paciente para un consultorio odontológico — solicitudes de turno, disponibilidad e historial de tratamientos en un solo lugar.",
     },
     challenge: {
-      en: "Every tenant's documents flow through the same OCR pipeline — services have to scale independently under load while keeping tenant data fully isolated end-to-end.",
-      es: "Los documentos de cada tenant atraviesan el mismo pipeline de OCR — los servicios tienen que escalar de forma independiente bajo carga manteniendo los datos de cada tenant completamente aislados de punta a punta.",
+      en: "Several practitioners share overlapping availability windows — the booking engine has to guarantee no two patients can ever claim the same slot, even under simultaneous requests.",
+      es: "Varios profesionales comparten ventanas de disponibilidad superpuestas — el motor de turnos debe garantizar que dos pacientes nunca puedan tomar el mismo horario, incluso con solicitudes simultáneas.",
     },
     objectives: {
       en: [
-        "Automate document intake with an OCR extraction pipeline",
-        "Support multiple tenants on isolated Docker Swarm services",
-        "Turn extracted data into an automated reservation workflow",
+        "Let patients book and reschedule appointments online",
+        "Give the front desk a single calendar view across practitioners",
+        "Store treatment history per patient in a structured, searchable form",
       ],
       es: [
-        "Automatizar la recepción de documentos con un pipeline de extracción OCR",
-        "Soportar múltiples tenants sobre servicios aislados en Docker Swarm",
-        "Convertir los datos extraídos en un flujo de reservas automatizado",
+        "Permitir que los pacientes reserven y reprogramen turnos en línea",
+        "Dar a recepción una vista de calendario unificada entre profesionales",
+        "Guardar el historial de tratamientos por paciente de forma estructurada y consultable",
       ],
     },
     gallery: [
       {
         alt: {
-          en: "VeeBot SaaS — OCR extraction pipeline",
-          es: "VeeBot SaaS — pipeline de extracción OCR",
+          en: "Consultorio Odontológico — booking calendar",
+          es: "Consultorio Odontológico — calendario de turnos",
         },
         caption: {
-          en: "OCR Engine // Document Pipeline",
-          es: "Motor OCR // Pipeline de documentos",
+          en: "Booking Engine // Availability View",
+          es: "Motor de turnos // Vista de disponibilidad",
         },
         specs: {
-          en: ["Async ingestion queue decouples upload from processing", "Per-tenant isolated processing services"],
-          es: ["La cola de ingesta asíncrona desacopla la carga del procesamiento", "Servicios de procesamiento aislados por tenant"],
+          en: ["Atomic slot-claim to prevent double-booking", "Per-practitioner calendar merge view"],
+          es: ["Reserva atómica del horario para evitar duplicados", "Vista combinada de calendarios por profesional"],
         },
-        src: STOCK_PHOTOS.serverRack,
+        src: STOCK_PHOTOS.codeClose,
       },
       {
         alt: {
-          en: "VeeBot SaaS — reservation workflow",
-          es: "VeeBot SaaS — flujo de reservas",
+          en: "Consultorio Odontológico — patient records",
+          es: "Consultorio Odontológico — fichas de pacientes",
         },
         caption: {
-          en: "FastAPI // Reservation Workflow",
-          es: "FastAPI // Flujo de reservas",
+          en: "MongoDB // Patient Records",
+          es: "MongoDB // Fichas de pacientes",
         },
         specs: {
-          en: ["Extracted fields auto-populate reservation records", "Swarm-scaled API services behind a load balancer"],
-          es: ["Los campos extraídos completan automáticamente los registros de reserva", "Servicios de API escalados en Swarm detrás de un balanceador de carga"],
+          en: ["Structured treatment-history documents per patient", "Indexed search across appointment history"],
+          es: ["Documentos estructurados de historial clínico por paciente", "Búsqueda indexada sobre el historial de turnos"],
         },
-        src: STOCK_PHOTOS.dataStream,
+        src: STOCK_PHOTOS.darkTerminal,
       },
     ],
   },
+
 ];
 
 export function getProjectById(id: string): Project | undefined {

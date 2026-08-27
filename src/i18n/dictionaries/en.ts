@@ -173,23 +173,22 @@ export const en = {
     },
 
     parallax: {
+      nave24: {
+        alt: "Nave24 Stock — warehouse operations login screen",
+        caption: "Nave24 Stock // Warehouse Ops Login",
+      },
       veebot: {
-        alt: "VeeBot SaaS v2.4 / Automated OCR Engine",
-        caption: "VeeBot SaaS // PDF & Reservation Engine",
+        alt: "VeeBot SaaS — AI resume screening dashboard",
+        caption: "VeeBot SaaS // AI Resume Screening",
       },
-      axon: {
-        alt: "Axon Crafts Agency Ecosystem",
-        caption: "Axon Crafts // Silicon Valley Grade Platform",
+      estudio: {
+        alt: "Estudio Zanacchi — legal practice homepage",
+        caption: "Estudio Zanacchi // Legal Practice Site",
       },
-      threatMap: {
-        alt: "Real-Time Cyber Threat Map",
-        caption: "Cyber Threat Map // TCP/IP Telemetry",
+      portafolioMel: {
+        alt: "Portafolio Mel — photography portfolio homepage",
+        caption: "Portafolio Mel // Photography Portfolio",
       },
-      pinecone: {
-        alt: "Pinecone RAG Vector Cluster",
-        caption: "Pinecone RAG // Distributed Vector DB",
-      },
-      badge: "PROD",
     },
 
     matrix: {

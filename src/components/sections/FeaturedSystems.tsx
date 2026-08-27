@@ -148,6 +148,10 @@ const CenterImage: React.FC<CenterImageProps> = ({ progress }) => {
 // ==========================================
 // 4. PARALLAX FLOATING IMAGES (Passes over the frozen sticky core!)
 // ==========================================
+// Real screenshots of Ivo's own shipped sites — /projects/<folder>/<name>-back.png —
+// each project's own status (PROD/DEV) drives the badge instead of a fabricated one.
+const statusOf = (id: string) => PROJECTS_DATA.find((project) => project.id === id)?.status ?? "DEV";
+
 const ParallaxImages: React.FC = () => {
   const { t } = useI18n();
   const copy = t.systems.parallax;
@@ -158,16 +162,16 @@ const ParallaxImages: React.FC = () => {
       {/* 1: w-1/3 | [-200, 200] — sized down + kept off-center on mobile so the staggered
           composition (the whole point of the effect) survives instead of collapsing into a
           stack of full-width blocks */}
-      <ParallaxImg alt={copy.veebot.alt} badge={copy.badge} caption={copy.veebot.caption} className="w-[72%] sm:w-1/3" end={200} src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop" start={-200} />
+      <ParallaxImg alt={copy.nave24.alt} badge={statusOf("nave24-stock")} caption={copy.nave24.caption} className="w-[72%] sm:w-1/3" end={200} imagePosition="75% center" src="/projects/nave24stock/stock-dash.png" start={-200} />
 
       {/* 2: mx-auto w-2/3 | [200, -250] */}
-      <ParallaxImg alt={copy.axon.alt} badge={copy.badge} caption={copy.axon.caption} className="mx-auto w-[86%] sm:w-2/3 mt-6 sm:mt-0" end={-250} src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=1200&auto=format&fit=crop" start={200} />
+      <ParallaxImg alt={copy.veebot.alt} badge={statusOf("veebot-saas")} caption={copy.veebot.caption} className="mx-auto w-[86%] sm:w-2/3 mt-6 sm:mt-0" end={-250} src="/projects/veeBot/bot-back1.png" start={200} />
 
       {/* 3: ml-auto w-1/3 | [-200, 200] */}
-      <ParallaxImg alt={copy.threatMap.alt} badge={copy.badge} caption={copy.threatMap.caption} className="ml-auto w-[72%] sm:w-1/3 mt-6 sm:mt-0" end={200} src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1200&auto=format&fit=crop" start={-200} />
+      <ParallaxImg alt={copy.estudio.alt} badge={statusOf("estudio-zanacchi")} caption={copy.estudio.caption} className="ml-auto w-[72%] sm:w-1/3 mt-6 sm:mt-0" end={200} src="/projects/estudio/estudio-back.png" start={-200} />
 
       {/* 4: ml-24 w-5/12 | [0, -500] */}
-      <ParallaxImg alt={copy.pinecone.alt} badge={copy.badge} caption={copy.pinecone.caption} className="w-[64%] sm:ml-24 sm:w-5/12 mt-6 sm:mt-0" end={-500} src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=1200&auto=format&fit=crop" start={0} />
+      <ParallaxImg alt={copy.portafolioMel.alt} badge={statusOf("portafolio-mel")} caption={copy.portafolioMel.caption} className="w-[64%] sm:ml-24 sm:w-5/12 mt-6 sm:mt-0" end={-500} src="/projects/portafolio-mel/portafolio-back.png" start={0} />
 
     </div>
   );
@@ -181,9 +185,12 @@ interface ParallaxImgProps {
   end: number;
   caption?: string;
   badge: string;
+  /** CSS object-position — lets a screenshot with an off-center focal point
+      (e.g. a split login/photo layout) avoid cropping straight into its dead space. */
+  imagePosition?: string;
 }
 
-const ParallaxImg: React.FC<ParallaxImgProps> = ({ className, alt, src, start, end, caption, badge }) => {
+const ParallaxImg: React.FC<ParallaxImgProps> = ({ className, alt, src, start, end, caption, badge, imagePosition = "center" }) => {
   const ref = useRef<HTMLDivElement>(null);
 
   // Exact 1:1 offset mapping from original reference code
@@ -204,7 +211,7 @@ const ParallaxImg: React.FC<ParallaxImgProps> = ({ className, alt, src, start, e
       className={`${className} pointer-events-auto will-change-transform transform-gpu`}
     >
       <div className="group relative w-full rounded-2xl overflow-hidden bg-neutral-900 shadow-[0_30px_80px_rgba(0,0,0,0.95)] border border-white/15 hover:border-cyan-500/60 transition-all duration-300">
-        <Image alt={alt} className="w-full h-auto object-cover transition-transform duration-700 ease-out group-hover:scale-105 opacity-90 group-hover:opacity-100" decoding="async" height={750} loading="lazy" sizes="(max-width: 640px) 90vw, 600px" src={src} width={1200} />
+        <Image alt={alt} className="w-full h-auto object-cover transition-transform duration-700 ease-out group-hover:scale-105 opacity-90 group-hover:opacity-100" decoding="async" height={750} loading="lazy" sizes="(max-width: 640px) 90vw, 600px" src={src} style={{ objectPosition: imagePosition }} width={1200} />
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
         
         {caption && (
