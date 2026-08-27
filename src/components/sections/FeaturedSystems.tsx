@@ -287,6 +287,7 @@ interface DeploymentRowProps {
 const DeploymentRow: React.FC<DeploymentRowProps> = ({ project }) => {
   const { id, index, title, stack, status, statusLabel, location, latency, icon: Icon } = project;
   const accent = STATUS_STYLES[status];
+  const { t } = useI18n();
 
   return (
     <Link href={`/projects/${id}`}>
@@ -346,6 +347,20 @@ const DeploymentRow: React.FC<DeploymentRowProps> = ({ project }) => {
             <span className={`w-2 h-2 rounded-full bg-current ${accent.dotGlow} ${accent.pulse ? "animate-pulse" : ""}`} />
             <span className="font-mono text-xs font-bold tracking-wide">{statusLabel}</span>
           </div>
+
+          {/* Persistent launch affordance — painted at rest (not hover-gated) so the
+              card reads as clickable before the pointer arrives; existing hover
+              lift/glow/border-brighten on the row still layer on top untouched. */}
+          <div className="hidden lg:flex items-center justify-center w-11 h-11 rounded-full bg-black/60 border border-cyan-500/35 text-cyan-400 shadow-[0_4px_12px_rgba(0,0,0,0.4)] group-hover:bg-cyan-400 group-hover:text-neutral-950 group-hover:border-cyan-400 group-hover:shadow-[0_0_24px_rgba(34,211,238,0.6)] transition-all duration-300 shrink-0">
+            <FiArrowRight className="text-lg group-hover:translate-x-0.5 transition-transform duration-300" />
+          </div>
+        </div>
+
+        {/* Mobile-only equivalent: below lg the row stacks into a column, where a
+            floating icon has no room to read as a button — a full-width bar does. */}
+        <div className="flex lg:hidden items-center justify-center gap-2 w-full py-3 rounded-2xl bg-cyan-500/10 border border-cyan-500/35 text-cyan-400 font-mono text-xs font-bold tracking-wide group-hover:bg-cyan-400 group-hover:text-neutral-950 group-hover:border-cyan-400 transition-all duration-300 relative z-10">
+          <span>{t.systems.matrix.openSystem}</span>
+          <FiArrowRight className="group-hover:translate-x-0.5 transition-transform duration-300" />
         </div>
       </m.div>
     </Link>

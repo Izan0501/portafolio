@@ -199,6 +199,7 @@ export const en = {
       tracked: (count: number) => `${count} TRACKED`,
       prod: (count: number) => `${count} PROD`,
       dev: (count: number) => `${count} DEV`,
+      openSystem: "OPEN SYSTEM",
     },
   },
 

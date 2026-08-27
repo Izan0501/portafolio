@@ -30,6 +30,7 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({ id }) => {
     location,
     latency,
     icon: Icon,
+    heroImage,
     scope,
     challenge,
     objectives,
@@ -73,8 +74,20 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({ id }) => {
     <main className="relative w-full bg-neutral-950 text-white overflow-visible pb-40">
       {/* 1. CINEMATIC HUD HERO */}
       <section ref={heroRef} className="relative min-h-[90vh] w-full flex flex-col justify-end pb-24 overflow-visible">
-        {/* Deep obsidian gradient + glowing radial mesh grid */}
+        {/* Hero background image, behind the title — a legibility scrim plus the
+            section's existing radial wash and grid layer on top, unchanged */}
         <div className="absolute inset-0 bg-neutral-950" />
+        <div className="absolute inset-0">
+          <Image
+            alt=""
+            className="object-cover object-[80%_20%] sm:object-[70%_20%] lg:object-[center_20%]"
+            fill
+            priority
+            sizes="100vw"
+            src={heroImage}
+          />
+        </div>
+        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(10,10,10,0.55)_0%,rgba(10,10,10,0.6)_35%,rgba(10,10,10,0.94)_78%,#0a0a0a_100%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_15%,rgba(34,211,238,0.18),transparent_70%)]" />
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:56px_56px] [mask-image:radial-gradient(ellipse_70%_60%_at_50%_25%,black,transparent_85%)]" />
 
@@ -82,13 +95,7 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({ id }) => {
           style={{ opacity: heroOpacity, y: heroY }}
           className="relative z-10 max-w-6xl mx-auto w-full px-6 flex flex-col items-center text-center will-change-transform transform-gpu"
         >
-          <Link
-            href="/#systems"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-black/70 border border-white/15 font-mono text-xs text-neutral-300 hover:text-cyan-300 hover:border-cyan-500/40 transition-all mb-10"
-          >
-            <FiArrowLeft />
-            <span>{t.projectDetail.backToMatrix}</span>
-          </Link>
+          
 
           <div className="flex items-center gap-3 mb-6 font-mono text-xs">
             <span className="px-3 py-1 rounded-full bg-black/50 border border-white/15 text-cyan-400 tracking-wider">

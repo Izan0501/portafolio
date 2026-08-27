@@ -31,7 +31,14 @@ const RouteChangeScrollReset: React.FC = () => {
     const isInitialLoad = isFirstRender.current;
     isFirstRender.current = false;
 
-    if (!isInitialLoad) {
+    // usePathname() also strips the hash on a cross-page navigation that targets
+    // one (e.g. a "Return to Matrix" link on /projects/[id] going to
+    // "/#deployment-matrix") — read it straight off the URL instead. Without this,
+    // the unconditional scroll-to-0 below fires on every such navigation and wins
+    // the race against the browser's own hash scroll, landing back at HeroPaths.
+    const targetHash = !isInitialLoad ? window.location.hash : "";
+
+    if (!isInitialLoad && !targetHash) {
       window.scrollTo(0, 0);
       lenis?.scrollTo(0, { immediate: true });
     }
@@ -41,6 +48,13 @@ const RouteChangeScrollReset: React.FC = () => {
     // load too — it only recalculates the cached limit, never moves scroll.
     const resizeTimer = setTimeout(() => {
       lenis?.resize();
+
+      if (targetHash) {
+        const target = document.getElementById(targetHash.slice(1));
+        if (target) {
+          lenis?.scrollTo(target, { offset: -100, immediate: true });
+        }
+      }
     }, 300);
 
     return () => clearTimeout(resizeTimer);

@@ -153,7 +153,7 @@ export const PROJECTS_DATA: Project[] = [
     location: { en: "AWS US-EAST // RDS", es: "AWS US-EAST // RDS" },
     latency: { en: "0.35ms", es: "0.35ms" },
     icon: FiDatabase,
-    heroImage: STOCK_PHOTOS.dataStream,
+    heroImage: "/projects/nave24stock/stock-back.png",
     scope: {
       en: "A real-time warehouse inventory system tracking stock levels, movements, and reorder thresholds across multiple storage locations.",
       es: "Un sistema de inventario de depósito en tiempo real que registra niveles de stock, movimientos y umbrales de reposición en múltiples ubicaciones de almacenamiento.",

@@ -203,6 +203,7 @@ export const es: Dictionary = {
       tracked: (count: number) => `${count} MONITOREADOS`,
       prod: (count: number) => `${count} PROD`,
       dev: (count: number) => `${count} DEV`,
+      openSystem: "ABRIR SISTEMA",
     },
   },
 
