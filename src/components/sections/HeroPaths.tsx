@@ -149,15 +149,7 @@ export const HeroPaths: React.FC = () => {
 
         {/* LEFT COLUMN — text, rotator, CTAs */}
         <m.div style={{ y: leftY }} className="relative z-10 will-change-transform transform-gpu text-center lg:text-left">
-          <m.div
-            animate={{ opacity: 1, y: 0 }}
-            className="font-mono text-cyan-400 text-sm mb-4 tracking-widest uppercase flex items-center justify-center lg:justify-start gap-2 will-change-transform transform-gpu"
-            initial={{ opacity: 0, y: 16 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-          >
-            <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
-            {t.hero.eyebrow}
-          </m.div>
+          
 
           <m.h1
             animate={{ opacity: 1, y: 0 }}

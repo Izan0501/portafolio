@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { m, AnimatePresence, useScroll, useMotionValueEvent } from "motion/react";
 import { useLenis } from "lenis/react";
 import { cn } from "@/lib/utils";
-import { FiChevronDown, FiLayers, FiActivity, FiTerminal, FiDatabase } from "react-icons/fi";
+import { FiChevronDown, FiLayers, FiActivity, FiTerminal, FiDatabase, FiCpu, FiServer } from "react-icons/fi";
 import { useI18n } from "@/i18n/LanguageProvider";
 import { LanguageToggle } from "@/components/navigation/LanguageToggle";
 
@@ -16,6 +16,40 @@ interface NavItem {
   description?: string;
 }
 
+interface DropdownLinkItemProps {
+  item: NavItem;
+  onNavigate: (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => void;
+}
+
+const DropdownLinkItem: React.FC<DropdownLinkItemProps> = ({ item, onNavigate }) => (
+  <a
+    href={`#${item.id}`}
+    onClick={(e) => onNavigate(e, item.id)}
+    className="group/item flex items-start gap-3 p-2.5 rounded-xl hover:bg-white/10 transition-all duration-200 cursor-pointer border border-transparent hover:border-white/10"
+  >
+    <div className="p-2 rounded-lg bg-neutral-900 border border-white/10 group-hover/item:scale-110 group-hover/item:border-cyan-500/40 transition-all shrink-0 mt-0.5">
+      {item.icon}
+    </div>
+    <div className="flex flex-col">
+      <div className="flex items-center gap-1.5">
+        <span className="font-mono text-xs font-bold text-neutral-200 group-hover/item:text-cyan-300 transition-colors">
+          {item.label}
+        </span>
+        {item.badge && (
+          <span className="text-[9px] px-1.5 py-0.2 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 font-bold">
+            {item.badge}
+          </span>
+        )}
+      </div>
+      {item.description && (
+        <span className="font-sans text-[11px] text-neutral-400 line-clamp-1 mt-0.5 group-hover/item:text-neutral-300 transition-colors">
+          {item.description}
+        </span>
+      )}
+    </div>
+  </a>
+);
+
 export const Navbar: React.FC = () => {
   const lenis = useLenis();
   const { t } = useI18n();
@@ -24,8 +58,8 @@ export const Navbar: React.FC = () => {
   // re-render on a locale switch. Section ids stay locale-invariant — they are
   // anchor targets, not copy.
   const primaryNavItems: NavItem[] = [
-    { label: t.nav.items.stack.label, id: "stack" },
-    { label: t.nav.items.systems.label, id: "systems", badge: t.nav.items.systems.badge },
+    { label: t.nav.items.stack.label, id: "stack", icon: <FiCpu className="text-cyan-400"/>, description: t.nav.items.stack.description },
+    { label: t.nav.items.systems.label, id: "systems", badge: t.nav.items.systems.badge, icon: <FiServer className="text-emerald-400"/>, description: t.nav.items.systems.description },
   ];
 
   const dropdownNavItems: NavItem[] = [
@@ -190,38 +224,21 @@ export const Navbar: React.FC = () => {
                     
                     {/* DROPDOWN LAYER 2: KINETIC LINKS */}
                     <div className="relative z-10 flex flex-col gap-1">
+                      {/* Below 740px the primary pills (Stack, Systems) are hidden from the
+                          main island with nowhere else to go — surface them here too, only
+                          on mobile, so they're never actually unreachable. */}
+                      <div className="min-[740px]:hidden flex flex-col gap-1 pb-1 mb-1 border-b border-white/10">
+                        {primaryNavItems.map((item) => (
+                          <DropdownLinkItem key={item.id} item={item} onNavigate={handleSmoothScroll} />
+                        ))}
+                      </div>
+
                       <div className="px-3 py-1.5 font-mono text-[10px] text-neutral-500 uppercase tracking-widest border-b border-white/10 mb-1">
                         {t.nav.dropdownHeader}
                       </div>
-                      
+
                       {dropdownNavItems.map((item) => (
-                        <a
-                          key={item.id}
-                          href={`#${item.id}`}
-                          onClick={(e) => handleSmoothScroll(e, item.id)}
-                          className="group/item flex items-start gap-3 p-2.5 rounded-xl hover:bg-white/10 transition-all duration-200 cursor-pointer border border-transparent hover:border-white/10"
-                        >
-                          <div className="p-2 rounded-lg bg-neutral-900 border border-white/10 group-hover/item:scale-110 group-hover/item:border-cyan-500/40 transition-all shrink-0 mt-0.5">
-                            {item.icon}
-                          </div>
-                          <div className="flex flex-col">
-                            <div className="flex items-center gap-1.5">
-                              <span className="font-mono text-xs font-bold text-neutral-200 group-hover/item:text-cyan-300 transition-colors">
-                                {item.label}
-                              </span>
-                              {item.badge && (
-                                <span className="text-[9px] px-1.5 py-0.2 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 font-bold">
-                                  {item.badge}
-                                </span>
-                              )}
-                            </div>
-                            {item.description && (
-                              <span className="font-sans text-[11px] text-neutral-400 line-clamp-1 mt-0.5 group-hover/item:text-neutral-300 transition-colors">
-                                {item.description}
-                              </span>
-                            )}
-                          </div>
-                        </a>
+                        <DropdownLinkItem key={item.id} item={item} onNavigate={handleSmoothScroll} />
                       ))}
                     </div>
                   </m.div>

@@ -19,8 +19,8 @@ export const en = {
     languageAria: "Switch language",
     languageTitle: "Switch to Spanish",
     items: {
-      stack: { label: "// 01. STACK" },
-      systems: { label: "// 02. SYSTEMS", badge: "PROD" },
+      stack: { label: "// 01. STACK", description: "Engineer Identity & Toolchain" },
+      systems: { label: "// 02. SYSTEMS", badge: "PROD", description: "Flagship Systems & Deployments" },
       pipeline: { label: "// 03. PIPELINE", description: "Distributed RAG & Vector Storage" },
       topology: { label: "// 04. TOPOLOGY", description: "Network Architecture & Routing" },
       telemetry: { label: "// 05. TELEMETRY", description: "Sub-millisecond Cluster Audits" },
