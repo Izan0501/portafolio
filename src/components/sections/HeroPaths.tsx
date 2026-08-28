@@ -111,6 +111,10 @@ export const HeroPaths: React.FC = () => {
   const leftY = useTransform(scrollY, [0, 600], [0, 30]);
   const rightY = useTransform(scrollY, [0, 600], [0, 80]);
 
+  // The scroll indicator has done its job once the visitor actually scrolls —
+  // fades out over the first ~180px rather than lingering.
+  const scrollIndicatorOpacity = useTransform(scrollY, [0, 180], [1, 0]);
+
   const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
     e.preventDefault();
     const target = document.getElementById(targetId);
@@ -204,6 +208,64 @@ export const HeroPaths: React.FC = () => {
 
       {/* Fade-out seam into the next section — fixes the height/bleed complaint */}
       <div className="absolute bottom-0 inset-x-0 h-48 bg-gradient-to-t from-neutral-950 via-neutral-950/80 to-transparent z-10 pointer-events-none" />
+
+      {/* PREMIUM SCROLL INDICATOR — desktop only; mobile has no room to spare
+          this low in the viewport and touch users don't need the affordance. */}
+      <m.div
+        style={{ opacity: scrollIndicatorOpacity }}
+        className="hidden min-[740px]:flex absolute bottom-10 inset-x-0 z-20 justify-center pointer-events-none will-change-transform transform-gpu"
+      >
+        <a
+          className="hero-scroll-indicator group flex flex-col items-center gap-3 pointer-events-auto cursor-pointer"
+          href="#stack"
+          onClick={(e) => handleSmoothScroll(e, "stack")}
+        >
+          <span className="font-mono text-[10px] tracking-[0.3em] text-neutral-500 group-hover:text-emerald-300 transition-colors uppercase">
+            {t.hero.scrollHint}
+          </span>
+          <span className="hero-scroll-track">
+            <span className="hero-scroll-trace" />
+          </span>
+        </a>
+      </m.div>
+
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
+.hero-scroll-track {
+  position: relative;
+  width: 1px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+  border-radius: 9999px;
+  transition: background 300ms ease;
+}
+.hero-scroll-indicator:hover .hero-scroll-track {
+  background: rgba(255, 255, 255, 0.2);
+}
+.hero-scroll-trace {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 14px;
+  border-radius: 9999px;
+  background: linear-gradient(to bottom, transparent, #34d399, transparent);
+  box-shadow: 0 0 8px rgba(52, 211, 153, 0.8);
+  animation: hero-scroll-trace 2.2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+@keyframes hero-scroll-trace {
+  0%   { transform: translateY(-14px); opacity: 0; }
+  15%  { opacity: 1; }
+  85%  { opacity: 1; }
+  100% { transform: translateY(54px); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-scroll-trace { animation: none; top: 40%; opacity: 0.7; }
+}
+`,
+        }}
+      />
     </section>
   );
 };

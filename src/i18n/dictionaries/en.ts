@@ -38,6 +38,7 @@ export const en = {
       "A passionate Full-Stack Developer and DevOps Architect based in Tucumán, Argentina — focused on building resilient systems that hold up under real-world load.",
     ctaResume: "DOWNLOAD CV",
     ctaInspect: "INSPECT ARCHITECTURE",
+    scrollHint: "SCROLL",
   },
 
   // ── TechStackBento (identity, academics, agile, terminal, toolchain) ────────

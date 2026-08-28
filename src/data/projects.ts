@@ -185,7 +185,7 @@ export const PROJECTS_DATA: Project[] = [
     location: { en: "DOCKER SWARM // STAGING", es: "DOCKER SWARM // STAGING" },
     latency: { en: "5.7ms (staging)", es: "5.7ms (staging)" },
     icon: FiServer,
-    heroImage: "/projects/veeBot/bot-back.png",
+    heroImage: "/projects/veeBot/bot-back1.png",
     scope: {
       en: "A multi-tenant SaaS platform that ingests PDFs and scanned documents, extracts structured data via OCR, and automates reservation workflows.",
       es: "Una plataforma SaaS multi-tenant que ingiere PDFs y documentos escaneados, extrae datos estructurados mediante OCR y automatiza flujos de reservas.",

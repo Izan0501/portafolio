@@ -26,6 +26,17 @@ export default function RootLayout({
   // which keeps the SSR markup and the first client render identical.
   return (
     <html lang={DEFAULT_LOCALE} className="dark scroll-smooth">
+      <head>
+        {/* Runs before hydration: without this, the browser's own scroll-restoration
+            (or a lingering "#deployment-matrix" left in the URL from an earlier visit)
+            can land a plain reload mid-page instead of at the top. SmoothScrollProvider
+            still owns scrolling to a hash on an actual client-side navigation. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `if ("scrollRestoration" in window.history) { window.history.scrollRestoration = "manual"; }`,
+          }}
+        />
+      </head>
       <body
         className={`${inter.variable} ${firaCode.variable} font-sans bg-neutral-950 text-neutral-100 antialiased selection:bg-cyan-500/20 selection:text-cyan-400 overflow-x-hidden`}
       >

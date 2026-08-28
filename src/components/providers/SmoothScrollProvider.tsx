@@ -21,24 +21,30 @@ interface SmoothScrollProviderProps {
 const RouteChangeScrollReset: React.FC = () => {
   const pathname = usePathname();
   const lenis = useLenis();
-  const isFirstRender = useRef(true);
+  // A one-shot "isFirstRender" ref is NOT enough here: useLenis() returns null
+  // until Lenis finishes mounting, so this effect legitimately re-fires once more
+  // right after initial load purely because `lenis` just became available — with
+  // a one-shot flag, that second firing would already read as "not the first
+  // render" and wrongly treat a leftover "#deployment-matrix" in the URL as a real
+  // return-navigation. Tracking the previous PATHNAME instead makes re-fires for
+  // the same page a no-op, and only an actual pathname change counts as a route change.
+  const previousPathname = useRef<string | null>(null);
 
   useEffect(() => {
-    // Skip the forced scroll-to-top on the very first mount (initial page load) —
-    // usePathname() strips the hash, so this fires the same way for "/" and
-    // "/#systems"; forcing scroll-to-0 here would break direct links to a section.
-    // Only actual subsequent route changes should reset scroll position.
-    const isInitialLoad = isFirstRender.current;
-    isFirstRender.current = false;
+    const isRouteChange = previousPathname.current !== null && previousPathname.current !== pathname;
+    previousPathname.current = pathname;
 
-    // usePathname() also strips the hash on a cross-page navigation that targets
-    // one (e.g. a "Return to Matrix" link on /projects/[id] going to
-    // "/#deployment-matrix") — read it straight off the URL instead. Without this,
-    // the unconditional scroll-to-0 below fires on every such navigation and wins
-    // the race against the browser's own hash scroll, landing back at HeroPaths.
-    const targetHash = !isInitialLoad ? window.location.hash : "";
+    // A hash should only drive scroll on an actual client-side navigation that
+    // targets one — e.g. a "Return to Matrix" link on /projects/[id] going to
+    // "/#deployment-matrix" (usePathname() strips the hash, so it's read straight
+    // off the URL instead). A fresh page load/reload is deliberately NOT trusted
+    // here even when the URL still carries a hash from an earlier visit: reloading
+    // should always start at the top, and only a real return-navigation should land
+    // on a section. (The <script> in layout.tsx's <head> disables the browser's own
+    // scroll-restoration so it can't silently override this on reload either.)
+    const targetHash = isRouteChange ? window.location.hash : "";
 
-    if (!isInitialLoad && !targetHash) {
+    if (!targetHash) {
       window.scrollTo(0, 0);
       lenis?.scrollTo(0, { immediate: true });
     }
