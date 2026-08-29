@@ -11,11 +11,29 @@ export type ProjectStatus = "PROD" | "DEV";
  */
 export type Localized<T> = Record<Locale, T>;
 
+/**
+ * Optional tab grouping for galleries large enough that one row per screenshot
+ * would run the detail page far past its siblings. `id` is locale-invariant so
+ * the active tab survives a language switch; only `label` is translated.
+ * Projects that omit it render exactly as before — one row per image.
+ */
+export interface GalleryGroup {
+  id: string;
+  label: Localized<string>;
+}
+
 export interface GalleryImage {
   src: string;
   alt: Localized<string>;
   caption: Localized<string>;
   specs: Localized<string[]>;
+  group?: GalleryGroup;
+  /**
+   * Screenshots far from the 16:9 frame (near-square wizard steps, 3:1 panels)
+   * lose real content to `object-cover`. Set "contain" to letterbox instead.
+   * Defaults to "cover", so existing entries are unaffected.
+   */
+  fit?: "cover" | "contain";
 }
 
 export interface Project {
@@ -57,7 +75,14 @@ export interface ResolvedProject {
   scope: string;
   challenge: string;
   objectives: string[];
-  gallery: { src: string; alt: string; caption: string; specs: string[] }[];
+  gallery: {
+    src: string;
+    alt: string;
+    caption: string;
+    specs: string[];
+    group?: { id: string; label: string };
+    fit?: "cover" | "contain";
+  }[];
   liveUrl?: string;
 }
 
@@ -75,6 +100,18 @@ const STATUS_LABELS = {
   production: { en: "PRODUCTION", es: "PRODUCCIÓN" },
   inDevelopment: { en: "IN DEVELOPMENT", es: "EN DESARROLLO" },
 } satisfies Record<string, Localized<string>>;
+
+// Shared so every image in a tab points at one object — a typo in a group id
+// can't silently split a tab in two.
+// Declared in the order the tabs appear, which is driven by the order each
+// group first shows up in the gallery array below — keep the two in step.
+const GALLERY_GROUPS = {
+  veebotOnboarding: { id: "onboarding", label: { en: "AGENCY ONBOARDING", es: "ONBOARDING DE AGENCIA" } },
+  veebotTalentHub: { id: "talent-hub", label: { en: "TALENT HUB", es: "PANEL DE TALENTO" } },
+  veebotAiTools: { id: "ai-tools", label: { en: "AI TOOLS", es: "HERRAMIENTAS DE IA" } },
+  veebotWorkspace: { id: "workspace", label: { en: "WORKSPACE", es: "ESPACIO DE TRABAJO" } },
+  veebotSupport: { id: "support", label: { en: "SUPPORT & HELP", es: "SOPORTE Y AYUDA" } },
+} satisfies Record<string, GalleryGroup>;
 
 export const PROJECTS_DATA: Project[] = [
   {
@@ -206,36 +243,472 @@ export const PROJECTS_DATA: Project[] = [
         "Convertir los datos extraídos en un flujo de reservas automatizado",
       ],
     },
+    // Real product screenshots — public/projects/veeBot/. All 20 captures split
+    // across six tabs (see GalleryGroup) so the page stays close in length to
+    // its sibling projects. Captions describe what is actually on each screen;
+    // `fit: "contain"` marks the captures too far from 16:9 to crop safely.
     gallery: [
+      // ── AGENCY ONBOARDING ─────────────────────────────────────────────────
       {
         alt: {
-          en: "VeeBot SaaS — OCR extraction pipeline",
-          es: "VeeBot SaaS — pipeline de extracción OCR",
+          en: "VeeBot SaaS — agency onboarding wizard, step one",
+          es: "VeeBot SaaS — asistente de onboarding de agencia, paso uno",
         },
         caption: {
-          en: "OCR Engine // Document Pipeline",
-          es: "Motor OCR // Pipeline de documentos",
+          en: "Onboarding 01 // Agency & Subdomain",
+          es: "Onboarding 01 // Agencia y Subdominio",
         },
         specs: {
-          en: ["Async ingestion queue decouples upload from processing", "Per-tenant isolated processing services"],
-          es: ["La cola de ingesta asíncrona desacopla la carga del procesamiento", "Servicios de procesamiento aislados por tenant"],
+          en: [
+            "Step one of four names the agency and provisions its own unique subdomain",
+            "An AI niche selector tunes the scoring model per vertical from sign-up",
+          ],
+          es: [
+            "El paso uno de cuatro nombra la agencia y aprovisiona su propio subdominio único",
+            "Un selector de nicho de IA ajusta el modelo de scoring por vertical desde el alta",
+          ],
         },
-        src: STOCK_PHOTOS.serverRack,
+        src: "/projects/veeBot/bot-OOB0.png",
+        group: GALLERY_GROUPS.veebotOnboarding,
       },
       {
         alt: {
-          en: "VeeBot SaaS — reservation workflow",
-          es: "VeeBot SaaS — flujo de reservas",
+          en: "VeeBot SaaS — onboarding step two, portal colour design with live preview",
+          es: "VeeBot SaaS — onboarding paso dos, diseño de colores del portal con vista previa en vivo",
         },
         caption: {
-          en: "FastAPI // Reservation Workflow",
-          es: "FastAPI // Flujo de reservas",
+          en: "Onboarding 02 // Design the Portal",
+          es: "Onboarding 02 // Diseñar el Portal",
         },
         specs: {
-          en: ["Extracted fields auto-populate reservation records", "Swarm-scaled API services behind a load balancer"],
-          es: ["Los campos extraídos completan automáticamente los registros de reserva", "Servicios de API escalados en Swarm detrás de un balanceador de carga"],
+          en: [
+            "Primary and accent colours are chosen at sign-up and applied across the whole agency portal",
+            "A live browser preview renders the tenant's own subdomain as the colours change",
+          ],
+          es: [
+            "Los colores principal y de acento se eligen en el alta y se aplican en todo el portal de la agencia",
+            "Una vista previa de navegador en vivo renderiza el subdominio del tenant mientras cambian los colores",
+          ],
         },
-        src: STOCK_PHOTOS.dataStream,
+        src: "/projects/veeBot/bot-OOB1.png",
+        group: GALLERY_GROUPS.veebotOnboarding,
+        fit: "contain",
+      },
+      {
+        alt: {
+          en: "VeeBot SaaS — onboarding step three, administrator account creation",
+          es: "VeeBot SaaS — onboarding paso tres, creación de la cuenta de administrador",
+        },
+        caption: {
+          en: "Onboarding 03 // Administrator Account",
+          es: "Onboarding 03 // Cuenta de Administrador",
+        },
+        specs: {
+          en: [
+            "Creates the account that holds full control over the agency's platform",
+            "Full name, work email and a minimum eight-character password",
+          ],
+          es: [
+            "Crea la cuenta que tendrá control total sobre la plataforma de la agencia",
+            "Nombre completo, correo de trabajo y una contraseña de mínimo ocho caracteres",
+          ],
+        },
+        src: "/projects/veeBot/bot-OOB2.png",
+        group: GALLERY_GROUPS.veebotOnboarding,
+        fit: "contain",
+      },
+      {
+        alt: {
+          en: "VeeBot SaaS — onboarding step four, launch with demo or agency licence",
+          es: "VeeBot SaaS — onboarding paso cuatro, lanzamiento con demo o licencia de agencia",
+        },
+        caption: {
+          en: "Onboarding 04 // Launch & Licence",
+          es: "Onboarding 04 // Lanzamiento y Licencia",
+        },
+        specs: {
+          en: [
+            "Closes on a free demo or the PRO agency licence, billed through LemonSqueezy",
+            "A summary panel confirms company, subdomain, AI niche and admin before launch",
+          ],
+          es: [
+            "Cierra con una demo gratuita o la licencia PRO de agencia, facturada vía LemonSqueezy",
+            "Un panel de resumen confirma empresa, subdominio, nicho de IA y admin antes de lanzar",
+          ],
+        },
+        src: "/projects/veeBot/bot-OOB3.png",
+        group: GALLERY_GROUPS.veebotOnboarding,
+        fit: "contain",
+      },
+      {
+        alt: {
+          en: "VeeBot SaaS — split-screen sign-in for the agency portal",
+          es: "VeeBot SaaS — inicio de sesión a pantalla dividida del portal de agencia",
+        },
+        caption: {
+          en: "Access // Branded Sign-In",
+          es: "Acceso // Inicio de Sesión con Marca",
+        },
+        specs: {
+          en: [
+            "Once the wizard finishes, the provisioned portal opens on its own sign-in",
+            "A split-screen entry pairs the credential form with the platform's own pitch",
+          ],
+          es: [
+            "Cuando el asistente termina, el portal aprovisionado abre en su propio inicio de sesión",
+            "Una entrada a pantalla dividida combina el formulario de credenciales con la propuesta de la plataforma",
+          ],
+        },
+        src: "/projects/veeBot/bot-login.png",
+        group: GALLERY_GROUPS.veebotOnboarding,
+      },
+
+      // ── TALENT HUB ────────────────────────────────────────────────────────
+      {
+        alt: {
+          en: "VeeBot SaaS — Talent Hub candidate dashboard with AI match scores",
+          es: "VeeBot SaaS — panel de candidatos Talent Hub con puntajes de match por IA",
+        },
+        caption: {
+          en: "Talent Hub // AI Candidate Scoring",
+          es: "Talent Hub // Scoring de Candidatos con IA",
+        },
+        specs: {
+          en: [
+            "Every imported CV lands scored — 92%, 88%, 85% match — with a status badge beside it",
+            "Header tiles track total candidates, top talents, global quality and low-fit count",
+          ],
+          es: [
+            "Cada CV importado llega con su puntaje — 92%, 88%, 85% de match — y una insignia de estado al lado",
+            "Las tarjetas del encabezado siguen candidatos totales, top talents, calidad global y bajo ajuste",
+          ],
+        },
+        src: "/projects/veeBot/bot-dash.png",
+        group: GALLERY_GROUPS.veebotTalentHub,
+      },
+      {
+        alt: {
+          en: "VeeBot SaaS — floating recruiter assistant chat over the candidate table",
+          es: "VeeBot SaaS — chat flotante del asistente de reclutamiento sobre la tabla de candidatos",
+        },
+        caption: {
+          en: "Recruiter Assistant // Natural-Language Search",
+          es: "Asistente de Reclutamiento // Búsqueda en Lenguaje Natural",
+        },
+        specs: {
+          en: [
+            "A floating assistant answers open questions against the live candidate base",
+            "Runs over the same table without pulling the recruiter off the dashboard",
+          ],
+          es: [
+            "Un asistente flotante responde preguntas abiertas contra la base de candidatos en vivo",
+            "Corre sobre la misma tabla sin sacar al reclutador del dashboard",
+          ],
+        },
+        src: "/projects/veeBot/bot-chatDash-1.png",
+        group: GALLERY_GROUPS.veebotTalentHub,
+        fit: "contain",
+      },
+
+      // ── AI TOOLS ──────────────────────────────────────────────────────────
+      {
+        alt: {
+          en: "VeeBot SaaS — Digital Twin AI chat interviewing a candidate twin",
+          es: "VeeBot SaaS — chat de Digital Twin AI entrevistando al gemelo de un candidato",
+        },
+        caption: {
+          en: "Digital Twin AI // Interview the Résumé",
+          es: "Digital Twin AI // Entrevistar al CV",
+        },
+        specs: {
+          en: [
+            "Each processed CV becomes a conversational twin the recruiter can question directly",
+            "Six twin simulations stay ready in parallel, each bound to its own candidate record",
+          ],
+          es: [
+            "Cada CV procesado se convierte en un gemelo conversacional que el reclutador puede interrogar directamente",
+            "Seis simulaciones de gemelo quedan listas en paralelo, cada una atada a su propio registro de candidato",
+          ],
+        },
+        src: "/projects/veeBot/bot-DigitalTwins-1.png",
+        group: GALLERY_GROUPS.veebotAiTools,
+      },
+      {
+        alt: {
+          en: "VeeBot SaaS — Versus AI candidate selection screen",
+          es: "VeeBot SaaS — pantalla de selección de candidatos de Versus AI",
+        },
+        caption: {
+          en: "Versus AI // Head-to-Head Setup",
+          es: "Versus AI // Enfrentamiento Cara a Cara",
+        },
+        specs: {
+          en: [
+            "Any two candidates are paired for a side-by-side analysis of strengths and weaknesses",
+            "Each slot carries the candidate's existing match score into the comparison",
+          ],
+          es: [
+            "Cualquier par de candidatos se enfrenta para un análisis lado a lado de fortalezas y debilidades",
+            "Cada casilla arrastra a la comparación el puntaje de match que ya tenía el candidato",
+          ],
+        },
+        src: "/projects/veeBot/bot-comparator-1.png",
+        group: GALLERY_GROUPS.veebotAiTools,
+        fit: "contain",
+      },
+      {
+        alt: {
+          en: "VeeBot SaaS — Versus AI written verdict naming a suggested winner",
+          es: "VeeBot SaaS — veredicto escrito de Versus AI con el ganador sugerido",
+        },
+        caption: {
+          en: "Versus AI // The Verdict",
+          es: "Versus AI // El Veredicto",
+        },
+        specs: {
+          en: [
+            "Strengths are listed per candidate, with the stronger profile flagged as the better option",
+            "A written verdict names a suggested winner and explains the reasoning behind it",
+          ],
+          es: [
+            "Las fortalezas se listan por candidato y el perfil más fuerte queda marcado como mejor opción",
+            "Un veredicto escrito nombra al ganador sugerido y explica el razonamiento detrás",
+          ],
+        },
+        src: "/projects/veeBot/bot-comparator2.png",
+        group: GALLERY_GROUPS.veebotAiTools,
+      },
+
+      {
+        alt: {
+          en: "VeeBot SaaS — AI control panel with pipeline metrics and executive summary",
+          es: "VeeBot SaaS — panel de control IA con métricas del proceso y resumen ejecutivo",
+        },
+        caption: {
+          en: "Control Panel // Pipeline Analytics",
+          es: "Panel de Control // Analíticas del Proceso",
+        },
+        specs: {
+          en: [
+            "Selection metrics across 7-day, 30-day and historical ranges",
+            "An Executive AI Summary narrates the dataset in plain language, exportable as a full report",
+          ],
+          es: [
+            "Métricas de selección en rangos de 7 días, 30 días e histórico",
+            "Un Executive AI Summary narra el dataset en lenguaje claro, exportable como reporte completo",
+          ],
+        },
+        src: "/projects/veeBot/bot-analytics1.png",
+        group: GALLERY_GROUPS.veebotAiTools,
+        fit: "contain",
+      },
+      {
+        alt: {
+          en: "VeeBot SaaS — quality trend curve beside a role-distribution donut",
+          es: "VeeBot SaaS — curva de tendencia de calidad junto a un donut de distribución por rol",
+        },
+        caption: {
+          en: "Quality Trend // Role Distribution",
+          es: "Tendencia de Calidad // Distribución por Rol",
+        },
+        specs: {
+          en: [
+            "A quality curve tracks candidate evolution against the global average",
+            "A role donut breaks the base down by speciality — Full Stack, Frontend, Backend, DevOps, Data",
+          ],
+          es: [
+            "Una curva de calidad sigue la evolución de los candidatos contra el promedio global",
+            "Un donut de roles descompone la base por especialidad — Full Stack, Frontend, Backend, DevOps, Data",
+          ],
+        },
+        src: "/projects/veeBot/bot-analytics2.png",
+        group: GALLERY_GROUPS.veebotAiTools,
+      },
+      {
+        alt: {
+          en: "VeeBot SaaS — pipeline quality bands beside a top-skills ranking",
+          es: "VeeBot SaaS — bandas de calidad del pipeline junto a un ranking de habilidades top",
+        },
+        caption: {
+          en: "Pipeline Quality // Top Skills",
+          es: "Calidad del Pipeline // Habilidades Top",
+        },
+        specs: {
+          en: [
+            "Candidates bucket into low, medium and high bands against the configured match threshold",
+            "A skills ranking surfaces the most in-demand technologies across the base",
+          ],
+          es: [
+            "Los candidatos se agrupan en bandas baja, media y alta contra el umbral de match configurado",
+            "Un ranking de habilidades expone las tecnologías más demandadas en la base",
+          ],
+        },
+        src: "/projects/veeBot/bot-analytics3.png",
+        group: GALLERY_GROUPS.veebotAiTools,
+        fit: "contain",
+      },
+      {
+        alt: {
+          en: "VeeBot SaaS — talent export centre with Excel and JSON output",
+          es: "VeeBot SaaS — centro de exportación de talento con salida a Excel y JSON",
+        },
+        caption: {
+          en: "Data Center // Talent Export",
+          es: "Data Center // Exportación de Talento",
+        },
+        specs: {
+          en: [
+            "The full talent database exports to Excel/CSV or raw JSON",
+            "AES-256 encrypted, built to feed PowerBI and external ATS tools",
+          ],
+          es: [
+            "La base de talento completa se exporta a Excel/CSV o JSON crudo",
+            "Cifrada con AES-256, pensada para alimentar PowerBI y otros ATS externos",
+          ],
+        },
+        src: "/projects/veeBot/bot-excel.png",
+        group: GALLERY_GROUPS.veebotAiTools,
+      },
+
+      // ── WORKSPACE ─────────────────────────────────────────────────────────
+      {
+        alt: {
+          en: "VeeBot SaaS — white-label branding settings with live preview",
+          es: "VeeBot SaaS — configuración de marca white-label con vista previa en vivo",
+        },
+        caption: {
+          en: "White-Label // Per-Agency Branding",
+          es: "White-Label // Marca por Agencia",
+        },
+        specs: {
+          en: [
+            "Primary and accent colours configured per tenant against a live component preview",
+            "Profile details and plan tier sit in the same settings panel",
+          ],
+          es: [
+            "Colores principal y de acento configurados por tenant contra una vista previa de componentes en vivo",
+            "Los datos de perfil y el plan viven en el mismo panel de configuración",
+          ],
+        },
+        src: "/projects/veeBot/bot-settings-1.png",
+        group: GALLERY_GROUPS.veebotWorkspace,
+        fit: "contain",
+      },
+      {
+        alt: {
+          en: "VeeBot SaaS — Agency Pro subscription panel",
+          es: "VeeBot SaaS — panel de suscripción Agency Pro",
+        },
+        caption: {
+          en: "Subscription // Agency Pro Plan",
+          es: "Suscripción // Plan Agency Pro",
+        },
+        specs: {
+          en: [
+            "The active plan and its auto-renewal state, managed from inside the product",
+            "Unlimited analysis, Llama 3.3 chat, CSV/JSON export and 24/7 VIP support",
+          ],
+          es: [
+            "El plan activo y su renovación automática, gestionados desde dentro del producto",
+            "Análisis ilimitado, chat con Llama 3.3, exportación CSV/JSON y soporte VIP 24/7",
+          ],
+        },
+        src: "/projects/veeBot/bot-settings1.png",
+        group: GALLERY_GROUPS.veebotWorkspace,
+        fit: "contain",
+      },
+      {
+        alt: {
+          en: "VeeBot SaaS — AI configuration with match threshold and demo mode",
+          es: "VeeBot SaaS — configuración de IA con umbral de coincidencia y modo demostración",
+        },
+        caption: {
+          en: "AI Settings // Threshold & Demo Mode",
+          es: "Ajustes de IA // Umbral y Modo Demo",
+        },
+        specs: {
+          en: [
+            "A match-threshold slider sets the minimum score that earns a high-potential badge",
+            "Smart auto-reject archives candidates below technical requirements; demo mode seeds sample data",
+          ],
+          es: [
+            "Un slider de umbral define el score mínimo que otorga la insignia de alto potencial",
+            "El auto-rechazo inteligente archiva candidatos bajo los requisitos técnicos; el modo demo carga datos de prueba",
+          ],
+        },
+        src: "/projects/veeBot/bot-settings3.png",
+        group: GALLERY_GROUPS.veebotWorkspace,
+        fit: "contain",
+      },
+      {
+        alt: {
+          en: "VeeBot SaaS — account security panel with password change and deletion",
+          es: "VeeBot SaaS — panel de seguridad de la cuenta con cambio de contraseña y eliminación",
+        },
+        caption: {
+          en: "Security // Credentials & Account Deletion",
+          es: "Seguridad // Credenciales y Eliminación de Cuenta",
+        },
+        specs: {
+          en: [
+            "Password rotation guarded by an explicit strength requirement",
+            "Account deletion is isolated in its own destructive zone with an irreversibility warning",
+          ],
+          es: [
+            "Rotación de contraseña protegida por un requisito explícito de fortaleza",
+            "La eliminación de cuenta queda aislada en su propia zona destructiva con aviso de irreversibilidad",
+          ],
+        },
+        src: "/projects/veeBot/bot-settings2.png",
+        group: GALLERY_GROUPS.veebotWorkspace,
+      },
+
+      // ── SUPPORT & HELP ────────────────────────────────────────────────────
+      {
+        alt: {
+          en: "VeeBot SaaS — searchable knowledge base with category filters",
+          es: "VeeBot SaaS — base de conocimiento con búsqueda y filtros por categoría",
+        },
+        caption: {
+          en: "Knowledge Base // Searchable Help Centre",
+          es: "Base de Conocimiento // Centro de Ayuda con Búsqueda",
+        },
+        specs: {
+          en: [
+            "A searchable help centre answering questions about capabilities, AI and exports",
+            "Entries filter by category — capabilities, interviews, data and security",
+          ],
+          es: [
+            "Un centro de ayuda con búsqueda que responde sobre capacidades, IA y exportación",
+            "Las entradas se filtran por categoría — capacidades, entrevistas, datos y seguridad",
+          ],
+        },
+        src: "/projects/veeBot/bot-help-1.png",
+        group: GALLERY_GROUPS.veebotSupport,
+        fit: "contain",
+      },
+      {
+        alt: {
+          en: "VeeBot SaaS — support contact form with direct email channel",
+          es: "VeeBot SaaS — formulario de contacto de soporte con canal de email directo",
+        },
+        caption: {
+          en: "Support // Direct Contact Channel",
+          es: "Soporte // Canal de Contacto Directo",
+        },
+        specs: {
+          en: [
+            "A contact form for plan questions and custom integrations, with a stated response window",
+            "A direct email channel sits beside it for anything outside the form",
+          ],
+          es: [
+            "Un formulario de contacto para consultas de plan e integraciones a medida, con tiempo de respuesta declarado",
+            "Un canal de email directo queda al lado para lo que no entre en el formulario",
+          ],
+        },
+        src: "/projects/veeBot/bot-suport-1.png",
+        group: GALLERY_GROUPS.veebotSupport,
+        fit: "contain",
       },
     ],
   },
@@ -463,6 +936,8 @@ export function resolveProject(project: Project, locale: Locale): ResolvedProjec
       alt: image.alt[locale],
       caption: image.caption[locale],
       specs: image.specs[locale],
+      group: image.group && { id: image.group.id, label: image.group.label[locale] },
+      fit: image.fit,
     })),
     liveUrl: project.liveUrl,
   };

@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { m, useMotionValueEvent, useScroll, useTransform } from "motion/react";
+import { useLenis } from "lenis/react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -55,6 +56,37 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({ id }) => {
   // only the boolean flip re-renders.
   const { scrollY } = useScroll();
   const [isBarHidden, setIsBarHidden] = useState(false);
+
+  // Galleries big enough to be grouped (VeeBot's eight modules) render a tab bar
+  // so the page stays close in length to its siblings. Projects whose images
+  // carry no group fall through to the original one-row-per-image list.
+  const galleryGroups: { id: string; label: string }[] = [];
+  for (const image of gallery) {
+    if (image.group && !galleryGroups.some((group) => group.id === image.group?.id)) {
+      galleryGroups.push(image.group);
+    }
+  }
+  const isTabbed = galleryGroups.length > 1;
+  // Held as an id, not a label, so the active tab survives a locale switch.
+  const [activeGroupId, setActiveGroupId] = useState<string | null>(null);
+  const currentGroupId = activeGroupId ?? galleryGroups[0]?.id ?? null;
+  const visibleGallery = isTabbed
+    ? gallery.filter((image) => image.group?.id === currentGroupId)
+    : gallery;
+
+  // Each tab holds a different number of rows, so switching tabs changes the
+  // document height — and Lenis caches its scroll limit. Without this
+  // re-measure, moving to a taller tab clamps scrolling at the previous tab's
+  // height and the last rows are unreachable. Same fix already applied on route
+  // changes (SmoothScrollProvider) and locale changes (LanguageProvider).
+  const lenis = useLenis();
+  useEffect(() => {
+    if (!isTabbed) return;
+    // One frame is enough: the rows are fixed-aspect, so the new height is
+    // final as soon as React commits — it does not wait on image decode.
+    const frame = requestAnimationFrame(() => lenis?.resize());
+    return () => cancelAnimationFrame(frame);
+  }, [currentGroupId, isTabbed, lenis]);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = scrollY.getPrevious() ?? 0;
@@ -195,9 +227,34 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({ id }) => {
 
       {/* 3. FEATURE SHOWCASE — alternating macOS-framed windows */}
       <section className="max-w-6xl mx-auto px-6 mt-16 sm:mt-24">
-        <div className="font-mono text-xs text-cyan-400 mb-10">{t.projectDetail.featuresHeading}</div>
+        <div className={`font-mono text-xs text-cyan-400 ${isTabbed ? "mb-6" : "mb-10"}`}>
+          {t.projectDetail.featuresHeading}
+        </div>
+
+        {isTabbed && (
+          <div className="flex flex-wrap items-center gap-2 w-fit p-1.5 mb-12 rounded-2xl sm:rounded-full bg-neutral-900/70 border border-white/10">
+            {galleryGroups.map((group) => {
+              const isActive = group.id === currentGroupId;
+              return (
+                <button
+                  key={group.id}
+                  type="button"
+                  onClick={() => setActiveGroupId(group.id)}
+                  className={`font-mono text-[11px] sm:text-xs px-4 py-2 rounded-full border transition-all duration-200 cursor-pointer ${
+                    isActive
+                      ? "bg-cyan-500/15 text-cyan-300 border-cyan-500/40 shadow-[0_0_15px_rgba(34,211,238,0.15)]"
+                      : "bg-transparent text-neutral-400 border-transparent hover:text-white hover:bg-white/5"
+                  }`}
+                >
+                  {group.label}
+                </button>
+              );
+            })}
+          </div>
+        )}
+
         <div className="space-y-16 sm:space-y-24">
-          {gallery.map((image, i) => {
+          {visibleGallery.map((image, i) => {
             const reversed = i % 2 === 1;
             return (
               <div key={image.src + image.caption} className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
@@ -208,10 +265,13 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({ id }) => {
                       <span className="w-2.5 h-2.5 rounded-full bg-[#FEBC2E]" />
                       <span className="w-2.5 h-2.5 rounded-full bg-[#28C840]" />
                     </div>
-                    <div className="relative w-full aspect-video rounded-lg overflow-hidden">
+                    {/* Captures far from 16:9 letterbox instead of cropping —
+                        object-cover would cut real content out of the near-square
+                        onboarding steps and the 3:1 subscription panel. */}
+                    <div className="relative w-full aspect-video rounded-lg overflow-hidden bg-neutral-950">
                       <Image
                         alt={image.alt}
-                        className="object-cover"
+                        className={image.fit === "contain" ? "object-contain" : "object-cover"}
                         fill
                         sizes="(max-width: 1024px) 100vw, 60vw"
                         src={image.src}
