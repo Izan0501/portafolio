@@ -111,6 +111,12 @@ const GALLERY_GROUPS = {
   veebotAiTools: { id: "ai-tools", label: { en: "AI TOOLS", es: "HERRAMIENTAS DE IA" } },
   veebotWorkspace: { id: "workspace", label: { en: "WORKSPACE", es: "ESPACIO DE TRABAJO" } },
   veebotSupport: { id: "support", label: { en: "SUPPORT & HELP", es: "SOPORTE Y AYUDA" } },
+
+  estudioLanding: { id: "estudio-landing", label: { en: "LANDING & BRAND", es: "LANDING Y MARCA" } },
+  estudioPractice: { id: "estudio-practice", label: { en: "PRACTICE AREAS", es: "ÁREAS DE PRÁCTICA" } },
+  estudioSocialProof: { id: "estudio-social-proof", label: { en: "TESTIMONIALS & METHOD", es: "TESTIMONIOS Y MÉTODO" } },
+  estudioNews: { id: "estudio-news", label: { en: "NEWS & MEDIA", es: "NOTICIAS Y MEDIOS" } },
+  estudioContact: { id: "estudio-contact", label: { en: "CONTACT & INTAKE", es: "CONTACTO E INICIO" } },
 } satisfies Record<string, GalleryGroup>;
 
 export const PROJECTS_DATA: Project[] = [
@@ -745,37 +751,306 @@ export const PROJECTS_DATA: Project[] = [
       ],
     },
     gallery: [
+      // ── LANDING & BRAND ─────────────────────────────────────────────────
       {
         alt: {
-          en: "Estudio Zanacchi — homepage layout",
-          es: "Estudio Zanacchi — layout de la página principal",
+          en: "Estudio Zanacchi — hero landing page with credential stats",
+          es: "Estudio Zanacchi — landing hero con estadísticas de credenciales",
         },
         caption: {
-          en: "Homepage // Editorial Grid",
-          es: "Página principal // Grilla editorial",
+          en: "Hero // Brand & Credentials",
+          es: "Hero // Marca y Credenciales",
         },
         specs: {
-          en: ["Statically generated with on-demand ISR revalidation", "Sanity webhook triggers targeted route revalidation"],
-          es: ["Generación estática con revalidación ISR bajo demanda", "El webhook de Sanity dispara la revalidación de rutas puntuales"],
+          en: [
+            "Full-bleed hero with serif display type and a 90% success-rate credential badge",
+            "Dual CTA layout — instant WhatsApp consultation and services deep-link",
+          ],
+          es: [
+            "Hero a sangre completa con tipografía serif display y badge de 90% de éxito",
+            "Doble CTA — consulta instantánea por WhatsApp y enlace a servicios",
+          ],
         },
-        src: STOCK_PHOTOS.workspace,
+        src: "/projects/estudio/estudio-back.png",
+        group: GALLERY_GROUPS.estudioLanding,
       },
       {
         alt: {
-          en: "Estudio Zanacchi — content management",
-          es: "Estudio Zanacchi — gestión de contenido",
+          en: "Estudio Zanacchi — founding team section with Vanessa Zanacchi bio",
+          es: "Estudio Zanacchi — sección del equipo fundador con bio de Vanessa Zanacchi",
         },
         caption: {
-          en: "Sanity Studio // Content Layer",
-          es: "Sanity Studio // Capa de contenido",
+          en: "Team // Founding Partner Profile",
+          es: "Equipo // Perfil de Socia Fundadora",
         },
         specs: {
-          en: ["Structured content schema decoupled from layout", "Editors publish without touching a deploy pipeline"],
-          es: ["Esquema de contenido estructurado y desacoplado del layout", "Los editores publican sin tocar el pipeline de despliegue"],
+          en: [
+            "Editorial split-layout with photo and professional milestones of the founding partner",
+            "Italic serif headings reinforce the law firm's premium identity across every section",
+          ],
+          es: [
+            "Layout editorial dividido con foto e hitos profesionales de la socia fundadora",
+            "Encabezados en serif itálica refuerzan la identidad premium del estudio en cada sección",
+          ],
         },
-        src: STOCK_PHOTOS.darkTerminal,
+        src: "/projects/estudio/estudio-about.png",
+        group: GALLERY_GROUPS.estudioLanding,
+      },
+
+      // ── PRACTICE AREAS ──────────────────────────────────────────────────
+      {
+        alt: {
+          en: "Estudio Zanacchi — practice areas grid with three speciality cards",
+          es: "Estudio Zanacchi — grilla de áreas de práctica con tres tarjetas de especialidad",
+        },
+        caption: {
+          en: "Services // Areas of Practice",
+          es: "Servicios // Áreas de Práctica",
+        },
+        specs: {
+          en: [
+            "Three speciality cards — Consumer Law, Criminal & Complaints, and Gender Violence — each with domain photography",
+            "Central CTA button drives to the contact intake form from any practice card",
+          ],
+          es: [
+            "Tres tarjetas de especialidad — Derecho del Consumidor, Penal y Querellas, Violencia de Género — cada una con fotografía del área",
+            "CTA central dirige al formulario de contacto desde cualquier tarjeta de práctica",
+          ],
+        },
+        src: "/projects/estudio/estudio-areas.png",
+        group: GALLERY_GROUPS.estudioPractice,
+      },
+
+      // ── TESTIMONIALS & METHOD ───────────────────────────────────────────
+      {
+        alt: {
+          en: "Estudio Zanacchi — client testimonials section with three quote cards",
+          es: "Estudio Zanacchi — sección de testimonios con tres tarjetas de citas",
+        },
+        caption: {
+          en: "Social Proof // Client Testimonials",
+          es: "Prueba Social // Testimonios de Clientes",
+        },
+        specs: {
+          en: [
+            "Three testimonial cards from real clients — criminal complaint, gender violence, and animal rights cases",
+            "Each card carries the client's initials, case category badge, and a decorative quote mark",
+          ],
+          es: [
+            "Tres tarjetas de testimonios de clientes reales — querella penal, violencia de género y derecho animal",
+            "Cada tarjeta lleva iniciales del cliente, badge de categoría del caso y comilla decorativa",
+          ],
+        },
+        src: "/projects/estudio/estudio-reseñas.png",
+        group: GALLERY_GROUPS.estudioSocialProof,
+      },
+      {
+        alt: {
+          en: "Estudio Zanacchi — methodology timeline with four workflow stages",
+          es: "Estudio Zanacchi — línea de tiempo del método con cuatro etapas del flujo",
+        },
+        caption: {
+          en: "Workflow // The Zanacchi Method",
+          es: "Workflow // El Método Zanacchi",
+        },
+        specs: {
+          en: [
+            "A vertical timeline maps the four-stage legal workflow — Forensic Analysis, Shock Strategy, Litigation & Negotiation, Resolution",
+            "Each node carries a pink accent dot and brief explanation, reinforcing the firm's aggressive strategy brand",
+          ],
+          es: [
+            "Una línea de tiempo vertical mapea el flujo legal de cuatro etapas — Análisis Forense, Estrategia de Choque, Litigio y Negociación, Resolución",
+            "Cada nodo lleva un punto de acento rosa con explicación breve, reforzando la marca de estrategia agresiva del estudio",
+          ],
+        },
+        src: "/projects/estudio/estudio-pipline.png",
+        group: GALLERY_GROUPS.estudioSocialProof,
+      },
+
+      // ── NEWS & MEDIA ────────────────────────────────────────────────────
+      {
+        alt: {
+          en: "Estudio Zanacchi — news listing page with media recognition logos",
+          es: "Estudio Zanacchi — página de noticias con logos de reconocimiento en medios",
+        },
+        caption: {
+          en: "Press // Media Recognition & Articles",
+          es: "Prensa // Reconocimiento en Medios y Artículos",
+        },
+        specs: {
+          en: [
+            "Media banner showcases coverage by El Tucumano and La Gaceta — the province's two leading newspapers",
+            "Three article cards with category badges (Animal Rights, Criminal), read-time estimate, and external links",
+          ],
+          es: [
+            "Banner de medios destaca cobertura de El Tucumano y La Gaceta — los dos principales diarios de la provincia",
+            "Tres tarjetas de artículo con badges de categoría (Derecho Animal, Penal), tiempo de lectura y enlaces externos",
+          ],
+        },
+        src: "/projects/estudio/estudio-noticias.png",
+        group: GALLERY_GROUPS.estudioNews,
+      },
+      {
+        alt: {
+          en: "Estudio Zanacchi — landmark article hero, animal cruelty conviction",
+          es: "Estudio Zanacchi — hero de artículo emblemático, condena por crueldad animal",
+        },
+        caption: {
+          en: "Article // Landmark Conviction Hero",
+          es: "Artículo // Hero de Fallo Histórico",
+        },
+        specs: {
+          en: [
+            "Full-viewport hero for the landmark case article with cinematic background imagery and jurisprudence category tag",
+            "Publication date and read-time metadata anchored below the headline in monospace",
+          ],
+          es: [
+            "Hero a pantalla completa para el artículo del caso emblemático con imagen de fondo cinematográfica y tag de jurisprudencia",
+            "Fecha de publicación y tiempo de lectura anclados debajo del titular en monospace",
+          ],
+        },
+        src: "/projects/estudio/estudio-news-1.png",
+        group: GALLERY_GROUPS.estudioNews,
+      },
+      {
+        alt: {
+          en: "Estudio Zanacchi — article body with case analysis and sidebar",
+          es: "Estudio Zanacchi — cuerpo del artículo con análisis del caso y sidebar",
+        },
+        caption: {
+          en: "Article // Case Analysis & Legal Context",
+          es: "Artículo // Análisis del Caso y Contexto Legal",
+        },
+        specs: {
+          en: [
+            "Long-form editorial body with a sidebar card for the legal resolution and a studio credit block",
+            "Serif italic pull-quotes break the narrative with high-impact statements from the ruling",
+          ],
+          es: [
+            "Cuerpo editorial de largo formato con tarjeta lateral de resolución legal y bloque de crédito del estudio",
+            "Pull-quotes en serif itálica rompen la narrativa con declaraciones de alto impacto del fallo",
+          ],
+        },
+        src: "/projects/estudio/estudio-news-2.png",
+        group: GALLERY_GROUPS.estudioNews,
+      },
+      {
+        alt: {
+          en: "Estudio Zanacchi — judicial quote blockquote from the presiding judge",
+          es: "Estudio Zanacchi — cita judicial en blockquote de la jueza del caso",
+        },
+        caption: {
+          en: "Article // Judicial Quote",
+          es: "Artículo // Cita Judicial",
+        },
+        specs: {
+          en: [
+            "Full-width blockquote with a vertical pink accent bar, citing the presiding judge on the inadequacy of current animal protection laws",
+            "Attribution line uses spaced-uppercase monospace for gravitas",
+          ],
+          es: [
+            "Blockquote a ancho completo con barra de acento rosa vertical, citando a la jueza sobre la insuficiencia de las leyes de protección animal",
+            "La línea de atribución usa monospace en mayúsculas espaciadas para dar gravedad",
+          ],
+        },
+        src: "/projects/estudio/estudio-news-3.png",
+        group: GALLERY_GROUPS.estudioNews,
+        fit: "contain",
+      },
+      {
+        alt: {
+          en: "Estudio Zanacchi — case chronology timeline with alternating cards",
+          es: "Estudio Zanacchi — cronología del caso con tarjetas alternadas",
+        },
+        caption: {
+          en: "Article // Case Chronology",
+          es: "Artículo // Cronología del Caso",
+        },
+        specs: {
+          en: [
+            "Alternating-side timeline cards trace the case from initial discovery through preventive detention to trial",
+            "Pink accent dots on the central axis mark each milestone — the final 'Pedido al Congreso' card glows with an emphasized border",
+          ],
+          es: [
+            "Tarjetas alternadas en la línea de tiempo trazan el caso desde el descubrimiento hasta la detención preventiva y el juicio",
+            "Puntos de acento rosa en el eje central marcan cada hito — la tarjeta final 'Pedido al Congreso' brilla con borde enfatizado",
+          ],
+        },
+        src: "/projects/estudio/estudio-news-4.png",
+        group: GALLERY_GROUPS.estudioNews,
+      },
+      {
+        alt: {
+          en: "Estudio Zanacchi — chronology conclusion, plea to Congress",
+          es: "Estudio Zanacchi — conclusión de cronología, pedido al Congreso",
+        },
+        caption: {
+          en: "Article // Verdict & Legislative Push",
+          es: "Artículo // Veredicto y Empuje Legislativo",
+        },
+        specs: {
+          en: [
+            "Final timeline nodes show the abbreviated trial verdict and the formal request to Congress to amend Law 14.346",
+            "The last card's glowing pink border signals the case's lasting policy impact beyond the courtroom",
+          ],
+          es: [
+            "Los últimos nodos de la línea de tiempo muestran el veredicto del juicio abreviado y el pedido formal al Congreso de modificar la Ley 14.346",
+            "El borde rosa brillante de la última tarjeta señala el impacto político duradero del caso más allá del tribunal",
+          ],
+        },
+        src: "/projects/estudio/estudio-news-5.png",
+        group: GALLERY_GROUPS.estudioNews,
+        fit: "contain",
+      },
+
+      // ── CONTACT & INTAKE ────────────────────────────────────────────────
+      {
+        alt: {
+          en: "Estudio Zanacchi — contact page with office locations and case intake form",
+          es: "Estudio Zanacchi — página de contacto con sedes y formulario de inicio de caso",
+        },
+        caption: {
+          en: "Contact // Office Locations & Case Intake",
+          es: "Contacto // Sedes y Recepción de Casos",
+        },
+        specs: {
+          en: [
+            "Split layout — left panel shows office addresses with WhatsApp and live availability status, right panel opens the case intake form",
+            "Conflict-type selector chips (Criminal, Emergencies, Family, Succession, Damages) pre-route the case before submission",
+          ],
+          es: [
+            "Layout dividido — panel izquierdo muestra direcciones de sedes con WhatsApp y estado de disponibilidad en vivo, panel derecho abre el formulario de caso",
+            "Chips de tipo de conflicto (Penal, Urgencias, Familia, Sucesiones, Daños) pre-rutean el caso antes del envío",
+          ],
+        },
+        src: "/projects/estudio/estudio-contacto-1.png",
+        group: GALLERY_GROUPS.estudioContact,
+      },
+      {
+        alt: {
+          en: "Estudio Zanacchi — case intake form with WhatsApp secure submission",
+          es: "Estudio Zanacchi — formulario de caso con envío seguro por WhatsApp",
+        },
+        caption: {
+          en: "Intake // Secure WhatsApp Submission",
+          es: "Intake // Envío Seguro por WhatsApp",
+        },
+        specs: {
+          en: [
+            "Complete case form with name, optional email, conflict category chips, and free-text description field",
+            "A full-width green 'Iniciar Chat Seguro' CTA routes the structured message directly to the attorney's WhatsApp via the WAPI integration",
+          ],
+          es: [
+            "Formulario completo con nombre, email opcional, chips de categoría de conflicto y campo de descripción libre",
+            "Un CTA verde a ancho completo 'Iniciar Chat Seguro' envía el mensaje estructurado directo al WhatsApp del abogado vía la integración WAPI",
+          ],
+        },
+        src: "/projects/estudio/estudio-contacto-2.png",
+        group: GALLERY_GROUPS.estudioContact,
+        fit: "contain",
       },
     ],
+    liveUrl: "https://www.estudiozanacchi.com",
   },
   {
     id: "portafolio-mel",

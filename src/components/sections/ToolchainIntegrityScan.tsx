@@ -4,15 +4,19 @@ import React from "react";
 import { m } from "motion/react";
 import {
   SiReact,
+  SiNextdotjs,
   SiVite,
   SiTypescript,
   SiJavascript,
   SiTailwindcss,
+  SiBootstrap,
   SiCss,
   SiHtml5,
   SiExpo,
   SiNodedotjs,
+  SiExpress,
   SiPython,
+  SiDjango,
   SiPostgresql,
   SiMongodb,
   SiMysql,
@@ -22,6 +26,7 @@ import {
   SiDocker,
   SiGit,
   SiGithub,
+  SiPostman,
 } from "react-icons/si";
 import { FiTerminal } from "react-icons/fi";
 import { useI18n } from "@/i18n/LanguageProvider";
@@ -66,21 +71,25 @@ const BANDS: readonly Band[] = [
   {
     id: "frontend",
     items: [
-      { icon: SiReact,       name: "React",      brand: "#61DAFB", glow: "rgba(97,218,251,0.5)"  },
-      { icon: SiVite,        name: "Vite",       brand: "#646CFF", glow: "rgba(100,108,255,0.5)" },
-      { icon: SiTypescript,  name: "TypeScript", brand: "#3178C6", glow: "rgba(49,120,198,0.5)"  },
-      { icon: SiJavascript,  name: "JavaScript", brand: "#F7DF1E", glow: "rgba(247,223,30,0.5)"  },
-      { icon: SiTailwindcss, name: "Tailwind",   brand: "#06B6D4", glow: "rgba(6,182,212,0.5)"   },
-      { icon: SiCss,         name: "CSS3",       brand: "#1572B6", glow: "rgba(21,114,182,0.5)"  },
-      { icon: SiHtml5,       name: "HTML5",      brand: "#E34F26", glow: "rgba(227,79,38,0.5)"   },
-      { icon: SiExpo,        name: "Expo",       brand: "#e4e4e7", glow: "rgba(228,228,231,0.3)" },
+      { icon: SiReact,       name: "React/React-Native", brand: "#61DAFB", glow: "rgba(97,218,251,0.5)"  },
+      { icon: SiNextdotjs,   name: "Next.js",      brand: "#ffffff", glow: "rgba(255,255,255,0.3)" },
+      { icon: SiVite,        name: "Vite",          brand: "#646CFF", glow: "rgba(100,108,255,0.5)" },
+      { icon: SiTypescript,  name: "TypeScript",    brand: "#3178C6", glow: "rgba(49,120,198,0.5)"  },
+      { icon: SiJavascript,  name: "JavaScript",    brand: "#F7DF1E", glow: "rgba(247,223,30,0.5)"  },
+      { icon: SiTailwindcss, name: "Tailwind",      brand: "#06B6D4", glow: "rgba(6,182,212,0.5)"   },
+      { icon: SiBootstrap,   name: "Bootstrap",     brand: "#7952B3", glow: "rgba(121,82,179,0.5)"  },
+      { icon: SiCss,         name: "CSS3",          brand: "#1572B6", glow: "rgba(21,114,182,0.5)"  },
+      { icon: SiHtml5,       name: "HTML5",         brand: "#E34F26", glow: "rgba(227,79,38,0.5)"   },
+      { icon: SiExpo,        name: "Expo",          brand: "#e4e4e7", glow: "rgba(228,228,231,0.3)" },
     ],
   },
   {
     id: "backend",
     items: [
-      { icon: SiNodedotjs, name: "Node.js", brand: "#339933", glow: "rgba(51,153,51,0.5)"  },
-      { icon: SiPython,    name: "Python",  brand: "#3776AB", glow: "rgba(55,118,171,0.5)" },
+      { icon: SiNodedotjs, name: "Node.js",    brand: "#339933", glow: "rgba(51,153,51,0.5)"  },
+      { icon: SiExpress,   name: "Express.js",  brand: "#ffffff", glow: "rgba(255,255,255,0.3)" },
+      { icon: SiPython,    name: "Python",      brand: "#3776AB", glow: "rgba(55,118,171,0.5)" },
+      { icon: SiDjango,    name: "Django",      brand: "#092E20", glow: "rgba(9,46,32,0.5)"   },
     ],
   },
   {
@@ -97,9 +106,10 @@ const BANDS: readonly Band[] = [
   {
     id: "devops",
     items: [
-      { icon: SiDocker, name: "Docker", brand: "#2496ED", glow: "rgba(36,150,237,0.5)" },
-      { icon: SiGit,    name: "Git",    brand: "#F05032", glow: "rgba(240,80,50,0.5)"  },
-      { icon: SiGithub, name: "GitHub", brand: "#ffffff", glow: "rgba(255,255,255,0.3)" },
+      { icon: SiDocker,  name: "Docker",  brand: "#2496ED", glow: "rgba(36,150,237,0.5)"  },
+      { icon: SiGit,     name: "Git",     brand: "#F05032", glow: "rgba(240,80,50,0.5)"   },
+      { icon: SiGithub,  name: "GitHub",  brand: "#ffffff", glow: "rgba(255,255,255,0.3)" },
+      { icon: SiPostman, name: "Postman", brand: "#FF6C37", glow: "rgba(255,108,55,0.5)"  },
     ],
   },
 ] as const;
@@ -181,12 +191,14 @@ const STYLES = `
 
 .tcs__cells {
   display: grid; grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
-  gap: var(--cell-gap); list-style: none; margin: 0; padding: 0;
+  list-style: none; margin: 0; padding: 0;
 }
 
 .tcs__cell {
   --col: var(--col-3);
   position: relative; aspect-ratio: 1; border-radius: 16px;
+  margin: calc(var(--cell-gap) / 2);
+  min-width: 0;
   background: linear-gradient(to bottom, rgba(38,38,38,0.8), #171717);
   border: 1px solid rgba(255,255,255,0.06);
   box-shadow: 0 8px 24px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.1);
@@ -214,8 +226,10 @@ const STYLES = `
   box-shadow: 0 0 0 1px var(--tcs-accent), 0 0 26px -6px var(--tcs-accent);
   animation: tcs-ignite var(--scan-dur) linear infinite;
   /* MUST stay after the shorthand: the animation shorthand resets
-     animation-delay to 0s, which would fire all 19 cells at once. */
-  animation-delay: calc((var(--col) + 0.5) / var(--cols) * var(--scan-dur));
+     animation-delay to 0s, which would fire all 19 cells at once.
+     Subtracting 1.03 achieves a negative delay (starts instantly) AND shifts
+     the timeline so the 3% opacity peak perfectly aligns with the laser. */
+  animation-delay: calc(((var(--col) + 0.5) / var(--cols) - 1.03) * var(--scan-dur));
 }
 
 .tcs__led {
@@ -227,7 +241,7 @@ const STYLES = `
   position: absolute; inset: 0; border-radius: 9999px;
   background: var(--tcs-accent); box-shadow: 0 0 8px var(--tcs-accent); opacity: 0.2;
   animation: tcs-verify var(--scan-dur) linear infinite;
-  animation-delay: calc((var(--col) + 0.5) / var(--cols) * var(--scan-dur));
+  animation-delay: calc(((var(--col) + 0.5) / var(--cols) - 1.03) * var(--scan-dur));
 }
 
 .tcs__icon { display: flex; color: #a3a3a3; transition: color 300ms ease; }
