@@ -36,23 +36,9 @@ const KineticWatermark: React.FC = () => {
       onMouseLeave={() => setIsHovered(false)}
       className="w-full overflow-hidden flex flex-col items-center border-t border-white/10 pt-16 pb-8 relative group select-none cursor-crosshair bg-neutral-950"
     >
-      {/* 1. Orbiting Diagnostic Telemetry Badges */}
-      <div className="flex flex-wrap justify-center gap-4 sm:gap-8 font-mono text-[10px] sm:text-xs text-neutral-500 mb-6 z-20 tracking-widest pointer-events-none">
-        <span className="flex items-center gap-1.5 bg-neutral-900/90 px-3.5 py-1 rounded-full border border-white/10 shadow-lg">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
-          {t.footer.badges.cluster}
-        </span>
-        <span className="flex items-center gap-1.5 bg-neutral-900/90 px-3.5 py-1 rounded-full border border-white/10 shadow-lg">
-          <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.8)]" />
-          {t.footer.badges.diagnostic}
-        </span>
-        <span className="flex items-center gap-1.5 bg-neutral-900/90 px-3.5 py-1 rounded-full border border-white/10 shadow-lg">
-          <span className="w-1.5 h-1.5 rounded-full bg-purple-400" />
-          {t.footer.badges.protocol}
-        </span>
-      </div>
+      
 
-      {/* 2. Interactive Typography Stage */}
+      {/* Interactive Typography Stage */}
       <div className="relative w-full flex justify-center items-center py-4">
         
         {/* LAYER A: Base Architectural Text (Subtle, dark, solid foundation) */}
@@ -89,12 +75,6 @@ const KineticWatermark: React.FC = () => {
           className="absolute left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-400/40 to-transparent pointer-events-none z-20"
         />
       </div>
-
-      {/* 3. Bottom Engineering Legend */}
-      <div className="font-mono text-[11px] text-neutral-500 tracking-widest mt-4 uppercase z-20 flex items-center gap-2">
-        <span>{t.footer.watermarkLegend}</span>
-        <span className="text-cyan-400 font-semibold">{t.footer.watermarkHint}</span>
-      </div>
     </div>
   );
 };
@@ -119,20 +99,6 @@ export const Footer = () => {
 
   return (
     <footer className="w-full bg-neutral-950 relative z-10 border-t border-white/10 overflow-hidden pt-20 pb-12 select-none">
-      {/* Top Telemetry Ticker Bar */}
-      <div className="max-w-7xl mx-auto px-6 mb-16 pb-8 border-b border-white/10 flex flex-wrap justify-between items-center gap-4 font-mono text-xs text-neutral-400">
-        <div className="flex items-center gap-2 text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-md border border-emerald-500/20">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-          <span>{t.footer.ticker.operational}</span>
-        </div>
-        <div className="flex flex-wrap gap-6 text-neutral-400">
-          <span>{t.footer.ticker.latencyLabel} <strong className="text-cyan-400">0.38ms</strong></span>
-          <span>{t.footer.ticker.uptimeLabel} <strong className="text-white">99.999%</strong></span>
-          <span>{t.footer.ticker.locationLabel} <strong className="text-white">{t.footer.ticker.locationValue}</strong></span>
-          <span>{t.footer.ticker.buildLabel} <strong className="text-cyan-400">NEXT.JS 16 TURBO</strong></span>
-        </div>
-      </div>
-
       {/* Main Grid Columns */}
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-12 gap-12 mb-20 font-sans">
         
@@ -191,7 +157,7 @@ export const Footer = () => {
             <span>{t.footer.channels.linkedin}</span>
             <span className="text-cyan-400">→ /in/ivozanacchi</span>
           </a>
-          <a href="mailto:ivozanacchi@example.com" className="text-neutral-400 hover:text-white transition-colors flex flex-wrap items-center justify-between gap-x-2 gap-y-1 p-2.5 rounded-lg bg-neutral-900/60 border border-white/5 hover:border-white/20">
+          <a href="mailto:ivozanacchi501@gmail.com" className="text-neutral-400 hover:text-white transition-colors flex flex-wrap items-center justify-between gap-x-2 gap-y-1 p-2.5 rounded-lg bg-neutral-900/60 border border-white/5 hover:border-white/20">
             <span>{t.footer.channels.email}</span>
             <span className="text-emerald-400">{t.footer.channels.emailAction}</span>
           </a>
