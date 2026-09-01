@@ -1,49 +1,12 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { m, AnimatePresence, MotionValue, useScroll, useTransform } from "motion/react";
+import React from "react";
+import { m, MotionValue, useScroll, useTransform } from "motion/react";
 import { useLenis } from "lenis/react";
-import { FiArrowDownCircle, FiPlayCircle } from "react-icons/fi";
+import { FiPlayCircle } from "react-icons/fi";
 import { useI18n } from "@/i18n/LanguageProvider";
-
-// ─── Sub-component: RoleRotator ────────────────────────────────────────────
-// Whole-word transitions only (never per-character), solid neon color (never
-// bg-clip-text), no 3D transform — avoids every ingredient of the earlier bug.
-interface RoleRotatorProps {
-  roles: string[];
-}
-
-const RoleRotator: React.FC<RoleRotatorProps> = ({ roles }) => {
-  const [index, setIndex] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setIndex((prev) => (prev + 1) % roles.length);
-    }, 2200);
-    return () => clearInterval(timer);
-  }, [roles.length]);
-
-  // A locale switch can leave the index pointing past the new array's end only
-  // if the arrays differ in length; clamping keeps this safe either way.
-  const role = roles[index % roles.length];
-
-  return (
-    <span className="relative block h-[1.15em] overflow-hidden">
-      <AnimatePresence mode="wait">
-        <m.span
-          animate={{ y: 0, opacity: 1 }}
-          className="block text-emerald-400 drop-shadow-[0_0_20px_rgba(52,211,153,0.6)] will-change-transform transform-gpu"
-          exit={{ y: -32, opacity: 0 }}
-          initial={{ y: 32, opacity: 0 }}
-          key={role}
-          transition={{ duration: 0.4, ease: "easeInOut" }}
-        >
-          {role}
-        </m.span>
-      </AnimatePresence>
-    </span>
-  );
-};
+import { HandwritingText } from "@/components/ui/handwriting-text";
+import { DotBorderButton } from "@/components/ui/dot-border-button";
 
 // ─── Sub-component: HexagonAvatar ──────────────────────────────────────────
 // Mathematically precise SVG brackets (no CSS-border hacks) + a CSS clip-path
@@ -162,7 +125,15 @@ export const HeroPaths: React.FC = () => {
             transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
           >
             <span className="block">{t.hero.titleLine}</span>
-            <RoleRotator roles={t.hero.roles} />
+            {/* The preceding span is `block`, so this always starts its own
+                line beneath it and inherits the parent's text-center/
+                lg:text-left alignment — no extra wrapper needed. height is
+                em-relative, so it scales with the h1's own responsive
+                text-4xl/6xl/8xl sizing automatically. */}
+            <HandwritingText
+              className="text-emerald-400 drop-shadow-[0_0_20px_rgba(52,211,153,0.6)]"
+              words={t.hero.roles}
+            />
           </m.h1>
 
           <m.p
@@ -180,24 +151,10 @@ export const HeroPaths: React.FC = () => {
             initial={{ opacity: 0, y: 16 }}
             transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
           >
-            {/* Routed to the interactive CLI's "resume" command until a real file exists — never a dead download link */}
-            <a
-              className="w-full sm:w-auto px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-400 to-emerald-500 text-black font-bold text-sm tracking-tight shadow-[0_0_20px_rgba(52,211,153,0.3),inset_0_1px_1px_rgba(255,255,255,0.4)] hover:from-emerald-300 hover:to-emerald-400 transition-colors duration-300 cursor-pointer flex items-center justify-center gap-2"
-              href="#terminal-card"
-              onClick={(e) => handleSmoothScroll(e, "terminal-card")}
-            >
-              <span>{t.hero.ctaResume}</span>
-              <FiArrowDownCircle className="text-lg" />
-            </a>
-
-            <a
-              className="w-full sm:w-auto px-6 py-3 rounded-xl bg-white/5 border border-white/10 backdrop-blur-lg hover:bg-white/10 transition-all shadow-xl text-white font-bold text-sm tracking-tight cursor-pointer flex items-center justify-center gap-2 group"
-              href="#stack"
-              onClick={(e) => handleSmoothScroll(e, "stack")}
-            >
-              <FiPlayCircle className="text-emerald-400 text-lg group-hover:scale-110 transition-transform" />
+            <DotBorderButton href="#stack" onClick={(e) => handleSmoothScroll(e, "stack")}>
+              <FiPlayCircle className="text-emerald-400 text-lg transition-transform group-hover:scale-110" />
               <span>{t.hero.ctaInspect}</span>
-            </a>
+            </DotBorderButton>
           </m.div>
         </m.div>
 

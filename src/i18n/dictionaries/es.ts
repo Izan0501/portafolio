@@ -40,7 +40,6 @@ export const es: Dictionary = {
     avatarAlt: "Arquitecto de sistemas",
     description:
       "Desarrollador Full-Stack y Arquitecto DevOps radicado en Tucumán, Argentina — enfocado en construir sistemas resilientes que aguantan carga real.",
-    ctaResume: "DESCARGAR CV",
     ctaInspect: "INSPECCIONAR ARQUITECTURA",
     scrollHint: "DESPLAZATE",
   },
