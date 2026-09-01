@@ -117,6 +117,11 @@ const GALLERY_GROUPS = {
   estudioSocialProof: { id: "estudio-social-proof", label: { en: "TESTIMONIALS & METHOD", es: "TESTIMONIOS Y MÉTODO" } },
   estudioNews: { id: "estudio-news", label: { en: "NEWS & MEDIA", es: "NOTICIAS Y MEDIOS" } },
   estudioContact: { id: "estudio-contact", label: { en: "CONTACT & INTAKE", es: "CONTACTO E INICIO" } },
+
+  portafolioMelLanding: { id: "portafolio-mel-landing", label: { en: "LANDING & HERO", es: "LANDING Y HERO" } },
+  portafolioMelGallery: { id: "portafolio-mel-gallery", label: { en: "GALLERIES & WORK", es: "GALERÍAS Y TRABAJO" } },
+  portafolioMelAbout: { id: "portafolio-mel-about", label: { en: "ABOUT & APPROACH", es: "SOBRE MÍ Y ENFOQUE" } },
+  portafolioMelContact: { id: "portafolio-mel-contact", label: { en: "CONTACT & BOOKING", es: "CONTACTO Y BOOKING" } },
 } satisfies Record<string, GalleryGroup>;
 
 export const PROJECTS_DATA: Project[] = [
@@ -1085,35 +1090,153 @@ export const PROJECTS_DATA: Project[] = [
       ],
     },
     gallery: [
+      // ── LANDING & HERO ────────────────────────────────────────────────
       {
         alt: {
-          en: "Portafolio Mel — gallery layout",
-          es: "Portafolio Mel — layout de galería",
+          en: "Melina Zanacchi Portfolio — landing hero section with parallax images",
+          es: "Portafolio Melina Zanacchi — sección hero con imágenes en parallax",
         },
         caption: {
-          en: "Gallery // Featured Work Grid",
-          es: "Galería // Grilla de trabajos destacados",
+          en: "Landing // Kinetic Hero",
+          es: "Landing // Hero Cinético",
         },
         specs: {
-          en: ["Lazy-loaded image grid with blur-up placeholders", "GPU-composited transitions via transform/opacity only"],
-          es: ["Grilla de imágenes con carga diferida y placeholders difuminados", "Transiciones compuestas por GPU usando solo transform y opacity"],
+          en: ["Full-bleed typography layered with drifting, parallax-driven photography", "Smooth load-in orchestration via Framer Motion"],
+          es: ["Tipografía a sangre completa en capas con fotografía en parallax a la deriva", "Orquestación de carga suave a través de Framer Motion"],
         },
-        src: STOCK_PHOTOS.workspace,
+        src: "/projects/portafolio-mel/portafolio-back.png",
+        group: GALLERY_GROUPS.portafolioMelLanding,
+      },
+      // ── GALLERIES & WORK ────────────────────────────────────────────────
+      {
+        alt: {
+          en: "Melina Zanacchi Portfolio — interactive hover slider",
+          es: "Portafolio Melina Zanacchi — slider interactivo hover",
+        },
+        caption: {
+          en: "Galleries // Hover Expansion Slider",
+          es: "Galerías // Slider de Expansión Hover",
+        },
+        specs: {
+          en: ["Accordion-style image columns that expand fluidly on hover", "Dynamic layout shifts powered by CSS Grid and Framer Motion spring physics"],
+          es: ["Columnas de imágenes estilo acordeón que se expanden fluidamente al hacer hover", "Cambios de layout dinámicos impulsados por CSS Grid y físicas spring de Framer Motion"],
+        },
+        src: "/projects/portafolio-mel/portafolio-hoverSlider.png",
+        group: GALLERY_GROUPS.portafolioMelGallery,
       },
       {
         alt: {
-          en: "Portafolio Mel — project detail transition",
-          es: "Portafolio Mel — transición al detalle de proyecto",
+          en: "Melina Zanacchi Portfolio — stacked phase cards",
+          es: "Portafolio Melina Zanacchi — tarjetas de fases apiladas",
         },
         caption: {
-          en: "Motion // Page Transitions",
-          es: "Motion // Transiciones de página",
+          en: "Process // Stacked Phase Cards",
+          es: "Proceso // Tarjetas de Fases Apiladas",
         },
         specs: {
-          en: ["Shared-layout transitions between grid and detail", "Reduced-motion fallback respected site-wide"],
-          es: ["Transiciones de layout compartido entre grilla y detalle", "Alternativa de movimiento reducido respetada en todo el sitio"],
+          en: ["Scroll-driven sticky stacking cards detailing the photographic process", "Sticky positioning ensures context remains visible while scrolling through phases"],
+          es: ["Tarjetas apilables impulsadas por el scroll que detallan el proceso fotográfico", "Posicionamiento sticky asegura que el contexto permanezca visible al scrollear las fases"],
         },
-        src: STOCK_PHOTOS.codeClose,
+        src: "/projects/portafolio-mel/portafolio-cards.png",
+        group: GALLERY_GROUPS.portafolioMelGallery,
+      },
+      {
+        alt: {
+          en: "Melina Zanacchi Portfolio — infinite image carousel 1",
+          es: "Portafolio Melina Zanacchi — carrusel de imágenes infinito 1",
+        },
+        caption: {
+          en: "Work // Infinite Carousel",
+          es: "Trabajo // Carrusel Infinito",
+        },
+        specs: {
+          en: ["Continuous marquee slider presenting high-resolution editorial work", "Hardware-accelerated CSS animations for buttery-smooth panning"],
+          es: ["Slider de marquesina continuo presentando trabajo editorial de alta resolución", "Animaciones CSS aceleradas por hardware para un paneo ultra fluido"],
+        },
+        src: "/projects/portafolio-mel/portafolio-carousel-1.png",
+        group: GALLERY_GROUPS.portafolioMelGallery,
+      },
+      {
+        alt: {
+          en: "Melina Zanacchi Portfolio — infinite image carousel 2",
+          es: "Portafolio Melina Zanacchi — carrusel de imágenes infinito 2",
+        },
+        caption: {
+          en: "Work // Infinite Carousel (Dark)",
+          es: "Trabajo // Carrusel Infinito (Oscuro)",
+        },
+        specs: {
+          en: ["Dark mode presentation of the infinite image marquee", "Seamless looping with visually hidden duplicate tracks"],
+          es: ["Presentación en modo oscuro de la marquesina de imágenes infinita", "Bucle continuo con pistas duplicadas visualmente ocultas"],
+        },
+        src: "/projects/portafolio-mel/portafolio-carousel-2.png",
+        group: GALLERY_GROUPS.portafolioMelGallery,
+      },
+      // ── ABOUT & APPROACH ────────────────────────────────────────────────
+      {
+        alt: {
+          en: "Melina Zanacchi Portfolio — about and artist direction",
+          es: "Portafolio Melina Zanacchi — sobre mí y dirección artística",
+        },
+        caption: {
+          en: "About // Artist & Direction",
+          es: "Sobre mí // Artista y Dirección",
+        },
+        specs: {
+          en: ["Clean editorial typography balancing negative space and structural photography", "Grid-aligned content blocks with statistical highlights"],
+          es: ["Tipografía editorial limpia equilibrando el espacio negativo y la fotografía estructural", "Bloques de contenido alineados a grilla con destacados estadísticos"],
+        },
+        src: "/projects/portafolio-mel/portafolio-about.png",
+        group: GALLERY_GROUPS.portafolioMelAbout,
+      },
+      {
+        alt: {
+          en: "Melina Zanacchi Portfolio — about section alternative layout",
+          es: "Portafolio Melina Zanacchi — layout alternativo de sección sobre mí",
+        },
+        caption: {
+          en: "About // Philosophy & Stats",
+          es: "Sobre mí // Filosofía y Estadísticas",
+        },
+        specs: {
+          en: ["Dark-themed split-panel layout featuring a striking portrait and professional philosophy", "Embedded metric highlights showcasing editorial excellence"],
+          es: ["Layout de panel dividido con temática oscura presentando un retrato impactante y filosofía profesional", "Destacados métricos incrustados que muestran la excelencia editorial"],
+        },
+        src: "/projects/portafolio-mel/portafolio-about-2.png",
+        group: GALLERY_GROUPS.portafolioMelAbout,
+      },
+      {
+        alt: {
+          en: "Melina Zanacchi Portfolio — three pillars of photographic excellence",
+          es: "Portafolio Melina Zanacchi — tres pilares de excelencia fotográfica",
+        },
+        caption: {
+          en: "Approach // The Three Pillars",
+          es: "Enfoque // Los Tres Pilares",
+        },
+        specs: {
+          en: ["Three-column feature grid outlining core photographic methodology", "Subtle image gradients ensure textual legibility against complex photographic backgrounds"],
+          es: ["Grilla de características de tres columnas delineando la metodología fotográfica central", "Gradientes sutiles en las imágenes aseguran la legibilidad del texto sobre fondos fotográficos complejos"],
+        },
+        src: "/projects/portafolio-mel/portafolio-info.png",
+        group: GALLERY_GROUPS.portafolioMelAbout,
+      },
+      // ── CONTACT & BOOKING ────────────────────────────────────────────────
+      {
+        alt: {
+          en: "Melina Zanacchi Portfolio — contact and booking form",
+          es: "Portafolio Melina Zanacchi — formulario de contacto y reserva",
+        },
+        caption: {
+          en: "Contact // Booking Experience",
+          es: "Contacto // Experiencia de Reserva",
+        },
+        specs: {
+          en: ["Minimalist inquiry form with dropdown selections for project types", "Stark contrast design driving focus entirely to the conversion action"],
+          es: ["Formulario de consulta minimalista con selecciones desplegables para tipos de proyecto", "Diseño de alto contraste que dirige el enfoque completamente a la acción de conversión"],
+        },
+        src: "/projects/portafolio-mel/portafolio-contact-1.png",
+        group: GALLERY_GROUPS.portafolioMelContact,
       },
     ],
   },
