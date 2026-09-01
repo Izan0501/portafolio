@@ -271,7 +271,15 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({ id }) => {
                     <div className="relative w-full aspect-video rounded-lg overflow-hidden bg-neutral-950">
                       <Image
                         alt={image.alt}
-                        className={image.fit === "contain" ? "object-contain" : "object-cover"}
+                        // These are full-page screenshots at ~1.6:1, shorter than the
+                        // 16:9 well, so object-cover crops top+bottom. Every one of
+                        // them has its site's own navbar pinned at y=0 — center
+                        // cropping (the default) slices straight through it. Anchoring
+                        // to the top instead absorbs 100% of that crop at the bottom,
+                        // which is empty page/whitespace, not chrome. No-op wherever
+                        // the source is already wider than 16:9 (crop is horizontal
+                        // there, unaffected by vertical position) or fit is "contain".
+                        className={image.fit === "contain" ? "object-contain" : "object-cover object-top"}
                         fill
                         sizes="(max-width: 1024px) 100vw, 60vw"
                         src={image.src}
