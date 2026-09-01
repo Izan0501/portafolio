@@ -33,23 +33,6 @@ import { useI18n } from "@/i18n/LanguageProvider";
 
 /* ────────────────────────────────────────────────────────────────────────────
    TOOLCHAIN INTEGRITY SCAN
-
-   Replaces the old two-rail marquee. That version translated 38 tiles (19 icons
-   duplicated) across two counter-scrolling rails, permanently. This one holds
-   every tile still and translates a SINGLE element — the scan line — while each
-   cell reveals a pre-painted overlay via `opacity`.
-
-   Compositor cost: 1 translating layer instead of 38, and no JS frames at all.
-
-   The delay that makes the pass read as one vertical line:
-
-       animation-delay: calc((var(--col) + 0.5) / var(--cols) * var(--scan-dur))
-
-   `--col` is the cell's GRID COLUMN index (it restarts on every wrapped row, so
-   cells stacked in the same column ignite together) and `--cols` is the column
-   count at the active breakpoint. The sweep translates its full track width, so
-   its leading edge sits at `progress * trackWidth`, which reaches column i's
-   centre at exactly `(i + 0.5) / cols`. The two stay locked at every width.
    ──────────────────────────────────────────────────────────────────────────── */
 
 type BandId = "frontend" | "backend" | "data" | "devops";
@@ -329,14 +312,6 @@ export const ToolchainIntegrityScan: React.FC = () => {
 
       {/* Head — eyebrow + verification counter */}
       <div className="flex flex-wrap items-end justify-between gap-x-5 gap-y-4 mb-7">
-        <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-neutral-900/80 backdrop-blur-md border border-white/10 text-cyan-400 font-mono text-[11px] sm:text-xs tracking-wide shadow-[0_0_20px_rgba(34,211,238,0.08)]">
-          <span
-            aria-hidden="true"
-            className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_8px_rgba(34,211,238,1)] flex-none"
-          />
-          <span>{copy.eyebrow}</span>
-        </span>
-
         <span className="flex items-center gap-2.5 font-mono text-[10px] sm:text-[11px] tracking-widest text-neutral-400">
           <span>{copy.modulesLabel}</span>
           <span className="text-neutral-100 font-semibold">

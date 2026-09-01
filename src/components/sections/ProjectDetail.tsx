@@ -257,7 +257,7 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({ id }) => {
           {visibleGallery.map((image, i) => {
             const reversed = i % 2 === 1;
             return (
-              <div key={image.src + image.caption} className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+              <div key={image.src + image.caption} className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                 <div className={`lg:col-span-7 ${reversed ? "lg:order-2" : "lg:order-1"}`}>
                   <div className="rounded-2xl border border-white/10 bg-neutral-900/60 backdrop-blur-xl shadow-2xl p-2">
                     <div className="flex items-center gap-1.5 px-2 py-2">
