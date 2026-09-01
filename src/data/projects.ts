@@ -86,16 +86,6 @@ export interface ResolvedProject {
   liveUrl?: string;
 }
 
-// Verified-loading placeholder photography already used elsewhere on the site.
-// Swap these for real project screenshots whenever they're ready.
-const STOCK_PHOTOS = {
-  darkTerminal: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=2670&auto=format&fit=crop",
-  codeClose: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop",
-  workspace: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=1200&auto=format&fit=crop",
-  dataStream: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1200&auto=format&fit=crop",
-  serverRack: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=1200&auto=format&fit=crop",
-} as const;
-
 const STATUS_LABELS = {
   production: { en: "PRODUCTION", es: "PRODUCCIÓN" },
   inDevelopment: { en: "IN DEVELOPMENT", es: "EN DESARROLLO" },
@@ -1272,40 +1262,141 @@ export const PROJECTS_DATA: Project[] = [
         "Guardar el historial de tratamientos por paciente de forma estructurada y consultable",
       ],
     },
+    // Real product screenshots — public/projects/consultorio/. Captions describe
+    // what is actually on each screen, written from the images directly.
     gallery: [
       {
         alt: {
-          en: "Consultorio Odontológico — booking calendar",
-          es: "Consultorio Odontológico — calendario de turnos",
+          en: "Consultorio Odontológico — hero landing page with credential stats and patient review",
+          es: "Consultorio Odontológico — landing hero con estadísticas de credenciales y reseña de paciente",
         },
         caption: {
-          en: "Booking Engine // Availability View",
-          es: "Motor de turnos // Vista de disponibilidad",
+          en: "Hero // Digital Precision & Trust",
+          es: "Hero // Precisión Digital y Confianza",
         },
         specs: {
-          en: ["Atomic slot-claim to prevent double-booking", "Per-practitioner calendar merge view"],
-          es: ["Reserva atómica del horario para evitar duplicados", "Vista combinada de calendarios por profesional"],
+          en: [
+            "Dual CTA layout — direct appointment booking and a deep-link into treatments",
+            "Five-star patient review and a '3D Scanner — Zero Impressions' badge overlay a real scan photo",
+          ],
+          es: [
+            "Doble CTA — turno directo y enlace a tratamientos",
+            "Reseña de paciente de cinco estrellas e insignia 'Escáner 3D — Cero Impresiones' sobre una foto real de escaneo",
+          ],
         },
-        src: STOCK_PHOTOS.codeClose,
+        src: "/projects/consultorio/consul-back.png",
       },
       {
         alt: {
-          en: "Consultorio Odontológico — patient records",
-          es: "Consultorio Odontológico — fichas de pacientes",
+          en: "Consultorio Odontológico — doctor profile with credentials and chairside photo",
+          es: "Consultorio Odontológico — perfil de la doctora con credenciales y foto en consultorio",
         },
         caption: {
-          en: "MongoDB // Patient Records",
-          es: "MongoDB // Fichas de pacientes",
+          en: "About // Doctor Profile & Credentials",
+          es: "Sobre Mí // Perfil y Credenciales",
         },
         specs: {
-          en: ["Structured treatment-history documents per patient", "Indexed search across appointment history"],
-          es: ["Documentos estructurados de historial clínico por paciente", "Búsqueda indexada sobre el historial de turnos"],
+          en: [
+            "Clinical direction badge paired with a chairside consultation photo",
+            "Four-point checklist — 3D planning, minimally invasive care, biocompatible materials, comfort-first environment",
+          ],
+          es: [
+            "Insignia de dirección clínica junto a una foto de consulta en el consultorio",
+            "Checklist de cuatro puntos — planificación 3D, odontología mínimamente invasiva, materiales biocompatibles, entorno de confort",
+          ],
         },
-        src: STOCK_PHOTOS.darkTerminal,
+        src: "/projects/consultorio/consul-about.png",
+      },
+      {
+        alt: {
+          en: "Consultorio Odontológico — high-complexity treatments grid",
+          es: "Consultorio Odontológico — grilla de tratamientos de alta complejidad",
+        },
+        caption: {
+          en: "Services // High-Complexity Treatments",
+          es: "Servicios // Tratamientos de Alta Complejidad",
+        },
+        specs: {
+          en: [
+            "Three specialty cards — Aesthetic Dentistry, Laser Whitening, Advanced Implantology — each with a demand/precision tag",
+            "Every card opens into its own detail view via a consistent 'Ver Detalles' pattern",
+          ],
+          es: [
+            "Tres tarjetas de especialidad — Odontología Estética, Aclaramiento Láser, Implantología Avanzada — cada una con su etiqueta de demanda o precisión",
+            "Cada tarjeta abre su propia vista de detalle con el mismo patrón 'Ver Detalles'",
+          ],
+        },
+        src: "/projects/consultorio/consul-tratamientos.png",
+      },
+      {
+        alt: {
+          en: "Consultorio Odontológico — invisible orthodontics treatment page with iTero scanner and phase tracker",
+          es: "Consultorio Odontológico — página de ortodoncia invisible con escáner iTero y seguimiento de fases",
+        },
+        caption: {
+          en: "Invisible Orthodontics // Scan & Phase Tracking",
+          es: "Ortodoncia Invisible // Escaneo y Seguimiento de Fases",
+        },
+        specs: {
+          en: [
+            "iTero 5D Plus scan visual paired with a live 'Phase 2/14' aligner-progress card",
+            "Three feature blocks — near-invisible aesthetics, predictive 3D planning, wire-free comfort",
+          ],
+          es: [
+            "Visual de escaneo iTero 5D Plus junto a una tarjeta de progreso 'Fase 2/14' del alineador",
+            "Tres bloques de características — estética prácticamente invisible, planificación 3D predictiva, confort sin alambres",
+          ],
+        },
+        src: "/projects/consultorio/consul-ortInvisible.png",
+      },
+      {
+        alt: {
+          en: "Consultorio Odontológico — WhatsApp-routed contact and booking form",
+          es: "Consultorio Odontológico — formulario de contacto y turnos derivado a WhatsApp",
+        },
+        caption: {
+          en: "Contact // Encrypted WhatsApp Booking",
+          es: "Contacto // Turnos Encriptados por WhatsApp",
+        },
+        specs: {
+          en: [
+            "Name, treatment of interest, and optional notes route straight to an encrypted WhatsApp handoff",
+            "Clinic info panel carries address, direct phone line, and office hours alongside the form",
+          ],
+          es: [
+            "Nombre, tratamiento de interés y notas opcionales derivan directo a un handoff encriptado por WhatsApp",
+            "El panel de información clínica lleva dirección, línea telefónica directa y horario junto al formulario",
+          ],
+        },
+        src: "/projects/consultorio/consul-contact.png",
+      },
+      {
+        alt: {
+          en: "Consultorio Odontológico — site footer with quick links, specialties, and contact block",
+          es: "Consultorio Odontológico — pie de página con enlaces rápidos, especialidades y bloque de contacto",
+        },
+        caption: {
+          en: "Footer // Sitemap & Contact Block",
+          es: "Footer // Mapa del Sitio y Bloque de Contacto",
+        },
+        specs: {
+          en: [
+            "Four-column layout — practice card, quick links, specialties list, and contact details with social icons",
+            "Address, phone, and email repeated here so booking info is reachable from anywhere on the site",
+          ],
+          es: [
+            "Layout de cuatro columnas — tarjeta del consultorio, enlaces rápidos, lista de especialidades y contacto con íconos sociales",
+            "Dirección, teléfono y email repetidos aquí para que la información de turnos esté a mano desde cualquier parte del sitio",
+          ],
+        },
+        src: "/projects/consultorio/consul-footer.png",
+        // ~2.4:1 — well past 16:9. object-cover would crop roughly 13% off
+        // each side, straight into the outer columns (practice card, contact
+        // block). Letterbox instead so the full four-column layout survives.
+        fit: "contain",
       },
     ],
   },
-
 ];
 
 export function getProjectById(id: string): Project | undefined {

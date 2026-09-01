@@ -74,19 +74,21 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({ id }) => {
     ? gallery.filter((image) => image.group?.id === currentGroupId)
     : gallery;
 
-  // Each tab holds a different number of rows, so switching tabs changes the
-  // document height — and Lenis caches its scroll limit. Without this
-  // re-measure, moving to a taller tab clamps scrolling at the previous tab's
-  // height and the last rows are unreachable. Same fix already applied on route
-  // changes (SmoothScrollProvider) and locale changes (LanguageProvider).
+  // Whenever the rendered row count changes — a tab switch, or this instance
+  // staying mounted while its gallery data changes (e.g. a dev hot-reload
+  // after editing projects.ts) — the document height changes and Lenis's
+  // cached scroll limit goes stale, clamping scroll at the old height with
+  // the last row(s) unreachable. Keying on visibleGallery.length (not just
+  // isTabbed/currentGroupId) covers the untabbed-gallery case too. Same fix
+  // already applied on route changes (SmoothScrollProvider) and locale
+  // changes (LanguageProvider).
   const lenis = useLenis();
   useEffect(() => {
-    if (!isTabbed) return;
     // One frame is enough: the rows are fixed-aspect, so the new height is
     // final as soon as React commits — it does not wait on image decode.
     const frame = requestAnimationFrame(() => lenis?.resize());
     return () => cancelAnimationFrame(frame);
-  }, [currentGroupId, isTabbed, lenis]);
+  }, [currentGroupId, visibleGallery.length, lenis]);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = scrollY.getPrevious() ?? 0;
