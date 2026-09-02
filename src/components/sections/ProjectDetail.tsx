@@ -9,6 +9,7 @@ import { notFound } from "next/navigation";
 import { FiArrowLeft, FiArrowUpRight, FiCpu, FiRadio, FiZap } from "react-icons/fi";
 import { getResolvedProject, STATUS_STYLES } from "@/data/projects";
 import { VerticalCutReveal } from "@/components/ui/vertical-cut-reveal";
+import { Pagination } from "@/components/ui/pagination";
 import { useI18n } from "@/i18n/LanguageProvider";
 
 interface ProjectDetailProps {
@@ -73,6 +74,15 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({ id }) => {
   const visibleGallery = isTabbed
     ? gallery.filter((image) => image.group?.id === currentGroupId)
     : gallery;
+  const currentPage = Math.max(1, galleryGroups.findIndex((group) => group.id === currentGroupId) + 1);
+
+  // Anchors the "3. FEATURE SHOWCASE" section — the pagination control at its
+  // bottom scrolls back here on every page change. Without this, switching
+  // sections from the bottom pagination would swap the content while the
+  // viewport stays scrolled to where the control was clicked, landing the
+  // visitor mid-way through the new section instead of at its top — the top
+  // tab bar doesn't have this problem since clicking it never moves you.
+  const galleryTopRef = useRef<HTMLElement>(null);
 
   // Whenever the rendered row count changes — a tab switch, or this instance
   // staying mounted while its gallery data changes (e.g. a dev hot-reload
@@ -89,6 +99,21 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({ id }) => {
     const frame = requestAnimationFrame(() => lenis?.resize());
     return () => cancelAnimationFrame(frame);
   }, [currentGroupId, visibleGallery.length, lenis]);
+
+  // Same offset/duration/easing as the hero's own anchor-scroll (HeroPaths.tsx)
+  // — one scroll feel across the site rather than a bottom-pagination-specific one.
+  const handlePageChange = (nextPage: number) => {
+    const group = galleryGroups[nextPage - 1];
+    if (!group) return;
+    setActiveGroupId(group.id);
+    if (galleryTopRef.current) {
+      lenis?.scrollTo(galleryTopRef.current, {
+        offset: -100,
+        duration: 1.2,
+        easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      });
+    }
+  };
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = scrollY.getPrevious() ?? 0;
@@ -228,7 +253,7 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({ id }) => {
       </section>
 
       {/* 3. FEATURE SHOWCASE — alternating macOS-framed windows */}
-      <section className="max-w-6xl mx-auto px-6 mt-16 sm:mt-24">
+      <section ref={galleryTopRef} className="max-w-6xl mx-auto px-6 mt-16 sm:mt-24">
         <div className={`font-mono text-xs text-cyan-400 ${isTabbed ? "mb-6" : "mb-10"}`}>
           {t.projectDetail.featuresHeading}
         </div>
@@ -307,6 +332,22 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({ id }) => {
             );
           })}
         </div>
+
+        {/* Bottom-of-section pagination — moves linearly to the next/previous
+            group and scrolls back to galleryTopRef so the visitor lands at
+            its start. Complements, not replaces, the top tab bar: that one
+            jumps straight to any named section, this one is for continuing
+            once you've finished scrolling the current one. Only tabbed
+            galleries have more than one "page" to move between. */}
+        {isTabbed && (
+          <Pagination
+            className="mt-16 sm:mt-24"
+            onChange={handlePageChange}
+            page={currentPage}
+            pageLabels={galleryGroups.map((group) => group.label)}
+            totalPages={galleryGroups.length}
+          />
+        )}
       </section>
 
       {/* 4. FLOATING COMMAND ACTION BAR — dynamic island. Stacks to a full-width column on
