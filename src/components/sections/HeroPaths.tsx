@@ -21,7 +21,18 @@ interface HexagonAvatarProps {
 const HexagonAvatar: React.FC<HexagonAvatarProps> = ({ y, alt }) => (
   <m.div
     style={{ y }}
-    className="relative w-[min(78vw,320px)] aspect-[9/10] sm:w-[450px] sm:aspect-auto sm:h-[500px] mx-auto flex items-center justify-center will-change-transform transform-gpu"
+    // mx-auto centers this within its column below lg (1024px), where it's the
+    // only thing in a single stacked column — correct there, left as-is. From
+    // 1024px+ the text next to it is flush against the column's LEFT edge
+    // (min-[1024px]:text-left etc.), but this stayed centered WITHIN its own
+    // column rather than flush against the RIGHT edge — text pinned to one
+    // true edge, avatar floating short of the other, reads as the whole
+    // composition skewed left even though the grid itself is mx-auto centered
+    // on the page. min-[1024px]:mr-0 (not ml-auto — mx-auto already sets
+    // margin-left:auto, so ml-auto on top would be a no-op) zeroes just the
+    // right margin, leaving the left one auto — pushes it flush to the
+    // column's right edge, mirroring the text's left-edge anchor.
+    className="relative w-[min(78vw,320px)] aspect-[9/10] sm:w-[450px] sm:aspect-auto sm:h-[500px] mx-auto min-[1024px]:mr-0 flex items-center justify-center will-change-transform transform-gpu"
   >
     {/* Inner Levitation Container — continuous idle float, independent of scroll */}
     <m.div
@@ -93,7 +104,18 @@ export const HeroPaths: React.FC = () => {
   return (
     <section
       id="hero"
-      className="relative min-h-screen w-full flex items-center justify-center overflow-visible bg-neutral-950 pt-20 pb-32 px-6 select-none border-b border-white/10"
+      // Navbar.tsx's pill is `fixed top-6` (24px) plus its own ~32-44px height —
+      // its bottom edge sits ~64-68px down regardless of mobile-compact or
+      // tablet-full mode, and it carries a 60px-blur drop shadow that bleeds
+      // well past that box edge. Three tiers, not two: below `lg` (1024px) the
+      // hero content is still single-column/stacked (title + rotator +
+      // description + CTA + avatar all in one flow), tall enough on most
+      // phones AND tablets to exceed the viewport, so `items-center` has no
+      // slack to push it down further — it effectively starts right at this
+      // padding on both. Only at `lg`, once the two-column layout is shorter
+      // overall, does the original 80px hold up. min-[740px] is the same
+      // cutoff Navbar.tsx itself uses for mobile vs. full layout.
+      className="relative min-h-screen w-full flex items-center justify-center overflow-visible bg-neutral-950 pt-36 min-[740px]:pt-28 min-[1024px]:pt-20 pb-32 px-6 select-none border-b border-white/10"
     >
       {/* ATMOSPHERIC DEPTH — volumetric light orbs. Blur radius cut from 150px to 90px: filter
           cost scales sharply with radius, and these move continuously forever, so this is the
@@ -112,24 +134,53 @@ export const HeroPaths: React.FC = () => {
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:32px_32px]" />
       </div>
 
-      <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-7xl mx-auto px-6 items-center w-full">
+      {/* max-w-7xl (1280px) caps this grid outright — past that viewport width the
+          whole block just centers with growing empty margins instead of using the
+          space, which is what reads as "cramped" on large screens. Past 1440px the
+          container is allowed to grow to 1600px AND the gap widens, so the extra
+          width actually separates the two columns instead of just padding them.
+          This cap holds all the way up, including at 4K-class widths — it's
+          purely about spacing between the two columns, independent of the
+          text-size/alignment tuning below. */}
+      <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 min-[1440px]:gap-24 max-w-7xl min-[1440px]:max-w-[1600px] mx-auto px-6 items-center w-full">
 
-        {/* LEFT COLUMN — text, rotator, CTAs */}
-        <m.div style={{ y: leftY }} className="relative z-10 will-change-transform transform-gpu text-center lg:text-left">
-          
+        {/* LEFT COLUMN — text, rotator, CTAs
+            Centered only below the lg (1024px) two-column split, where the
+            column collapses to the full row width and centering reads as
+            "poster" framing. From 1024px up this stays left-aligned at every
+            size, including 1440px+ — it does NOT re-center at any larger
+            breakpoint. The paragraph gets true text-justify at that same
+            point instead of plain left, since it's the one piece here long
+            enough to wrap across multiple lines (the title is effectively a
+            single word per line, and the CTA is one button — text-align has
+            no visible effect without a second line to justify against). */}
+        <m.div style={{ y: leftY }} className="relative z-10 will-change-transform transform-gpu text-center min-[1024px]:text-left">
 
+
+          {/* text-8xl deliberately does NOT land on lg (1024px), where the grid
+              splits into two columns: HandwritingText's rendered width scales
+              with this font-size (height is em-relative), and at 96px the
+              widest real word ("PROGRAMADOR", the widest glyph-aspect-ratio
+              of the actual rotated words) draws ~649px wide — a 1024px
+              column is only ~464px, so the word would overflow straight into
+              the avatar next to it. Font stays at the sm tier's 60px (draws
+              ~405px, comfortably inside a 464px column) all the way through
+              the two-column range, and only grows once min-[1440px] has
+              already widened the gap/container to match — the same
+              breakpoint, so the column (648-728px across that tier) is
+              verified wide enough for the 649px the bigger glyph draws. */}
           <m.h1
             animate={{ opacity: 1, y: 0 }}
-            className="text-4xl sm:text-6xl lg:text-8xl font-black tracking-tighter leading-[1.02] text-white drop-shadow-2xl mb-6 will-change-transform transform-gpu"
+            className="text-4xl min-[640px]:text-6xl min-[1440px]:text-8xl font-black tracking-tighter leading-[1.02] text-white drop-shadow-2xl mb-6 will-change-transform transform-gpu"
             initial={{ opacity: 0, y: 20 }}
             transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
           >
             <span className="block">{t.hero.titleLine}</span>
             {/* The preceding span is `block`, so this always starts its own
                 line beneath it and inherits the parent's text-center/
-                lg:text-left alignment — no extra wrapper needed. height is
-                em-relative, so it scales with the h1's own responsive
-                text-4xl/6xl/8xl sizing automatically. */}
+                min-[1024px]:text-left alignment — no extra wrapper needed.
+                height is em-relative, so it scales with the h1's own
+                responsive text-4xl/6xl/8xl sizing automatically. */}
             <HandwritingText
               className="text-emerald-400 drop-shadow-[0_0_20px_rgba(52,211,153,0.6)]"
               words={t.hero.roles}
@@ -138,7 +189,7 @@ export const HeroPaths: React.FC = () => {
 
           <m.p
             animate={{ opacity: 1, y: 0 }}
-            className="text-neutral-400 text-base sm:text-lg leading-relaxed max-w-xl mx-auto lg:mx-0 mb-8 will-change-transform transform-gpu"
+            className="text-neutral-400 text-base sm:text-lg leading-relaxed max-w-xl mx-auto min-[1024px]:mx-0 min-[1024px]:text-justify mb-8 will-change-transform transform-gpu"
             initial={{ opacity: 0, y: 16 }}
             transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
           >
@@ -147,7 +198,7 @@ export const HeroPaths: React.FC = () => {
 
           <m.div
             animate={{ opacity: 1, y: 0 }}
-            className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 will-change-transform transform-gpu"
+            className="flex flex-col sm:flex-row items-center justify-center min-[1024px]:justify-start gap-4 will-change-transform transform-gpu"
             initial={{ opacity: 0, y: 16 }}
             transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
           >
