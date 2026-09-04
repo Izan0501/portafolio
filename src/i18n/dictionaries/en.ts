@@ -209,7 +209,7 @@ export const en = {
   // ── EngineeringPipeline ───────────────────────────────────────────────────
   pipeline: {
     eyebrow: "// 03. ARCHITECTURE & DELIVERY LIFECYCLE",
-    heading: "THE ENGINEERING LIFECYCLE.",
+    heading: "WORKFLOW.",
     subheading:
       "From AI-assisted, spec-driven design to access-layer architecture, container isolation, CI-driven builds, and manually verified VPS deployments: the real workflow behind every shipped system.",
     phaseLabel: (phase: string, badge: string) => `PHASE // ${phase} — ${badge}`,

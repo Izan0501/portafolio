@@ -213,7 +213,7 @@ export const es: Dictionary = {
   // ── EngineeringPipeline ───────────────────────────────────────────────────
   pipeline: {
     eyebrow: "// 03. ARQUITECTURA Y CICLO DE ENTREGA",
-    heading: "EL CICLO DE VIDA DE INGENIERÍA.",
+    heading: "FLUJO DE TRABAJO.",
     subheading:
       "Desde el diseño spec-driven asistido por IA hasta la arquitectura de la capa de acceso, el aislamiento en contenedores, builds impulsados por CI y despliegues en VPS verificados manualmente: el flujo real detrás de cada sistema entregado.",
     phaseLabel: (phase: string, badge: string) => `FASE // ${phase} — ${badge}`,
