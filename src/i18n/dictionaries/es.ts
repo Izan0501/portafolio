@@ -39,24 +39,26 @@ export const es: Dictionary = {
     roles: ["ARQUITECTO", "INGENIERO", "PROGRAMADOR"],
     avatarAlt: "Arquitecto de sistemas",
     description:
-      "Desarrollador Full-Stack y Arquitecto DevOps radicado en Tucumán, Argentina — enfocado en construir sistemas resilientes que aguantan carga real.",
+      "Soy un apasionado Desarrollador Full-Stack - DevOps radicado en Tucumán, Argentina. Enfocado en construir sistemas resilientes, escalables, sostenibles y eficientes, asegurando la disponibilidad y el rendimiento en entornos reales.",
     ctaInspect: "INSPECCIONAR ARQUITECTURA",
+    ctaDownload: "DESCARGAR CV",
+    ctaDownloaded: "DESCARGADO ✓",
     scrollHint: "DESPLAZATE",
   },
 
   // ── TechStackBento ────────────────────────────────────────────────────────
   stack: {
     eyebrow: "// 01. IDENTIDAD DEL INGENIERO Y TOOLCHAIN",
-    heading: "Arquitectura y Ejecución",
+    heading: "Sobre Mí y Lo Que Hago",
     subheading:
-      "Un enfoque implacable en sistemas resilientes, integración continua y colaboración profunda dentro de marcos Agile estándar de la industria.",
+      "Sistemas full-stack en React/Vite + TypeScript y Next.js, respaldados por Python FastAPI y Node/Express, diseñados con Claude mediante Spec-Driven Development, entregados vía CI/CD y desplegados en contenedores Docker sobre un VPS.",
 
     architect: {
       eyebrow: "// 00. EL ARQUITECTO",
       title: "Desarrollador Full-Stack y Arquitecto DevOps",
       location: "Tucumán, Argentina",
-      bio: "Soy Ivo Zanacchi. Construyo sistemas como me gustaría heredarlos: limpios, documentados y aburridos en el mejor sentido — infraestructura que escala sin parches, y revisiones de código que no necesitan traductor. Mi foco es la entrega sin regresiones: cada deploy debería ser rutina, cada rollback debería ser innecesario, y cada servicio debería seguir teniendo sentido al leerlo seis meses después.",
-      pillars: ["CÓDIGO LIMPIO", "ARQUITECTURA ESCALABLE", "CERO REGRESIONES"],
+      bio: "Soy Ivo Zanacchi. Construyo sistemas full-stack en React.js/Vite + TypeScript y Next.js, respaldados por servicios en Python (FastAPI) y Node.js/Express sobre bases de datos relacionales (PostgreSQL/Supabase, MySQL), no relacionales (MongoDB, Firebase) y vectoriales (Pinecone, para RAG). Todo sistema arranca como una spec: diseño la estructura y la lógica junto con Claude, usando Spec-Driven Development extendido con MCP para contexto de proyecto en vivo y Skills versionados para conocimiento repetible, antes de escribir una sola línea. Una vez testeado, lo contenerizo con Docker y lo despliego en un VPS a través de CI/CD. Mi foco es la entrega sin regresiones: cada deploy debería ser rutina, cada rollback debería ser innecesario, y cada servicio debería seguir teniendo sentido al leerlo seis meses después.",
+      pillars: ["CÓDIGO LIMPIO", "ARQUITECTURA ESCALABLE", "SPEC-DRIVEN DEVELOPMENT", "CERO REGRESIONES"],
     },
 
     academic: {
@@ -66,10 +68,12 @@ export const es: Dictionary = {
         cybersecurity: {
           name: "Tecnicatura Universitaria en Ciberseguridad",
           institution: "// UGR",
+          period: "MAR 2026 — EN CURSO",
         },
         programming: {
           name: "Técnico Universitario en Programación",
           institution: "// UTN — Facultad Regional Tucumán",
+          period: "ABR 2024 — FEB 2027",
         },
       },
     },
@@ -80,7 +84,7 @@ export const es: Dictionary = {
       bodyBefore: "Construí una base profunda y deliberada en ",
       bodyStrong: "marcos SCRUM y Agile",
       bodyAfter:
-        " — no solo las ceremonias, sino la disciplina detrás de ellas. Estoy listo para integrarme desde el día uno al flujo de trabajo de un equipo de ritmo acelerado: comunicación clara, desbloqueo rápido y compromisos de sprint que se cumplen.",
+        ", no solo las ceremonias, sino la disciplina detrás de ellas. Estoy listo para integrarme desde el día uno al flujo de trabajo de un equipo de ritmo acelerado: comunicación clara, desbloqueo rápido y compromisos de sprint que se cumplen.",
       competenciesLabel: "Competencias Clave",
       competencies: [
         "Planificación de Sprint",
@@ -101,15 +105,15 @@ export const es: Dictionary = {
       initOutput: "Sistema inicializado. Escribí 'help' o hacé clic en un comando de abajo.",
       help: "Comandos disponibles: [stack] [experience] [contact] [github] [resume] [clear] [hire]",
       techStack:
-        "Backend: Python (FastAPI), Node.js, TypeScript. DevOps: Docker, Kubernetes, CI/CD, AWS. Bases de datos: MongoDB, PostgreSQL, Pinecone RAG.",
+        "Frontend: React.js/Vite + TypeScript, Next.js. Backend: Python (FastAPI), Node.js/Express. Bases de datos: PostgreSQL/Supabase, MySQL, MongoDB, Firebase, Pinecone (RAG). Workflow: diseño spec-driven (SDD) asistido por Claude con MCP + Skills, CI/CD, Docker → VPS.",
       experience:
         "Ingeniero de Software Full-Stack y DevOps especializado en arquitecturas sin downtime, plataformas SaaS multi-tenant y auditorías de protocolos de red.",
       emailLabel: "Email:",
       linkedinLabel: "LinkedIn:",
       githubLabel: "Archivo fuente:",
-      resume: "El CV todavía no está subido a este build — usá 'contact' para solicitarlo directamente.",
+      resume: "CV listo para descargar:",
       hire: (email: string) =>
-        `ACCESO CONCEDIDO. Enrutamiento de reclutamiento prioritario activado — enviá una transmisión a ${email} para iniciar la conversación.`,
+        `ACCESO CONCEDIDO. Enrutamiento de reclutamiento prioritario activado. Enviá una transmisión a ${email} para iniciar la conversación.`,
       notRecognized: (command: string) =>
         `Comando no reconocido: '${command}'. Escribí 'help' para ver las directivas disponibles.`,
     },
@@ -166,14 +170,14 @@ export const es: Dictionary = {
   // ── FeaturedSystems ───────────────────────────────────────────────────────
   systems: {
     eyebrow: "// 02. SISTEMAS INSIGNIA Y ARQUITECTURA",
-    heading: "Arquitectura en Producción",
-    inspectMatrix: "INSPECCIONAR MATRIZ DE DESPLIEGUE",
+    heading: "Portafolio",
+    inspectMatrix: "INSPECCIONAR SISTEMAS",
 
     core: {
-      eyebrow: "// NÚCLEO CENTRAL DEL CLÚSTER",
-      title: "Cero Regresiones",
+      eyebrow: "PROYECTOS EN DESARROLLO Y PRODUCCIÓN",
+      title: "Sistemas Desarrollados",
       description:
-        "Microservicios backend de alta concurrencia, orquestación en contenedores y enrutamiento edge sub-milisegundo.",
+        "Microservicios backend de alta concurrencia, orquestación en contenedores y despliegues impecables sin downtime.",
     },
 
     parallax: {
@@ -196,8 +200,8 @@ export const es: Dictionary = {
     },
 
     matrix: {
-      eyebrow: "// REGISTRO DE AUDITORÍA: ESTADO DE SISTEMAS EN PRODUCCIÓN",
-      heading: "Matriz de Despliegue",
+      eyebrow: "ESTADO DE SISTEMAS",
+      heading: "Desarrollo y Producción",
       systemsLabel: "SISTEMAS:",
       tracked: (count: number) => `${count} MONITOREADOS`,
       prod: (count: number) => `${count} PROD`,
@@ -211,41 +215,52 @@ export const es: Dictionary = {
     eyebrow: "// 03. ARQUITECTURA Y CICLO DE ENTREGA",
     heading: "EL CICLO DE VIDA DE INGENIERÍA.",
     subheading:
-      "Desde la arquitectura de la capa de acceso y el aislamiento en contenedores hasta builds impulsados por CI y despliegues verificados manualmente — el flujo real detrás de cada sistema entregado.",
+      "Desde el diseño spec-driven asistido por IA hasta la arquitectura de la capa de acceso, el aislamiento en contenedores, builds impulsados por CI y despliegues en VPS verificados manualmente: el flujo real detrás de cada sistema entregado.",
     phaseLabel: (phase: string, badge: string) => `FASE // ${phase} — ${badge}`,
     executionProtocol: "[PROTOCOLO DE EJECUCIÓN]",
 
     stages: {
+      spec: {
+        badge: "DISEÑO // SPEC-DRIVEN",
+        title: "Diseño Spec-Driven Asistido por IA",
+        desc: "Las estructuras y la lógica se diseñan de forma colaborativa con Claude antes de escribir una sola línea, fijadas en una spec mediante Spec-Driven Development (SDD) y extendidas con MCP para contexto de proyecto en vivo y módulos de Skills versionados para conocimiento estructurado y repetible.",
+      },
       security: {
         badge: "PROTOCOLO // DISEÑO DE ACCESO Y AUTENTICACIÓN",
         title: "Arquitectura de Capa de Acceso y Revisión de Seguridad",
-        desc: "Diseño de los límites de sesión y permisos antes de implementar — flujos de tokens JWT/OAuth2 con rotación de access y refresh, y una revisión manual de cada endpoint vinculado a autenticación.",
+        desc: "Diseño de los límites de sesión y permisos antes de implementar: flujos de tokens JWT/OAuth2 con rotación de access y refresh, y una revisión manual de cada endpoint vinculado a autenticación.",
       },
       docker: {
         badge: "INFRAESTRUCTURA // AISLAMIENTO",
         title: "Contenerización y Entornos Reproducibles",
-        desc: "Builds Docker multi-etapa con escalado sobre Swarm para servicios backend (VeeBot), y builds de producción optimizados con Turbopack para plataformas frontend (Axon Crafts).",
+        desc: "Builds Docker multi-etapa para servicios backend, desplegados a un VPS apenas se pasan todos los tests (VeeBot), y builds de producción optimizados con Turbopack para plataformas frontend (Axon Crafts).",
       },
       cicd: {
         badge: "AUTOMATIZACIÓN // PIPELINES CI",
         title: "Automatización CI y Control Manual de QA",
-        desc: "GitHub Actions ejecuta build, type-check y lint en cada push. Una revisión manual de QA sigue siendo el control previo al merge a main — la cobertura de tests automatizados está en el roadmap, no es algo que afirmemos todavía.",
+        desc: "GitHub Actions ejecuta build, type-check y lint en cada push. Una revisión manual de QA sigue siendo el control previo al merge a main, y la cobertura de tests automatizados está en el roadmap, no es algo que afirmemos todavía.",
       },
       edge: {
         badge: "RELEASE // DESPLIEGUE",
         title: "Release sin Downtime y Verificación Manual",
-        desc: "Despliegues rolling sobre Swarm en AWS para servicios backend, despliegues edge instantáneos vía Vercel + Cloudflare para plataformas frontend — verificados manualmente post-release mientras el tooling dedicado de observabilidad sigue en el roadmap.",
+        desc: "Despliegues en VPS dockerizado para servicios backend, despliegues edge instantáneos vía Vercel + Cloudflare para plataformas frontend, verificados manualmente post-release mientras el tooling dedicado de observabilidad sigue en el roadmap.",
       },
     },
 
     artifacts: {
+      spec: {
+        claude: "Claude — Diseño Estructural",
+        sdd: "Spec-Driven Development (SDD)",
+        mcp: "MCP — Protocolo de Contexto Extendido",
+        skills: "Skills — Módulos de Conocimiento Estructurado",
+      },
       security: {
         jwt: "JWT / OAuth2 — Rotación de Access y Refresh",
         review: "Revisión Manual de Código — Rutas de Auth y Sesión",
       },
       docker: {
         buildComment: "// Build multi-etapa de contenedor de producción",
-        swarmComment: "// Escalado en Swarm (VeeBot)",
+        deployComment: "// Despliegue en VPS (VeeBot)",
       },
       cicd: {
         build: "Actions — Build",
@@ -255,7 +270,7 @@ export const es: Dictionary = {
         checked: "✓ VERIFICADO",
       },
       edge: {
-        targets: "AWS Docker Swarm // Vercel Edge + Cloudflare",
+        targets: "Docker // VPS // Vercel Edge + Cloudflare",
         verification: "Verificación Manual Post-Despliegue",
       },
     },
@@ -341,8 +356,8 @@ export const es: Dictionary = {
 
   // ── ProjectDetail ─────────────────────────────────────────────────────────
   projectDetail: {
-    backToMatrix: "VOLVER A LA MATRIZ",
-    returnToMatrix: "< VOLVER A LA MATRIZ",
+    backToMatrix: "VOLVER",
+    returnToMatrix: "< VOLVER",
     live: "EN VIVO",
     building: "EN CONSTRUCCIÓN",
     deployStatusLabel: "ESTADO DEL DEPLOY:",

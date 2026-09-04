@@ -31,16 +31,24 @@ const KineticWatermark: React.FC = () => {
 
   return (
     <div
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
       className="w-full overflow-hidden flex flex-col items-center border-t border-white/10 pt-16 pb-8 relative group select-none cursor-crosshair bg-neutral-950"
     >
-      
 
-      {/* Interactive Typography Stage */}
-      <div className="relative w-full flex justify-center items-center py-4">
-        
+
+      {/* Interactive Typography Stage — mouse tracking lives here, not on the
+          outer wrapper: the crosshairs below are absolutely positioned against
+          THIS div (their nearest positioned ancestor), so mouseX/mouseY must be
+          measured relative to it too. Measuring against the outer wrapper (which
+          carries extra pt-16/pb-8 padding this div doesn't have) put the tracked
+          coordinates in a different space than the lines they drive, throwing
+          the crosshairs off from the actual cursor position. */}
+      <div
+        onMouseMove={handleMouseMove}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        className="relative w-full flex justify-center items-center py-4"
+      >
+
         {/* LAYER A: Base Architectural Text (Subtle, dark, solid foundation) */}
         <div className="text-[11vw] font-black font-sans tracking-tighter text-neutral-900/90 leading-none select-none pointer-events-none whitespace-nowrap drop-shadow-[0_10px_15px_rgba(0,0,0,0.9)]">
           IVO.DEV
@@ -63,16 +71,22 @@ const KineticWatermark: React.FC = () => {
           </div>
         </m.div>
 
-        {/* LAYER C: CAD Diagnostic Crosshairs (Vertical & Horizontal tracking lines) */}
+        {/* LAYER C: CAD Diagnostic Crosshairs (Vertical & Horizontal tracking lines).
+            Both explicitly anchor their free axis to 0 — left-0 / top-0 — so the x/y
+            spring is the ONLY thing positioning them. Without that anchor, an
+            absolutely-positioned child with an unset axis falls back to this flex
+            container's justify-center/items-center for its static position, so the
+            line rendered pre-centered and the cursor offset stacked on top of that,
+            landing well right (and below) of the actual pointer. */}
         <m.div
           style={{ x: smoothX, opacity: isHovered ? 1 : 0 }}
           transition={{ opacity: { duration: 0.2 } }}
-          className="absolute top-0 bottom-0 w-[1px] bg-gradient-to-b from-transparent via-cyan-400/60 to-transparent pointer-events-none z-20 shadow-[0_0_8px_rgba(34,211,238,0.8)]"
+          className="absolute top-0 bottom-0 left-0 w-[1px] bg-gradient-to-b from-transparent via-cyan-400/60 to-transparent pointer-events-none z-20 shadow-[0_0_8px_rgba(34,211,238,0.8)]"
         />
         <m.div
           style={{ y: smoothY, opacity: isHovered ? 1 : 0 }}
           transition={{ opacity: { duration: 0.2 } }}
-          className="absolute left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-400/40 to-transparent pointer-events-none z-20"
+          className="absolute left-0 right-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-400/40 to-transparent pointer-events-none z-20"
         />
       </div>
     </div>

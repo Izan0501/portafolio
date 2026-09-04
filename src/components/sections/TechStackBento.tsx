@@ -104,6 +104,8 @@ const AcademicCard: React.FC = () => {
               </span>
               <div className="flex flex-wrap items-center gap-2 mt-2">
                 <span className="font-mono text-xs text-neutral-500">{t.stack.academic.degrees.cybersecurity.institution}</span>
+                <span className="font-mono text-xs text-neutral-600">·</span>
+                <span className="font-mono text-xs text-emerald-400/80">{t.stack.academic.degrees.cybersecurity.period}</span>
                 <span className="px-2 py-0.5 rounded text-[9px] uppercase font-bold tracking-wider bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">{t.stack.academic.inProgress}</span>
               </div>
             </div>
@@ -115,9 +117,11 @@ const AcademicCard: React.FC = () => {
               <span className="font-sans font-bold text-neutral-300 text-base sm:text-lg leading-tight">
                 {t.stack.academic.degrees.programming.name}
               </span>
-              <span className="font-mono text-xs text-neutral-500 mt-2">
-                {t.stack.academic.degrees.programming.institution}
-              </span>
+              <div className="flex flex-wrap items-center gap-2 mt-2">
+                <span className="font-mono text-xs text-neutral-500">{t.stack.academic.degrees.programming.institution}</span>
+                <span className="font-mono text-xs text-neutral-600">·</span>
+                <span className="font-mono text-xs text-neutral-500">{t.stack.academic.degrees.programming.period}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -254,7 +258,14 @@ const TerminalCard: React.FC = () => {
         break;
       case "resume":
       case "cv":
-        response = t.stack.terminal.resume;
+        response = (
+          <span>
+            {t.stack.terminal.resume}{" "}
+            <a className="text-cyan-400 underline" download="Ivo_Zanacchi_CV.pdf" href="/cv/Ivo_Zanacchi_CV.pdf">
+              Ivo_Zanacchi_CV.pdf
+            </a>
+          </span>
+        );
         break;
       case "hire":
       case "sudo hire":

@@ -8,17 +8,18 @@ import { VerticalCutReveal } from "@/components/ui/vertical-cut-reveal";
 import { useI18n } from "@/i18n/LanguageProvider";
 import type { Dictionary } from "@/i18n/dictionaries/en";
 
-type ArtifactType = "security" | "docker" | "cicd" | "edge";
+type ArtifactType = "spec" | "security" | "docker" | "cicd" | "edge";
 
 /**
  * Only the ordering and the artifact keys live here now — every string comes
  * from the active dictionary, keyed by `artifactType`.
  */
 const STAGE_ORDER: { phase: string; artifactType: ArtifactType }[] = [
-  { phase: "01", artifactType: "security" },
-  { phase: "02", artifactType: "docker" },
-  { phase: "03", artifactType: "cicd" },
-  { phase: "04", artifactType: "edge" },
+  { phase: "01", artifactType: "spec" },
+  { phase: "02", artifactType: "security" },
+  { phase: "03", artifactType: "docker" },
+  { phase: "04", artifactType: "cicd" },
+  { phase: "05", artifactType: "edge" },
 ];
 
 interface PipelineStage {
@@ -103,6 +104,24 @@ const PipelineStepCard: React.FC<PipelineStepCardProps> = ({ stage, index, total
 
         {/* 3. EMBEDDED TECHNICAL ARTIFACTS (Interactive engineering proof) */}
         <div className="mt-6 pt-6 border-t border-white/10">
+          {stage.artifactType === "spec" && (
+            <div className="flex flex-wrap items-center gap-3 font-mono text-xs">
+              <span className="px-3 py-1.5 rounded-lg bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+                {t.pipeline.artifacts.spec.claude}
+              </span>
+              <span className="px-3 py-1.5 rounded-lg bg-black/60 border border-white/10 text-neutral-300">
+                {t.pipeline.artifacts.spec.sdd}
+              </span>
+              <span className="px-3 py-1.5 rounded-lg bg-black/60 border border-white/10 text-neutral-300">
+                {t.pipeline.artifacts.spec.mcp}
+              </span>
+              <span className="px-3 py-1.5 rounded-lg bg-black/60 border border-white/10 text-neutral-300">
+                {t.pipeline.artifacts.spec.skills}
+              </span>
+            </div>
+          )}
+
           {stage.artifactType === "security" && (
             <div className="flex flex-wrap items-center gap-3 font-mono text-xs">
               <span className="px-3 py-1.5 rounded-lg bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 flex items-center gap-1.5">
@@ -121,8 +140,8 @@ const PipelineStepCard: React.FC<PipelineStepCardProps> = ({ stage, index, total
               <div><span className="text-cyan-400">FROM</span> node:20-alpine <span className="text-cyan-400">AS</span> builder</div>
               <div><span className="text-cyan-400">WORKDIR</span> /app</div>
               <div><span className="text-cyan-400">RUN</span> npm ci && npm run build</div>
-              <div className="text-neutral-500 pt-1">{t.pipeline.artifacts.docker.swarmComment}</div>
-              <div><span className="text-emerald-400">$</span> docker service scale veebot_api=4</div>
+              <div className="text-neutral-500 pt-1">{t.pipeline.artifacts.docker.deployComment}</div>
+              <div><span className="text-emerald-400">$</span> docker compose -f docker-compose.prod.yml up -d --build</div>
             </div>
           )}
 

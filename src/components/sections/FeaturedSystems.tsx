@@ -135,9 +135,6 @@ const CenterImage: React.FC<CenterImageProps> = ({ progress }) => {
           <h3 className="text-3xl sm:text-6xl font-black uppercase tracking-tight text-white drop-shadow-2xl">
             {t.systems.core.title}
           </h3>
-          <p className="text-neutral-300 text-sm sm:text-base font-sans mt-3 drop-shadow-md max-w-md mx-auto">
-            {t.systems.core.description}
-          </p>
         </div>
       </m.div>
 
@@ -321,9 +318,6 @@ const DeploymentRow: React.FC<DeploymentRowProps> = ({ project }) => {
                 {"//"}{index}
               </span>
               <span className="h-3 w-[1px] bg-white/20" />
-              <span className="font-mono text-[10px] sm:text-xs text-neutral-400 tracking-wider uppercase">
-                {location}
-              </span>
             </div>
             <h4 className="text-xl sm:text-3xl font-extrabold font-sans text-white group-hover:text-cyan-300 transition-colors tracking-tight">
               {title}
@@ -345,10 +339,6 @@ const DeploymentRow: React.FC<DeploymentRowProps> = ({ project }) => {
 
         {/* Right Column: Live Telemetry Status & Latency */}
         <div className="flex flex-wrap items-center justify-between sm:justify-end gap-x-4 gap-y-2 sm:gap-x-6 border-t lg:border-t-0 border-white/10 pt-4 lg:pt-0 relative z-10 shrink-0">
-          <div className="flex items-center gap-1.5 font-mono text-xs text-neutral-400 bg-black/50 px-3 py-1.5 rounded-xl border border-white/5">
-            <FiClock className="text-cyan-400 text-xs"/>
-            <span>{latency}</span>
-          </div>
 
           <div className={`flex items-center gap-2 ${accent.accent} ${accent.badgeBg} border ${accent.badgeBorder} px-4 py-1.5 rounded-full shadow-inner`}>
             <span className={`w-2 h-2 rounded-full bg-current ${accent.dotGlow} ${accent.pulse ? "animate-pulse" : ""}`} />

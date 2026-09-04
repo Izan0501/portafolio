@@ -189,16 +189,6 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({ id }) => {
               <span className="text-neutral-500 text-xs">{t.projectDetail.deployStatusLabel}</span>
               <span className="font-bold">{deployStatus}</span>
             </div>
-            <div className="flex items-center gap-2 font-mono text-xs sm:text-sm text-neutral-300">
-              <FiZap className="text-cyan-400" />
-              <span className="text-neutral-500">{t.projectDetail.latencyLabel}</span>
-              <span className="font-bold text-cyan-300">{latency}</span>
-            </div>
-            <div className="flex items-center gap-2 font-mono text-xs sm:text-sm text-neutral-300">
-              <FiCpu className="text-cyan-400" />
-              <span className="text-neutral-500">{t.projectDetail.architectureLabel}</span>
-              <span className="font-bold text-cyan-300">{architecture}</span>
-            </div>
           </div>
         </m.div>
       </section>

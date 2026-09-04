@@ -1,9 +1,9 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { m, MotionValue, useScroll, useTransform } from "motion/react";
 import { useLenis } from "lenis/react";
-import { FiPlayCircle } from "react-icons/fi";
+import { FiCheckCircle, FiDownload, FiPlayCircle } from "react-icons/fi";
 import { useI18n } from "@/i18n/LanguageProvider";
 import { HandwritingText } from "@/components/ui/handwriting-text";
 import { DotBorderButton } from "@/components/ui/dot-border-button";
@@ -88,6 +88,22 @@ export const HeroPaths: React.FC = () => {
   // The scroll indicator has done its job once the visitor actually scrolls —
   // fades out over the first ~180px rather than lingering.
   const scrollIndicatorOpacity = useTransform(scrollY, [0, 180], [1, 0]);
+
+  // Browsers give an <a download> click no completion event — there is no
+  // "the file finished saving" signal to wait for, native or otherwise. The
+  // standard, honest affordance is optimistic: confirm that the download was
+  // triggered right on click, the same "COPIED ✓" pattern already used for
+  // the terminal's copy-email button.
+  const [downloaded, setDownloaded] = useState(false);
+  const downloadResetRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+
+  useEffect(() => () => clearTimeout(downloadResetRef.current), []);
+
+  const handleDownloadClick = () => {
+    setDownloaded(true);
+    clearTimeout(downloadResetRef.current);
+    downloadResetRef.current = setTimeout(() => setDownloaded(false), 2200);
+  };
 
   const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
     e.preventDefault();
@@ -202,6 +218,31 @@ export const HeroPaths: React.FC = () => {
             initial={{ opacity: 0, y: 16 }}
             transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
           >
+            {/* Real static asset in /public — a plain <a download> is the
+                correct mechanism here: no JS/blob involved, works with JS
+                disabled, and is trivially CDN/browser-cacheable since Next.js
+                serves it as an unchanging file rather than through a custom
+                route. */}
+            <DotBorderButton
+              aria-atomic="true"
+              aria-live="polite"
+              download="Ivo_Zanacchi_CV.pdf"
+              href="/cv/Ivo_Zanacchi_CV.pdf"
+              onClick={handleDownloadClick}
+            >
+              {downloaded ? (
+                <>
+                  <FiCheckCircle className="text-emerald-400 text-lg" />
+                  <span>{t.hero.ctaDownloaded}</span>
+                </>
+              ) : (
+                <>
+                  <FiDownload className="text-emerald-400 text-lg transition-transform group-hover:scale-110" />
+                  <span>{t.hero.ctaDownload}</span>
+                </>
+              )}
+            </DotBorderButton>
+
             <DotBorderButton href="#stack" onClick={(e) => handleSmoothScroll(e, "stack")}>
               <FiPlayCircle className="text-emerald-400 text-lg transition-transform group-hover:scale-110" />
               <span>{t.hero.ctaInspect}</span>

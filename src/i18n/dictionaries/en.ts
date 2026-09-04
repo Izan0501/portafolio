@@ -35,24 +35,26 @@ export const en = {
     roles: ["ARCHITECT", "ENGINEER", "DEVELOPER"],
     avatarAlt: "System Architect",
     description:
-      "A passionate Full-Stack Developer and DevOps Architect based in Tucumán, Argentina — focused on building resilient systems that hold up under real-world load.",
+      "I'm a passionate Full-Stack and DevOps Developer based in Tucumán, Argentina. Focused on building resilient, scalable, sustainable, and efficient systems, ensuring availability and performance in real-world environments.",
     ctaInspect: "INSPECT ARCHITECTURE",
+    ctaDownload: "DOWNLOAD CV",
+    ctaDownloaded: "DOWNLOADED ✓",
     scrollHint: "SCROLL",
   },
 
   // ── TechStackBento (identity, academics, agile, terminal, toolchain) ────────
   stack: {
     eyebrow: "// 01. ENGINEER IDENTITY & TOOLCHAIN",
-    heading: "Architecture & Execution",
+    heading: "About Me and What I Do",
     subheading:
-      "A relentless focus on resilient systems, continuous integration, and deep collaboration within industry-standard Agile frameworks.",
+      "Full-stack systems on React/Vite + TypeScript and Next.js, backed by Python FastAPI and Node/Express, designed with Claude through Spec-Driven Development, shipped via CI/CD, and deployed in Docker containers on a VPS.",
 
     architect: {
       eyebrow: "// 00. THE ARCHITECT",
       title: "Full-Stack Developer & DevOps Architect",
       location: "Tucumán, Argentina",
-      bio: "I'm Ivo Zanacchi. I build systems the way I'd want to inherit them: clean, documented, and boring in the best way — infrastructure that scales without duct tape, and code reviews that don't need a translator. My focus is zero-regression delivery: every deploy should be routine, every rollback should be unnecessary, and every service should still make sense to read six months from now.",
-      pillars: ["CLEAN CODE", "SCALABLE ARCHITECTURE", "ZERO-REGRESSION"],
+      bio: "I'm Ivo Zanacchi. I build full-stack systems on React.js/Vite + TypeScript and Next.js, backed by Python (FastAPI) and Node.js/Express services across relational (PostgreSQL/Supabase, MySQL), non-relational (MongoDB, Firebase), and vector (Pinecone, for RAG) databases. Every system starts as a spec: I design the structure and logic with Claude, using Spec-Driven Development extended with MCP for live project context and versioned Skills for repeatable knowledge, before a single line ships. Once it's tested, I containerize it with Docker and deploy it to a VPS through CI/CD. My focus is zero-regression delivery: every deploy should be routine, every rollback should be unnecessary, and every service should still make sense to read six months from now.",
+      pillars: ["CLEAN CODE", "SCALABLE ARCHITECTURE", "SPEC-DRIVEN DEVELOPMENT", "ZERO-REGRESSION"],
     },
 
     academic: {
@@ -62,10 +64,12 @@ export const en = {
         cybersecurity: {
           name: "University Technical Degree in Cybersecurity",
           institution: "// UGR",
+          period: "MAR 2026 — ONGOING",
         },
         programming: {
           name: "University Technician in Programming",
           institution: "// UTN — Tucumán Regional Faculty",
+          period: "APR 2024 — FEB 2027",
         },
       },
     },
@@ -76,7 +80,7 @@ export const en = {
       bodyBefore: "I've built a deep, deliberate foundation in ",
       bodyStrong: "SCRUM and Agile frameworks",
       bodyAfter:
-        " — not just the ceremonies, but the discipline behind them. I'm ready to drop into a fast-paced team's existing workflow from day one: clear communication, rapid unblocking, and sprint commitments that get kept.",
+        ", not just the ceremonies, but the discipline behind them. I'm ready to drop into a fast-paced team's existing workflow from day one: clear communication, rapid unblocking, and sprint commitments that get kept.",
       competenciesLabel: "Core Competencies",
       competencies: [
         "Sprint Planning",
@@ -97,15 +101,15 @@ export const en = {
       initOutput: "System initialized. Type 'help' or click a command chip below.",
       help: "Available commands: [stack] [experience] [contact] [github] [resume] [clear] [hire]",
       techStack:
-        "Backend: Python (FastAPI), Node.js, TypeScript. DevOps: Docker, Kubernetes, CI/CD, AWS. DBs: MongoDB, PostgreSQL, Pinecone RAG.",
+        "Frontend: React.js/Vite + TypeScript, Next.js. Backend: Python (FastAPI), Node.js/Express. DBs: PostgreSQL/Supabase, MySQL, MongoDB, Firebase, Pinecone (RAG). Workflow: Claude-assisted spec-driven design (SDD) with MCP + Skills, CI/CD, Docker → VPS.",
       experience:
         "Full-Stack Software Engineer & DevOps specializing in zero-downtime architectures, multi-tenant SaaS platforms, and network protocol audits.",
       emailLabel: "Email:",
       linkedinLabel: "LinkedIn:",
       githubLabel: "Source archive:",
-      resume: "Resume artifact not uploaded to this build yet — use 'contact' to request one directly.",
+      resume: "Resume artifact ready for download:",
       hire: (email: string) =>
-        `ACCESS GRANTED. High-priority recruitment routing activated — send a transmission to ${email} to initiate contract discussions.`,
+        `ACCESS GRANTED. High-priority recruitment routing activated. Send a transmission to ${email} to initiate contract discussions.`,
       notRecognized: (command: string) =>
         `Command not recognized: '${command}'. Type 'help' for available directives.`,
     },
@@ -162,14 +166,14 @@ export const en = {
   // ── FeaturedSystems ───────────────────────────────────────────────────────
   systems: {
     eyebrow: "// 02. FLAGSHIP SYSTEMS & ARCHITECTURE",
-    heading: "Production Architecture",
-    inspectMatrix: "INSPECT DEPLOYMENT MATRIX",
+    heading: "Portfolio",
+    inspectMatrix: "INSPECT SYSTEMS",
 
     core: {
-      eyebrow: "// CENTRAL CLUSTER CORE",
-      title: "Zero-Regression",
+      eyebrow: "PROJECTS IN DEVELOPMENT AND PRODUCTION",
+      title: "Developed Systems",
       description:
-        "High-concurrency backend microservices, containerized orchestration, and sub-millisecond edge routing.",
+        "High-concurrency backend microservices, containerized orchestration, and flawless, zero-downtime deployments.",
     },
 
     parallax: {
@@ -192,8 +196,8 @@ export const en = {
     },
 
     matrix: {
-      eyebrow: "// AUDIT LOG: PRODUCTION SYSTEMS STATUS",
-      heading: "Deployment Matrix",
+      eyebrow: "SYSTEMS STATUS",
+      heading: "Development and Production",
       systemsLabel: "SYSTEMS:",
       tracked: (count: number) => `${count} TRACKED`,
       prod: (count: number) => `${count} PROD`,
@@ -207,41 +211,52 @@ export const en = {
     eyebrow: "// 03. ARCHITECTURE & DELIVERY LIFECYCLE",
     heading: "THE ENGINEERING LIFECYCLE.",
     subheading:
-      "From access-layer architecture and container isolation to CI-driven builds and manually verified deployments — the real workflow behind every shipped system.",
+      "From AI-assisted, spec-driven design to access-layer architecture, container isolation, CI-driven builds, and manually verified VPS deployments: the real workflow behind every shipped system.",
     phaseLabel: (phase: string, badge: string) => `PHASE // ${phase} — ${badge}`,
     executionProtocol: "[EXECUTION PROTOCOL]",
 
     stages: {
+      spec: {
+        badge: "DESIGN // SPEC-DRIVEN",
+        title: "AI-Assisted Spec-Driven Design",
+        desc: "Structures and logic are designed collaboratively with Claude before a single line ships, locked into a spec via Spec-Driven Development (SDD) and extended with MCP for live project context and versioned Skills modules for repeatable, structured knowledge.",
+      },
       security: {
         badge: "PROTOCOL // ACCESS & AUTH DESIGN",
         title: "Access-Layer Architecture & Security Review",
-        desc: "Designing session and permission boundaries before implementation — JWT/OAuth2 token flows with access & refresh rotation, and a manual review pass on every auth-adjacent endpoint.",
+        desc: "Designing session and permission boundaries before implementation: JWT/OAuth2 token flows with access & refresh rotation, and a manual review pass on every auth-adjacent endpoint.",
       },
       docker: {
         badge: "INFRASTRUCTURE // ISOLATION",
         title: "Containerization & Reproducible Environments",
-        desc: "Multi-stage Docker builds with Swarm-based scaling for backend services (VeeBot), and Turbopack-optimized production builds for frontend platforms (Axon Crafts).",
+        desc: "Multi-stage Docker builds for backend services, shipped to a VPS once every test passes (VeeBot), and Turbopack-optimized production builds for frontend platforms (Axon Crafts).",
       },
       cicd: {
         badge: "AUTOMATION // CI PIPELINES",
         title: "CI Automation & Manual QA Gate",
-        desc: "GitHub Actions runs build, type-check, and lint on every push. A manual QA pass is still the gate before merging to main — automated test coverage is on the roadmap, not a claim we make yet.",
+        desc: "GitHub Actions runs build, type-check, and lint on every push. A manual QA pass is still the gate before merging to main, and automated test coverage is on the roadmap rather than a claim we make yet.",
       },
       edge: {
         badge: "RELEASE // DEPLOYMENT",
         title: "Zero-Downtime Release & Manual Verification",
-        desc: "Rolling Swarm deploys on AWS for backend services, instant edge deploys via Vercel + Cloudflare for frontend platforms — verified manually post-release while dedicated observability tooling is still on the roadmap.",
+        desc: "Dockerized VPS deploys for backend services, instant edge deploys via Vercel + Cloudflare for frontend platforms, verified manually post-release while dedicated observability tooling is still on the roadmap.",
       },
     },
 
     artifacts: {
+      spec: {
+        claude: "Claude — Structural Design",
+        sdd: "Spec-Driven Development (SDD)",
+        mcp: "MCP — Extended Context Protocol",
+        skills: "Skills — Structured Knowledge Modules",
+      },
       security: {
         jwt: "JWT / OAuth2 — Access & Refresh Rotation",
         review: "Manual Code Review — Auth & Session Paths",
       },
       docker: {
         buildComment: "// Multi-stage production container build",
-        swarmComment: "// Swarm scaling (VeeBot)",
+        deployComment: "// VPS deploy (VeeBot)",
       },
       cicd: {
         build: "Actions — Build",
@@ -251,7 +266,7 @@ export const en = {
         checked: "✓ CHECKED",
       },
       edge: {
-        targets: "AWS Docker Swarm // Vercel Edge + Cloudflare",
+        targets: "Docker // VPS // Vercel Edge + Cloudflare",
         verification: "Manual Post-Deploy Verification",
       },
     },
@@ -337,8 +352,8 @@ export const en = {
 
   // ── ProjectDetail ─────────────────────────────────────────────────────────
   projectDetail: {
-    backToMatrix: "BACK TO MATRIX",
-    returnToMatrix: "< RETURN TO MATRIX",
+    backToMatrix: "BACK",
+    returnToMatrix: "< RETURN",
     live: "LIVE",
     building: "BUILDING",
     deployStatusLabel: "DEPLOY STATUS:",

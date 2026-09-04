@@ -122,8 +122,8 @@ export const PROJECTS_DATA: Project[] = [
     status: "PROD",
     statusLabel: STATUS_LABELS.production,
     architecture: { en: "MONOLITH + REALTIME", es: "MONOLITO + TIEMPO REAL" },
-    stack: ["React", "Node.js", "PostgreSQL", "WebSockets"],
-    location: { en: "AWS US-EAST // RDS", es: "AWS US-EAST // RDS" },
+    stack: ["React", "Vite", "TypeScript", "Tailwind", "FastAPI", "PostgreSQL", "Docker", "Supabase"],
+    location: { en: "SUPABASE // DOCKER", es: "SUPABASE // DOCKER" },
     latency: { en: "0.35ms", es: "0.35ms" },
     icon: FiDatabase,
     heroImage: "/projects/nave24stock/stock-back.png",
@@ -132,18 +132,18 @@ export const PROJECTS_DATA: Project[] = [
       es: "Un sistema de inventario de depósito en tiempo real que registra niveles de stock, movimientos y umbrales de reposición en múltiples ubicaciones de almacenamiento.",
     },
     challenge: {
-      en: "Multiple terminals write to the same stock counts concurrently — the system has to broadcast every movement instantly without ever letting two writers double-count the same unit.",
-      es: "Varias terminales escriben sobre los mismos conteos de stock en simultáneo — el sistema tiene que difundir cada movimiento al instante sin permitir jamás que dos escrituras cuenten dos veces la misma unidad.",
+      en: "Multiple terminals write to the same stock counts concurrently. The system has to broadcast every movement instantly without ever letting two writers double-count the same unit.",
+      es: "Varias terminales escriben sobre los mismos conteos de stock en simultáneo. El sistema tiene que difundir cada movimiento al instante sin permitir jamás que dos escrituras cuenten dos veces la misma unidad.",
     },
     objectives: {
       en: [
         "Give warehouse staff a live, always-accurate stock count",
-        "Push real-time updates to every connected client via WebSockets",
+        "Push real-time updates to every connected client via Supabase Realtime",
         "Model multi-location inventory without double-counting stock",
       ],
       es: [
         "Dar al personal del depósito un conteo de stock en vivo y siempre exacto",
-        "Enviar actualizaciones en tiempo real a cada cliente conectado vía WebSockets",
+        "Enviar actualizaciones en tiempo real a cada cliente conectado vía Supabase Realtime",
         "Modelar inventario multi-ubicación sin contar el stock dos veces",
       ],
     },
@@ -219,29 +219,31 @@ export const PROJECTS_DATA: Project[] = [
     status: "DEV",
     statusLabel: STATUS_LABELS.inDevelopment,
     architecture: { en: "MICROSERVICES", es: "MICROSERVICIOS" },
-    stack: ["MongoDB", "FastAPI", "Python", "OCR Engine"],
-    location: { en: "DOCKER SWARM // STAGING", es: "DOCKER SWARM // STAGING" },
+    stack: ["React", "Vite", "Framer Motion", "Tailwind", "FastAPI", "MongoDB", "Pinecone", "Gemini 2.5 Flash"],
+    location: { en: "STAGING // CI/CD PIPELINE", es: "STAGING // CI/CD PIPELINE" },
     latency: { en: "5.7ms (staging)", es: "5.7ms (staging)" },
     icon: FiServer,
     heroImage: "/projects/veeBot/bot-back1.png",
     scope: {
-      en: "A multi-tenant SaaS platform that ingests PDFs and scanned documents, extracts structured data via OCR, and automates reservation workflows.",
-      es: "Una plataforma SaaS multi-tenant que ingiere PDFs y documentos escaneados, extrae datos estructurados mediante OCR y automatiza flujos de reservas.",
+      en: "A multi-tenant SaaS recruiting platform where an AI pipeline scores, compares, and interviews every candidate CV, turning raw résumés into structured, searchable talent intelligence for recruiting agencies. The analysis engine has since moved from Groq's Llama 3.3 70B Versatile to Gemini 2.5 Flash for deeper contextual scoring.",
+      es: "Una plataforma SaaS de reclutamiento multi-tenant donde un pipeline de IA puntúa, compara y entrevista cada CV de candidato, convirtiendo currículums en bruto en inteligencia de talento estructurada y consultable para agencias de selección. El motor de análisis pasó de Llama 3.3 70B Versatile de Groq a Gemini 2.5 Flash para un análisis contextual más profundo.",
     },
     challenge: {
-      en: "Every tenant's documents flow through the same OCR pipeline — services have to scale independently under load while keeping tenant data fully isolated end-to-end.",
-      es: "Los documentos de cada tenant atraviesan el mismo pipeline de OCR — los servicios tienen que escalar de forma independiente bajo carga manteniendo los datos de cada tenant completamente aislados de punta a punta.",
+      en: "Every tenant's candidate data flows through the same AI scoring and embedding pipeline. The platform has to keep each agency's talent pool fully isolated while still scaling AI inference independently under load.",
+      es: "Los datos de candidatos de cada tenant atraviesan el mismo pipeline de scoring y embeddings de IA. La plataforma tiene que mantener el pool de talento de cada agencia completamente aislado mientras escala la inferencia de IA de forma independiente bajo carga.",
     },
     objectives: {
       en: [
-        "Automate document intake with an OCR extraction pipeline",
-        "Support multiple tenants on isolated Docker Swarm services",
-        "Turn extracted data into an automated reservation workflow",
+        "Score and rank every imported CV automatically with an AI analysis pipeline",
+        "Embed candidate profiles in Pinecone for meaning-based, not just keyword, search",
+        "Support multiple tenants on isolated, independently scalable FastAPI services",
+        "Notify recruiters and candidates through automated SMTP email flows",
       ],
       es: [
-        "Automatizar la recepción de documentos con un pipeline de extracción OCR",
-        "Soportar múltiples tenants sobre servicios aislados en Docker Swarm",
-        "Convertir los datos extraídos en un flujo de reservas automatizado",
+        "Puntuar y rankear cada CV importado automáticamente con un pipeline de análisis de IA",
+        "Vectorizar los perfiles de candidatos en Pinecone para búsqueda por significado, no solo por palabra clave",
+        "Soportar múltiples tenants sobre servicios FastAPI aislados y escalables de forma independiente",
+        "Notificar a reclutadores y candidatos mediante flujos de email automatizados por SMTP",
       ],
     },
     // Real product screenshots — public/projects/veeBot/. All 20 captures split
@@ -376,11 +378,11 @@ export const PROJECTS_DATA: Project[] = [
         },
         specs: {
           en: [
-            "Every imported CV lands scored — 92%, 88%, 85% match — with a status badge beside it",
+            "Every imported CV lands scored (92%, 88%, 85% match), with a status badge beside it",
             "Header tiles track total candidates, top talents, global quality and low-fit count",
           ],
           es: [
-            "Cada CV importado llega con su puntaje — 92%, 88%, 85% de match — y una insignia de estado al lado",
+            "Cada CV importado llega con su puntaje (92%, 88%, 85% de match) y una insignia de estado al lado",
             "Las tarjetas del encabezado siguen candidatos totales, top talents, calidad global y bajo ajuste",
           ],
         },
@@ -515,11 +517,11 @@ export const PROJECTS_DATA: Project[] = [
         specs: {
           en: [
             "A quality curve tracks candidate evolution against the global average",
-            "A role donut breaks the base down by speciality — Full Stack, Frontend, Backend, DevOps, Data",
+            "A role donut breaks the base down by speciality: Full Stack, Frontend, Backend, DevOps, Data",
           ],
           es: [
             "Una curva de calidad sigue la evolución de los candidatos contra el promedio global",
-            "Un donut de roles descompone la base por especialidad — Full Stack, Frontend, Backend, DevOps, Data",
+            "Un donut de roles descompone la base por especialidad: Full Stack, Frontend, Backend, DevOps, Data",
           ],
         },
         src: "/projects/veeBot/bot-analytics2.png",
@@ -677,11 +679,11 @@ export const PROJECTS_DATA: Project[] = [
         specs: {
           en: [
             "A searchable help centre answering questions about capabilities, AI and exports",
-            "Entries filter by category — capabilities, interviews, data and security",
+            "Entries filter by category: capabilities, interviews, data and security",
           ],
           es: [
             "Un centro de ayuda con búsqueda que responde sobre capacidades, IA y exportación",
-            "Las entradas se filtran por categoría — capacidades, entrevistas, datos y seguridad",
+            "Las entradas se filtran por categoría: capacidades, entrevistas, datos y seguridad",
           ],
         },
         src: "/projects/veeBot/bot-help-1.png",
@@ -719,29 +721,31 @@ export const PROJECTS_DATA: Project[] = [
     title: "Estudio Zanacchi",
     status: "PROD",
     statusLabel: STATUS_LABELS.production,
-    architecture: { en: "JAMSTACK / SSR", es: "JAMSTACK / SSR" },
-    stack: ["Next.js 16", "Tailwind", "Sanity CMS", "Vercel"],
+    architecture: { en: "SPA / CSR", es: "SPA / CSR" },
+    stack: ["React", "Vite", "Tailwind", "Framer Motion", "Google Maps API", "WhatsApp API"],
     location: { en: "VERCEL EDGE // GLOBAL CDN", es: "VERCEL EDGE // CDN GLOBAL" },
     latency: { en: "0.29ms", es: "0.29ms" },
     icon: FiGlobe,
     heroImage: "/projects/estudio/estudio-back.png",
     scope: {
-      en: "A high-performance marketing and client-facing site built to represent the studio's brand with an editorial, content-driven layout backed by a headless CMS.",
-      es: "Un sitio institucional de alto rendimiento construido para representar la marca del estudio con un layout editorial orientado al contenido y respaldado por un CMS headless.",
+      en: "A high-performance marketing and client-intake site for a criminal and consumer-law practice, built as a React/Vite SPA with an aggressive editorial brand identity, WhatsApp-routed case intake, and Google Maps–located offices across two provinces.",
+      es: "Un sitio institucional y de captación de clientes de alto rendimiento para un estudio de derecho penal y del consumidor, construido como una SPA en React/Vite con una identidad editorial agresiva, recepción de casos derivada a WhatsApp y sedes ubicadas con Google Maps en dos provincias.",
     },
     challenge: {
-      en: "Give non-technical staff full editorial control without ever letting a content edit regress the site's Core Web Vitals — the CMS layer had to stay invisible to performance.",
-      es: "Dar control editorial total a personas sin perfil técnico sin que una edición de contenido degrade nunca los Core Web Vitals del sitio — la capa del CMS tenía que ser invisible para el rendimiento.",
+      en: "Every case intake is time-sensitive and personal. The contact flow has to route a stranger's legal problem straight into WhatsApp without ever feeling like a generic contact form.",
+      es: "Cada recepción de caso es sensible al tiempo y personal. El flujo de contacto tiene que derivar el problema legal de un desconocido directo a WhatsApp sin sentirse nunca como un formulario de contacto genérico.",
     },
     objectives: {
       en: [
-        "Ship a fast, SEO-ready marketing site on the App Router",
-        "Give non-technical editors full control over content via Sanity",
+        "Ship a fast, SEO-ready marketing site as a React/Vite SPA",
+        "Route every case intake straight to WhatsApp via a structured, pre-categorised form",
+        "Pin both office locations, Tucumán and Catamarca, with Google Maps",
         "Hit 100/100 Lighthouse performance on every core route",
       ],
       es: [
-        "Publicar un sitio institucional rápido y listo para SEO sobre el App Router",
-        "Dar a editores sin perfil técnico control total del contenido vía Sanity",
+        "Publicar un sitio institucional rápido y listo para SEO como SPA en React/Vite",
+        "Derivar cada recepción de caso directo a WhatsApp mediante un formulario estructurado y pre-categorizado",
+        "Ubicar ambas sedes, Tucumán y Catamarca, con Google Maps",
         "Alcanzar 100/100 de rendimiento en Lighthouse en cada ruta principal",
       ],
     },
@@ -759,11 +763,11 @@ export const PROJECTS_DATA: Project[] = [
         specs: {
           en: [
             "Full-bleed hero with serif display type and a 90% success-rate credential badge",
-            "Dual CTA layout — instant WhatsApp consultation and services deep-link",
+            "Dual CTA layout: instant WhatsApp consultation and services deep-link",
           ],
           es: [
             "Hero a sangre completa con tipografía serif display y badge de 90% de éxito",
-            "Doble CTA — consulta instantánea por WhatsApp y enlace a servicios",
+            "Doble CTA: consulta instantánea por WhatsApp y enlace a servicios",
           ],
         },
         src: "/projects/estudio/estudio-back.png",
@@ -804,11 +808,11 @@ export const PROJECTS_DATA: Project[] = [
         },
         specs: {
           en: [
-            "Three speciality cards — Consumer Law, Criminal & Complaints, and Gender Violence — each with domain photography",
+            "Three speciality cards, Consumer Law, Criminal & Complaints, and Gender Violence, each with domain photography",
             "Central CTA button drives to the contact intake form from any practice card",
           ],
           es: [
-            "Tres tarjetas de especialidad — Derecho del Consumidor, Penal y Querellas, Violencia de Género — cada una con fotografía del área",
+            "Tres tarjetas de especialidad, Derecho del Consumidor, Penal y Querellas, Violencia de Género, cada una con fotografía del área",
             "CTA central dirige al formulario de contacto desde cualquier tarjeta de práctica",
           ],
         },
@@ -828,11 +832,11 @@ export const PROJECTS_DATA: Project[] = [
         },
         specs: {
           en: [
-            "Three testimonial cards from real clients — criminal complaint, gender violence, and animal rights cases",
+            "Three testimonial cards from real clients: criminal complaint, gender violence, and animal rights cases",
             "Each card carries the client's initials, case category badge, and a decorative quote mark",
           ],
           es: [
-            "Tres tarjetas de testimonios de clientes reales — querella penal, violencia de género y derecho animal",
+            "Tres tarjetas de testimonios de clientes reales: querella penal, violencia de género y derecho animal",
             "Cada tarjeta lleva iniciales del cliente, badge de categoría del caso y comilla decorativa",
           ],
         },
@@ -850,11 +854,11 @@ export const PROJECTS_DATA: Project[] = [
         },
         specs: {
           en: [
-            "A vertical timeline maps the four-stage legal workflow — Forensic Analysis, Shock Strategy, Litigation & Negotiation, Resolution",
+            "A vertical timeline maps the four-stage legal workflow: Forensic Analysis, Shock Strategy, Litigation & Negotiation, Resolution",
             "Each node carries a pink accent dot and brief explanation, reinforcing the firm's aggressive strategy brand",
           ],
           es: [
-            "Una línea de tiempo vertical mapea el flujo legal de cuatro etapas — Análisis Forense, Estrategia de Choque, Litigio y Negociación, Resolución",
+            "Una línea de tiempo vertical mapea el flujo legal de cuatro etapas: Análisis Forense, Estrategia de Choque, Litigio y Negociación, Resolución",
             "Cada nodo lleva un punto de acento rosa con explicación breve, reforzando la marca de estrategia agresiva del estudio",
           ],
         },
@@ -874,11 +878,11 @@ export const PROJECTS_DATA: Project[] = [
         },
         specs: {
           en: [
-            "Media banner showcases coverage by El Tucumano and La Gaceta — the province's two leading newspapers",
+            "Media banner showcases coverage by El Tucumano and La Gaceta, the province's two leading newspapers",
             "Three article cards with category badges (Animal Rights, Criminal), read-time estimate, and external links",
           ],
           es: [
-            "Banner de medios destaca cobertura de El Tucumano y La Gaceta — los dos principales diarios de la provincia",
+            "Banner de medios destaca cobertura de El Tucumano y La Gaceta, los dos principales diarios de la provincia",
             "Tres tarjetas de artículo con badges de categoría (Derecho Animal, Penal), tiempo de lectura y enlaces externos",
           ],
         },
@@ -964,11 +968,11 @@ export const PROJECTS_DATA: Project[] = [
         specs: {
           en: [
             "Alternating-side timeline cards trace the case from initial discovery through preventive detention to trial",
-            "Pink accent dots on the central axis mark each milestone — the final 'Pedido al Congreso' card glows with an emphasized border",
+            "Pink accent dots on the central axis mark each milestone; the final 'Pedido al Congreso' card glows with an emphasized border",
           ],
           es: [
             "Tarjetas alternadas en la línea de tiempo trazan el caso desde el descubrimiento hasta la detención preventiva y el juicio",
-            "Puntos de acento rosa en el eje central marcan cada hito — la tarjeta final 'Pedido al Congreso' brilla con borde enfatizado",
+            "Puntos de acento rosa en el eje central marcan cada hito; la tarjeta final 'Pedido al Congreso' brilla con borde enfatizado",
           ],
         },
         src: "/projects/estudio/estudio-news-4.png",
@@ -1010,11 +1014,11 @@ export const PROJECTS_DATA: Project[] = [
         },
         specs: {
           en: [
-            "Split layout — left panel shows office addresses with WhatsApp and live availability status, right panel opens the case intake form",
+            "Split layout: left panel shows office addresses with WhatsApp and live availability status, right panel opens the case intake form",
             "Conflict-type selector chips (Criminal, Emergencies, Family, Succession, Damages) pre-route the case before submission",
           ],
           es: [
-            "Layout dividido — panel izquierdo muestra direcciones de sedes con WhatsApp y estado de disponibilidad en vivo, panel derecho abre el formulario de caso",
+            "Layout dividido: panel izquierdo muestra direcciones de sedes con WhatsApp y estado de disponibilidad en vivo, panel derecho abre el formulario de caso",
             "Chips de tipo de conflicto (Penal, Urgencias, Familia, Sucesiones, Daños) pre-rutean el caso antes del envío",
           ],
         },
@@ -1053,30 +1057,32 @@ export const PROJECTS_DATA: Project[] = [
     title: "Portafolio Mel",
     status: "DEV",
     statusLabel: STATUS_LABELS.inDevelopment,
-    architecture: { en: "STATIC / JAMSTACK", es: "ESTÁTICO / JAMSTACK" },
-    stack: ["Next.js", "Framer Motion", "Tailwind", "Vercel"],
+    architecture: { en: "SPA / CSR", es: "SPA / CSR" },
+    stack: ["React", "Vite", "TypeScript", "Tailwind", "Framer Motion", "Google Maps API", "WhatsApp API"],
     location: { en: "PREVIEW BUILD // DEV", es: "BUILD DE PREVIEW // DEV" },
     latency: { en: "6.1ms (staging)", es: "6.1ms (staging)" },
     icon: FiLayout,
     heroImage: "/projects/portafolio-mel/portafolio-back.png",
     scope: {
-      en: "A kinetic, image-forward personal portfolio built to showcase creative work with fluid page transitions and a distinct visual identity.",
-      es: "Un portfolio personal cinético y centrado en la imagen, construido para exhibir trabajo creativo con transiciones fluidas y una identidad visual propia.",
+      en: "A kinetic, image-forward photography portfolio built as a TypeScript React/Vite SPA, showcasing creative work with fluid Framer Motion transitions and a distinct visual identity.",
+      es: "Un portfolio de fotografía cinético y centrado en la imagen, construido como una SPA en React/Vite con TypeScript, que exhibe trabajo creativo con transiciones fluidas de Framer Motion y una identidad visual propia.",
     },
     challenge: {
-      en: "Full-bleed imagery and layered motion transitions are heavy by default — the build has to stay buttery on mid-range mobile hardware, not just on a dev machine.",
-      es: "Las imágenes a sangre completa y las transiciones en capas son pesadas por naturaleza — el build tiene que seguir siendo fluido en hardware móvil de gama media, no solo en una máquina de desarrollo.",
+      en: "Full-bleed imagery and layered motion transitions are heavy by default. The build has to stay buttery on mid-range mobile hardware, not just on a dev machine.",
+      es: "Las imágenes a sangre completa y las transiciones en capas son pesadas por naturaleza. El build tiene que seguir siendo fluido en hardware móvil de gama media, no solo en una máquina de desarrollo.",
     },
     objectives: {
       en: [
         "Build a fast, gallery-first layout for visual work",
         "Add fluid Framer Motion page/section transitions",
         "Keep the CMS-free content model simple enough to update solo",
+        "Route booking enquiries to WhatsApp and locate shoots with Google Maps",
       ],
       es: [
         "Construir un layout rápido y centrado en la galería para trabajo visual",
         "Sumar transiciones fluidas de página y sección con Framer Motion",
         "Mantener el modelo de contenido sin CMS simple de actualizar en solitario",
+        "Derivar consultas de reserva a WhatsApp y ubicar sesiones con Google Maps",
       ],
     },
     gallery: [
@@ -1108,8 +1114,14 @@ export const PROJECTS_DATA: Project[] = [
           es: "Galerías // Slider de Expansión Hover",
         },
         specs: {
-          en: ["Accordion-style image columns that expand fluidly on hover", "Dynamic layout shifts powered by CSS Grid and Framer Motion spring physics"],
-          es: ["Columnas de imágenes estilo acordeón que se expanden fluidamente al hacer hover", "Cambios de layout dinámicos impulsados por CSS Grid y físicas spring de Framer Motion"],
+          en: [
+            "Five labelled columns, Editorial, Fine Art, Portraiture, Cinematic, Monochrome, expand fluidly on hover",
+            "The active column widens to reveal its full photograph while the rest compress to a labelled sliver",
+          ],
+          es: [
+            "Cinco columnas etiquetadas, Editorial, Fine Art, Retratos, Cinemático, Monocromo, se expanden fluidamente al hacer hover",
+            "La columna activa se ensancha para revelar la foto completa mientras el resto se comprime a una franja con etiqueta",
+          ],
         },
         src: "/projects/portafolio-mel/portafolio-hoverSlider.png",
         group: GALLERY_GROUPS.portafolioMelGallery,
@@ -1124,40 +1136,58 @@ export const PROJECTS_DATA: Project[] = [
           es: "Proceso // Tarjetas de Fases Apiladas",
         },
         specs: {
-          en: ["Scroll-driven sticky stacking cards detailing the photographic process", "Sticky positioning ensures context remains visible while scrolling through phases"],
-          es: ["Tarjetas apilables impulsadas por el scroll que detallan el proceso fotográfico", "Posicionamiento sticky asegura que el contexto permanezca visible al scrollear las fases"],
+          en: [
+            "Numbered phase cards ('Phase 2 — 02/03', 'Phase 3 — 03/03') stack on scroll, each stamped with its own progress counter",
+            "The final card, 'The Polish', details the high-end retouching stage: color grading, dodging and burning, while protecting natural authenticity",
+          ],
+          es: [
+            "Tarjetas de fase numeradas ('Fase 2 — 02/03', 'Fase 3 — 03/03') se apilan al scrollear, cada una con su propio contador de progreso",
+            "La tarjeta final, 'The Polish', detalla la etapa de retoque de alta gama: corrección de color, dodge y burn, protegiendo la autenticidad natural",
+          ],
         },
         src: "/projects/portafolio-mel/portafolio-cards.png",
         group: GALLERY_GROUPS.portafolioMelGallery,
       },
       {
         alt: {
-          en: "Melina Zanacchi Portfolio — infinite image carousel 1",
-          es: "Portafolio Melina Zanacchi — carrusel de imágenes infinito 1",
+          en: "Melina Zanacchi Portfolio — circular gallery of thumbnails around 'The Art of Perception' heading",
+          es: "Portafolio Melina Zanacchi — galería circular de miniaturas alrededor del título 'The Art of Perception'",
         },
         caption: {
-          en: "Work // Infinite Carousel",
-          es: "Trabajo // Carrusel Infinito",
+          en: "Gallery // The Art of Perception",
+          es: "Galería // The Art of Perception",
         },
         specs: {
-          en: ["Continuous marquee slider presenting high-resolution editorial work", "Hardware-accelerated CSS animations for buttery-smooth panning"],
-          es: ["Slider de marquesina continuo presentando trabajo editorial de alta resolución", "Animaciones CSS aceleradas por hardware para un paneo ultra fluido"],
+          en: [
+            "Roughly twenty photographs arranged in a full circle around a centred headline and 'scroll to explore' cue",
+            "Scroll-driven entrance brings each thumbnail in from the ring's edge toward its resting position",
+          ],
+          es: [
+            "Alrededor de veinte fotografías dispuestas en un círculo completo alrededor de un título centrado y la indicación 'scroll to explore'",
+            "La entrada impulsada por scroll trae cada miniatura desde el borde del anillo hasta su posición final",
+          ],
         },
         src: "/projects/portafolio-mel/portafolio-carousel-1.png",
         group: GALLERY_GROUPS.portafolioMelGallery,
       },
       {
         alt: {
-          en: "Melina Zanacchi Portfolio — infinite image carousel 2",
-          es: "Portafolio Melina Zanacchi — carrusel de imágenes infinito 2",
+          en: "Melina Zanacchi Portfolio — 'Curated Masterpieces' section with a tilted photo strip",
+          es: "Portafolio Melina Zanacchi — sección 'Curated Masterpieces' con tira de fotos inclinadas",
         },
         caption: {
-          en: "Work // Infinite Carousel (Dark)",
-          es: "Trabajo // Carrusel Infinito (Oscuro)",
+          en: "Gallery // Curated Masterpieces",
+          es: "Galería // Curated Masterpieces",
         },
         specs: {
-          en: ["Dark mode presentation of the infinite image marquee", "Seamless looping with visually hidden duplicate tracks"],
-          es: ["Presentación en modo oscuro de la marquesina de imágenes infinita", "Bucle continuo con pistas duplicadas visualmente ocultas"],
+          en: [
+            "A row of alternating tilted thumbnails runs along the bottom edge beneath the section headline",
+            "Companion section to the circular gallery above, reusing the same card style in a straight line",
+          ],
+          es: [
+            "Una fila de miniaturas inclinadas alternadas corre a lo largo del borde inferior debajo del título de sección",
+            "Sección hermana de la galería circular anterior, reutilizando el mismo estilo de tarjeta en línea recta",
+          ],
         },
         src: "/projects/portafolio-mel/portafolio-carousel-2.png",
         group: GALLERY_GROUPS.portafolioMelGallery,
@@ -1205,8 +1235,14 @@ export const PROJECTS_DATA: Project[] = [
           es: "Enfoque // Los Tres Pilares",
         },
         specs: {
-          en: ["Three-column feature grid outlining core photographic methodology", "Subtle image gradients ensure textual legibility against complex photographic backgrounds"],
-          es: ["Grilla de características de tres columnas delineando la metodología fotográfica central", "Gradientes sutiles en las imágenes aseguran la legibilidad del texto sobre fondos fotográficos complejos"],
+          en: [
+            "Three numbered pillars, Environmental Synergy, Editorial Retouching, Tailored Direction, each paired with its own photograph",
+            "Frames the methodology as reading light and location, retouching with restraint, and directing subjects with intuitive precision",
+          ],
+          es: [
+            "Tres pilares numerados, Sinergia Ambiental, Retoque Editorial, Dirección a Medida, cada uno emparejado con su propia fotografía",
+            "Presenta la metodología como leer la luz y el lugar, retocar con mesura y dirigir sujetos con precisión intuitiva",
+          ],
         },
         src: "/projects/portafolio-mel/portafolio-info.png",
         group: GALLERY_GROUPS.portafolioMelAbout,
@@ -1236,30 +1272,30 @@ export const PROJECTS_DATA: Project[] = [
     title: "Consultorio Odontológico",
     status: "DEV",
     statusLabel: STATUS_LABELS.inDevelopment,
-    architecture: { en: "SSR MONOLITH", es: "MONOLITO SSR" },
-    stack: ["Next.js", "MongoDB", "Booking Engine", "Tailwind"],
-    location: { en: "STAGING CLUSTER // DEV", es: "CLÚSTER DE STAGING // DEV" },
+    architecture: { en: "SPA / CSR", es: "SPA / CSR" },
+    stack: ["React", "Vite", "Tailwind", "Framer Motion", "Google Maps API", "WhatsApp API"],
+    location: { en: "STATIC HOSTING // DEV", es: "HOSTING ESTÁTICO // DEV" },
     latency: { en: "8.4ms (staging)", es: "8.4ms (staging)" },
     icon: FiCalendar,
     heroImage: "/projects/consultorio/consul-back.png",
     scope: {
-      en: "A patient-facing booking and scheduling platform for a dental practice — appointment requests, availability, and treatment history in one place.",
-      es: "Una plataforma de turnos y agenda orientada al paciente para un consultorio odontológico — solicitudes de turno, disponibilidad e historial de tratamientos en un solo lugar.",
+      en: "A marketing and patient-acquisition site for a dental practice specializing in high-complexity treatments, showcasing services, 3D/iTero scanning technology, and doctor credentials, with every enquiry routed straight to an encrypted WhatsApp chat.",
+      es: "Un sitio de marketing y captación de pacientes para un consultorio odontológico especializado en tratamientos de alta complejidad, mostrando servicios, tecnología de escaneo 3D/iTero y las credenciales de la doctora, con cada consulta derivada directo a un chat de WhatsApp encriptado.",
     },
     challenge: {
-      en: "Several practitioners share overlapping availability windows — the booking engine has to guarantee no two patients can ever claim the same slot, even under simultaneous requests.",
-      es: "Varios profesionales comparten ventanas de disponibilidad superpuestas — el motor de turnos debe garantizar que dos pacientes nunca puedan tomar el mismo horario, incluso con solicitudes simultáneas.",
+      en: "A prospective patient's first move is almost always WhatsApp, not a phone call or a generic form. The site has to turn browsing into a pre-qualified WhatsApp conversation without losing the clinic's clinical, trustworthy tone.",
+      es: "El primer movimiento de un paciente potencial es casi siempre WhatsApp, no una llamada ni un formulario genérico. El sitio tiene que convertir la navegación en una conversación de WhatsApp pre-calificada sin perder el tono clínico y confiable del consultorio.",
     },
     objectives: {
       en: [
-        "Let patients book and reschedule appointments online",
-        "Give the front desk a single calendar view across practitioners",
-        "Store treatment history per patient in a structured, searchable form",
+        "Present high-complexity treatments, aesthetic dentistry, laser whitening, advanced implantology, invisible orthodontics, with real clinical detail",
+        "Route every enquiry straight to WhatsApp with the treatment of interest pre-filled",
+        "Locate the practice with Google Maps and keep contact details reachable from every section",
       ],
       es: [
-        "Permitir que los pacientes reserven y reprogramen turnos en línea",
-        "Dar a recepción una vista de calendario unificada entre profesionales",
-        "Guardar el historial de tratamientos por paciente de forma estructurada y consultable",
+        "Presentar tratamientos de alta complejidad, odontología estética, aclaramiento láser, implantología avanzada, ortodoncia invisible, con detalle clínico real",
+        "Derivar cada consulta directo a WhatsApp con el tratamiento de interés precargado",
+        "Ubicar el consultorio con Google Maps y mantener los datos de contacto accesibles desde cualquier sección",
       ],
     },
     // Real product screenshots — public/projects/consultorio/. Captions describe
@@ -1276,11 +1312,11 @@ export const PROJECTS_DATA: Project[] = [
         },
         specs: {
           en: [
-            "Dual CTA layout — direct appointment booking and a deep-link into treatments",
+            "Dual CTA layout: direct appointment booking and a deep-link into treatments",
             "Five-star patient review and a '3D Scanner — Zero Impressions' badge overlay a real scan photo",
           ],
           es: [
-            "Doble CTA — turno directo y enlace a tratamientos",
+            "Doble CTA: turno directo y enlace a tratamientos",
             "Reseña de paciente de cinco estrellas e insignia 'Escáner 3D — Cero Impresiones' sobre una foto real de escaneo",
           ],
         },
@@ -1298,11 +1334,11 @@ export const PROJECTS_DATA: Project[] = [
         specs: {
           en: [
             "Clinical direction badge paired with a chairside consultation photo",
-            "Four-point checklist — 3D planning, minimally invasive care, biocompatible materials, comfort-first environment",
+            "Four-point checklist: 3D planning, minimally invasive care, biocompatible materials, comfort-first environment",
           ],
           es: [
             "Insignia de dirección clínica junto a una foto de consulta en el consultorio",
-            "Checklist de cuatro puntos — planificación 3D, odontología mínimamente invasiva, materiales biocompatibles, entorno de confort",
+            "Checklist de cuatro puntos: planificación 3D, odontología mínimamente invasiva, materiales biocompatibles, entorno de confort",
           ],
         },
         src: "/projects/consultorio/consul-about.png",
@@ -1318,11 +1354,11 @@ export const PROJECTS_DATA: Project[] = [
         },
         specs: {
           en: [
-            "Three specialty cards — Aesthetic Dentistry, Laser Whitening, Advanced Implantology — each with a demand/precision tag",
+            "Three specialty cards, Aesthetic Dentistry, Laser Whitening, Advanced Implantology, each carrying its own badge (Alta Demanda, 1 Sesión, Precisión 3D)",
             "Every card opens into its own detail view via a consistent 'Ver Detalles' pattern",
           ],
           es: [
-            "Tres tarjetas de especialidad — Odontología Estética, Aclaramiento Láser, Implantología Avanzada — cada una con su etiqueta de demanda o precisión",
+            "Tres tarjetas de especialidad, Odontología Estética, Aclaramiento Láser, Implantología Avanzada, cada una con su propia insignia (Alta Demanda, 1 Sesión, Precisión 3D)",
             "Cada tarjeta abre su propia vista de detalle con el mismo patrón 'Ver Detalles'",
           ],
         },
@@ -1340,11 +1376,11 @@ export const PROJECTS_DATA: Project[] = [
         specs: {
           en: [
             "iTero 5D Plus scan visual paired with a live 'Phase 2/14' aligner-progress card",
-            "Three feature blocks — near-invisible aesthetics, predictive 3D planning, wire-free comfort",
+            "Three feature blocks: near-invisible aesthetics, predictive 3D planning, wire-free comfort",
           ],
           es: [
             "Visual de escaneo iTero 5D Plus junto a una tarjeta de progreso 'Fase 2/14' del alineador",
-            "Tres bloques de características — estética prácticamente invisible, planificación 3D predictiva, confort sin alambres",
+            "Tres bloques de características: estética prácticamente invisible, planificación 3D predictiva, confort sin alambres",
           ],
         },
         src: "/projects/consultorio/consul-ortInvisible.png",
@@ -1381,11 +1417,11 @@ export const PROJECTS_DATA: Project[] = [
         },
         specs: {
           en: [
-            "Four-column layout — practice card, quick links, specialties list, and contact details with social icons",
+            "Four-column layout: practice card, quick links, specialties list, and contact details with social icons",
             "Address, phone, and email repeated here so booking info is reachable from anywhere on the site",
           ],
           es: [
-            "Layout de cuatro columnas — tarjeta del consultorio, enlaces rápidos, lista de especialidades y contacto con íconos sociales",
+            "Layout de cuatro columnas: tarjeta del consultorio, enlaces rápidos, lista de especialidades y contacto con íconos sociales",
             "Dirección, teléfono y email repetidos aquí para que la información de turnos esté a mano desde cualquier parte del sitio",
           ],
         },
