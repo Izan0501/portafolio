@@ -180,13 +180,6 @@ export const Footer = () => {
             <span>{t.footer.channels.email}</span>
             <span className="text-emerald-400">{t.footer.channels.emailAction}</span>
           </a>
-          <a href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer" className="text-neutral-400 hover:text-white transition-colors flex flex-wrap items-center justify-between gap-x-2 gap-y-1 p-2.5 rounded-lg bg-neutral-900/60 border border-white/5 hover:border-white/20">
-            <span className="flex items-center gap-2">
-              <FaWhatsapp className="text-emerald-400 text-sm shrink-0" />
-              <span>{t.footer.channels.whatsapp}</span>
-            </span>
-            <span className="text-emerald-400">{t.footer.channels.whatsappAction}</span>
-          </a>
         </div>
 
       </div>

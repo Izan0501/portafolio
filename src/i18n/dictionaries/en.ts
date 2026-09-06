@@ -53,7 +53,7 @@ export const en = {
       eyebrow: "// 00. THE ARCHITECT",
       title: "Full-Stack Developer & DevOps Architect",
       location: "Tucumán, Argentina",
-      bio: "I'm Ivo Zanacchi. I build full-stack systems on React.js/Vite + TypeScript and Next.js, backed by Python (FastAPI) and Node.js/Express services across relational (PostgreSQL/Supabase, MySQL), non-relational (MongoDB, Firebase), and vector (Pinecone, for RAG) databases. Every system starts as a spec: I design the structure and logic with Claude, using Spec-Driven Development extended with MCP for live project context and versioned Skills for repeatable knowledge, before a single line ships. Once it's tested, I containerize it with Docker and deploy it to a VPS through CI/CD. My focus is zero-regression delivery: every deploy should be routine, every rollback should be unnecessary, and every service should still make sense to read six months from now.",
+      bio: "I'm Ivo Zanacchi. I build full-stack systems on React.js/Vite + TypeScript and Next.js, backed by Python (FastAPI) and Node.js/Express services across relational (PostgreSQL/Supabase, MySQL), non-relational (MongoDB, Firebase), and vector (Pinecone, for RAG) databases. Every system starts as a spec: I design the structure and logic with Claude, using Spec-Driven Development extended with MCP for live project context and versioned Skills for repeatable knowledge, before a single line ships. Once it's tested, I take a DevOps-first approach to keep every deployment stable: containerizing with Docker, shipping through CI/CD, and running it on a VPS or Render depending on the project.",
       pillars: ["CLEAN CODE", "SCALABLE ARCHITECTURE", "SPEC-DRIVEN DEVELOPMENT", "ZERO-REGRESSION"],
     },
 

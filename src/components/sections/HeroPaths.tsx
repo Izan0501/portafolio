@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { m, MotionValue, useScroll, useTransform } from "motion/react";
 import { useLenis } from "lenis/react";
+import Image from "next/image";
 import { FiCheckCircle, FiDownload, FiPlayCircle } from "react-icons/fi";
 import { useI18n } from "@/i18n/LanguageProvider";
 import { HandwritingText } from "@/components/ui/handwriting-text";
@@ -60,15 +61,13 @@ const HexagonAvatar: React.FC<HexagonAvatarProps> = ({ y, alt }) => (
         className="absolute inset-4 sm:inset-6 bg-neutral-800"
         style={{ clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)" }}
       >
-        {/* mix-blend-mode swapped for a static grayscale filter — blend modes force the browser
-            to re-flatten this element against its backdrop every frame it moves, and this sits
-            inside a continuously-levitating parent. A filter can be cached as its own GPU layer
-            and just transformed, so this keeps the moody desaturated look at a fraction of the cost. */}
-        {/* eslint-disable-next-line @next/next/no-img-element -- intentional plain <img>, see conversation */}
-        <img
+        <Image
           alt={alt}
-          className="w-full h-full object-cover opacity-90 grayscale contrast-125 hover:grayscale-0 transition-all duration-700"
-          src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?q=80&w=600&auto=format&fit=crop"
+          className="object-cover opacity-90"
+          fill
+          priority
+          sizes="(max-width: 640px) 78vw, 450px"
+          src="/profile/ivodev.JPG"
         />
         <div className="absolute inset-0 bg-emerald-500/10 pointer-events-none" />
       </div>
