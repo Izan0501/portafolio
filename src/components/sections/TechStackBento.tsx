@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { m } from "motion/react";
 import { VerticalCutReveal } from "@/components/ui/vertical-cut-reveal";
 import { FiTerminal, FiServer, FiMapPin } from "react-icons/fi";
@@ -197,9 +197,9 @@ const AgileCard: React.FC = () => {
 
 // ─── Sub-component: TerminalCard (interactive contact CLI, ported in) ────────
 
-const CONTACT_EMAIL = "ivozanacchi@example.com"; // TODO: swap for the real inbox when ready
-const GITHUB_URL = "https://github.com/ivozanacchi";
-const LINKEDIN_URL = "https://linkedin.com/in/ivozanacchi";
+const CONTACT_EMAIL = "ivozanacchi501@gmail.com";
+const GITHUB_URL = "https://github.com/Izan0501";
+const LINKEDIN_URL = "https://www.linkedin.com/in/ivo-zanacchi-87822326a";
 
 interface CommandOutput {
   id: string;
@@ -216,6 +216,21 @@ const TerminalCard: React.FC = () => {
   const { t } = useI18n();
   const [inputVal, setInputVal] = useState("");
   const [copied, setCopied] = useState(false);
+  const [isInputFocused, setIsInputFocused] = useState(false);
+
+  // Cycles the input's placeholder through example commands so the terminal
+  // teaches its own usage at a glance, instead of relying on a visitor to
+  // read the static system-init line. Pauses once the field has real content
+  // or focus — a rotating hint under an active cursor just reads as glitchy.
+  const [hintIndex, setHintIndex] = useState(0);
+  const hints = t.stack.terminal.placeholderHints;
+  useEffect(() => {
+    if (inputVal || isInputFocused) return;
+    const timer = setInterval(() => {
+      setHintIndex((i) => (i + 1) % hints.length);
+    }, 2600);
+    return () => clearInterval(timer);
+  }, [inputVal, isInputFocused, hints.length]);
   // The seeded line's output is resolved at render time from the active
   // dictionary (see renderOutput) rather than frozen into state, so it follows a
   // language switch. Lines the user actually ran keep the wording they were
@@ -245,14 +260,14 @@ const TerminalCard: React.FC = () => {
         response = (
           <span>
             {t.stack.terminal.emailLabel} <a className="text-cyan-400 underline" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>{" "}
-            {"//"} {t.stack.terminal.linkedinLabel} <a className="text-cyan-400 underline" href={LINKEDIN_URL} rel="noopener noreferrer" target="_blank">linkedin.com/in/ivozanacchi</a>
+            {"//"} {t.stack.terminal.linkedinLabel} <a className="text-cyan-400 underline" href={LINKEDIN_URL} rel="noopener noreferrer" target="_blank">linkedin.com/in/ivo-zanacchi-87822326a</a>
           </span>
         );
         break;
       case "github":
         response = (
           <span>
-            {t.stack.terminal.githubLabel} <a className="text-cyan-400 underline" href={GITHUB_URL} rel="noopener noreferrer" target="_blank">github.com/ivozanacchi</a>
+            {t.stack.terminal.githubLabel} <a className="text-cyan-400 underline" href={GITHUB_URL} rel="noopener noreferrer" target="_blank">github.com/Izan0501</a>
           </span>
         );
         break;
@@ -340,7 +355,16 @@ const TerminalCard: React.FC = () => {
               <span className="text-emerald-400">$</span>
               <span>{item.cmd}</span>
             </div>
-            <div className="text-neutral-300 pl-4 pt-1 border-l-2 border-white/10 mt-1">
+            {/* The init line is the terminal's one instruction to a first-time
+                visitor — cyan instead of neutral so it doesn't blend into the
+                rest of the (visually identical) command history below it. */}
+            <div
+              className={
+                item.id === "init-0"
+                  ? "text-cyan-300 pl-4 pt-1 border-l-2 border-cyan-500/30 mt-1"
+                  : "text-neutral-300 pl-4 pt-1 border-l-2 border-white/10 mt-1"
+              }
+            >
               {renderOutput(item)}
             </div>
           </div>
@@ -364,11 +388,20 @@ const TerminalCard: React.FC = () => {
       {/* Input Bar — mt-auto anchors it at the true bottom of the flex column */}
       <form className="relative z-10 mt-auto bg-neutral-900/50 border-t border-white/10 p-4 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center gap-4" onSubmit={onSubmit}>
         <div className="flex items-center gap-3 w-full">
+          {/* Persistent — not hover-gated — so the card reads as "live" even
+              before a visitor's cursor reaches it. */}
+          <span className="relative flex h-2 w-2 shrink-0" title={t.stack.terminal.liveIndicator}>
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+          </span>
           <span className="text-emerald-400 font-bold font-mono text-xs sm:text-sm shrink-0">$</span>
           <input
+            aria-label={t.stack.terminal.inputAriaLabel}
             className="flex-1 w-full bg-transparent border-none focus:ring-0 text-white font-mono text-sm placeholder:text-neutral-600"
+            onBlur={() => setIsInputFocused(false)}
             onChange={(e) => setInputVal(e.target.value)}
-            placeholder={t.stack.terminal.placeholder}
+            onFocus={() => setIsInputFocused(true)}
+            placeholder={hints[hintIndex % hints.length] ?? t.stack.terminal.placeholder}
             type="text"
             value={inputVal}
           />

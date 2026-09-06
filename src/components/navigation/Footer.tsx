@@ -3,7 +3,12 @@
 import React, { useState } from "react";
 import { useLenis } from "lenis/react";
 import { m, useMotionValue, useSpring, useMotionTemplate } from "motion/react";
+import { FaWhatsapp } from "react-icons/fa";
 import { useI18n } from "@/i18n/LanguageProvider";
+
+// Digits only, no "+" or spaces — the format WhatsApp's click-to-chat
+// (wa.me) links require.
+const WHATSAPP_NUMBER = "543838403596";
 
 // ==========================================
 // ELITE KINETIC CAD SPOTLIGHT WATERMARK
@@ -163,17 +168,24 @@ export const Footer = () => {
           <span className="text-white font-bold tracking-wider mb-2 border-l-2 border-cyan-400 pl-2">
             {t.footer.channelsHeading}
           </span>
-          <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="text-neutral-400 hover:text-white transition-colors flex flex-wrap items-center justify-between gap-x-2 gap-y-1 p-2.5 rounded-lg bg-neutral-900/60 border border-white/5 hover:border-white/20">
+          <a href="https://github.com/Izan0501" target="_blank" rel="noopener noreferrer" className="text-neutral-400 hover:text-white transition-colors flex flex-wrap items-center justify-between gap-x-2 gap-y-1 p-2.5 rounded-lg bg-neutral-900/60 border border-white/5 hover:border-white/20">
             <span>{t.footer.channels.github}</span>
-            <span className="text-cyan-400">→ /ivozanacchi</span>
+            <span className="text-cyan-400">→ /Izan0501</span>
           </a>
-          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-neutral-400 hover:text-white transition-colors flex flex-wrap items-center justify-between gap-x-2 gap-y-1 p-2.5 rounded-lg bg-neutral-900/60 border border-white/5 hover:border-white/20">
+          <a href="https://www.linkedin.com/in/ivo-zanacchi-87822326a" target="_blank" rel="noopener noreferrer" className="text-neutral-400 hover:text-white transition-colors flex flex-wrap items-center justify-between gap-x-2 gap-y-1 p-2.5 rounded-lg bg-neutral-900/60 border border-white/5 hover:border-white/20">
             <span>{t.footer.channels.linkedin}</span>
-            <span className="text-cyan-400">→ /in/ivozanacchi</span>
+            <span className="text-cyan-400">→ /in/ivo-zanacchi-87822326a</span>
           </a>
           <a href="mailto:ivozanacchi501@gmail.com" className="text-neutral-400 hover:text-white transition-colors flex flex-wrap items-center justify-between gap-x-2 gap-y-1 p-2.5 rounded-lg bg-neutral-900/60 border border-white/5 hover:border-white/20">
             <span>{t.footer.channels.email}</span>
             <span className="text-emerald-400">{t.footer.channels.emailAction}</span>
+          </a>
+          <a href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer" className="text-neutral-400 hover:text-white transition-colors flex flex-wrap items-center justify-between gap-x-2 gap-y-1 p-2.5 rounded-lg bg-neutral-900/60 border border-white/5 hover:border-white/20">
+            <span className="flex items-center gap-2">
+              <FaWhatsapp className="text-emerald-400 text-sm shrink-0" />
+              <span>{t.footer.channels.whatsapp}</span>
+            </span>
+            <span className="text-emerald-400">{t.footer.channels.whatsappAction}</span>
           </a>
         </div>
 

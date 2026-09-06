@@ -95,7 +95,19 @@ export const en = {
       fileName: "ivo_contact.sh",
       copyEmail: "COPY EMAIL",
       copied: "COPIED ✓",
+      liveIndicator: "Live — this terminal is interactive",
+      inputAriaLabel: "Interactive command terminal. Type 'help' to see available commands.",
       placeholder: "Type a command...",
+      // Cycled in the input's placeholder while it's empty and unfocused — the
+      // terminal's real teaching surface, since the chips below only show the
+      // command name, not what it's for.
+      placeholderHints: [
+        "Type 'help' to see every command…",
+        "Try 'contact' for my email & LinkedIn…",
+        "Try 'resume' to download my CV…",
+        "Try 'stack' for my full toolset…",
+        "Try 'github' for my source archive…",
+      ],
       run: "RUN ↵",
       initCommand: "init --system",
       initOutput: "System initialized. Type 'help' or click a command chip below.",
@@ -416,6 +428,8 @@ export const en = {
       linkedin: "LINKEDIN NETWORK",
       email: "DIRECT ENCRYPTION (EMAIL)",
       emailAction: "→ INITIATE",
+      whatsapp: "SECURE CHANNEL (WHATSAPP)",
+      whatsappAction: "→ INITIATE",
     },
 
     copyright: (year: number) => `© ${year} IVO ZANACCHI. ALL RIGHTS RESERVED.`,
