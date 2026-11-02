@@ -1,0 +1,2079 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Banco de pruebas · preview 3D en vivo</title>
+<script src="./support.js"></script>
+<script src="/_blob/a832cd51c2baa82ddb16759467806a03"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Martian+Mono:wdth,wght@75..112.5,300..700&amp;family=Schibsted+Grotesk:wght@400..900&amp;display=swap">
+<style>
+body{margin:0;background:#0D0C0A}
+a{color:#EEE9DF}a:hover{color:#E6D84A}
+.iz-sc{scrollbar-width:thin;scrollbar-color:#3A352E transparent}
+.iz-sc:focus-visible{outline:2px solid #E6D84A;outline-offset:-4px}
+.iz-sec{position:relative;width:100%}
+.iz-pin{position:sticky;top:0;z-index:1;width:100%;height:100%;pointer-events:none}
+.iz-copy{position:absolute;left:clamp(20px,6vw,96px);top:50%;width:min(440px,36vw);opacity:0;visibility:hidden;pointer-events:auto;will-change:transform,opacity}
+.iz-eyebrow{margin:0 0 18px;font-family:"Martian Mono",ui-monospace,monospace;font-size:12px;font-stretch:87.5%;letter-spacing:0.04em;text-transform:uppercase;color:#A39C8F}
+.iz-eyebrow b{color:#E6D84A;font-weight:600}
+.iz-h1{margin:0 0 20px;font-size:clamp(40px,4.6vw,68px);line-height:0.98;font-weight:800;letter-spacing:-0.035em;color:#EEE9DF;text-wrap:balance}
+.iz-h2{margin:0 0 14px;font-size:clamp(30px,3.2vw,46px);line-height:1.02;font-weight:800;letter-spacing:-0.03em;color:#EEE9DF;text-wrap:balance}
+.iz-p{margin:0 0 14px;font-size:16px;line-height:1.55;color:#C9C2B5;text-wrap:pretty}
+.iz-p strong{color:#EEE9DF;font-weight:600}
+.iz-meta{margin:0 0 16px;font-family:"Martian Mono",ui-monospace,monospace;font-size:11.5px;font-stretch:87.5%;line-height:1.7;color:#A39C8F}
+.iz-see{margin:16px 0 0;padding:12px 14px;border-radius:12px;background:#171512;box-shadow:inset 0 0 0 1px #2E2A24;font-size:14px;line-height:1.5;color:#C9C2B5}
+.iz-see b{display:block;margin-bottom:4px;font-family:"Martian Mono",ui-monospace,monospace;font-size:11px;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;color:#E6D84A}
+.iz-stack{margin:14px 0 0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:6px}
+.iz-stack li{padding:5px 9px;border-radius:999px;background:#171512;box-shadow:inset 0 0 0 1px #2E2A24;font-family:"Martian Mono",ui-monospace,monospace;font-size:11px;font-stretch:87.5%;color:#C9C2B5}
+.iz-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.iz-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:46px;padding:0 20px;border-radius:999px;font-size:15px;font-weight:600;text-decoration:none;transition:transform 160ms cubic-bezier(0.22,1,0.36,1),background 160ms ease}
+.iz-btn:active{transform:scale(0.97)}
+.iz-btn-a{background:#E6D84A;color:#14120E}
+.iz-btn-a:hover{background:#F0E46A;color:#14120E}
+.iz-btn-b{background:transparent;color:#EEE9DF;box-shadow:inset 0 0 0 1px #4A443B}
+.iz-btn-b:hover{color:#EEE9DF;background:#1C1A16}
+.iz-btn:focus-visible,.iz-isl-btn:focus-visible,.iz-isl-a:focus-visible{outline:2px solid #E6D84A;outline-offset:3px}
+.iz-facts{margin:14px 0 0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.iz-facts div{padding:10px 12px;border-radius:12px;background:#171512;box-shadow:inset 0 0 0 1px #2E2A24}
+.iz-facts dt{font-size:30px;line-height:1;font-weight:800;color:#E6D84A;font-variant-numeric:tabular-nums}
+.iz-facts dd{margin:4px 0 0;font-family:"Martian Mono",ui-monospace,monospace;font-size:11px;color:#C9C2B5}
+.iz-lead{font-size:17px;color:#D6D0C4}
+.iz-trust{margin:16px 0 0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:6px}
+.iz-trust li{display:inline-flex;align-items:center;gap:7px;padding:6px 11px;border-radius:999px;background:#171512;box-shadow:inset 0 0 0 1px #2E2A24;font-size:13px;font-weight:600;color:#EEE9DF}
+.iz-trust li::before{content:"";width:6px;height:6px;border-radius:50%;background:#E6D84A}
+.iz-steps em{font-style:normal}
+.iz-morebtn{display:none;align-items:center;gap:8px;margin:4px 0 0;padding:0 14px;min-height:36px;border:0;border-radius:999px;background:#171512;box-shadow:inset 0 0 0 1px #4A443B;color:#EEE9DF;font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+.iz-morebtn::after{content:"";width:6px;height:6px;border-right:1.5px solid #E6D84A;border-bottom:1.5px solid #E6D84A;transform:translateY(-2px) rotate(45deg);transition:transform 200ms ease}
+.iz-x .iz-morebtn::after{transform:translateY(2px) rotate(-135deg)}
+.iz-morebtn:focus-visible{outline:2px solid #E6D84A;outline-offset:3px}
+.iz-ol{margin:8px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
+.iz-ol li{display:grid;grid-template-columns:34px minmax(0,1fr);gap:8px;font-size:14px;line-height:1.45;color:#C9C2B5}
+.iz-ol li span{font-family:"Martian Mono",ui-monospace,monospace;font-size:11px;color:#E6D84A;padding-top:2px}
+.iz-ol li strong{color:#EEE9DF;font-weight:600}
+.iz-certs{margin:12px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:4px}
+.iz-certs li{display:grid;grid-template-columns:22px minmax(0,1fr) auto;align-items:center;gap:10px;min-height:38px;padding:0 12px;border-radius:12px;font-size:14px;color:#A39C8F;transition:background 260ms cubic-bezier(0.22,1,0.36,1),color 260ms ease}
+.iz-certs li i{font-style:normal;font-family:"Martian Mono",ui-monospace,monospace;font-size:10.5px;color:#8C857A}
+.iz-certs li span{font-family:"Martian Mono",ui-monospace,monospace;font-size:10.5px;color:#8C857A;text-align:right}
+.iz-certs li[data-on="true"]{background:#171512;box-shadow:inset 0 0 0 1px #4A443B;color:#EEE9DF}
+.iz-certs li[data-on="true"] i{color:#E6D84A}
+.iz-hint{display:inline-flex;align-items:center;gap:10px;margin-top:28px;font-family:"Martian Mono",ui-monospace,monospace;font-size:11px;letter-spacing:0.04em;text-transform:uppercase;color:#A39C8F}
+.iz-hint i{display:block;width:1px;height:28px;background:#4A443B;position:relative;overflow:hidden}
+.iz-hint i::after{content:"";position:absolute;left:0;top:-10px;width:1px;height:10px;background:#E6D84A;animation:izDrip 1.8s cubic-bezier(0.22,1,0.36,1) infinite}
+@keyframes izDrip{to{top:28px}}
+/* Dynamic Island: siempre una sola fila de 40 px. Plegada = anillo-loader + capítulo; desplegada = se estira hacia los costados con los links clave. */
+.iz-isl{position:absolute;top:14px;left:50%;transform:translateX(-50%);z-index:6;width:190px;height:40px;border-radius:20px;background:#000;overflow:hidden;box-shadow:0 0 0 1px rgba(255,255,255,0.07),0 18px 40px rgba(0,0,0,0.5);font-family:"Schibsted Grotesk",system-ui,sans-serif;will-change:width}
+.iz-isl-btn{position:absolute;left:0;top:0;right:0;height:40px;display:flex;align-items:center;gap:10px;padding:0 16px 0 11px;margin:0;border:0;background:none;color:#EEE9DF;font:inherit;font-size:13px;font-weight:600;white-space:nowrap;cursor:pointer;border-radius:20px;overflow:hidden}
+.iz-isl-ring{flex:0 0 auto}
+.iz-isl-ch{flex:0 0 auto;text-align:left;display:inline-block}
+.iz-isl-sub{flex:0 0 auto;font-family:"Martian Mono",ui-monospace,monospace;font-size:10.5px;font-weight:500;font-stretch:87.5%;color:#E6D84A}
+.iz-isl-hint{margin-left:auto;display:inline-flex;width:14px;height:14px;align-items:center;justify-content:center;opacity:0.7}
+.iz-isl-hint i{display:block;width:6px;height:6px;border-right:1.5px solid #A39C8F;border-bottom:1.5px solid #A39C8F;transform:rotate(-45deg)}
+.iz-isl-ch,.iz-isl-sub,.iz-isl-hint{transition:opacity 200ms ease 120ms}
+.iz-open .iz-isl-btn{right:auto;width:40px;padding:0 0 0 11px}
+.iz-open .iz-isl-ch,.iz-open .iz-isl-sub,.iz-open .iz-isl-hint{opacity:0;transition:opacity 80ms ease}
+.iz-isl-panel{position:absolute;left:38px;top:0;height:40px;display:flex;align-items:center;padding:0 5px 0 0;opacity:0;visibility:hidden;transform:translateX(-10px);transition:opacity 100ms ease,transform 140ms ease,visibility 0s linear 140ms}
+.iz-open .iz-isl-panel{opacity:1;visibility:visible;transform:none;transition:opacity 240ms cubic-bezier(0.22,1,0.36,1) 70ms,transform 300ms cubic-bezier(0.22,1,0.36,1) 50ms,visibility 0s}
+.iz-isl-row{display:flex;align-items:center;gap:2px;margin:0;padding:0;list-style:none;white-space:nowrap}
+.iz-isl-a{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 12px;border-radius:15px;color:#C9C2B5;font-size:13px;font-weight:600;text-decoration:none;transition:background 160ms ease,color 160ms ease}
+.iz-isl-a:hover{background:#1A1814;color:#EEE9DF}
+.iz-isl-a[aria-current="true"]{background:#1E1C14;color:#EEE9DF}
+.iz-isl-a[aria-current="true"]::before{content:"";width:5px;height:5px;border-radius:50%;background:#E6D84A}
+.iz-open .iz-isl-row li{animation:izIn 340ms cubic-bezier(0.22,1,0.36,1) both}
+.iz-open .iz-isl-row li:nth-child(2){animation-delay:30ms}.iz-open .iz-isl-row li:nth-child(3){animation-delay:60ms}.iz-open .iz-isl-row li:nth-child(4){animation-delay:90ms}.iz-open .iz-isl-row li:nth-child(5){animation-delay:120ms}
+@keyframes izIn{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:none}}
+/* Pantallas angostas: sin «Inicio» (se llega subiendo) y links más compactos para que la fila entre en 320 px. */
+@media (max-width:440px){.iz-isl-home{display:none}.iz-isl-a{padding:0 9px;font-size:12.5px}.iz-isl-a[aria-current="true"]::before{display:none}}
+@media (max-width:340px){.iz-isl-row{gap:0}.iz-isl-a{padding:0 6px;font-size:11.5px}.iz-isl-panel{left:36px}.iz-open .iz-isl-btn{width:36px;padding-left:9px}}
+.iz-err{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:3;max-width:360px;padding:18px;border-radius:14px;background:#171512;box-shadow:inset 0 0 0 1px #2E2A24;color:#C9C2B5;font-size:14px;line-height:1.5;display:none}
+/* ── Responsive 320 → 2560 ──────────────────────────────────────────────
+   Vertical (aspecto < 0.95: teléfonos y tablets en vertical): 3D arriba, copy en hoja inferior.
+   Horizontal compacto (≤ 1024 px o altura ≤ 540 px): columna lateral más angosta y tipografía menor.
+   Pantallas grandes (≥ 1680 / ≥ 2200 px): copy, isla y riel escalan para no quedar diminutos. */
+@media (min-width:1680px){.iz-copy,.iz-isl{zoom:1.15}.iz-copy{width:min(500px,30vw)}}
+@media (min-width:2200px){.iz-copy,.iz-isl{zoom:1.42}}
+@media (min-aspect-ratio:19/20) and (max-width:1024px){
+.iz-copy{width:min(400px,40vw)}
+.iz-h1{font-size:clamp(32px,4.4vw,44px)}.iz-h2{font-size:clamp(26px,3.4vw,34px)}.iz-p{font-size:15px}
+.iz-see{display:none}
+.iz-trust li{font-size:12px;padding:5px 10px}
+}
+@media (min-aspect-ratio:19/20) and (max-height:540px){
+.iz-copy{width:min(380px,42vw);max-height:calc(100% - 128px);overflow-y:auto;scrollbar-width:none}
+.iz-more,.iz-trust{display:none}.iz-morebtn{display:inline-flex}.iz-x .iz-more{display:block}
+.iz-copy:not(.iz-x) .iz-lead{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.iz-eyebrow{margin-bottom:8px}
+.iz-h1{font-size:28px;margin-bottom:10px}.iz-h2{font-size:24px;margin-bottom:8px}.iz-p{font-size:13.5px;line-height:1.45;margin-bottom:8px}
+.iz-see,.iz-hint,.iz-ol,.iz-meta,.iz-stack{display:none}
+.iz-row{margin-top:10px}.iz-btn{min-height:38px;padding:0 16px;font-size:14px}
+.iz-facts{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin-top:8px}.iz-facts div{display:flex;align-items:baseline;gap:8px;padding:5px 8px}.iz-facts dt{font-size:18px}.iz-facts dd{margin:0;font-size:10px}
+.iz-certs{margin-top:6px;gap:0}.iz-certs li{min-height:24px;font-size:12px;padding:0 8px}.iz-certs li span{display:none}
+.iz-isl{top:8px}
+}
+@media (max-aspect-ratio:19/20){
+.iz-copy{left:max(12px,calc(50% - 340px));right:max(12px,calc(50% - 340px));width:auto;top:auto;bottom:12px;padding:18px;border-radius:16px;background:rgba(13,12,10,0.9);box-shadow:inset 0 0 0 1px #2E2A24;max-height:52%;overflow-y:auto;scrollbar-width:none;box-sizing:border-box}
+.iz-eyebrow{margin-bottom:10px}
+.iz-h1{font-size:clamp(28px,8vw,40px)}.iz-h2{font-size:clamp(24px,6.6vw,34px)}.iz-p{font-size:15px}
+.iz-see,.iz-hint,.iz-meta,.iz-more,.iz-trust{display:none}
+.iz-steps{display:flex}.iz-steps em{display:none}
+.iz-morebtn{display:inline-flex}
+.iz-x{max-height:72%}.iz-x .iz-more{display:block}.iz-x .iz-steps em{display:inline}.iz-x .iz-more .iz-trust{display:flex}
+.iz-lead{font-size:15px}
+.iz-facts{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}.iz-facts div{display:flex;align-items:baseline;gap:8px;padding:7px 10px}.iz-facts dt{font-size:20px}.iz-facts dd{margin:0;font-size:10px}
+.iz-certs li{min-height:30px;font-size:13px}
+}
+@media (max-aspect-ratio:19/20) and (max-width:400px){
+.iz-copy{left:8px;right:8px;bottom:8px;padding:14px}
+.iz-h1{font-size:27px}.iz-h2{font-size:23px}.iz-p{font-size:14px;line-height:1.5;margin-bottom:10px}
+.iz-row{margin-top:12px;gap:8px}.iz-btn{min-height:42px;padding:0 16px;font-size:14px}
+.iz-facts dt{font-size:18px}.iz-facts dd{font-size:8.5px;letter-spacing:-0.02em}
+.iz-certs li{min-height:26px;font-size:12px;padding:0 8px;gap:8px}.iz-certs li span{display:none}
+.iz-facts{grid-template-columns:repeat(2,minmax(0,1fr))}.iz-facts div{display:flex;align-items:baseline;gap:6px;padding:6px 8px}.iz-facts dd{margin:0;font-size:9.5px}
+}
+/* Lead de 3 líneas en teléfonos: el detalle completo queda a un toque («Ver detalle»). */
+@media (max-aspect-ratio:19/20){.iz-copy:not(.iz-x) .iz-lead{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}}
+@media (max-aspect-ratio:19/20) and (max-height:700px){.iz-copy:not(.iz-x) .iz-lead{-webkit-line-clamp:2}.iz-certs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px 4px}.iz-certs li{min-height:26px;grid-template-columns:18px minmax(0,1fr);font-size:11.5px;padding:0 6px;gap:6px}.iz-certs li span{display:none}.iz-copy:not(.iz-x) .iz-steps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 8px}.iz-steps li{font-size:12.5px}}
+@media (max-aspect-ratio:19/20) and (max-height:700px) and (max-width:400px){#iz-t3:not(.iz-x) .iz-lead{display:none}}
+@media (prefers-reduced-motion:reduce){.iz-hint i::after{animation:none}.iz-btn,.iz-certs li{transition:none}}
+</style>
+</helmet>
+<div id="iz-root" ref="{{ref_root}}" onPointerMove="{{onMove}}" style="position: relative; width: 100%; height: 100vh; height: 100dvh; min-height: 300px; overflow: hidden; background: #0D0C0A; color: #EEE9DF; font-family: 'Schibsted Grotesk', system-ui, sans-serif">
+<canvas id="iz-canvas" ref="{{ref_canvas}}" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; display: block"></canvas>
+<div id="iz-err" ref="{{ref_err}}" class="iz-err" role="status">WebGL no está disponible en este navegador. El recorrido sigue funcionando como texto; los modelos 3D necesitan aceleración por hardware.</div>
+
+<nav id="iz-island" ref="{{ref_island}}" class="iz-isl" aria-label="Navegación del portafolio" onPointerEnter="{{islEnter}}" onPointerLeave="{{islLeave}}">
+<button type="button" id="iz-islbtn" ref="{{ref_islbtn}}" class="iz-isl-btn" aria-expanded="false" aria-controls="iz-isllist" onClick="{{islToggle}}">
+<svg class="iz-isl-ring" width="20" height="20" viewBox="0 0 18 18" aria-hidden="true"><circle cx="9" cy="9" r="7" fill="none" stroke="#2E2A24" stroke-width="2"></circle><circle id="iz-islring" ref="{{ref_islring}}" cx="9" cy="9" r="7" fill="none" stroke="#E6D84A" stroke-width="2" stroke-linecap="round" stroke-dasharray="44" stroke-dashoffset="44" transform="rotate(-90 9 9)"></circle></svg>
+<span id="iz-islch" ref="{{ref_islch}}" class="iz-isl-ch">Inicio</span>
+<span id="iz-islsub" ref="{{ref_islsub}}" class="iz-isl-sub"></span>
+<span class="iz-isl-hint" aria-hidden="true"><i></i></span>
+</button>
+<div id="iz-isllist" ref="{{ref_isllist}}" class="iz-isl-panel">
+<ul class="iz-isl-row">
+<li class="iz-isl-home"><a class="iz-isl-a" id="iz-nl0" ref="{{ref_nl0}}" href="#iz-s0" onClick="{{go0}}">Inicio</a></li>
+<li><a class="iz-isl-a" id="iz-nl1" ref="{{ref_nl1}}" href="#iz-s2" onClick="{{go1}}">Perfil</a></li>
+<li><a class="iz-isl-a" id="iz-nl2" ref="{{ref_nl2}}" href="#iz-s3" onClick="{{go2}}">Formación</a></li>
+<li><a class="iz-isl-a" id="iz-nl10" ref="{{ref_nl10}}" href="#iz-s5" onClick="{{go3}}">Proyectos</a></li>
+<li><a class="iz-isl-a" id="iz-nl9" ref="{{ref_nl9}}" href="#iz-s11" onClick="{{go9}}">Contacto</a></li>
+</ul>
+</div>
+</nav>
+
+<div id="iz-scroller" ref="{{ref_scroller}}" class="iz-sc" tabindex="0" aria-label="Recorrido del portafolio. Desplazate para avanzar." style="position: absolute; inset: 0; z-index: 2; overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain">
+<div id="iz-pin" ref="{{ref_pin}}" class="iz-pin">
+
+<section id="iz-t0" ref="{{ref_t0}}" class="iz-copy" aria-labelledby="iz-h-0">
+<p class="iz-eyebrow"><b>Ivo Zanacchi</b> · Full-Stack Developer · Tucumán, AR</p>
+<h1 id="iz-h-0" class="iz-h1">Sistemas que llegan enteros a producción.</h1>
+<p class="iz-p iz-lead">Desarrollo aplicaciones web de punta a punta: interfaces en React y Next.js con TypeScript, APIs en FastAPI y Node.js, bases de datos y despliegue con Docker y CI/CD.</p>
+<ul class="iz-trust" aria-label="Garantías de trabajo"><li>Spec antes del código</li><li>CI en cada push</li><li>Deploy verificado</li></ul>
+<div class="iz-row"><a class="iz-btn iz-btn-a" href="#iz-s5" onClick="{{go3}}">Ver proyectos</a><a class="iz-btn iz-btn-b" href="mailto:ivozanacchi501@gmail.com">Escribirme</a></div>
+<p class="iz-hint"><i></i>Desplazate para recorrer</p>
+</section>
+
+<section id="iz-t1" ref="{{ref_t1}}" class="iz-copy" aria-labelledby="iz-h-1">
+<p class="iz-eyebrow"><b>01</b> · Método</p>
+<h2 id="iz-h-1" class="iz-h2">Primero la spec. Después el código.</h2>
+<p class="iz-p iz-lead">Cada proyecto arranca con una especificación acordada: estructura, datos y flujos definidos antes de programar. Así el resultado responde exactamente a lo pedido.</p>
+<button type="button" class="iz-morebtn" aria-expanded="false">Ver detalle</button>
+<div class="iz-more">
+<p class="iz-p">Trabajo con <strong>Spec-Driven Development</strong> junto a Claude, MCP para el contexto vivo del proyecto y Skills como módulos de conocimiento reutilizables.</p>
+<ul class="iz-trust"><li>Código limpio</li><li>Arquitectura escalable</li><li>Cero regresiones</li></ul>
+</div>
+</section>
+
+<section id="iz-t2" ref="{{ref_t2}}" class="iz-copy" aria-labelledby="iz-h-2">
+<p class="iz-eyebrow"><b>02</b> · Perfil</p>
+<h2 id="iz-h-2" class="iz-h2">Quién está detrás.</h2>
+<p class="iz-p iz-lead"><strong>Ivo Zanacchi</strong>, desarrollador Full-Stack. Construyo productos completos (frontend, backend y datos) y los dejo funcionando en producción con Docker y CI/CD.</p>
+<dl class="iz-facts">
+<div><dt>5</dt><dd>sistemas reales</dd></div>
+<div><dt>2</dt><dd>en producción</dd></div>
+<div><dt>5</dt><dd>certificaciones</dd></div>
+<div><dt>2</dt><dd>carreras · UTN · UGR</dd></div>
+</dl>
+<button type="button" class="iz-morebtn" aria-expanded="false">Ver detalle</button>
+<div class="iz-more">
+<p class="iz-p"><strong>Stack:</strong> React/Vite, TypeScript, Next.js y Tailwind · Python (FastAPI) y Node.js/Express · PostgreSQL/Supabase, MySQL, MongoDB, Firebase y Pinecone · Docker, GitHub Actions, VPS, Vercel y Cloudflare.</p>
+<p class="iz-p"><strong>En equipo:</strong> sprint planning, dailies, refinamiento de backlog, retrospectivas y comunicación asíncrona.</p>
+</div>
+</section>
+
+<section id="iz-t3" ref="{{ref_t3}}" class="iz-copy" aria-labelledby="iz-h-3">
+<p class="iz-eyebrow"><b>03</b> · Formación</p>
+<h2 id="iz-h-3" class="iz-h2">Formación que respalda cada entrega.</h2>
+<p class="iz-p iz-lead">Dos carreras universitarias y cinco certificaciones verificables.</p>
+<button type="button" class="iz-morebtn" aria-expanded="false">Ver detalle</button>
+<div class="iz-more">
+<ul class="iz-ol">
+<li><span>UTN</span><div><strong>Técnico Universitario en Programación</strong> · FR Tucumán · abr 2024 – feb 2027</div></li>
+<li><span>UGR</span><div><strong>Tecnicatura Universitaria en Ciberseguridad</strong> · mar 2026 – en curso</div></li>
+</ul>
+</div>
+<ul class="iz-certs" aria-label="Certificaciones">
+<li id="iz-cl0" ref="{{ref_cl0}}" data-on="false"><i>01</i>Desarrollo Full-Stack<span>DevSchool</span></li>
+<li id="iz-cl1" ref="{{ref_cl1}}" data-on="false"><i>02</i>Python<span>Coderhouse · Ualá</span></li>
+<li id="iz-cl2" ref="{{ref_cl2}}" data-on="false"><i>03</i>Desarrollo de Apps · Top 10<span>Coderhouse · PedidosYa</span></li>
+<li id="iz-cl3" ref="{{ref_cl3}}" data-on="false"><i>04</i>JavaScript<span>Coderhouse · PedidosYa</span></li>
+<li id="iz-cl4" ref="{{ref_cl4}}" data-on="false"><i>05</i>Ciberseguridad<span>Coderhouse · Binance</span></li>
+</ul>
+</section>
+
+<section id="iz-t4" ref="{{ref_t4}}" class="iz-copy" aria-labelledby="iz-h-4">
+<p class="iz-eyebrow"><b>04</b> · Proyectos</p>
+<h2 id="iz-h-4" class="iz-h2">Proyectos reales, pantallas reales.</h2>
+<p class="iz-p iz-lead">Cinco sistemas: dos en producción y tres en desarrollo, cada uno con sus capturas reales.</p>
+</section>
+
+<section id="iz-t5" ref="{{ref_t5}}" class="iz-copy" aria-labelledby="iz-h-5">
+<p class="iz-eyebrow"><b>P/01</b> · Producción</p>
+<h2 id="iz-h-5" class="iz-h2">Nave24 Stock</h2>
+<p class="iz-meta">MONOLITO + TIEMPO REAL · SUPABASE // DOCKER</p>
+<p class="iz-p iz-lead">Inventario de depósito en tiempo real: niveles de stock, movimientos y umbrales de reposición en varias ubicaciones.</p>
+<button type="button" class="iz-morebtn" aria-expanded="false">Ver detalle</button>
+<div class="iz-more">
+<p class="iz-p"><strong>El desafío:</strong> varias terminales escriben sobre los mismos conteos a la vez, y ninguna unidad puede contarse dos veces.</p>
+<p class="iz-p"><strong>La solución:</strong> cada terminal registra movimientos que se difunden al instante con Supabase Realtime; el stock se actualiza en todas las pantallas y avisa cuando baja del umbral.</p>
+<ul class="iz-stack"><li>React</li><li>Vite</li><li>TypeScript</li><li>FastAPI</li><li>PostgreSQL</li><li>Supabase</li><li>Docker</li></ul>
+</div>
+</section>
+
+<section id="iz-t6" ref="{{ref_t6}}" class="iz-copy" aria-labelledby="iz-h-6">
+<p class="iz-eyebrow"><b>P/02</b> · En desarrollo</p>
+<h2 id="iz-h-6" class="iz-h2">VeeBot SaaS</h2>
+<p class="iz-meta">MICROSERVICIOS · STAGING // CI/CD PIPELINE</p>
+<p class="iz-p iz-lead">SaaS de reclutamiento multi-tenant: un pipeline de IA puntúa, compara y entrevista cada CV con <strong>Gemini 2.5 Flash</strong>.</p>
+<button type="button" class="iz-morebtn" aria-expanded="false">Ver detalle</button>
+<div class="iz-more">
+<p class="iz-p"><strong>El desafío:</strong> aislar el pool de talento de cada agencia mientras la inferencia escala por separado bajo carga.</p>
+<p class="iz-p"><strong>La solución:</strong> datos aislados por tenant, scoring con IA, búsqueda semántica en Pinecone y un gemelo digital que responde preguntas sobre cada CV.</p>
+<ul class="iz-stack"><li>React</li><li>FastAPI</li><li>MongoDB</li><li>Pinecone</li><li>Gemini 2.5 Flash</li></ul>
+</div>
+</section>
+
+<section id="iz-t7" ref="{{ref_t7}}" class="iz-copy" aria-labelledby="iz-h-7">
+<p class="iz-eyebrow"><b>P/03</b> · Producción</p>
+<h2 id="iz-h-7" class="iz-h2">Estudio Zanacchi</h2>
+<p class="iz-meta">SPA / CSR · VERCEL EDGE // CDN GLOBAL</p>
+<p class="iz-p iz-lead">Sitio institucional y de captación para un estudio de derecho penal y del consumidor, con sedes en Tucumán y Catamarca.</p>
+<button type="button" class="iz-morebtn" aria-expanded="false">Ver detalle</button>
+<div class="iz-more">
+<p class="iz-p"><strong>El desafío:</strong> llevar la consulta legal de una persona desconocida directo a WhatsApp sin que se sienta un formulario genérico.</p>
+<p class="iz-p"><strong>La solución:</strong> un formulario guiado que pre-categoriza el caso y lo deriva a un chat seguro, ya con el contexto escrito.</p>
+<div class="iz-row" style="margin-top: 12px"><a class="iz-btn iz-btn-b" href="https://www.estudiozanacchi.com" target="_blank" rel="noopener noreferrer">estudiozanacchi.com ↗</a></div>
+</div>
+</section>
+
+<section id="iz-t8" ref="{{ref_t8}}" class="iz-copy" aria-labelledby="iz-h-8">
+<p class="iz-eyebrow"><b>P/04</b> · En desarrollo</p>
+<h2 id="iz-h-8" class="iz-h2">Portafolio Mel</h2>
+<p class="iz-meta">SPA / CSR · BUILD DE PREVIEW // DEV</p>
+<p class="iz-p iz-lead">Portfolio de fotografía centrado en la imagen, en React/Vite + TypeScript con transiciones de Framer Motion.</p>
+<button type="button" class="iz-morebtn" aria-expanded="false">Ver detalle</button>
+<div class="iz-more">
+<p class="iz-p"><strong>El desafío:</strong> imágenes a sangre y capas pesadas que tienen que seguir fluidas en un celular de gama media.</p>
+<p class="iz-p"><strong>La solución:</strong> carga progresiva de imágenes y transiciones medidas para sostener la fluidez en móvil sin resignar impacto visual.</p>
+<ul class="iz-stack"><li>React</li><li>Vite</li><li>TypeScript</li><li>Framer Motion</li></ul>
+</div>
+</section>
+
+<section id="iz-t9" ref="{{ref_t9}}" class="iz-copy" aria-labelledby="iz-h-9">
+<p class="iz-eyebrow"><b>P/05</b> · En desarrollo</p>
+<h2 id="iz-h-9" class="iz-h2">Consultorio Odontológico</h2>
+<p class="iz-meta">SPA / CSR · HOSTING ESTÁTICO // DEV</p>
+<p class="iz-p iz-lead">Captación de pacientes para un consultorio de alta complejidad: tratamientos, escaneo 3D/iTero y credenciales profesionales.</p>
+<button type="button" class="iz-morebtn" aria-expanded="false">Ver detalle</button>
+<div class="iz-more">
+<p class="iz-p"><strong>El desafío:</strong> convertir la navegación en una conversación de WhatsApp pre-calificada sin perder el tono clínico.</p>
+<p class="iz-p"><strong>La solución:</strong> el tratamiento elegido viaja pre-cargado al chat, listo para agendar la consulta.</p>
+<ul class="iz-stack"><li>React</li><li>Vite</li><li>TypeScript</li><li>Tailwind</li></ul>
+</div>
+</section>
+
+<section id="iz-t10" ref="{{ref_t10}}" class="iz-copy" aria-labelledby="iz-h-10">
+<p class="iz-eyebrow"><b>10</b> · Garantías</p>
+<h2 id="iz-h-10" class="iz-h2">Cómo aseguro cada entrega.</h2>
+<p class="iz-p iz-lead">Un proceso fijo, de la especificación al deploy, para que cada entrega llegue estable a producción.</p>
+<button type="button" class="iz-morebtn" aria-expanded="false">Ver detalle</button>
+<ol class="iz-ol iz-steps">
+<li><span>01</span><div><strong>Especificación</strong><em> · alcance, datos y flujos acordados antes de programar</em></div></li>
+<li><span>02</span><div><strong>Seguridad</strong><em> · autenticación JWT/OAuth2 con rotación de tokens y revisión manual</em></div></li>
+<li><span>03</span><div><strong>Contenedores</strong><em> · Docker multi-etapa: el mismo build en desarrollo y en producción</em></div></li>
+<li><span>04</span><div><strong>Integración continua</strong><em> · GitHub Actions corre build, type-check y lint en cada push, con QA manual antes de cada merge</em></div></li>
+<li><span>05</span><div><strong>Release</strong><em> · VPS con Docker o Vercel + Cloudflare, con verificación después de cada deploy</em></div></li>
+</ol>
+</section>
+
+<section id="iz-t11" ref="{{ref_t11}}" class="iz-copy" aria-labelledby="iz-h-11">
+<p class="iz-eyebrow"><b>11</b> · Contacto</p>
+<h2 id="iz-h-11" class="iz-h2">¿Armamos el próximo sistema?</h2>
+<p class="iz-p iz-lead">Disponible para proyectos y para sumarme a equipos de producto. Contame qué necesitás y te propongo un alcance claro, con etapas y entregables.</p>
+<div class="iz-row"><a class="iz-btn iz-btn-a" href="mailto:ivozanacchi501@gmail.com">ivozanacchi501@gmail.com</a></div>
+<div class="iz-row" style="margin-top: 10px"><a class="iz-btn iz-btn-b" href="https://www.linkedin.com/in/ivo-zanacchi-87822326a" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a><a class="iz-btn iz-btn-b" href="https://github.com/Izan0501" target="_blank" rel="noopener noreferrer">GitHub ↗</a></div>
+</section>
+</div>
+<div id="iz-s0" ref="{{ref_s0}}" class="iz-sec"></div>
+<div id="iz-s1" ref="{{ref_s1}}" class="iz-sec"></div>
+<div id="iz-s2" ref="{{ref_s2}}" class="iz-sec"></div>
+<div id="iz-s3" ref="{{ref_s3}}" class="iz-sec"></div>
+<div id="iz-s4" ref="{{ref_s4}}" class="iz-sec"></div>
+<div id="iz-s5" ref="{{ref_s5}}" class="iz-sec"></div>
+<div id="iz-s6" ref="{{ref_s6}}" class="iz-sec"></div>
+<div id="iz-s7" ref="{{ref_s7}}" class="iz-sec"></div>
+<div id="iz-s8" ref="{{ref_s8}}" class="iz-sec"></div>
+<div id="iz-s9" ref="{{ref_s9}}" class="iz-sec"></div>
+<div id="iz-s10" ref="{{ref_s10}}" class="iz-sec"></div>
+<div id="iz-s11" ref="{{ref_s11}}" class="iz-sec"></div>
+</div>
+
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.el = {};
+    const reg = (k) => (n) => { if (n) this.el[k] = n; };
+    this.KEYS = ['root', 'pin', 'canvas', 'err', 'island', 'islbtn', 'islring', 'islch', 'islsub', 'isllist', 'scroller', 'railn', 'railbar', 'cap', 'tfps', 'tms', 'tdc', 'ttri', 'tlid', 'tv', 'tp'];
+    for (let i = 0; i < 12; i++) { this.KEYS.push('s' + i); this.KEYS.push('t' + i); }
+    for (let i = 0; i < 11; i++) this.KEYS.push('nl' + i);
+    for (let i = 0; i < 5; i++) this.KEYS.push('cl' + i);
+    this.KEYS.forEach((k) => { this['ref_' + k] = reg(k); });
+
+    // Capítulos en unidades de viewport (1.0 = una pantalla de scroll).
+    this.CH = [
+      { id: 'hero', a: 0.0, b: 0.8, label: 'Inicio', n: '00' },
+      { id: 'open', a: 0.8, b: 1.8, label: 'Método', n: '01' },
+      { id: 'prof', a: 1.8, b: 3.4, label: 'Perfil', n: '02' },
+      { id: 'cert', a: 3.4, b: 6.6, label: 'Formación', n: '03' },
+      { id: 'dive', a: 6.6, b: 7.1, label: 'Proyectos', n: '04' },
+      { id: 'nave', a: 7.1, b: 8.6, label: 'Nave24 Stock', n: '05' },
+      { id: 'vee', a: 8.6, b: 10.1, label: 'VeeBot SaaS', n: '06' },
+      { id: 'est', a: 10.1, b: 11.6, label: 'Estudio Zanacchi', n: '07' },
+      { id: 'mel', a: 11.6, b: 13.1, label: 'Portafolio Mel', n: '08' },
+      { id: 'con', a: 13.1, b: 14.6, label: 'Consultorio', n: '09' },
+      { id: 'pipe', a: 14.6, b: 15.8, label: 'Garantías', n: '10' },
+      { id: 'cta', a: 15.8, b: 16.7, label: 'Contacto', n: '11' }
+    ];
+    this.PMAX = 16.7;
+    this.NAV = [0, 2.0, 3.5, 7.2, 8.7, 10.2, 11.7, 13.2, 14.75, 16.7];
+    this.NAVCH = [0, 2, 3, 5, 6, 7, 8, 9, 10, 11];
+
+    // Pantallas reales por proyecto (captions de src/data/projects.ts) y hotspots sobre la UI real (u, v en la imagen).
+    this.SHOTS = {
+      nave: [
+        { img: 'nave_dash', url: 'nave24 stock · dashboard', cap: 'Dashboard // Resumen de Operaciones', ph: 'feed', isl: ['Realtime', 'T-B → stock'], hs: [[0.655, 0.30, 'Productos almacenados', 'conteo vivo, una escritura por unidad'], [0.29, 0.56, 'Actividad reciente', 'cada restock con su recibo']] },
+        { img: 'nave_inv', url: 'nave24 stock · inventario', cap: 'Inventario // Niveles de Stock por Categoría', ph: 'alert', isl: ['Stock bajo', 'reponer'], hs: [[0.935, 0.475, 'Bajo umbral', 'dispara la reposición'], [0.62, 0.21, 'Filtro por categoría', 'bebidas · alimentos · golosinas']] },
+        { img: 'nave_sales', url: 'nave24 stock · nueva venta', cap: 'Ventas // Búsqueda de Clientes y Checkout', ph: 'sale', isl: ['Venta', 'stock −3 ✓'], hs: [[0.52, 0.225, 'Buscar cliente', 'o crearlo en el momento'], [0.5, 0.385, 'Crear nuevo cliente', 'checkout en dos pasos']] }
+      ],
+      vee: [
+        { img: 'vee_dash', url: 'veebot · talent hub', cap: 'Talent Hub // Scoring de Candidatos con IA', ph: 'score', isl: ['Gemini', 'scoring CV'], hs: [[0.645, 0.17, 'Calidad global', 'promedio del pipeline del tenant'], [0.48, 0.49, 'Match IA', 'puntaje por candidato y rol']] },
+        { img: 'vee_twin', url: 'veebot · digital twin', cap: 'Digital Twin AI // Entrevistar al CV', ph: 'twin', isl: ['Twin', 'entrevista'], hs: [[0.69, 0.2, 'Gemelo digital', 'responde desde el CV'], [0.34, 0.27, 'Pool del tenant', 'aislado por agencia']] },
+        { img: 'vee_vs', url: 'veebot · versus ai', cap: 'Versus AI // El Veredicto', ph: 'verdict', isl: ['Veredicto', 'listo'], hs: [], arch: true }
+      ],
+      est: [
+        { img: 'est_hero', url: 'estudiozanacchi.com', cap: 'Hero // Marca y Credenciales', ph: 'emini', isl: ['Sitio', 'PROD'], hs: [[0.145, 0.79, 'Consulta directa', 'CTA principal del hero'], [0.785, 0.53, 'Credenciales', 'matrícula · UNT']] },
+        { img: 'est_areas', url: 'estudiozanacchi.com · áreas', cap: 'Servicios // Áreas de Práctica', ph: 'areas', isl: ['Áreas', '3 frentes'], hs: [[0.235, 0.6, 'Áreas de práctica', 'consumidor · penal · género'], [0.6, 0.92, 'Consultar ahora', 'abre la recepción del caso']] },
+        { img: 'est_intake', url: 'estudiozanacchi.com · contacto', cap: 'Intake // Envío Seguro por WhatsApp', ph: 'echat', isl: ['Caso', '→ chat'], pan: true, pins: true, hs: [[0.36, 0.36, 'Naturaleza del conflicto', 'pre-categoriza el caso'], [0.5, 0.8, 'Iniciar chat seguro', 'deriva a WhatsApp']] }
+      ],
+      mel: [
+        { img: 'mel_hero', url: 'portafolio mel · landing', cap: 'Landing // Hero Cinético', ph: 'gal', isl: ['fps', 'en vivo'], hs: [] },
+        { img: 'mel_slider', url: 'portafolio mel · galerías', cap: 'Galerías // Slider de Expansión Hover', ph: 'gal', isl: ['fps', 'en vivo'], hs: [] },
+        { img: 'mel_gal', url: 'portafolio mel · galería', cap: 'Galería // The Art of Perception', ph: 'gal', isl: ['fps', 'en vivo'], hs: [] }
+      ],
+      con: [
+        { img: 'con_hero', url: 'consultorio · inicio', cap: 'Hero // Precisión Digital y Confianza', ph: 'cmini', isl: ['Sitio', 'DEV'], hs: [[0.1, 0.72, 'Agendar cita', 'CTA principal'], [0.655, 0.72, 'Escáner 3D', 'cero impresiones']] },
+        { img: 'con_trat', url: 'consultorio · tratamientos', cap: 'Servicios // Tratamientos de Alta Complejidad', ph: 'pick', isl: ['Turno', 'tratamiento'], hs: [[0.5, 0.75, 'Aclaramiento láser', 'una sesión, protocolo médico'], [0.93, 0.945, 'Agendá tu cita', 'pre-carga el tratamiento']] },
+        { img: 'con_orto', url: 'consultorio · ortodoncia invisible', cap: 'Ortodoncia Invisible // Escaneo y Seguimiento de Fases', ph: 'cchat', isl: ['Chat', 'pre-cargado'], hs: [[0.6, 0.32, 'iTero 5D Plus', 'escaneo intraoral'], [0.76, 0.885, 'Fase 02 / 14', 'seguimiento del alineador']] }
+      ]
+    };
+    this.CERTS = [
+      { img: 'c_full', t: 'Desarrollo Full-Stack', org: 'DevSchool', title: 'Full Stack Web Developer', rows: ['HTML5 · CSS3 · Bootstrap 5', 'JavaScript · React.js', 'Node.js · Express.js · MongoDB'], by: '', tag: 'FULL-STACK' },
+      { img: 'c_py', t: 'Python', org: 'Coderhouse', title: 'Python', rows: ['52 horas · 13 semanas', '17 de diciembre de 2025'], by: 'Ualá', tag: 'LENGUAJE' },
+      { img: 'c_apps', t: 'Desarrollo de Aplicaciones', org: 'Coderhouse', title: 'Desarrollo de Aplicaciones', rows: ['36 horas · 9 semanas', '15 de mayo de 2024'], by: 'PedidosYa', tag: 'MÓVIL', top: true },
+      { img: 'c_js', t: 'JavaScript', org: 'Coderhouse', title: 'JavaScript', rows: ['36 horas · 9 semanas', '25 de enero de 2024'], by: 'PedidosYa', tag: 'LENGUAJE' },
+      { img: 'c_sec', t: 'Ciberseguridad', org: 'Coderhouse', title: 'Ciberseguridad', rows: ['30 horas · 8 semanas', '6 de noviembre de 2023'], by: 'Binance', tag: 'SEGURIDAD' }
+    ];
+
+    this.p = 0; this.pt = 0; this.t = 0; this.chi = -1; this.subKey = ''; this.vel = 0; this.prevP = 0;
+    this.mx = 0; this.my = 0; this.smx = 0; this.smy = 0;
+    // Isla: auto = desplegada por scroll (arriba / al inicio); forced = decisión del usuario por toque o teclado.
+    this.isl = { w: 190, h: 40, vw: 0, vh: 0, auto: true, forced: null, hov: false, focus: false, lockHov: false, shown: null };
+    this._dacc = 0; this._prevPt = 0; this._nav = null;
+    this.pisl = { w: 100, h: 30, vw: 0, vh: 0 };
+    this.lidS = { x: 0, v: 0 };
+    this.fps = { n: 0, acc: 0, val: 0, ms: 0 };
+    this._teleT = 0; this._macKey = ''; this._phKey = ''; this._blKey = '';
+
+    this.islToggle = () => { const I = this.isl; I.forced = !this._islOpen(); if (!I.forced) { I.hov = false; I.lockHov = true; } this._islSync(); };
+    this.islEnter = (e) => { if (!e || !e.pointerType || e.pointerType === 'mouse') { if (!this.isl.lockHov) this.isl.hov = true; this._islSync(); } };
+    this.islLeave = (e) => { if (!e || !e.pointerType || e.pointerType === 'mouse') { this.isl.hov = false; this.isl.lockHov = false; this._islSync(); } };
+    this.onMove = (e) => {
+      const r = this.el.root; if (!r || !e) return;
+      const b = r.getBoundingClientRect();
+      this.mx = ((e.clientX - b.left) / Math.max(1, b.width)) * 2 - 1;
+      this.my = ((e.clientY - b.top) / Math.max(1, b.height)) * 2 - 1;
+    };
+    // Al elegir un destino la isla se pliega y su anillo funciona como loader del viaje.
+    this.go = this.NAV.map((p) => (e) => { if (e && e.preventDefault) e.preventDefault(); const I = this.isl; I.forced = null; I.auto = false; I.hov = false; I.lockHov = true; I.focus = false; if (document.activeElement && document.activeElement.blur) document.activeElement.blur(); this._islSync(); this._scrollTo(p); });
+  }
+
+  // ───────────────────────── utilidades
+  _get(k) { return this.el[k] || document.getElementById('iz-' + k); }
+  _c01(x) { return x < 0 ? 0 : x > 1 ? 1 : x; }
+  _ss(a, b, x) { const t = this._c01((x - a) / (b - a)); return t * t * (3 - 2 * t); }
+  _mix(a, b, t) { return a + (b - a) * t; }
+  _damp(a, b, l, dt) { return a + (b - a) * (1 - Math.exp(-l * dt)); }
+  _win(p, a, b, f) { return this._ss(a - f, a + f, p) * (1 - this._ss(b - f, b + f, p)); }
+  _clamp(x, a, b) { return x < a ? a : x > b ? b : x; }
+
+  // Desplazamiento animado propio (easeInOutCubic, duración según distancia); se cancela si el usuario toma el control.
+  _scrollTo(p) {
+    const sc = this._get('scroller'); if (!sc) return;
+    const to = Math.min(p * sc.clientHeight, sc.scrollHeight - sc.clientHeight), from = sc.scrollTop;
+    if (this._nav) cancelAnimationFrame(this._nav.raf);
+    if (this.reduced || Math.abs(to - from) < 2) { sc.scrollTop = to; this._nav = null; return; }
+    const dp = Math.abs(to - from) / Math.max(1, sc.clientHeight), dur = Math.min(1700, 520 + 300 * Math.sqrt(dp)), t0 = performance.now();
+    const ease = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+    const N = { raf: 0, to };
+    const step = (now) => { const k = Math.min(1, (now - t0) / dur); sc.scrollTop = from + (to - from) * ease(k); if (k < 1 && this._nav === N) N.raf = requestAnimationFrame(step); else if (this._nav === N) this._nav = null; };
+    this._nav = N; N.raf = requestAnimationFrame(step);
+  }
+
+  _islOpen() { const I = this.isl; return I.forced !== null ? I.forced : (I.hov || I.focus || (I.auto && !this._nav)); }
+
+  _islSync() {
+    const isl = this._get('island'), b = this._get('islbtn');
+    const open = this._islOpen();
+    if (open === this.isl.shown) return; this.isl.shown = open;
+    if (isl) isl.classList.toggle('iz-open', open);
+    if (b) b.setAttribute('aria-expanded', open ? 'true' : 'false');
+    const pn = this._get('isllist'); if (pn) pn.setAttribute('aria-hidden', open ? 'false' : 'true');
+  }
+
+  // Dirección de scroll: bajar pliega, subir despliega (umbral ~5 % de pantalla para ignorar temblores).
+  _scrollDir(pt) {
+    const d = pt - this._prevPt; this._prevPt = pt; const I = this.isl;
+    if (this._nav) { this._dacc = 0; return; }
+    if (Math.sign(d) !== Math.sign(this._dacc)) this._dacc = 0;
+    this._dacc += d;
+    if (pt < 0.12) { if (!I.auto) { I.auto = true; I.forced = null; } }
+    else if (this._dacc > 0.05) { if (I.auto || I.forced) { I.auto = false; I.forced = null; } this._dacc = 0; }
+    else if (this._dacc < -0.05) { if (!I.auto) { I.auto = true; I.forced = null; } this._dacc = 0; }
+    this._islSync();
+  }
+
+  // ───────────────────────── ciclo de vida
+  componentDidMount() {
+    this._alive = true; this._vis = true;
+    this.reduced = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    this._layout();
+    // Cancelar el viaje animado si el usuario scrollea; foco y Escape para la isla.
+    const sc = this._get('scroller'), isl = this._get('island');
+    this._stopNav = () => { if (this._nav) { cancelAnimationFrame(this._nav.raf); this._nav = null; } };
+    this._onKey = (e) => { if (e.key === 'Escape') { this.isl.forced = false; this.isl.hov = false; this.isl.lockHov = true; this._islSync(); } else if (['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', ' ', 'Home', 'End'].indexOf(e.key) >= 0) this._stopNav(); };
+    // Solo el foco de teclado (focus-visible) despliega: un toque no debe abrir y cerrar en el mismo gesto.
+    this._onFin = (e) => { let kb = true; try { kb = !e.target || !e.target.matches || e.target.matches(':focus-visible'); } catch (err) { kb = true; } if (kb) { this.isl.focus = true; this._islSync(); } };
+    this._onFout = (e) => { if (!isl || !isl.contains(e.relatedTarget)) { this.isl.focus = false; this._islSync(); } };
+    if (sc) { sc.addEventListener('wheel', this._stopNav, { passive: true }); sc.addEventListener('touchstart', this._stopNav, { passive: true }); }
+    window.addEventListener('keydown', this._onKey);
+    // «Ver detalle» (teléfonos): despliega el resto del capítulo dentro de la hoja.
+    this._onMore = (e) => { const bt = e.target && e.target.closest ? e.target.closest('.iz-morebtn') : null; if (!bt) return; const sec = bt.closest('.iz-copy'); const x = !sec.classList.contains('iz-x'); sec.classList.toggle('iz-x', x); bt.setAttribute('aria-expanded', x ? 'true' : 'false'); bt.textContent = x ? 'Cerrar detalle' : 'Ver detalle';
+      // La cámara se reencuadra sobre la hoja abierta: modelo y texto quedan a la vista a la vez.
+      const idx = parseInt(sec.id.replace('iz-t', ''), 10); requestAnimationFrame(() => { this._xTop = x ? { ci: idx, top: sec.getBoundingClientRect().top } : null; }); };
+    if (sc) sc.addEventListener('click', this._onMore);
+    if (isl) { isl.addEventListener('focusin', this._onFin); isl.addEventListener('focusout', this._onFout); }
+    this._islSync();
+    this._tries = 0;
+    this._bootWait();
+  }
+
+  componentWillUnmount() {
+    this._alive = false;
+    if (this._nav) cancelAnimationFrame(this._nav.raf);
+    const sc0 = this._get('scroller'), isl0 = this._get('island');
+    if (sc0 && this._onMore) sc0.removeEventListener('click', this._onMore);
+    if (sc0 && this._stopNav) { sc0.removeEventListener('wheel', this._stopNav); sc0.removeEventListener('touchstart', this._stopNav); }
+    if (this._onKey) window.removeEventListener('keydown', this._onKey);
+    if (isl0 && this._onFin) { isl0.removeEventListener('focusin', this._onFin); isl0.removeEventListener('focusout', this._onFout); }
+    cancelAnimationFrame(this._raf); clearTimeout(this._bootT);
+    if (this._ro) this._ro.disconnect();
+    if (this._io) this._io.disconnect();
+    if (this._onVis) document.removeEventListener('visibilitychange', this._onVis);
+    if (this.S) this.S.traverse((o) => {
+      if (o.geometry) o.geometry.dispose();
+      const m = o.material; if (m) (Array.isArray(m) ? m : [m]).forEach((x) => { if (x.map) x.map.dispose(); x.dispose(); });
+    });
+    if (this.envTex) this.envTex.dispose();
+    if (this.R) this.R.dispose();
+  }
+
+  _bootWait() {
+    if (!this._alive) return;
+    if (window.THREE) { try { this._boot(); } catch (err) { this._fail(err); } return; }
+    if (this._tries++ > 60) { this._fail(new Error('three.js no cargó')); return; }
+    this._bootT = setTimeout(() => this._bootWait(), 100);
+  }
+
+  _fail(err) {
+    const e = this._get('err'); if (e) e.style.display = 'block';
+    this._noGL = true; this._loopText();
+    if (window.console) console.warn('[banco 3D]', err && err.message);
+  }
+
+  _layout() {
+    const sc = this._get('scroller'); if (!sc) return;
+    const h = sc.clientHeight || 800; this._h = h;
+    // Un único pin sticky (alto = viewport, margin-bottom negativo) cubre todo el recorrido;
+    // las secciones son espaciadores con ancla. El sticky es un div puro: el movimiento vive en sus hijos.
+    const pin = this._get('pin'); if (pin) { pin.style.height = h + 'px'; pin.style.marginBottom = (-h) + 'px'; }
+    for (let i = 0; i < this.CH.length; i++) {
+      const c = this.CH[i], s = this._get('s' + i); if (!s) continue;
+      const span = (c.b - c.a) * h + (i === this.CH.length - 1 ? h : 0);
+      s.style.height = Math.round(span) + 'px';
+    }
+    if (this.R) {
+      const r = this._get('root'), w = r.clientWidth || 1, hh = r.clientHeight || 1;
+      this.R.setSize(w, hh, false); this.cam.aspect = w / hh; this.cam.updateProjectionMatrix();
+      this.aspect = w / hh; this._vw = w; this._vh = hh;
+      this._compact = (w / hh) < 0.95 || w <= 1024;
+      // Borde superior de cada hoja de texto (vertical): límite inferior del área 3D.
+      this._sheetTop = [];
+      for (let i = 0; i < this.CH.length; i++) { const el = this._get('t' + i); if (!el) continue; const bt = parseFloat(getComputedStyle(el).bottom) || 12; this._sheetTop[i] = hh - bt - el.offsetHeight; }
+      // Columna de copy medida (incluye zoom de pantallas grandes): define cuánto ancho real le queda al 3D.
+      const c0 = this._get('t0'), rb = r.getBoundingClientRect();
+      const cr = c0 ? c0.getBoundingClientRect() : null;
+      this._copyFrac = cr && cr.width ? this._clamp((cr.right - rb.left) / w, 0.2, 0.6) : 0.365;
+      const nar = (w / hh) < 0.95, il = this._get('island'), cfr = this._copyFrac || 0.365;
+      this._islCX = w / 2; this._islMinX = 8; // siempre centrada en la pantalla
+      this._islZ = il ? (parseFloat(getComputedStyle(il).zoom) || 1) : 1;
+    }
+  }
+
+  _loopText() {
+    let last = performance.now();
+    const step = (now) => { if (!this._alive) return; const dt = Math.min(0.05, (now - last) / 1000); last = now; this._readScroll(dt); this._dom(dt); this._raf = requestAnimationFrame(step); };
+    this._raf = requestAnimationFrame(step);
+  }
+
+  // ───────────────────────── escena
+  _rr(T, w, h, r) {
+    const s = new T.Shape(), x = -w / 2, y = -h / 2;
+    s.moveTo(x + r, y); s.lineTo(x + w - r, y); s.quadraticCurveTo(x + w, y, x + w, y + r);
+    s.lineTo(x + w, y + h - r); s.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    s.lineTo(x + r, y + h); s.quadraticCurveTo(x, y + h, x, y + h - r);
+    s.lineTo(x, y + r); s.quadraticCurveTo(x, y, x + r, y);
+    return s;
+  }
+
+  _boot() {
+    const T = window.THREE, cv = this._get('canvas'), root = this._get('root');
+    const R = new T.WebGLRenderer({ canvas: cv, antialias: true, powerPreference: 'high-performance' });
+    if (!R.getContext()) throw new Error('sin contexto WebGL');
+    R.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+    R.outputColorSpace = T.SRGBColorSpace;
+    R.toneMapping = T.ACESFilmicToneMapping; R.toneMappingExposure = 1.05;
+    this.R = R;
+    const S = new T.Scene(); S.background = new T.Color(0x0d0c0a); S.fog = new T.Fog(0x0d0c0a, 11, 26); this.S = S;
+    this.cam = new T.PerspectiveCamera(30, 1, 0.1, 60);
+    this.v3 = new T.Vector3(); this.v3b = new T.Vector3(); this.v3c = new T.Vector3(); this.v3d = new T.Vector3(); this.tgt = new T.Vector3();
+
+    // Entorno procedural: softboxes cálidos para reflejos especulares (sin HDRI).
+    const es = new T.Scene(); es.background = new T.Color(0x040404);
+    const box = (w, h, d, c, x, y, z) => { const m = new T.Mesh(new T.BoxGeometry(w, h, d), new T.MeshBasicMaterial({ color: c })); m.position.set(x, y, z); es.add(m); };
+    // Softbox superior desplazado a un costado: la tapa plateada vista desde arriba no se quema.
+    box(5, 0.3, 3, new T.Color(2.0, 1.95, 1.85), -6, 6, -4);
+    box(9, 0.1, 9, new T.Color(0.42, 0.43, 0.45), 0, 9, 1);
+    box(6, 0.25, 0.6, new T.Color(2.4, 2.1, 0.7), 0, -1.5, -5);
+    box(0.35, 6, 3, new T.Color(1.9, 1.85, 1.75), 6, 1, -1);
+    box(5, 0.3, 1, new T.Color(0.9, 1.0, 1.15), 2, 4, 6);
+    box(30, 0.1, 30, new T.Color(0.05, 0.045, 0.04), 0, -3, 0);
+    const pm = new T.PMREMGenerator(R); this.envTex = pm.fromScene(es, 0.035).texture; pm.dispose();
+    es.traverse((o) => { if (o.geometry) o.geometry.dispose(); if (o.material) o.material.dispose(); });
+    S.environment = this.envTex;
+
+    S.add(new T.HemisphereLight(0x3a342b, 0x0d0c0a, 0.5));
+    const rim = new T.DirectionalLight(0xffe6c8, 2.3); rim.position.set(-5, 6, -6); S.add(rim);
+    const fill = new T.DirectionalLight(0xa8b8c8, 0.35); fill.position.set(6, 3, 7); S.add(fill);
+
+    this.mat = {
+      // Aluminio plateado (modelo portado de la propuesta B).
+      alu: new T.MeshStandardMaterial({ color: 0xc2c8cc, metalness: 1, roughness: 0.3 }),
+      aluD: new T.MeshStandardMaterial({ color: 0x8e9290, metalness: 1, roughness: 0.25 }),
+      well: new T.MeshStandardMaterial({ color: 0x0f0f0e, metalness: 0.2, roughness: 0.85 }),
+      key: new T.MeshStandardMaterial({ color: 0x151513, metalness: 0.05, roughness: 0.75 }),
+      leather: new T.MeshStandardMaterial({ color: 0x2b2520, metalness: 0.0, roughness: 0.62 }),
+      lining: new T.MeshStandardMaterial({ color: 0x1b1914, metalness: 0.0, roughness: 0.95 }),
+      brass: new T.MeshStandardMaterial({ color: 0xc8b46a, metalness: 1, roughness: 0.32 }),
+      glass: new T.MeshStandardMaterial({ color: 0x050505, metalness: 0.0, roughness: 0.08 }),
+      black: new T.MeshBasicMaterial({ color: 0x000000 }),
+      ti: new T.MeshStandardMaterial({ color: 0x4a4740, metalness: 1, roughness: 0.3 }),
+      lens: new T.MeshStandardMaterial({ color: 0x0a0a0c, metalness: 0.6, roughness: 0.12 }),
+      card: new T.MeshStandardMaterial({ color: 0x1a1815, metalness: 0.4, roughness: 0.5 }),
+      lemon: new T.MeshBasicMaterial({ color: 0xe6d84a, toneMapped: false })
+    };
+
+    this._loadImages(T);
+    this._buildMac(T); this._buildPhone(T); this._buildBench(T); this._buildExtras(T); this._buildCerts(T); this._buildCase(T); this._buildBadge(T); this._buildTiles(T); this._buildCallouts(T);
+
+    this._layout();
+    if (window.ResizeObserver) { this._ro = new ResizeObserver(() => this._layout()); this._ro.observe(root); }
+    if (window.IntersectionObserver) {
+      this._io = new IntersectionObserver((en) => { const v = en[0] && en[0].isIntersecting; this._setVis(v); }, { threshold: 0 });
+      this._io.observe(root);
+    }
+    this._onVis = () => this._setVis(document.visibilityState === 'visible');
+    document.addEventListener('visibilitychange', this._onVis);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { this._layout(); this._macKey = ''; this._phKey = ''; this._redrawLabels(); (this._texList || []).forEach((tx) => tx.userData.draw()); });
+
+    this._last = performance.now();
+    this._tick = (now) => this._frame(now);
+    this._raf = requestAnimationFrame(this._tick);
+  }
+
+  _setVis(v) {
+    if (v === this._vis) return; this._vis = v;
+    cancelAnimationFrame(this._raf);
+    if (v && this._alive && this.R) { this._last = performance.now(); this._raf = requestAnimationFrame(this._tick); }
+  }
+
+  _loadImages(T) {
+    const SRC = {
+      ivo: '/_blob/7ebb6b24a77052527149c0d9d352976f',
+      nave_dash: '/_blob/267c8e4b95b9c56e5bcac6194d739092', nave_inv: '/_blob/457deb5db58e9f74edd5b30f0605c511', nave_sales: '/_blob/657a5dee8aee20e5e9e18bd1dd17b1ff',
+      vee_dash: '/_blob/b4761f1b327bfaf8c4bdb3169dc4af75', vee_twin: '/_blob/fbd8a4e3ff9ee0a2a93073f97876d474', vee_vs: '/_blob/67d327b0ea667997af19e54ba450b992',
+      est_hero: '/_blob/018a4983af01a151ff4ea7674d1a2878', est_areas: '/_blob/058437b6f8115c7dfffd7b7c4e50cc71', est_intake: '/_blob/a064aa41327ba04ff1c645b43499fe78',
+      mel_hero: '/_blob/bbf18df56ee455e9fe0f8a2bc6b02516', mel_slider: '/_blob/d20198b71e05d3194834b1cf5d42e309', mel_gal: '/_blob/81674cba19d4222f99eb31a69649c911',
+      con_hero: '/_blob/1ebed8102550e804e36e097097bcca5a', con_trat: '/_blob/386716093eda625dc17b0ff559591d43', con_orto: '/_blob/6067a65a327093fd61e4aefe2b0d94ae',
+      c_full: '/_blob/5b881704b3ce950663c8927258d5e2b0', c_py: '/_blob/b7791781a4012ce1d57b59fec4944329', c_apps: '/_blob/02575037cc0742e56813689339977d60', c_js: '/_blob/cbe92b16b30a4c28161dead423194332', c_sec: '/_blob/2ce98dc4dc3155b8a4d5d6377630fed7'
+    };
+    this.img = {}; this._nImg = 0;
+    Object.keys(SRC).forEach((k) => { const im = new Image(); im.decoding = 'async'; im.onload = () => { this.img[k] = im; this._nImg++; this._macKey = ''; this._phKey = ''; if (this._onImg) this._onImg(k, im); }; im.src = SRC[k]; });
+  }
+
+  _buildMac(T) {
+    const g = new T.Group(); this.mac = g; this.S.add(g);
+    const W = 3.0, D = 2.08, bt = 0.014;
+    const baseG = new T.ExtrudeGeometry(this._rr(T, W, D, 0.13), { depth: 0.07, bevelEnabled: true, bevelThickness: bt, bevelSize: bt, bevelSegments: 3, curveSegments: 12 });
+    baseG.rotateX(-Math.PI / 2); baseG.translate(0, bt, 0);
+    g.add(new T.Mesh(baseG, this.mat.alu));
+    const bT = 0.07 + bt * 2; this.baseT = bT;
+    const well = new T.Mesh(new T.PlaneGeometry(2.6, 1.02), this.mat.well); well.rotation.x = -Math.PI / 2; well.position.set(0, bT + 0.0008, -0.3); g.add(well);
+
+    // Teclado: InstancedMesh de teclas + InstancedMesh de retroiluminación (color por instancia).
+    const rows = [
+      { u: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], d: 0.075 },
+      { u: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1.5], d: 0.14 },
+      { u: [1.5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], d: 0.14 },
+      { u: [1.75, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1.75], d: 0.14 },
+      { u: [2.25, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2.25], d: 0.14 },
+      { u: [1, 1, 1, 1.25, 5.1, 1.25, 1, 1, 1, 1], d: 0.14 }
+    ];
+    let count = 0; rows.forEach((r) => { count += r.u.length; });
+    const keys = new T.InstancedMesh(new T.BoxGeometry(1, 1, 1), this.mat.key, count);
+    const glowMat = new T.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 1, blending: T.AdditiveBlending, depthWrite: false, toneMapped: false });
+    const gg = new T.PlaneGeometry(1, 1); gg.rotateX(-Math.PI / 2);
+    const glow = new T.InstancedMesh(gg, glowMat, count); this.glow = glow; this.keyRow = new Uint8Array(count);
+    const m4 = new T.Matrix4(), q = new T.Quaternion(), sc = new T.Vector3(), ps = new T.Vector3(), c0 = new T.Color(0, 0, 0);
+    const KW = 2.46, gap = 0.022; let z = -0.76, idx = 0;
+    rows.forEach((r, ri) => {
+      const units = r.u.reduce((a, b) => a + b, 0), unit = (KW - gap * (r.u.length - 1)) / units;
+      let x = -KW / 2;
+      r.u.forEach((u) => {
+        const w = u * unit; ps.set(x + w / 2, bT + 0.007, z + r.d / 2); sc.set(w, 0.012, r.d);
+        m4.compose(ps, q, sc); keys.setMatrixAt(idx, m4);
+        ps.y = bT + 0.0136; sc.set(Math.min(w * 0.5, 0.09), 1, r.d * 0.28); m4.compose(ps, q, sc); glow.setMatrixAt(idx, m4); glow.setColorAt(idx, c0);
+        this.keyRow[idx] = ri; idx++; x += w + gap;
+      });
+      z += r.d + gap;
+    });
+    keys.instanceMatrix.needsUpdate = true; glow.instanceMatrix.needsUpdate = true; glow.instanceColor.needsUpdate = true;
+    g.add(keys); g.add(glow);
+
+    const pad = new T.Mesh(new T.ShapeGeometry(this._rr(T, 1.16, 0.7, 0.05)), this.mat.aluD);
+    pad.rotation.x = -Math.PI / 2; pad.position.set(0, bT + 0.0007, 0.62); g.add(pad);
+    const hinge = new T.Mesh(new T.CylinderGeometry(0.042, 0.042, 2.3, 20), this.mat.aluD);
+    hinge.rotation.z = Math.PI / 2; hinge.position.set(0, bT - 0.004, -D / 2 + 0.02); g.add(hinge);
+
+    // Tapa: pivota sobre el eje real de la bisagra trasera.
+    // Pivote elevado: con la tapa cerrada el vidrio queda por encima de las teclas (sin interpenetración).
+    const lid = new T.Group(); lid.position.set(0, bT + 0.02, -D / 2 + 0.03); g.add(lid); this.lid = lid;
+    const LH = 2.04, lt = 0.01;
+    const lidG = new T.ExtrudeGeometry(this._rr(T, W, LH, 0.13), { depth: 0.028, bevelEnabled: true, bevelThickness: lt, bevelSize: lt, bevelSegments: 3, curveSegments: 12 });
+    lidG.translate(0, LH / 2, -(0.028 + lt));
+    lid.add(new T.Mesh(lidG, this.mat.alu));
+    const glass = new T.Mesh(new T.ShapeGeometry(this._rr(T, 2.95, 1.99, 0.11)), this.mat.glass); glass.position.set(0, LH / 2, 0.0012); lid.add(glass);
+    const mc = document.createElement('canvas'); mc.width = 1280; mc.height = 800; this.mctx = mc.getContext('2d');
+    const mt = new T.CanvasTexture(mc); mt.colorSpace = T.SRGBColorSpace; mt.anisotropy = 8; this.mtex = mt;
+    this.dispMat = new T.MeshBasicMaterial({ map: mt, toneMapped: false, color: 0x000000 });
+    const disp = new T.Mesh(new T.PlaneGeometry(2.76, 1.725), this.dispMat); disp.position.set(0, 1.06, 0.0024); lid.add(disp);
+    const notch = new T.Mesh(new T.ShapeGeometry(this._rr(T, 0.3, 0.07, 0.03)), this.mat.black); notch.position.set(0, 1.06 + 0.8625 - 0.025, 0.0032); lid.add(notch);
+    // Monograma grabado en el dorso: marca propia, ningún logo de terceros.
+    const lc = document.createElement('canvas'); lc.width = 256; lc.height = 256; this.monoCtx = lc.getContext('2d');
+    this.monoTex = new T.CanvasTexture(lc); this._drawMono();
+    const mono = new T.Mesh(new T.PlaneGeometry(0.5, 0.5), new T.MeshStandardMaterial({ color: 0x7d807f, metalness: 1, roughness: 0.12, alphaMap: this.monoTex, transparent: true }));
+    mono.position.set(0, LH / 2, -(0.028 + lt * 2) - 0.0008); mono.rotation.y = Math.PI; lid.add(mono);
+    const sl = new T.PointLight(0xf2ecdf, 0, 3.2, 2); sl.position.set(0, 0.95, 0.5); lid.add(sl); this.screenLight = sl;
+  }
+
+  _drawMono() { const x = this.monoCtx; x.clearRect(0, 0, 256, 256); x.fillStyle = '#fff'; x.font = '800 150px "Schibsted Grotesk", system-ui, sans-serif'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText('IZ', 128, 136); this.monoTex.needsUpdate = true; }
+
+  _buildPhone(T) {
+    const g = new T.Group(); this.ph = g; this.S.add(g);
+    const PW = 0.74, PH = 1.52, d = 0.05, bv = 0.014;
+    const body = new T.ExtrudeGeometry(this._rr(T, PW, PH, 0.115), { depth: d, bevelEnabled: true, bevelThickness: bv, bevelSize: bv, bevelSegments: 4, curveSegments: 14 });
+    body.translate(0, 0, -d / 2); g.add(new T.Mesh(body, this.mat.ti));
+    const front = new T.Mesh(new T.ShapeGeometry(this._rr(T, PW + 0.02, PH + 0.02, 0.122), 14), this.mat.glass); front.position.z = d / 2 + bv + 0.0004; g.add(front);
+    const SW = 0.69, SH = 1.47, sg = new T.ShapeGeometry(this._rr(T, SW, SH, 0.095), 14);
+    const pos = sg.attributes.position, uv = sg.attributes.uv;
+    for (let i = 0; i < pos.count; i++) uv.setXY(i, (pos.getX(i) + SW / 2) / SW, (pos.getY(i) + SH / 2) / SH);
+    uv.needsUpdate = true;
+    const pc = document.createElement('canvas'); pc.width = 540; pc.height = 1150; this.pctx = pc.getContext('2d');
+    const pt = new T.CanvasTexture(pc); pt.colorSpace = T.SRGBColorSpace; pt.anisotropy = 8; this.ptex = pt;
+    this.phMat = new T.MeshBasicMaterial({ map: pt, toneMapped: false, color: 0x000000 });
+    const scr = new T.Mesh(sg, this.phMat); scr.position.z = d / 2 + bv + 0.0011; g.add(scr);
+    const plate = new T.Mesh(new T.ShapeGeometry(this._rr(T, 0.31, 0.31, 0.075), 10), this.mat.ti);
+    plate.position.set(0.17, 0.56, -(d / 2 + bv) - 0.003); plate.rotation.y = Math.PI; g.add(plate);
+    const lensG = new T.CylinderGeometry(0.046, 0.05, 0.022, 28); lensG.rotateX(Math.PI / 2);
+    [[0.11, 0.62], [0.11, 0.5], [0.23, 0.56]].forEach((c) => { const l = new T.Mesh(lensG, this.mat.lens); l.position.set(c[0], c[1], -(d / 2 + bv) - 0.013); g.add(l); });
+    const btnG = new T.BoxGeometry(0.012, 1, 0.022);
+    [[PW / 2 + bv + 0.003, 0.3, 0.16], [-(PW / 2 + bv + 0.003), 0.38, 0.1], [-(PW / 2 + bv + 0.003), 0.24, 0.1], [-(PW / 2 + bv + 0.003), 0.55, 0.05]].forEach((b) => { const m = new T.Mesh(btnG, this.mat.ti); m.position.set(b[0], b[1], 0); m.scale.y = b[2]; g.add(m); });
+  }
+
+  _blobTex(T) {
+    const c = document.createElement('canvas'); c.width = c.height = 128; const x = c.getContext('2d');
+    const gr = x.createRadialGradient(64, 64, 4, 64, 64, 64); gr.addColorStop(0, 'rgba(0,0,0,0.75)'); gr.addColorStop(0.55, 'rgba(0,0,0,0.35)'); gr.addColorStop(1, 'rgba(0,0,0,0)');
+    x.fillStyle = gr; x.fillRect(0, 0, 128, 128); return new T.CanvasTexture(c);
+  }
+
+  _buildBench(T) {
+    const geo = new T.PlaneGeometry(44, 44); geo.rotateX(-Math.PI / 2);
+    this.benchU = { uPool: { value: new T.Vector2(1.6, 0) }, uPow: { value: 0 }, uNear: { value: 9 } };
+    const mat = new T.ShaderMaterial({
+      uniforms: this.benchU, toneMapped: false,
+      vertexShader: 'varying vec3 vW; void main(){ vec4 w = modelMatrix * vec4(position,1.0); vW = w.xyz; gl_Position = projectionMatrix * viewMatrix * w; }',
+      fragmentShader: [
+        'uniform vec2 uPool; uniform float uPow; uniform float uNear; varying vec3 vW;',
+        'void main(){',
+        '  vec2 q = vW.xz; float r = length((q - uPool) * vec2(0.8, 1.15));',
+        '  float pool = exp(-r * r / 9.0);',
+        '  vec3 base = vec3(0.0052, 0.0048, 0.004) + vec3(0.019, 0.016, 0.012) * pool + vec3(0.014, 0.013, 0.011) * pool * uPow;',
+        '  vec3 col = base;',
+        '  float dist = length(vW - cameraPosition);',
+        '  col = mix(col, vec3(0.0051, 0.0047, 0.0039), smoothstep(uNear, uNear + 15.0, dist));',
+        '  gl_FragColor = vec4(col, 1.0);',
+        '  #include <colorspace_fragment>',
+        '}'
+      ].join('\n')
+    });
+    const bench = new T.Mesh(geo, mat); bench.position.y = -0.002; this.S.add(bench);
+    const bt = this._blobTex(T); this.blobT = bt;
+    const blob = (w, h) => { const m = new T.Mesh(new T.PlaneGeometry(w, h), new T.MeshBasicMaterial({ map: bt, transparent: true, depthWrite: false, toneMapped: false })); m.rotation.x = -Math.PI / 2; m.position.y = 0.001; this.S.add(m); return m; };
+    this.macBlob = blob(4.2, 3.2); this.phBlob = blob(1.1, 0.42);
+  }
+
+  _rrect(x, a, b, w, h, r) { r = Math.max(0, Math.min(r, w / 2, h / 2)); x.beginPath(); x.moveTo(a + r, b); x.arcTo(a + w, b, a + w, b + h, r); x.arcTo(a + w, b + h, a, b + h, r); x.arcTo(a, b + h, a, b, r); x.arcTo(a, b, a + w, b, r); x.closePath(); }
+
+  _labelTex(T, w, h) {
+    const c = document.createElement('canvas'); c.width = w; c.height = h; const tex = new T.CanvasTexture(c); tex.colorSpace = T.SRGBColorSpace;
+    tex.userData.draw = (text, sub, accent) => {
+      const x = c.getContext('2d'); x.clearRect(0, 0, w, h);
+      x.fillStyle = 'rgba(13,12,10,0.94)'; this._rrect(x, 2, 2, w - 4, h - 4, 18); x.fill();
+      x.strokeStyle = accent ? '#E6D84A' : '#4A443B'; x.lineWidth = 2.5; x.stroke();
+      x.fillStyle = '#EEE9DF'; x.font = '600 ' + Math.round(h * 0.3) + 'px "Schibsted Grotesk", system-ui, sans-serif'; x.textBaseline = 'middle'; x.fillText(text, 26, sub ? h * 0.38 : h / 2);
+      if (sub) { x.fillStyle = '#A39C8F'; x.font = '500 ' + Math.round(h * 0.17) + 'px "Martian Mono", ui-monospace, monospace'; x.fillText(sub, 26, h * 0.72); }
+      tex.userData.last = [text, sub, accent]; tex.needsUpdate = true;
+    };
+    return tex;
+  }
+
+  _redrawLabels() {
+    const all = [].concat(this.plates || [], (this.pins || []).map((p) => p.spr), (this.callouts || []).map((c) => c.spr));
+    all.forEach((m) => { const t = m.material.map; if (t && t.userData.last) t.userData.draw.apply(null, t.userData.last); });
+    this._drawMono();
+  }
+
+  _buildExtras(T) {
+    const sg = new T.SphereGeometry(0.026, 14, 10);
+    this.pulses = [0, 1, 2].map(() => { const m = new T.Mesh(sg, this.mat.lemon); m.visible = false; this.S.add(m); return m; });
+    const lg = new T.BufferGeometry(); this.lineN = 40; lg.setAttribute('position', new T.BufferAttribute(new Float32Array(this.lineN * 3), 3));
+    this.line = new T.Line(lg, new T.LineBasicMaterial({ color: 0xe6d84a, transparent: true, opacity: 0, toneMapped: false, depthWrite: false })); this.line.frustumCulled = false; this.S.add(this.line);
+
+    this.plates = [['Ingesta de CV', 'React/Vite → FastAPI · tenant A | tenant B'], ['Scoring IA', 'Gemini 2.5 Flash · inferencia escalable'], ['Vectores', 'Pinecone · búsqueda por significado'], ['Persistencia', 'MongoDB · flujos SMTP automatizados']].map((L, i) => {
+      const tex = this._labelTex(T, 1024, 168); tex.userData.draw(L[0], L[1], false);
+      const m = new T.Mesh(new T.PlaneGeometry(2.4, 0.394), new T.MeshBasicMaterial({ map: tex, transparent: true, opacity: 0, depthWrite: false, toneMapped: false }));
+      m.userData.i = i; m.visible = false; this.S.add(m); return m;
+    });
+
+    this.pins = [['Tucumán', 'sede · derecho penal y consumidor', 2.25, 2.0], ['Catamarca', 'sede · derecho penal y consumidor', 1.05, 2.25]].map((d) => {
+      const g = new T.Group(); g.position.set(d[2], 0, d[3]);
+      const stem = new T.Mesh(new T.CylinderGeometry(0.006, 0.006, 1, 8), this.mat.lemon); stem.position.y = 0.5; g.add(stem);
+      const head = new T.Mesh(new T.SphereGeometry(0.035, 16, 12), this.mat.lemon); g.add(head);
+      const ring = new T.Mesh(new T.RingGeometry(0.06, 0.075, 40), new T.MeshBasicMaterial({ color: 0xe6d84a, transparent: true, opacity: 0.5, toneMapped: false, side: T.DoubleSide })); ring.rotation.x = -Math.PI / 2; ring.position.y = 0.003; g.add(ring);
+      const tex = this._labelTex(T, 640, 150); tex.userData.draw(d[0], d[1], false);
+      const spr = new T.Sprite(new T.SpriteMaterial({ map: tex, transparent: true, depthWrite: false, toneMapped: false })); spr.scale.set(0.95, 0.223, 1); g.add(spr);
+      g.visible = false; this.S.add(g);
+      return { g, stem, head, ring, spr };
+    });
+  }
+
+  // Certificados: placas físicas con la imagen real. Viven apiladas dentro del maletín hasta que el scroll las saca.
+  _buildCerts(T) {
+    const plateG = new T.BoxGeometry(1, 1, 1);
+    const faceG = new T.PlaneGeometry(1, 1);
+    this.certs = this.CERTS.map((c, i) => {
+      const g = new T.Group();
+      const back = new T.Mesh(plateG, this.mat.card); back.scale.set(1.56, 1.0, 0.014); g.add(back);
+      const fm = new T.MeshStandardMaterial({ color: 0xffffff, roughness: 0.42, metalness: 0.05, emissive: new T.Color(0xffffff), emissiveIntensity: 0.12 });
+      const face = new T.Mesh(faceG, fm); face.position.z = 0.0076; face.scale.set(1.5, 1.0, 1); g.add(face);
+      const frame = new T.Mesh(faceG, new T.MeshBasicMaterial({ color: 0xe6d84a, transparent: true, opacity: 0, toneMapped: false, depthWrite: false })); frame.position.z = -0.0085; frame.rotation.y = Math.PI; g.add(frame);
+      // Barrido de verificación: una línea limón recorre la credencial mientras flota frente a la Mac.
+      const scan = new T.Mesh(faceG, new T.MeshBasicMaterial({ color: 0xe6d84a, transparent: true, opacity: 0, toneMapped: false, depthWrite: false, blending: T.AdditiveBlending })); scan.position.z = 0.009; g.add(scan);
+      g.visible = false; this.S.add(g);
+      return { g, back, face, frame, fm, scan, aspect: 0.7, q: new T.Quaternion() };
+    });
+    this._onImg = (k, im) => {
+      if (k === 'ivo' && this.badgeFront) this.badgeFront.userData.draw();
+      const i = this.CERTS.findIndex((c) => c.img === k); if (i < 0) return;
+      const T2 = window.THREE, tex = new T2.Texture(im); tex.colorSpace = T2.SRGBColorSpace; tex.anisotropy = 8; tex.needsUpdate = true;
+      const C = this.certs[i]; C.fm.map = tex; C.fm.emissiveMap = tex; C.fm.needsUpdate = true; C.aspect = im.height / im.width;
+    };
+    Object.keys(this.img).forEach((k) => this._onImg(k, this.img[k]));
+  }
+
+  // Textura de lienzo reutilizable (se redibuja cuando cargan las fuentes).
+  _canvasTex(T, w, h, draw, srgb) {
+    const c = document.createElement('canvas'); c.width = w; c.height = h;
+    const tex = new T.CanvasTexture(c); if (srgb !== false) tex.colorSpace = T.SRGBColorSpace; tex.anisotropy = 8;
+    tex.userData.draw = () => { const x = c.getContext('2d'); x.setTransform(1, 0, 0, 1, 0, 0); x.clearRect(0, 0, w, h); draw(x, w, h); tex.needsUpdate = true; };
+    tex.userData.draw(); (this._texList || (this._texList = [])).push(tex);
+    return tex;
+  }
+
+  // Grano de cuero determinístico (LCG con semilla fija: el mismo maletín en cada carga).
+  _grainTex(T) {
+    let sd = 7; const rnd = () => { sd = (sd * 1664525 + 1013904223) % 4294967296; return sd / 4294967296; };
+    const tex = this._canvasTex(T, 256, 256, (x, w, h) => {
+      x.fillStyle = '#808080'; x.fillRect(0, 0, w, h);
+      for (let i = 0; i < 2600; i++) { const v = 70 + Math.floor(rnd() * 120); x.fillStyle = 'rgba(' + v + ',' + v + ',' + v + ',0.55)'; x.beginPath(); x.arc(rnd() * w, rnd() * h, 0.8 + rnd() * 2.6, 0, Math.PI * 2); x.fill(); }
+      x.strokeStyle = 'rgba(60,60,60,0.25)'; x.lineWidth = 1;
+      for (let i = 0; i < 70; i++) { const a = rnd() * w, b = rnd() * h; x.beginPath(); x.moveTo(a, b); x.quadraticCurveTo(a + rnd() * 30 - 15, b + rnd() * 30 - 15, a + rnd() * 50 - 25, b + rnd() * 50 - 25); x.stroke(); }
+    }, false);
+    tex.wrapS = tex.wrapT = T.RepeatWrapping; tex.repeat.set(3, 2.2);
+    return tex;
+  }
+
+  // ───────────────────────── Maletín: cuero, costuras, herrajes de latón, bisagra trasera y cierres que saltan.
+  _buildCase(T) {
+    const g = new T.Group(); g.visible = false; this.S.add(g); this.case = g;
+    const W = 1.3, D = 0.9, HB = 0.2, HL = 0.085, t = 0.045, r = 0.075;
+    this.caseDim = { W, D, HB, HL };
+    const grain = this._grainTex(T); this.mat.leather.bumpMap = grain; this.mat.leather.bumpScale = 1.4; this.mat.leather.needsUpdate = true;
+    const ext = (shape, depth, bev) => { const geo = new T.ExtrudeGeometry(shape, { depth, bevelEnabled: !!bev, bevelThickness: bev || 0, bevelSize: bev || 0, bevelSegments: 3, curveSegments: 10 }); geo.rotateX(-Math.PI / 2); return geo; };
+    const ring = (w, d, rr, tt) => { const s = this._rr(T, w, d, rr); s.holes.push(this._rr(T, w - 2 * tt, d - 2 * tt, Math.max(0.012, rr - tt))); return s; };
+    const L = this.mat.leather, Bz = this.mat.brass;
+
+    // Cuerpo: fondo + paredes huecas (se ve el interior) + filo de latón.
+    const bottom = new T.Mesh(ext(this._rr(T, W, D, r), 0.03, 0.008), L); g.add(bottom);
+    const walls = new T.Mesh(ext(ring(W, D, r, t), HB, 0), L); g.add(walls);
+    const lip = new T.Mesh(ext(ring(W + 0.008, D + 0.008, r + 0.004, t + 0.006), 0.012, 0), Bz); lip.position.y = HB - 0.012; g.add(lip);
+    // Forro interior con etiqueta bordada.
+    const linTex = this._canvasTex(T, 1024, 686, (x, w, h) => {
+      x.fillStyle = '#1b1914'; x.fillRect(0, 0, w, h);
+      for (let i = 0; i < 90; i++) { x.strokeStyle = 'rgba(255,255,255,0.018)'; x.lineWidth = 2; x.beginPath(); x.moveTo(i * 24 - 400, 0); x.lineTo(i * 24, h); x.stroke(); }
+      x.setLineDash([14, 10]); x.strokeStyle = 'rgba(230,216,74,0.55)'; x.lineWidth = 3; this._rrect(x, 18, 18, w - 36, h - 36, 26); x.stroke(); x.setLineDash([]);
+      x.fillStyle = '#E6D84A'; x.font = '600 26px "Martian Mono", ui-monospace, monospace'; x.textAlign = 'right'; x.fillText('CREDENCIALES · 05', w - 54, h - 52);
+    });
+    const lin = new T.Mesh(new T.PlaneGeometry(W - 2 * t, D - 2 * t), new T.MeshStandardMaterial({ map: linTex, roughness: 0.95 })); lin.rotation.x = -Math.PI / 2; lin.position.y = 0.0395; g.add(lin);
+    // Costura frontal del cuerpo.
+    const stitchH = (wpx, hpx, rows) => this._canvasTex(T, wpx, hpx, (x, w, h) => { x.setLineDash([12, 9]); x.strokeStyle = 'rgba(200,180,106,0.85)'; x.lineWidth = 4; rows.forEach((yy) => { x.beginPath(); x.moveTo(8, yy * h); x.lineTo(w - 8, yy * h); x.stroke(); }); });
+    const fst = new T.Mesh(new T.PlaneGeometry(W - 2 * r, HB - 0.05), new T.MeshStandardMaterial({ map: stitchH(1024, 128, [0.12, 0.88]), transparent: true, roughness: 0.6, depthWrite: false }));
+    fst.position.set(0, HB / 2 + 0.01, D / 2 + 0.0015); g.add(fst);
+    // Esquineros de latón (cuartos de cilindro sobre las esquinas redondeadas) y patas.
+    const qd = [[1, 1, 0], [1, -1, Math.PI / 2], [-1, -1, Math.PI], [-1, 1, Math.PI * 1.5]];
+    qd.forEach((q) => { const m = new T.Mesh(new T.CylinderGeometry(r + 0.008, r + 0.008, 0.055, 12, 1, false, q[2], Math.PI / 2), Bz); m.position.set(q[0] * (W / 2 - r), 0.02, q[1] * (D / 2 - r)); g.add(m); });
+    [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach((q) => { const m = new T.Mesh(new T.CylinderGeometry(0.022, 0.026, 0.014, 16), Bz); m.position.set(q[0] * (W / 2 - 0.12), -0.012, q[1] * (D / 2 - 0.1)); g.add(m); });
+    // Asa de cuero sobre el frente, con anclajes de latón.
+    const hc = new T.CatmullRomCurve3([new T.Vector3(-0.21, HB - 0.05, D / 2 + 0.012), new T.Vector3(-0.19, HB - 0.085, D / 2 + 0.08), new T.Vector3(-0.08, HB - 0.11, D / 2 + 0.125), new T.Vector3(0.08, HB - 0.11, D / 2 + 0.125), new T.Vector3(0.19, HB - 0.085, D / 2 + 0.08), new T.Vector3(0.21, HB - 0.05, D / 2 + 0.012)]);
+    g.add(new T.Mesh(new T.TubeGeometry(hc, 48, 0.021, 12, false), L));
+    [-1, 1].forEach((sx) => { const m = new T.Mesh(new T.BoxGeometry(0.06, 0.05, 0.028), Bz); m.position.set(sx * 0.21, HB - 0.05, D / 2 + 0.012); g.add(m); const pin = new T.Mesh(new T.CylinderGeometry(0.008, 0.008, 0.074, 10), Bz); pin.rotation.z = Math.PI / 2; pin.position.set(sx * 0.21, HB - 0.05, D / 2 + 0.03); g.add(pin); });
+    // Placas fijas de los cierres (cuerpo) con pulsador.
+    [-1, 1].forEach((sx) => {
+      const pl = new T.Mesh(new T.BoxGeometry(0.13, 0.07, 0.014), Bz); pl.position.set(sx * 0.43, HB - 0.042, D / 2 + 0.007); g.add(pl);
+      const bt = new T.Mesh(new T.CylinderGeometry(0.014, 0.014, 0.01, 14), this.mat.aluD); bt.rotation.x = Math.PI / 2; bt.position.set(sx * 0.43 + sx * 0.04, HB - 0.05, D / 2 + 0.016); g.add(bt);
+    });
+
+    // Tapa: pivota en la arista trasera superior.
+    const lid = new T.Group(); lid.position.set(0, HB, -D / 2); g.add(lid); this.caseLid = lid;
+    const lw = new T.Mesh(ext(ring(W, D, r, t), HL - 0.028, 0), L); lw.position.z = D / 2; lid.add(lw);
+    const top = new T.Mesh(ext(this._rr(T, W, D, r), 0.028, 0.008), L); top.position.set(0, HL - 0.028, D / 2); lid.add(top);
+    const llip = new T.Mesh(ext(ring(W + 0.008, D + 0.008, r + 0.004, t + 0.006), 0.012, 0), Bz); llip.position.z = D / 2; lid.add(llip);
+    // Tapa exterior: costura perimetral, panel rebajado y monograma IZ en bajorrelieve.
+    const topTex = this._canvasTex(T, 1024, 709, (x, w, h) => {
+      x.fillStyle = 'rgba(0,0,0,0.16)'; this._rrect(x, 70, 70, w - 140, h - 140, 40); x.fill();
+      x.strokeStyle = 'rgba(255,255,255,0.05)'; x.lineWidth = 2; this._rrect(x, 71, 72, w - 142, h - 142, 40); x.stroke();
+      x.setLineDash([16, 12]); x.strokeStyle = 'rgba(200,180,106,0.9)'; x.lineWidth = 5; this._rrect(x, 30, 30, w - 60, h - 60, 58); x.stroke();
+      x.lineWidth = 3.5; x.strokeStyle = 'rgba(200,180,106,0.55)'; this._rrect(x, 88, 88, w - 176, h - 176, 30); x.stroke(); x.setLineDash([]);
+      x.font = '800 230px "Schibsted Grotesk", system-ui, sans-serif'; x.textAlign = 'center'; x.textBaseline = 'middle';
+      x.fillStyle = 'rgba(255,255,255,0.06)'; x.fillText('IZ', w / 2 + 2, h / 2 - 38 + 3);
+      x.fillStyle = 'rgba(0,0,0,0.42)'; x.fillText('IZ', w / 2, h / 2 - 38);
+    });
+    const tov = new T.Mesh(new T.PlaneGeometry(W, D), new T.MeshStandardMaterial({ map: topTex, transparent: true, roughness: 0.6, depthWrite: false }));
+    tov.rotation.x = -Math.PI / 2; tov.position.set(0, HL + 0.0095, D / 2); lid.add(tov);
+    // Placa grabada con el nombre.
+    const np = new T.Mesh(new T.BoxGeometry(0.36, 0.008, 0.07), Bz); np.position.set(0, HL + 0.012, D - 0.17); lid.add(np);
+    const npTex = this._canvasTex(T, 512, 100, (x, w, h) => { x.fillStyle = 'rgba(40,32,12,0.85)'; x.font = '600 34px "Martian Mono", ui-monospace, monospace'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText('IVO ZANACCHI', w / 2, h / 2 + 2); });
+    const npl = new T.Mesh(new T.PlaneGeometry(0.34, 0.066), new T.MeshStandardMaterial({ map: npTex, transparent: true, metalness: 0.6, roughness: 0.4, depthWrite: false })); npl.rotation.x = -Math.PI / 2; npl.position.set(0, HL + 0.0165, D - 0.17); lid.add(npl);
+    // Costura frontal de la tapa.
+    const lst = new T.Mesh(new T.PlaneGeometry(W - 2 * r, HL - 0.03), new T.MeshStandardMaterial({ map: stitchH(1024, 64, [0.5]), transparent: true, roughness: 0.6, depthWrite: false }));
+    lst.position.set(0, HL / 2 - 0.006, D + 0.0015); lid.add(lst);
+    // Interior de la tapa: bolsillo con elástico y etiqueta.
+    const pkTex = this._canvasTex(T, 1024, 686, (x, w, h) => {
+      x.fillStyle = '#1b1914'; x.fillRect(0, 0, w, h);
+      x.fillStyle = '#14120f'; x.fillRect(40, h * 0.42, w - 80, h * 0.5);
+      x.setLineDash([14, 10]); x.strokeStyle = 'rgba(230,216,74,0.6)'; x.lineWidth = 3; x.beginPath(); x.moveTo(52, h * 0.42 + 14); x.lineTo(w - 52, h * 0.42 + 14); x.stroke(); x.setLineDash([]);
+      x.fillStyle = '#A39C8F'; x.font = '600 24px "Martian Mono", ui-monospace, monospace'; x.textAlign = 'left'; x.fillText('FORMACIÓN · UTN FRT · UGR', 80, h * 0.42 + 70);
+      x.fillStyle = '#EEE9DF'; x.font = '700 40px "Schibsted Grotesk", system-ui, sans-serif'; x.fillText('Base académica + 5 certificaciones', 80, h * 0.42 + 124);
+    });
+    const pk = new T.Mesh(new T.PlaneGeometry(W - 2 * t, D - 2 * t), new T.MeshStandardMaterial({ map: pkTex, roughness: 0.95 }));
+    pk.rotation.x = Math.PI / 2; pk.position.set(0, HL - 0.0365, D / 2); lid.add(pk);
+    // Cierres basculantes (pivote arriba): saltan hacia afuera al abrir.
+    this.hasps = [-1, 1].map((sx) => {
+      const hg = new T.Group(); hg.position.set(sx * 0.43, 0.048, D + 0.009); lid.add(hg);
+      const hm = new T.Mesh(new T.BoxGeometry(0.1, 0.086, 0.012), Bz); hm.position.set(0, -0.043, 0.006); hg.add(hm);
+      const ridge = new T.Mesh(new T.BoxGeometry(0.06, 0.008, 0.008), this.mat.aluD); ridge.position.set(0, -0.07, 0.014); hg.add(ridge);
+      return { g: hg, x: 0, v: 0 };
+    });
+    // Luz cálida interior: el contenido "se enciende" al abrir.
+    const cl = new T.PointLight(0xf2e6a0, 0, 2.2, 2); cl.position.set(0, 0.45, 0.25); g.add(cl); this.caseLight = cl;
+    this.caseS = { x: 0, v: 0 };
+    const sh = new T.Mesh(new T.PlaneGeometry(2.1, 1.6), new T.MeshBasicMaterial({ map: this.blobT, transparent: true, depthWrite: false, toneMapped: false })); sh.rotation.x = -Math.PI / 2; sh.position.y = -0.017; g.add(sh);
+  }
+
+  // ───────────────────────── Credencial colgante: tarjeta física con frente (perfil) y dorso (formación + método).
+  _buildBadge(T) {
+    const g = new T.Group(); g.visible = false; this.S.add(g); this.badge = g;
+    const BW = 0.66, BH = 0.96, LEN = 2.35; this.badgeLen = LEN;
+    const card = new T.Group(); card.position.y = -LEN; g.add(card); this.badgeCard = card;
+    const body = new T.ExtrudeGeometry(this._rr(T, BW, BH, 0.05), { depth: 0.012, bevelEnabled: true, bevelThickness: 0.003, bevelSize: 0.003, bevelSegments: 2, curveSegments: 10 });
+    body.translate(0, -BH / 2, -0.006); card.add(new T.Mesh(body, this.mat.card));
+    const me = this;
+    const front = this._canvasTex(T, 528, 768, (x, w, h) => me._drawBadge(x, w, h, true));
+    const back = this._canvasTex(T, 528, 768, (x, w, h) => me._drawBadge(x, w, h, false));
+    this.badgeFront = front;
+    const fg = new T.PlaneGeometry(BW - 0.012, BH - 0.012);
+    const f = new T.Mesh(fg, new T.MeshBasicMaterial({ map: front, toneMapped: false })); f.position.set(0, -BH / 2, 0.0095); card.add(f);
+    const b = new T.Mesh(fg, new T.MeshBasicMaterial({ map: back, toneMapped: false })); b.position.set(0, -BH / 2, -0.0095); b.rotation.y = Math.PI; card.add(b);
+    // Pinza metálica + argolla.
+    const clip = new T.Mesh(new T.BoxGeometry(0.1, 0.07, 0.028), this.mat.alu); clip.position.set(0, 0.02, 0); card.add(clip);
+    const ringM = new T.Mesh(new T.TorusGeometry(0.032, 0.007, 10, 28), this.mat.alu); ringM.position.set(0, 0.085, 0); card.add(ringM);
+    // Cinta (dos tramos que suben al cuello, fuera de cuadro).
+    const strap = this._canvasTex(T, 64, 1024, (x, w, h) => {
+      x.fillStyle = '#E6D84A'; x.fillRect(0, 0, w, h); x.fillStyle = '#0D0C0A'; x.font = '700 30px "Martian Mono", ui-monospace, monospace';
+      x.save(); x.translate(w / 2 + 10, h); x.rotate(-Math.PI / 2); for (let i = 0; i < 4; i++) x.fillText('IZAN0501 · ', i * 270, 0); x.restore();
+    });
+    strap.wrapT = T.RepeatWrapping; strap.repeat.set(1, 1.6);
+    const sMat = new T.MeshStandardMaterial({ map: strap, roughness: 0.7, side: T.DoubleSide });
+    const sl = LEN - 0.1;
+    [-1, 1].forEach((sx) => {
+      const top = [sx * 0.15, 0], bot = [sx * 0.012, -LEN + 0.11];
+      const dx = top[0] - bot[0], dy = top[1] - bot[1], len = Math.hypot(dx, dy);
+      const m = new T.Mesh(new T.PlaneGeometry(0.05, len), sMat); m.position.set((top[0] + bot[0]) / 2, (top[1] + bot[1]) / 2, sx * 0.004); m.rotation.z = -Math.atan2(dx, dy); m.rotation.y = sx * 0.35; g.add(m);
+    });
+    this.bY = { x: 6.2, v: 0 }; this.bSw = { x: 0, v: 0 }; this.bFl = { x: 0, v: 0 };
+  }
+
+  _drawBadge(x, w, h, front) {
+    const BONE = '#EEE9DF', STONE = '#A39C8F', LEMON = '#E6D84A';
+    x.fillStyle = '#171512'; x.fillRect(0, 0, w, h);
+    x.fillStyle = '#0D0C0A'; this._rrect(x, w / 2 - 44, 22, 88, 18, 9); x.fill();
+    if (front) {
+      x.fillStyle = LEMON; x.fillRect(0, 60, w, 64);
+      x.fillStyle = '#0D0C0A'; this._f(x, 30, 800); x.fillText('IZ', 28, 104);
+      this._f(x, 15, 600, true); x.textAlign = 'right'; x.fillText('ACCESO · EQUIPO', w - 28, 99); x.textAlign = 'left';
+      const ph = 236, px = 28, py = 152;
+      x.save(); this._rrect(x, px, py, ph, ph, 18); x.clip(); if (this.img && this.img.ivo) x.drawImage(this.img.ivo, px, py, ph, ph); else { x.fillStyle = '#2E2A24'; x.fillRect(px, py, ph, ph); } x.restore();
+      x.strokeStyle = '#4A443B'; x.lineWidth = 2; this._rrect(x, px, py, ph, ph, 18); x.stroke();
+      this._f(x, 13, 600, true); x.fillStyle = STONE; x.fillText('ROL', 290, 178); this._f(x, 22, 700); x.fillStyle = BONE; x.fillText('Full-Stack', 290, 210); x.fillText('Developer', 290, 238);
+      this._f(x, 13, 600, true); x.fillStyle = STONE; x.fillText('BASE', 290, 284); this._f(x, 20, 600); x.fillStyle = BONE; x.fillText('Tucumán, AR', 290, 312);
+      this._f(x, 13, 600, true); x.fillStyle = STONE; x.fillText('MÉTODO', 290, 358); this._f(x, 20, 600); x.fillStyle = BONE; x.fillText('SDD + Agile', 290, 386);
+      this._f(x, 52, 800); x.fillStyle = BONE; x.fillText('Ivo', 28, 470); x.fillText('Zanacchi', 28, 528);
+      this._dot(x, 38, 572, 8, LEMON); this._f(x, 17, 600, true); x.fillStyle = LEMON; x.fillText('DISPONIBLE PARA EQUIPOS', 56, 578);
+      x.strokeStyle = '#2E2A24'; x.lineWidth = 2; x.beginPath(); x.moveTo(28, 610); x.lineTo(w - 28, 610); x.stroke();
+      this._f(x, 15, 500, true); x.fillStyle = '#C9C2B5'; x.fillText('ivozanacchi501@gmail.com', 28, 646); x.fillText('github.com/Izan0501', 28, 674);
+      let bx = 28; let sd = 3; while (bx < w - 28) { sd = (sd * 9301 + 49297) % 233280; const bw = 2 + (sd % 5); x.fillStyle = (sd % 3) ? '#4A443B' : '#8C857A'; x.fillRect(bx, 706, bw, 36); bx += bw + 3; }
+    } else {
+      this._f(x, 15, 600, true); x.fillStyle = LEMON; x.fillText('FORMACIÓN', 28, 96);
+      const A = [['UTN · FR TUCUMÁN', 'Técnico Universitario', 'en Programación', 'abr 2024 — feb 2027'], ['UGR', 'Tecnicatura Universitaria', 'en Ciberseguridad', 'mar 2026 — en curso']];
+      A.forEach((r, i) => { const y = 120 + i * 168; x.fillStyle = '#0D0C0A'; this._rrect(x, 28, y, w - 56, 148, 16); x.fill(); this._f(x, 13, 600, true); x.fillStyle = STONE; x.fillText(r[0], 50, y + 34); this._f(x, 25, 700); x.fillStyle = BONE; x.fillText(r[1], 50, y + 72); x.fillText(r[2], 50, y + 102); this._f(x, 13, 500, true); x.fillStyle = LEMON; x.fillText(r[3], 50, y + 132); });
+      this._f(x, 15, 600, true); x.fillStyle = LEMON; x.fillText('MÉTODO', 28, 494);
+      this._f(x, 21, 600); x.fillStyle = BONE; x.fillText('Spec-Driven Development', 28, 530); x.fillText('Claude · MCP · Skills', 28, 560);
+      this._f(x, 14, 500, true); x.fillStyle = '#C9C2B5'; x.fillText('sprint planning · dailies · backlog', 28, 600); x.fillText('retrospectivas · trabajo asíncrono', 28, 626);
+      x.strokeStyle = '#2E2A24'; x.lineWidth = 2; x.beginPath(); x.moveTo(28, 660); x.lineTo(w - 28, 660); x.stroke();
+      this._f(x, 13, 600, true); x.fillStyle = STONE; x.fillText('CÓDIGO LIMPIO · ARQ. ESCALABLE', 28, 694); x.fillText('SDD · CERO REGRESIONES', 28, 720);
+    }
+  }
+
+  // ───────────────────────── Módulos de stack: cada placa sale grande frente a la pantalla, se lee y se acopla sobre la tapa.
+  _buildTiles(T) {
+    const D = [['01', 'FRONTEND', ['React · Vite', 'TypeScript · Next.js', 'Tailwind · Framer Motion']], ['02', 'BACKEND', ['Python · FastAPI', 'Node.js · Express', 'JWT · OAuth2']], ['03', 'DATOS', ['PostgreSQL · Supabase', 'MySQL · MongoDB', 'Firebase · Pinecone']], ['04', 'ENTREGA', ['Docker · GitHub Actions', 'VPS · Vercel', 'Cloudflare']]];
+    const TW = 0.74, TH = 0.4625; this.tileW = TW;
+    const slab = new T.ExtrudeGeometry(this._rr(T, TW, TH, 0.035), { depth: 0.018, bevelEnabled: true, bevelThickness: 0.004, bevelSize: 0.004, bevelSegments: 2, curveSegments: 8 }); slab.translate(0, 0, -0.02);
+    const maxAni = this.R.capabilities.getMaxAnisotropy ? this.R.capabilities.getMaxAnisotropy() : 8;
+    this.tiles = D.map((d) => {
+      const g = new T.Group(); g.visible = false; this.lid.add(g);
+      g.add(new T.Mesh(slab, this.mat.card));
+      // Lienzo 1280×800 (misma proporción que la placa): título enorme para leerse acoplado, detalle para leerse en foco.
+      const tex = this._canvasTex(T, 1280, 800, (x, w, h) => {
+        x.fillStyle = '#12110E'; x.fillRect(0, 0, w, h);
+        x.fillStyle = '#E6D84A'; x.fillRect(0, 0, w, 14);
+        this._f(x, 44, 600, true); x.fillStyle = '#E6D84A'; x.fillText(d[0], 64, 110);
+        this._f(x, 168, 800); x.fillStyle = '#EEE9DF'; x.fillText(d[1], 56, 290);
+        x.fillStyle = '#2E2A24'; x.fillRect(64, 352, w - 128, 4);
+        d[2].forEach((it, j) => { this._f(x, 66, 600); x.fillStyle = j === 0 ? '#EEE9DF' : '#C9C2B5'; x.fillText(it, 64, 470 + j * 104); });
+      });
+      tex.anisotropy = maxAni; tex.generateMipmaps = true; tex.minFilter = T.LinearMipmapLinearFilter;
+      const f = new T.Mesh(new T.PlaneGeometry(TW - 0.01, TH - 0.01), new T.MeshBasicMaterial({ map: tex, toneMapped: false })); f.position.z = 0.0025; g.add(f);
+      return { g, f };
+    });
+  }
+
+  // Callouts: etiquetas 3D unidas por líneas guía a puntos reales de la pantalla.
+  _buildCallouts(T) {
+    this.callouts = [0, 1].map(() => {
+      const tex = this._labelTex(T, 900, 190); tex.userData.draw('', '', true);
+      const spr = new T.Sprite(new T.SpriteMaterial({ map: tex, transparent: true, depthWrite: false, depthTest: false, toneMapped: false, opacity: 0 })); spr.scale.set(1.05, 0.222, 1); spr.renderOrder = 10; this.S.add(spr);
+      const lg = new T.BufferGeometry(); lg.setAttribute('position', new T.BufferAttribute(new Float32Array(9), 3));
+      const line = new T.Line(lg, new T.LineBasicMaterial({ color: 0xe6d84a, transparent: true, opacity: 0, toneMapped: false, depthWrite: false, depthTest: false })); line.frustumCulled = false; line.renderOrder = 9; this.S.add(line);
+      const dot = new T.Mesh(new T.SphereGeometry(0.018, 12, 8), new T.MeshBasicMaterial({ color: 0xe6d84a, transparent: true, opacity: 0, toneMapped: false, depthTest: false })); dot.renderOrder = 10; this.S.add(dot);
+      return { spr, line, dot, key: '' };
+    });
+  }
+
+  // ───────────────────────── coreografía (keyframes por scroll)
+  _keys() {
+    if (this.K) return this.K;
+    const P = { mac: [0.75, 0, 0, -0.24, 0, 1], lid: 105, pow: 1, ph: [2.95, 0.78, 0.65, -0.45, 0, 0, 1], cam: [1.1, 2.0, 7.6], tgt: [1.75, 0.8, 0] };
+    const k = (p, o) => Object.assign({ p }, JSON.parse(JSON.stringify(P)), o || {});
+    const OFF = [4.8, 0.95, 1.4, -0.95, 0.12, 0.3, 1];
+    const PROF = { mac: [0.2, 0, -0.2, -0.1, 0, 1], ph: [3.25, 0.78, 0.15, -0.5, 0, 0, 1], cam: [1.35, 2.3, 8.4], tgt: [1.85, 1.22, 0] };
+    const CERT = { mac: [0.3, 0, -0.55, -0.08, 0, 1], ph: [3.7, 0.78, 1.0, -0.48, 0, 0, 1], cam: [1.65, 3.15, 9.3], tgt: [1.75, 0.95, 0.35] };
+    const DIVE = { mac: [0.5, 0, 0, -0.06, 0, 1], ph: [3.4, 0.78, 0.3, -0.38, 0, 0, 1], cam: [0.62, 1.12, 1.0], tgt: [0.5, 1.1, -1.3] };
+    const VEE1 = { mac: [0.7, 0, 0, -0.3, 0, 1], ph: [2.95, 0.8, 0.8, -0.42, 0, 0, 1], cam: [1.0, 2.0, 7.7], tgt: [1.75, 0.82, 0] };
+    const VEE3 = { mac: [0.55, 0, 0.25, -0.5, 0, 0.92], ph: [3.05, 0.82, 1.05, -0.3, 0, 0, 1], cam: [1.2, 2.6, 9.2], tgt: [1.75, 1.6, -0.3] };
+    const EST = { mac: [0.8, 0, 0, -0.08, 0, 1], ph: [2.95, 0.78, 0.85, -0.25, 0, 0, 1], cam: [1.2, 2.1, 7.7], tgt: [1.8, 0.8, 0.2] };
+    const EST3 = { mac: [0.8, 0, 0, -0.08, 0, 1], ph: [2.95, 0.78, 0.85, -0.25, 0, 0, 1], cam: [1.2, 2.5, 8.4], tgt: [1.8, 0.62, 0.6] };
+    const MEL = { mac: [0.1, 0, -1.9, -0.32, 0, 1], lid: 100, pow: 0.32, ph: [1.6, 0.97, 1.45, -0.14, 0, 0, 1.25], cam: [1.0, 1.65, 7.2], tgt: [1.25, 0.9, 0] };
+    const CON = { mac: [0.75, 0, 0, -0.3, 0, 1], ph: [2.95, 0.78, 0.85, -0.55, 0, 0, 1] };
+    const PIPE = { mac: [0.7, 0, 0, 0.0, 0, 1], ph: [2.85, 0.78, 0.7, -0.25, 0, 0, 1], cam: [1.2, 2.4, 7.8], tgt: [1.75, 0.66, 0] };
+    const CTA = { mac: [0.35, 0, -0.45, 0.3, 0, 1], lid: 98, ph: [1.8, 0.97, 1.5, 0.04, 0, 0, 1.25], cam: [1.0, 1.7, 7.4], tgt: [1.3, 0.9, 0] };
+    this.K = [
+      k(0.0, { mac: [0.8, 0, 0, -0.66, 0, 1], lid: 0, pow: 0, ph: OFF, cam: [0.3, 2.7, 6.6], tgt: [0.85, 0.3, 0] }),
+      k(0.3, { mac: [0.8, 0, 0, -0.6, 0, 1], lid: 6, pow: 0, ph: OFF, cam: [0.3, 2.6, 6.7], tgt: [0.85, 0.34, 0] }),
+      k(1.55, { mac: [0.8, 0, 0, -0.2, 0, 1], lid: 105, pow: 1, ph: [4.6, 0.9, 1.1, -0.8, 0.05, 0.15, 1], cam: [0.45, 2.05, 7.6], tgt: [0.85, 0.8, 0] }),
+      k(2.25, PROF), k(3.15, PROF),
+      k(3.6, CERT), k(6.35, CERT),
+      k(6.85, DIVE),
+      k(7.2), k(8.45),
+      k(8.75, VEE1), k(9.55, VEE1), k(9.75, VEE3), k(10.0, VEE3),
+      k(10.25, EST), k(11.1, EST), k(11.3, EST3), k(11.5, EST3),
+      k(11.75, MEL), k(12.95, MEL),
+      k(13.25, CON), k(14.45, CON),
+      k(14.75, PIPE), k(15.65, PIPE),
+      k(16.15, CTA), k(16.7, CTA)
+    ];
+    this.pose = JSON.parse(JSON.stringify(this.K[0]));
+    return this.K;
+  }
+
+  // Tangentes monótonas (Fritsch–Carlson) por canal: velocidad continua al cruzar keyframes intermedios,
+  // sin sobrepasos y con los tramos de espera (dos keys iguales) perfectamente quietos.
+  _keyTangents() {
+    const K = this._keys(), n = K.length, flat = (k) => [].concat(k.mac, k.ph, k.cam, k.tgt, [k.lid, k.pow]);
+    const Y = K.map(flat), C = Y[0].length, M = Y.map(() => new Array(C).fill(0));
+    for (let c = 0; c < C; c++) {
+      const d = []; for (let i = 0; i < n - 1; i++) d.push((Y[i + 1][c] - Y[i][c]) / Math.max(1e-6, K[i + 1].p - K[i].p));
+      M[0][c] = d[0]; M[n - 1][c] = d[n - 2];
+      for (let i = 1; i < n - 1; i++) M[i][c] = d[i - 1] * d[i] <= 0 ? 0 : (d[i - 1] + d[i]) / 2;
+      for (let i = 0; i < n - 1; i++) {
+        if (Math.abs(d[i]) < 1e-9) { M[i][c] = 0; M[i + 1][c] = 0; continue; }
+        const al = M[i][c] / d[i], be = M[i + 1][c] / d[i], q = al * al + be * be;
+        if (q > 9) { const tau = 3 / Math.sqrt(q); M[i][c] = tau * al * d[i]; M[i + 1][c] = tau * be * d[i]; }
+      }
+    }
+    this._KY = Y; this._KM = M;
+  }
+
+  // Interpolación cúbica monótona genérica (pocos puntos): misma suavidad que los keyframes principales.
+  _mono(X, Y, x) {
+    const n = X.length; if (x <= X[0]) return Y[0]; if (x >= X[n - 1]) return Y[n - 1];
+    const d = [], m = new Array(n).fill(0);
+    for (let i = 0; i < n - 1; i++) d.push((Y[i + 1] - Y[i]) / (X[i + 1] - X[i]));
+    m[0] = 0; m[n - 1] = 0;
+    for (let i = 1; i < n - 1; i++) m[i] = d[i - 1] * d[i] <= 0 ? 0 : (d[i - 1] + d[i]) / 2;
+    for (let i = 0; i < n - 1; i++) { if (Math.abs(d[i]) < 1e-9) { m[i] = m[i + 1] = 0; continue; } const a = m[i] / d[i], b = m[i + 1] / d[i], q = a * a + b * b; if (q > 9) { const t = 3 / Math.sqrt(q); m[i] = t * a * d[i]; m[i + 1] = t * b * d[i]; } }
+    let i = 0; while (i < n - 2 && x > X[i + 1]) i++;
+    const h = X[i + 1] - X[i], t = (x - X[i]) / h, t2 = t * t, t3 = t2 * t;
+    return (2 * t3 - 3 * t2 + 1) * Y[i] + (t3 - 2 * t2 + t) * h * m[i] + (-2 * t3 + 3 * t2) * Y[i + 1] + (t3 - t2) * h * m[i + 1];
+  }
+
+  _poseAt(p) {
+    const K = this._keys(), o = this.pose;
+    if (!this._KY) this._keyTangents();
+    let i = 0; while (i < K.length - 2 && p > K[i + 1].p) i++;
+    const A = K[i], B = K[i + 1], h = B.p - A.p, t = this._c01((p - A.p) / h);
+    const t2 = t * t, t3 = t2 * t, h00 = 2 * t3 - 3 * t2 + 1, h10 = t3 - 2 * t2 + t, h01 = -2 * t3 + 3 * t2, h11 = t3 - t2;
+    const y0 = this._KY[i], y1 = this._KY[i + 1], m0 = this._KM[i], m1 = this._KM[i + 1], v = this._kv || (this._kv = []);
+    for (let c = 0; c < y0.length; c++) v[c] = h00 * y0[c] + h10 * h * m0[c] + h01 * y1[c] + h11 * h * m1[c];
+    let j = 0; const put = (arr) => { for (let q = 0; q < arr.length; q++) arr[q] = v[j++]; };
+    put(o.mac); put(o.ph); put(o.cam); put(o.tgt); o.lid = v[j++]; o.pow = v[j++];
+    // Hero cenital (portado de B): se lee el monograma IZ desde arriba; la Mac gira π mientras la tapa se abre
+    // y la cámara baja en tres tramos hasta el encuadre de trabajo.
+    if (p < 1.55) {
+      const hk = p / 1.55, s = this._ss(0.2, 1.0, hk);
+      o.lid = 105 * s * (0.35 + 0.65 * s);
+      o.mac[3] = this._mix(Math.PI, o.mac[3], this._ss(0.22, 0.95, hk));
+      const HC = [[0, [0.8, 9.0, 0.7], [0.8, 0, 0]], [0.25, [0.8, 8.8, 0.9], [0.8, 0, 0]], [0.62, [0.2, 5.0, 5.2], [0.6, 0.35, 0]], [1, [0.45, 2.05, 7.6], [0.85, 0.8, 0]]];
+      const T0 = HC.map((h) => h[0]);
+      for (let j = 0; j < 3; j++) { o.cam[j] = this._mono(T0, HC.map((h) => h[1][j]), hk); o.tgt[j] = this._mono(T0, HC.map((h) => h[2][j]), hk); }
+    }
+    return o;
+  }
+
+  // ───────────────────────── bucle
+  _readScroll(dt) {
+    const sc = this._get('scroller'); if (!sc) return;
+    const h = sc.clientHeight || 1;
+    this.pt = Math.min(this.PMAX, Math.max(0, sc.scrollTop / h));
+    this._scrollDir(this.pt);
+    this.p = this.reduced ? this.pt : this._damp(this.p, this.pt, 7.5, dt);
+    if (Math.abs(this.p - this.pt) < 1e-4) this.p = this.pt;
+    const v = (this.p - this.prevP) / Math.max(dt, 1e-3); this.prevP = this.p;
+    this.vel = this.reduced ? 0 : this._damp(this.vel, this._clamp(v, -6, 6), 6, dt);
+  }
+
+  _frame(now) {
+    if (!this._alive) return;
+    this._raf = requestAnimationFrame(this._tick);
+    const dt = Math.min(0.05, Math.max(0.0001, (now - this._last) / 1000)); this._last = now;
+    // Resortes de maletín/credencial con dt real (≤0.5 s): asientan igual aunque el navegador entregue pocos frames.
+    this._dt = Math.min(0.5, Math.max(0.0001, (now - (this._lastRaw || now)) / 1000)); this._lastRaw = now;
+    this.t += this.reduced ? dt * 0.25 : dt;
+    const f = this.fps; f.n++; f.acc += dt; if (f.acc >= 0.5) { f.val = Math.round(f.n / f.acc); f.ms = (f.acc / f.n) * 1000; f.n = 0; f.acc = 0; }
+    this._readScroll(dt);
+    const p = this.p, vel = this.vel;
+    this.smx = this._damp(this.smx, this.mx, 3, dt); this.smy = this._damp(this.smy, this.my, 3, dt);
+    const o = this._poseAt(p);
+
+    // Bisagra con resorte subamortiguado (ζ≈0.68): sigue al scroll con inercia y asienta con un leve rebote.
+    const L = this.lidS;
+    if (this.reduced) { L.x = o.lid; L.v = 0; }
+    else { let rem = dt; while (rem > 1e-6) { const st = Math.min(rem, 1 / 240); rem -= st; L.v += (-140 * (L.x - o.lid) - 16 * L.v) * st; L.x += L.v * st; } }
+    const lidA = this._clamp(L.x, 0, 112);
+
+    // Inercia por velocidad de scroll: los equipos se inclinan levemente en la dirección del movimiento.
+    const lean = this._clamp(vel, -2.5, 2.5);
+    this.mac.position.set(o.mac[0], o.mac[1], o.mac[2]); this.mac.rotation.set(o.mac[4], o.mac[3] + lean * 0.018, 0); this.mac.scale.setScalar(o.mac[5]);
+    this.lid.rotation.x = (90 - lidA) * Math.PI / 180;
+    const dive = this._win(p, 6.85, 6.85, 0.15);
+    const flick = 1 - 0.45 * this._win(lidA, 62, 70, 6) * (0.5 + 0.5 * Math.sin(lidA * 3.1));
+    const pow = (this._compact ? Math.max(o.pow, 0.9) : o.pow) * this._ss(45, 100, lidA) * (1 - 0.8 * dive) * flick;
+    this.dispMat.color.setScalar(pow);
+    this.screenLight.intensity = pow * 1.5;
+    this.ph.position.set(o.ph[0], o.ph[1] + (this.reduced ? 0 : Math.sin(this.t * 0.9) * 0.008), o.ph[2]);
+    this.ph.rotation.set(o.ph[4] + lean * 0.02, o.ph[3] + lean * 0.05, o.ph[5] - lean * 0.045); this.ph.scale.setScalar(o.ph[6]);
+    const phPow = this._ss(1.5, 2.3, p) * (1 - 0.6 * dive);
+    this.phMat.color.setScalar(phPow);
+    // Compacto: el iPhone queda para tamaños donde entra completo.
+    this.ph.visible = !this._compact; this.phBlob.visible = !this._compact;
+    this.macBlob.position.set(o.mac[0], 0.001, o.mac[2] + 0.05); this.macBlob.rotation.z = o.mac[3]; this.macBlob.scale.setScalar(o.mac[5]);
+    this.phBlob.position.set(o.ph[0], 0.0012, o.ph[2] + 0.02); this.phBlob.rotation.z = o.ph[3]; this.phBlob.scale.setScalar(o.ph[6]);
+    this.benchU.uPool.value.set(o.mac[0] + 0.9, o.mac[2] + 0.2); this.benchU.uPow.value = pow;
+
+    // Retroiluminación: barrido fila por fila (de la fila de funciones hacia el espacio) al encender.
+    const boot = this._ss(50, 104, lidA), blK = Math.round(boot * 60) + '|' + Math.round(pow * 40);
+    if (blK !== this._blKey) {
+      this._blKey = blK; const col = this._col || (this._col = new window.THREE.Color());
+      for (let i = 0; i < this.keyRow.length; i++) {
+        const r = this.keyRow[i], lv = this._ss(r * 0.11, r * 0.11 + 0.32, boot) * pow * 0.22;
+        col.setRGB(lv, lv * 0.78, lv * 0.48); this.glow.setColorAt(i, col);
+      }
+      this.glow.instanceColor.needsUpdate = true;
+    }
+
+    const st0 = this._state(p);
+    // Cámara con zona de exclusión del texto vía setViewOffset.
+    const a = this.aspect || 1.6, narrow = a < 0.95, compact = this._compact;
+    const cam = this.cam, tg = this.tgt;
+    const vw = this._vw || 1, vh = this._vh || 1, cen = 1 - dive;
+    const cf = this._copyFrac || 0.365;
+    tg.set(o.tgt[0], o.tgt[1], o.tgt[2]);
+    cam.position.set(o.cam[0] + this.smx * 0.22, o.cam[1] - this.smy * 0.12 + lean * 0.03, o.cam[2]);
+    {
+      // Encuadre automático en todos los tamaños: la cámara conserva la dirección del keyframe y calcula distancia,
+      // objetivo y desplazamiento para que todo lo visible quede completo en el área que no ocupa el texto.
+      const fit = this._fitCam(p, st0, o, a, narrow, vw, vh, cf, this._dt || dt);
+      const kb = this._win(p, 6.85, 6.85, 0.45);
+      cam.position.lerpVectors(fit.pos, cam.position, kb);
+      tg.lerpVectors(fit.tgt, tg, kb);
+      cam.lookAt(tg);
+      cam.setViewOffset(vw, vh, fit.ox * (1 - kb), fit.oy * (1 - kb), vw, vh);
+    }
+
+    // Niebla relativa a la distancia real de cámara: en pantallas chicas la cámara se aleja y la escena no se oscurece.
+    const cd = cam.position.distanceTo(tg); this.S.fog.near = Math.max(11, cd + 3); this.S.fog.far = this.S.fog.near + 15; this.benchU.uNear.value = Math.max(9, cd + 1);
+    this.pose.lidS = lidA;
+    const st = st0;
+    this._extras(p, st);
+    this._profile(p, st, lean);
+    this._certs(p, st, lean);
+    this._screens(p, st);
+    this._callouts(p, st);
+    this.R.render(this.S, cam);
+    this._dom(dt, st);
+  }
+
+  // Encuadre automático en modo compacto: puntos del contenido visible → distancia mínima que los contiene.
+  _fitCam(p, st, o, a, narrow, vw, vh, cf, dt) {
+    const T = window.THREE, P = this._fitPts || (this._fitPts = Array.from({ length: 24 }, () => new T.Vector3()));
+    let n = 0; const add = (x, y, z) => { P[n++].set(x, y, z); };
+    const addL = (obj, x, y, z) => { const v = P[n++].set(x, y, z); obj.localToWorld(v); };
+    this.mac.updateMatrixWorld(true);
+    [[-1.5, -1.04], [1.5, -1.04], [-1.5, 1.04], [1.5, 1.04]].forEach((c) => addL(this.mac, c[0], 0, c[1]));
+    [-1.5, 1.5].forEach((x) => { addL(this.lid, x, 2.04, 0); addL(this.lid, x, 0, 0); });
+    // Puntos opcionales con peso continuo (0..1) atado al scroll: entran y salen del encuadre sin saltos.
+    const id = st.id, nc = n, cc = this._fcc || (this._fcc = new T.Vector3()); cc.set(0, 0, 0);
+    for (let i = 0; i < nc; i++) cc.add(P[i]); cc.multiplyScalar(1 / nc);
+    const addW = (x, y, z, w) => { if (w <= 0.001 || n >= P.length) return; P[n++].set(cc.x + (x - cc.x) * w, cc.y + (y - cc.y) * w, cc.z + (z - cc.z) * w); };
+    const tmp = this._ftmp || (this._ftmp = new T.Vector3());
+    const addLW = (obj, x, y, z, w, yMin) => { tmp.set(x, y, z); obj.localToWorld(tmp); if (yMin !== undefined) tmp.y = Math.max(tmp.y, yMin); addW(tmp.x, tmp.y, tmp.z, w); };
+    const cmp = this._compact;
+    // Perfil: credencial colgante.
+    const wB = this._win(p, 1.9, 3.25, 0.16);
+    { const bx = cmp ? this.mac.position.x + 1.95 : 2.05, bz = cmp ? 1.0 : 1.65; addW(bx - 0.38, 1.4, bz, wB); addW(bx + 0.38, 1.4, bz, wB); addW(bx + 0.38, 0.3, bz, wB); }
+    // Escritorio, perfil: fila de módulos acoplados sobre la tapa.
+    if (!cmp) { const wT = this._win(p, 2.04, 3.24, 0.08); addLW(this.lid, -1.6, 2.78, 0.32, wT); addLW(this.lid, 1.6, 2.78, 0.32, wT); }
+    // Formación: maletín.
+    const wC = this._win(p, 3.45, 6.45, 0.2);
+    { const cx = cmp ? this.mac.position.x + 0.3 : 2.3, cz = cmp ? 2.8 : 1.45; addW(cx - 0.75, 0, cz + 0.55, wC); addW(cx + 0.75, 0, cz + 0.55, wC); addW(cx + 0.75, 1.0, cz - 0.4, wC); }
+    // Banda de callouts sobre la tapa en los proyectos con hotspots (Mel no tiene).
+    const wS = Math.min(1, this._win(p, 7.25, 8.55, 0.12) + this._win(p, 8.75, 10.05, 0.12) + this._win(p, 10.25, 11.55, 0.12) + this._win(p, 13.25, 14.55, 0.12));
+    addLW(this.lid, -1.5, 2.04, 0.25, wS, 2.7); addLW(this.lid, 1.5, 2.04, 0.25, wS, 2.7);
+    // Escritorio: el iPhone entra completo desde que aparece en escena.
+    if (!cmp) { const wP = this._ss(1.55, 2.05, p); this.ph.updateMatrixWorld(true); [[-0.42, -0.8], [0.42, -0.8], [-0.42, 0.8], [0.42, 0.8]].forEach((c) => addLW(this.ph, c[0], c[1], 0, wP)); }
+    // VeeBot: capas explotadas; Estudio: sedes.
+    const wV = this._win(p, 9.62, 10.08, 0.18);
+    { const mx = this.mac.position.x + 0.55, mz = this.mac.position.z - 0.85; addW(mx - 1.25, 3.7, mz, wV); addW(mx + 1.25, 3.7, mz, wV); }
+    const wE = this._win(p, 11.1, 11.6, 0.22);
+    addW(3.3, 0.5, 2.1, wE);
+    // Caja → centro; base de cámara desde la dirección del keyframe.
+    const mn = this.v3c.set(1e9, 1e9, 1e9), mx = this.v3d.set(-1e9, -1e9, -1e9);
+    for (let i = 0; i < n; i++) { mn.min(P[i]); mx.max(P[i]); }
+    const c = this._fc || (this._fc = new T.Vector3()); c.addVectors(mn, mx).multiplyScalar(0.5);
+    const dir = this._fd || (this._fd = new T.Vector3()); dir.set(o.cam[0] - o.tgt[0], o.cam[1] - o.tgt[1], o.cam[2] - o.tgt[2]).normalize();
+    // Formación: mirada más alta (≥ 24°) para que la tapa abierta del maletín no tape la pantalla.
+    if (cmp) { const we = this._win(p, 3.3, 6.5, 0.15); if (we > 0) { const hz = Math.hypot(dir.x, dir.z); dir.y = this._mix(dir.y, Math.max(dir.y, 0.45 * hz), we); dir.normalize(); } }
+    const DS = this._fdS || (this._fdS = dir.clone());
+    DS.lerp(dir, this.reduced ? 1 : 1 - Math.exp(-3 * dt)).normalize(); dir.copy(DS);
+    const f = this._ff || (this._ff = new T.Vector3()); f.copy(dir).negate();
+    const r = this._fr || (this._fr = new T.Vector3()); r.crossVectors(f, this.up || (this.up = new T.Vector3(0, 1, 0))).normalize();
+    const u = this._fu || (this._fu = new T.Vector3()); u.crossVectors(r, f).normalize();
+    // Área libre (px): vertical → entre la isla y la hoja de texto; horizontal → a la derecha del copy.
+    let x0, x1, y0, y1;
+    // Borde de la hoja: se interpola entre capítulos al ritmo del fundido del texto (sin escalones).
+    const ST = this._sheetTop || [], ci = st.ci, Cc = this.CH[ci], tB = ci < this.CH.length - 1 ? this._ss(Cc.b - 0.3, Cc.b + 0.02, p) : 0;
+    const sheetT = this._mix(ST[ci] || vh * 0.55, ST[Math.min(ci + 1, this.CH.length - 1)] || vh * 0.55, tB);
+    if (narrow) { const top = this._xTop && this._xTop.ci === ci ? Math.min(sheetT, this._xTop.top) : sheetT; x0 = 10; x1 = vw - 10; y0 = 62; y1 = Math.max(y0 + 120, top - 10); }
+    else { x0 = cf * vw + 24; x1 = vw - 20; y0 = 62; y1 = vh - 18; }
+    const F = this._fa || (this._fa = { x0, x1, y0, y1 });
+    const ld = this.reduced ? 1 : 1 - Math.exp(-4 * dt);
+    F.x0 += (x0 - F.x0) * ld; F.x1 += (x1 - F.x1) * ld; F.y0 += (y0 - F.y0) * ld; F.y1 += (y1 - F.y1) * ld;
+    const tv = Math.tan((this.cam.fov * Math.PI) / 360);
+    const mg = narrow ? 0.92 : 0.94, tx = tv * a * ((F.x1 - F.x0) / vw) * mg, ty = tv * ((F.y1 - F.y0) / vh) * mg;
+    let d = 0, rel = this._frel || (this._frel = new T.Vector3());
+    for (let i = 0; i < n; i++) {
+      rel.subVectors(P[i], c); const xc = rel.dot(r), yc = rel.dot(u), zc = rel.dot(dir);
+      d = Math.max(d, Math.abs(xc) / tx + zc, Math.abs(yc) / ty + zc);
+    }
+    const S = this._fs || (this._fs = { d, c: c.clone() });
+    // Se aleja rápido (nunca recorta) y se acerca suave.
+    const lo = this.reduced ? 1 : 1 - Math.exp(-(d > S.d ? 9 : 3.5) * dt);
+    S.d += (d - S.d) * lo; S.c.lerp(c, ld);
+    const pos = this._fp || (this._fp = new T.Vector3()); pos.copy(S.c).addScaledVector(dir, S.d);
+    // Parallax leve del puntero (solo escritorio).
+    if (!narrow) pos.addScaledVector(r, this.smx * 0.16).addScaledVector(u, -this.smy * 0.08);
+    return { pos, tgt: S.c, ox: vw / 2 - (F.x0 + F.x1) / 2, oy: vh / 2 - (F.y0 + F.y1) / 2 };
+  }
+
+  _chAt(p) { let i = 0; while (i < this.CH.length - 1 && p >= this.CH[i].b) i++; return i; }
+
+  // Estado narrativo derivado del scroll: capítulo, sub-pantalla y progreso local.
+  _state(p) {
+    const ci = this._chAt(p), c = this.CH[ci], k = this._c01((p - c.a) / (c.b - c.a));
+    const s = { ci, id: c.id, k, shot: null, si: 0, l: 0, prev: null, cert: -1, cf: 0, mc: -1 };
+    const list = this.SHOTS[c.id];
+    if (list) { const fs = Math.min(2.9999, k * 3); s.si = Math.floor(fs); s.l = fs - s.si; s.shot = list[s.si]; s.prev = s.si > 0 ? list[s.si - 1] : null; }
+    // Maletín: cf = progreso continuo de credenciales (0..5); cert = la que se muestra; mc = la última que entró en la Mac.
+    if (c.id === 'cert') { const cf = (k - 0.17) / 0.15; s.cf = cf; s.cert = cf < 0.5 ? -1 : Math.min(4, Math.floor(cf - 0.5)); s.mc = cf < 0.8 ? -1 : Math.min(4, Math.floor(cf - 0.8)); }
+    if (c.id === 'dive') { s.shot = this.SHOTS.nave[0]; }
+    return s;
+  }
+
+  _extras(p, st) {
+    const T = window.THREE, t = this.t;
+    const inS = (id, si) => st.id === id && (si === undefined || st.si === si);
+    const wN = this._win(p, 7.25, 8.5, 0.12);
+    const wV = this._win(p, 9.65, 10.05, 0.12);
+    const wE = this._win(p, 11.15, 11.55, 0.1);
+    const wC = this._win(p, 13.65, 14.55, 0.12);
+    const wP = this._win(p, 14.75, 15.7, 0.12);
+    this.mac.updateMatrixWorld(); this.ph.updateMatrixWorld();
+    const mA = this.v3.set(0.85, 0.75, 0.02); this.lid.localToWorld(mA);
+    const pA = this.v3b.set(0, 0.1, 0.06); this.ph.localToWorld(pA);
+    const wK = st.id === 'cert' && st.mc >= 0 ? this._win(st.cf - st.mc, 0.85, 1.45, 0.08) : 0;
+    let w = 0, from = pA, to = mA, lift = 0.75;
+    if (wK > 0.01) { w = wK; from = this.v3.set(-0.36, 1.06, 0.02); this.lid.localToWorld(from); to = pA; lift = 0.7; }
+    else if (wN > 0.01) { w = wN; from = pA; to = mA; }
+    else if (wE > 0.01 || wC > 0.01) { w = Math.max(wE, wC); from = this.v3.set(0.6, 0.6, 0.02); this.lid.localToWorld(from); to = pA; lift = 0.6; }
+    else if (wP > 0.01) { w = wP; from = this.v3.set(0, 1.0, 0.02); this.lid.localToWorld(from); to = pA; lift = 0.9; }
+    else if (wV > 0.01) { w = wV; from = this.v3.set(0, 1.7, 0.02); this.lid.localToWorld(from); to = this.v3b.set(this.plates[0].position.x, this.plates[3].position.y + 0.1, this.plates[0].position.z); lift = 0.0; }
+    const c = this.v3c.copy(from).add(to).multiplyScalar(0.5); c.y += lift; c.z += lift * 0.25;
+    const bez = (u, out) => { const iu = 1 - u; out.set(iu * iu * from.x + 2 * iu * u * c.x + u * u * to.x, iu * iu * from.y + 2 * iu * u * c.y + u * u * to.y, iu * iu * from.z + 2 * iu * u * c.z + u * u * to.z); return out; };
+    const arr = this.line.geometry.attributes.position.array, tmp = this._tmpV || (this._tmpV = new T.Vector3());
+    for (let i = 0; i < this.lineN; i++) { bez(i / (this.lineN - 1), tmp); arr[i * 3] = tmp.x; arr[i * 3 + 1] = tmp.y; arr[i * 3 + 2] = tmp.z; }
+    this.line.geometry.attributes.position.needsUpdate = true;
+    if (this._compact && wV <= 0.01) w = 0; // sin iPhone no hay pulsos hacia él
+    this.line.material.opacity = 0.28 * w; this.line.visible = w > 0.01;
+    this.pulses.forEach((m, i) => { const u = (t * 0.45 + i / 3) % 1; m.visible = w > 0.01; bez(u, m.position); m.scale.setScalar(w * (0.6 + 0.6 * Math.sin(u * Math.PI))); });
+
+    this.plates.forEach((m) => {
+      const i = m.userData.i, r = this._ss(0, 1, wV * 1.15 - i * 0.05);
+      m.visible = r > 0.01; m.material.opacity = r;
+      m.position.set(this.mac.position.x + 0.55, 2.12 + (3 - i) * 0.44 * r - (1 - r) * 0.3, this.mac.position.z - 0.85);
+      m.rotation.set(-0.08, this.mac.rotation.y * 0.6, 0);
+    });
+    this.pins.forEach((pn, i) => {
+      const r = this._ss(0, 1, wE * 1.2 - i * 0.15), hgt = 0.28 + i * 0.1;
+      pn.g.visible = r > 0.01; pn.stem.scale.y = Math.max(0.001, hgt * r); pn.stem.position.y = hgt * r / 2;
+      pn.head.position.y = hgt * r; pn.spr.position.set(0.52, hgt * r + 0.02, 0); pn.spr.material.opacity = r;
+      const pr = (t * 0.6 + i * 0.5) % 1; pn.ring.scale.setScalar(1 + pr * 3); pn.ring.material.opacity = (1 - pr) * 0.6 * r;
+    });
+  }
+
+  // Resorte genérico sub-pasado (estable a cualquier frame rate).
+  _sp(s, target, K, C, dt) {
+    if (this.reduced) { s.x = target; s.v = 0; return s.x; }
+    let rem = Math.min(dt, 0.5); while (rem > 1e-6) { const st = Math.min(rem, 1 / 240); rem -= st; s.v += (-K * (s.x - target) - C * s.v) * st; s.x += s.v * st; }
+    return s.x;
+  }
+
+  // Rectángulo que ocupa una credencial en la pantalla de la Mac (px del lienzo 1280×800) y su equivalente en la tapa.
+  _certRect(i) {
+    const c = this.certs[i], a = c ? c.aspect : 0.7, BW = 780, BH = 560;
+    const w = Math.min(BW, BH / a), h = w * a, x = 72 + (BW - w) / 2, y = 128 + (BH - h) / 2;
+    return { x, y, w, h, cx: ((x + w / 2) / 1280 - 0.5) * 2.76, cy: 1.06 + (0.5 - (y + h / 2) / 800) * 1.725, ww: (w / 1280) * 2.76 };
+  }
+
+  // Maletín + credenciales: entra deslizándose, saltan los cierres, se abre la tapa y cada certificado
+  // sube, vuela hasta la Mac, flota para leerse, se verifica y entra en la pantalla. Al final el maletín se cierra y se va.
+  _certs(p, st, lean) {
+    const T = window.THREE, C = this.case, dt = this._dt || 1 / 60;
+    const vis = p > 3.1 && p < 6.85;
+    C.visible = vis;
+    if (!vis) { this.certs.forEach((cc) => { cc.g.visible = false; }); this.caseLight.intensity = 0; return; }
+    const k = this._c01((p - 3.4) / 3.2);
+    const inE = this._ss(3.12, 3.58, p), outE = this._ss(6.5, 6.82, p);
+    const ease = 1 - Math.pow(1 - inE, 3);
+    const cpX = this._compact ? this.mac.position.x + 0.3 : 2.3, cpZ = this._compact ? 2.8 : 1.45;
+    C.position.set(cpX + (1 - ease) * 4.4 + outE * outE * 4.6, Math.sin(inE * Math.PI) * 0.06 * (1 - inE), cpZ);
+    C.rotation.set(0, (this._compact ? -0.06 : -0.28) + (1 - ease) * 0.7 - outE * 0.5 + lean * 0.01, (1 - ease) * -0.05);
+    // Cierres: saltan con resorte (izquierdo primero), vuelven a trabarse al final.
+    this.hasps.forEach((h, i) => {
+      const on = this._ss(0.03 + i * 0.012, 0.05 + i * 0.012, k) * (1 - this._ss(0.955, 0.97, k));
+      h.g.rotation.x = -this._sp(h, 1.85 * on, 260, 14, dt);
+    });
+    const open = this._ss(0.07, 0.15, k) * (1 - this._ss(0.925, 0.955, k));
+    const la = this._sp(this.caseS, (this._compact ? 1.45 : 1.82) * open, 70, 8.5, dt);
+    this.caseLid.rotation.x = -Math.max(0, la);
+    this.caseLight.intensity = 0.9 * this._c01(la / 1.5);
+
+    C.updateMatrixWorld(true); this.mac.updateMatrixWorld(true);
+    const qC = C.getWorldQuaternion(this._qC || (this._qC = new T.Quaternion()));
+    const qL = this.lid.getWorldQuaternion(this._qL || (this._qL = new T.Quaternion()));
+    const qF = this._qF || (this._qF = new T.Quaternion()), eu = this._eu || (this._eu = new T.Euler());
+    const cf = st.id === 'cert' ? st.cf : (p < 3.4 ? -1 : 9);
+    const v1 = this.v3, v2 = this.v3b, v3 = this.v3c;
+    this.certs.forEach((cc, i) => {
+      const u = cf - i;
+      if (u >= 0.95) { cc.g.visible = false; return; }
+      cc.g.visible = true;
+      const h = 1.5 * cc.aspect;
+      cc.face.scale.set(1.5, h, 1); cc.back.scale.set(1.56, h + 0.06, 0.014); cc.frame.scale.set(1.6, h + 0.1, 1); cc.scan.scale.set(1.5, 0.025, 1);
+      const R = this._certRect(i);
+      // Pose en la pila (cara arriba, con un leve desorden natural).
+      const pS = v1.set(0, 0.05 + (4 - i) * 0.017, 0.02); C.localToWorld(pS);
+      eu.set(-Math.PI / 2, 0, (i % 2 ? 0.03 : -0.025) + i * 0.004); qF.setFromEuler(eu).premultiply(qC);
+      let s = 0.72, fr = 0, sc = 0;
+      if (u <= 0) { cc.g.position.copy(pS); cc.g.quaternion.copy(qF); }
+      else {
+        const a = this._ss(0, 0.28, u), b = this._ss(0.28, 0.55, u), d = this._ss(0.78, 0.95, u);
+        const up = v2.set(-0.1, 0.95, 0.1); C.localToWorld(up);
+        const show = v3.set(R.cx, R.cy, 0.62); this.lid.localToWorld(show);
+        const P = cc.g.position;
+        if (u < 0.28) P.lerpVectors(pS, up, 1 - Math.pow(1 - a, 2));
+        else if (u < 0.55) {
+          const mx = (up.x + show.x) / 2, my = Math.max(up.y, show.y) + 0.55, mz = (up.z + show.z) / 2 + 0.35, ib = 1 - b;
+          P.set(ib * ib * up.x + 2 * ib * b * mx + b * b * show.x, ib * ib * up.y + 2 * ib * b * my + b * b * show.y, ib * ib * up.z + 2 * ib * b * mz + b * b * show.z);
+        } else if (u < 0.78) {
+          P.copy(show); if (!this.reduced) P.y += Math.sin(this.t * 1.6 + i) * 0.012;
+        } else {
+          const scr = v2.set(R.cx, R.cy, 0.03); this.lid.localToWorld(scr); P.lerpVectors(show, scr, d * d);
+        }
+        // Orientación: de plana a paralela a la pantalla, con un giro en el vuelo.
+        const ro = this._ss(0.04, 0.5, u);
+        cc.g.quaternion.copy(qF).slerp(qL, ro);
+        const spin = Math.sin(b * Math.PI) * 0.45 + (this.reduced ? 0 : Math.sin(this.t * 0.8 + i) * 0.02 * this._win(u, 0.55, 0.78, 0.04)) + lean * 0.05;
+        eu.set(0, spin, 0); cc.g.quaternion.multiply(qF.setFromEuler(eu));
+        s = this._mix(this._mix(this._mix(0.72, 0.86, a), 1.0, b), R.ww / 1.5, d);
+        fr = this._ss(0.5, 0.6, u) * (1 - this._ss(0.8, 0.9, u));
+        sc = this._win(u, 0.58, 0.76, 0.02);
+        cc.scan.position.y = h * (0.5 - this._c01((u - 0.58) / 0.18));
+      }
+      cc.g.scale.setScalar(s);
+      cc.frame.material.opacity = fr * 0.95;
+      cc.scan.material.opacity = sc * 0.85;
+      cc.fm.emissiveIntensity = 0.1 + fr * 0.2;
+    });
+  }
+
+  // Perfil: credencial colgante con péndulo + módulos de stack que salen de la pantalla.
+  _profile(p, st, lean) {
+    const dt = this._dt || 1 / 60, B = this.badge;
+    const vis = p > 1.72 && p < 3.55;
+    B.visible = vis;
+    const k = st.id === 'prof' ? st.k : (p < 1.8 ? 0 : 1);
+    if (!vis) { this.bY.x = 6.2; this.bY.v = 0; this.tiles.forEach((tl) => { tl.g.visible = false; }); return; }
+    const down = this._ss(0.02, 0.16, k) * (1 - this._ss(0.86, 0.98, k));
+    const y = this._sp(this.bY, this._mix(6.2, 3.62, down), 55, 6.5, dt);
+    // El péndulo recibe la aceleración vertical de la caída y la velocidad de scroll.
+    const sw = this._sp(this.bSw, this._clamp(-lean * 0.09 + this.bY.v * 0.012, -0.35, 0.35), 16, 1.6, dt);
+    const fl = this._sp(this.bFl, Math.PI * this._ss(0.68, 0.8, k), 42, 6.5, dt);
+    if (this._compact) B.position.set(this.mac.position.x + 1.95, y, 1.0); else B.position.set(2.05, y, 1.65); B.rotation.set(0, -0.18, sw + (this.reduced ? 0 : Math.sin(this.t * 0.7) * 0.012));
+    this.badgeCard.rotation.set(0, fl + (this.reduced ? 0 : Math.sin(this.t * 0.55) * 0.07), 0);
+    // Secuencia de stack: sale de la pantalla → foco grande frente a la Mac → se acopla en fila sobre la tapa.
+    // Todas vuelven a la pantalla antes de k 0.93: ninguna queda en cuadro al pasar a Formación.
+    const live = st.id === 'prof';
+    this.tiles.forEach((tl, i) => {
+      const s0 = 0.14 + i * 0.13;
+      const em = this._ss(s0, s0 + 0.04, k), dk = this._ss(s0 + 0.085, s0 + 0.13, k);
+      const back = this._ss(0.82 + (3 - i) * 0.025, 0.87 + (3 - i) * 0.025, k);
+      tl.g.visible = live && em > 0.002 && back < 0.998;
+      if (!tl.g.visible) return;
+      const nar = !!this._compact;
+      const dockX = nar ? 0 : -1.17 + i * 0.78, dockY = nar ? 1.06 : 2.5, dockZ = nar ? 0.02 : 0.32;
+      const fX = nar ? 0 : 0.42, fY = nar ? 0.7 : 0.78, fZ = nar ? 0.85 : 0.8, fS = nar ? 1.7 : 2.0;
+      const ee = 1 - Math.pow(1 - em, 3), dd = dk * dk * (3 - 2 * dk);
+      let x = this._mix(0, fX, ee), y = this._mix(1.06, fY, ee), z = this._mix(0.02, fZ, ee), sc = this._mix(0.25, fS, ee);
+      x = this._mix(x, dockX, dd); y = this._mix(y, dockY, dd) + Math.sin(Math.PI * dd) * 0.35; z = this._mix(z, dockZ, dd); sc = this._mix(sc, nar ? 0.15 : 1, dd); if (nar && dd > 0.98) { tl.g.visible = false; return; }
+      // Regreso: se encoge hacia el centro de la pantalla.
+      const bb = back * back * (3 - 2 * back);
+      x = this._mix(x, 0, bb); y = this._mix(y, 1.06, bb); z = this._mix(z, 0.02, bb); sc = this._mix(sc, 0.2, bb);
+      tl.g.position.set(x, y, z);
+      // Orientación: de cara a la cámara (la tapa está inclinada 15° hacia atrás); giro leve al salir y al acoplarse.
+      tl.g.rotation.set(0.24 + (1 - ee) * -0.9 + Math.sin(Math.PI * dd) * 0.25, Math.sin(Math.PI * dd) * (dockX < 0 ? -0.35 : 0.35), 0);
+      tl.g.scale.setScalar(sc);
+    });
+  }
+
+  // ───────────────────────── pantallas (Canvas 2D → texturas)
+  _screens(p, st) {
+    const id = st.id, t = this.t;
+    let mode = id;
+    if (id === 'hero' || id === 'open') mode = 'boot';
+    if (id === 'cert') mode = st.mc >= 0 && st.k < 0.94 ? 'certv' : 'form';
+    if (id === 'dive') mode = p < 6.85 ? 'form' : 'shot';
+    if (this.SHOTS[id]) mode = 'shot';
+    const anim = mode === 'boot' || mode === 'shot' || mode === 'pipe' || mode === 'form' || mode === 'prof' || mode === 'certv';
+    const q = mode === 'boot' ? Math.round(this._c01((p - 0.5) / 1.05) * 400) : Math.round(p * 300);
+    const mk = mode + '|' + q + '|' + (anim ? Math.floor(t * 12) : 0) + '|' + this._nImg;
+    if (mk !== this._macKey && this.dispMat.color.r > 0.002) { this._macKey = mk; this._drawMac(mode, p, st, t); this.mtex.needsUpdate = true; }
+
+    let tg = [100, 30];
+    if (st.shot || id === 'cert' || id === 'prof') tg = [218, 32];
+    if (id === 'cta') tg = [312, 72];
+    const subId = id + '|' + st.si + '|' + st.cert;
+    if (subId !== this._phId) { this._phId = subId; if (!this.reduced) { this.pisl.vw += 520; this.pisl.vh += 90; } }
+    this._spring(this.pisl, tg[0], tg[1], 1 / 60);
+    const pk = subId + '|' + Math.round(st.k * 60) + '|' + Math.floor(t * 15) + '|' + Math.round(this.pisl.w) + '|' + Math.round(this.pisl.h) + '|' + this.fps.val + '|' + this._nImg;
+    if (pk !== this._phKey && this.ph.visible && this.phMat.color.r > 0.002) { this._phKey = pk; this._drawPhone(st, t); this.ptex.needsUpdate = true; }
+  }
+
+  _spring(s, tw, th, dt) {
+    if (this.reduced) { s.w = tw; s.h = th; s.vw = 0; s.vh = 0; return; }
+    const K = 380, C = 26; let rem = dt;
+    while (rem > 1e-6) { const st = Math.min(rem, 1 / 240); rem -= st; s.vw += (-K * (s.w - tw) - C * s.vw) * st; s.w += s.vw * st; s.vh += (-K * (s.h - th) - C * s.vh) * st; s.h += s.vh * st; }
+  }
+
+  _f(x, size, w, mono, serif) { x.font = (w || 400) + ' ' + size + 'px ' + (serif ? 'Georgia, "Times New Roman", serif' : mono ? '"Martian Mono", ui-monospace, monospace' : '"Schibsted Grotesk", system-ui, sans-serif'); }
+  _wrap(x, text, a, b, maxW, lh) {
+    const words = text.split(' '); let line = '', y = b;
+    for (let i = 0; i < words.length; i++) { const tst = line ? line + ' ' + words[i] : words[i]; if (x.measureText(tst).width > maxW && line) { x.fillText(line, a, y); line = words[i]; y += lh; } else line = tst; }
+    if (line) x.fillText(line, a, y); return y + lh;
+  }
+  _panel(x, a, b, w, h) { x.fillStyle = 'rgba(13,12,10,0.94)'; this._rrect(x, a, b, w, h, 18); x.fill(); x.strokeStyle = '#3A352E'; x.lineWidth = 2; x.stroke(); }
+  _dot(x, a, b, r, col) { x.fillStyle = col; x.beginPath(); x.arc(a, b, r, 0, Math.PI * 2); x.fill(); }
+
+  // Geometría de una captura dentro del área de contenido (debajo de la barra de 44 px).
+  _shotRect(shot, pan) {
+    const im = this.img[shot.img], W = 1280, H = 756;
+    if (!im) return { x: 0, y: 44, w: W, h: H, im: null };
+    const s = Math.max(W / im.width, H / im.height), w = im.width * s, h = im.height * s;
+    const y = 44 - (shot.pan ? (h - H) * pan : 0);
+    return { x: (W - w) / 2, y, w, h, im };
+  }
+  _hsXY(shot, hs, pan) { const r = this._shotRect(shot, pan); return [r.x + hs[0] * r.w, r.y + hs[1] * r.h]; }
+  _panOf(st) { return st.shot && st.shot.pan ? this._ss(0.12, 0.62, st.l) : 0; }
+
+  _cursorAt(st) {
+    const sh = st.shot, l = st.l, hs = sh.hs;
+    const pan = this._panOf(st);
+    const start = [1040, 700];
+    if (!hs.length) return null;
+    const h0 = this._hsXY(sh, hs[0], pan), h1 = hs[1] ? this._hsXY(sh, hs[1], pan) : h0;
+    const m0 = this._ss(0.16, 0.4, l), m1 = this._ss(0.55, 0.76, l);
+    const ex = (a, b, k) => a + (b - a) * k;
+    let x = ex(start[0], h0[0], m0), y = ex(start[1], h0[1], m0) - Math.sin(m0 * Math.PI) * 40;
+    x = ex(x, h1[0], m1); y = ex(y, h1[1], m1) - Math.sin(m1 * Math.PI) * 40;
+    return { x, y, c0: this._c01((l - 0.4) / 0.14), c1: this._c01((l - 0.76) / 0.14), h0, h1 };
+  }
+
+  _drawShot(x, shot, st, offX, pan) {
+    const r = this._shotRect(shot, pan);
+    x.save(); x.beginPath(); x.rect(0, 44, 1280, 756); x.clip();
+    if (r.im) x.drawImage(r.im, r.x + offX, r.y, r.w, r.h); else { x.fillStyle = '#171512'; x.fillRect(offX, 44, 1280, 756); }
+    x.restore();
+  }
+
+  _drawMac(mode, p, st, t) {
+    const x = this.mctx, W = 1280, H = 800, BONE = '#EEE9DF', STONE = '#A39C8F', LEMON = '#E6D84A';
+    x.setTransform(1, 0, 0, 1, 0, 0); x.textBaseline = 'alphabetic'; x.textAlign = 'left';
+    x.fillStyle = '#0B0A09'; x.fillRect(0, 0, W, H);
+    // Zoom de inmersión: la pantalla se acerca antes del corte y se asienta después.
+    const zIn = this._ss(6.65, 6.85, p) * 0.45, zOut = (1 - this._ss(6.85, 7.15, p)) * this._ss(6.7, 6.86, p) * 0.35;
+    const z = mode === 'form' ? 1 + zIn : (st.id === 'dive' || st.id === 'nave' ? 1 + zOut : 1);
+    if (z !== 1) { x.translate(W / 2, H / 2); x.scale(z, z); x.translate(-W / 2, -H / 2); }
+
+    if (mode === 'boot') {
+      x.fillStyle = 'rgba(230,216,74,0.05)'; this._f(x, 520, 800); x.textAlign = 'center'; x.fillText('IZ', W / 2, 600); x.textAlign = 'left';
+      this._f(x, 16, 500, true); x.fillStyle = STONE; x.fillText('banco de pruebas · ivo zanacchi', 72, 70);
+      const Lz = [['$ ', 'init --system'], ['› ', 'spec       SDD + Claude · MCP · Skills'], ['› ', 'frontend   React/Vite · TypeScript · Next.js'], ['› ', 'backend    FastAPI · Node/Express'], ['› ', 'datos      PostgreSQL/Supabase · MySQL · MongoDB · Firebase · Pinecone'], ['› ', 'entrega    Docker · GitHub Actions · VPS · Vercel + Cloudflare'], ['✓ ', 'banco listo. desplazate para montar el primer sistema']];
+      const tot = Lz.reduce((s, l) => s + l[1].length, 0), kk = this._c01((p - 0.5) / 1.05); let n = Math.floor(kk * tot * 1.08);
+      this._f(x, 22, 400, true); let y = 170, cx = 72, cy = 170;
+      for (let i = 0; i < Lz.length && n > 0; i++) {
+        const s = Lz[i][1].slice(0, n); n -= Lz[i][1].length; const last = i === Lz.length - 1;
+        x.fillStyle = last || i === 0 ? LEMON : STONE; x.fillText(Lz[i][0], 72, y);
+        x.fillStyle = last ? LEMON : BONE; x.fillText(s, 106, y);
+        cx = 106 + x.measureText(s).width + 6; cy = y; y += 62;
+      }
+      if (Math.floor(t * 2) % 2 === 0) { x.fillStyle = LEMON; x.fillRect(cx, cy - 22, 13, 28); }
+      // Barrido de escaneo al encender.
+      const sy = (this._c01((p - 0.6) / 0.9) * 1.2 - 0.1) * H; x.fillStyle = 'rgba(238,233,223,0.05)'; x.fillRect(0, sy, W, 60);
+      return;
+    }
+    if (mode === 'prof') {
+      const k = st.k, rv = (a, b) => this._ss(a, b, k);
+      // Foto con esquineros limón + estado.
+      const a0 = rv(0.0, 0.12); x.globalAlpha = a0;
+      x.save(); this._rrect(x, 72, 92, 300, 300, 24); x.clip(); if (this.img.ivo) x.drawImage(this.img.ivo, 72, 92, 300, 300); x.restore();
+      x.strokeStyle = LEMON; x.lineWidth = 4; [[60, 80, 1, 1], [384, 80, -1, 1], [60, 404, 1, -1], [384, 404, -1, -1]].forEach((c) => { x.beginPath(); x.moveTo(c[0], c[1] + c[3] * 34); x.lineTo(c[0], c[1]); x.lineTo(c[0] + c[2] * 34, c[1]); x.stroke(); });
+      this._dot(x, 84, 444, 8 + Math.sin(t * 4) * 1.2, LEMON); this._f(x, 16, 600, true); x.fillStyle = LEMON; x.fillText('DISPONIBLE PARA EQUIPOS', 104, 450);
+      // Identidad: nombre grande, rol, base.
+      const a1 = rv(0.04, 0.18); x.globalAlpha = a1;
+      this._f(x, 15, 600, true); x.fillStyle = STONE; x.fillText('PERFIL · 02 / 11', 430, 118);
+      this._f(x, 92, 800); x.fillStyle = BONE; x.fillText('Ivo Zanacchi', 426 - (1 - a1) * 30, 210);
+      this._f(x, 32, 500); x.fillStyle = '#C9C2B5'; x.fillText('Full-Stack Developer', 430, 262);
+      this._f(x, 16, 500, true); x.fillStyle = STONE; x.fillText('TUCUMÁN, ARGENTINA  ·  UTN FRT  ·  UGR', 430, 302);
+      // Pilares como chips.
+      const P = ['CÓDIGO LIMPIO', 'ARQUITECTURA ESCALABLE', 'SDD', 'CERO REGRESIONES']; let cx = 430;
+      this._f(x, 15, 600, true);
+      P.forEach((pp, i) => { const a = rv(0.12 + i * 0.04, 0.22 + i * 0.04); const w = x.measureText(pp).width + 36; x.globalAlpha = a; x.strokeStyle = i === 2 ? LEMON : '#4A443B'; x.lineWidth = 2; this._rrect(x, cx, 336 + (1 - a) * 12, w, 42, 21); x.stroke(); x.fillStyle = i === 2 ? LEMON : BONE; x.fillText(pp, cx + 18, 363 + (1 - a) * 12); cx += w + 12; });
+      x.globalAlpha = 1;
+      // Trayectoria: línea de tiempo real (certificaciones y carreras) con cabezal que avanza.
+      const E = [[2023, 'Ciberseguridad', 'Coderhouse · nov'], [2024, 'JavaScript · Apps TOP 10', 'Coderhouse · UTN inicia'], [2025, 'Python', 'Coderhouse · dic'], [2026, 'Ciberseguridad', 'UGR · en curso'], [2027, 'Técnico en Programación', 'UTN · meta feb']];
+      const X0 = 110, X1 = 1170, LY = 590, hd = rv(0.2, 0.75);
+      this._f(x, 14, 600, true); x.fillStyle = STONE; x.fillText('TRAYECTORIA', 72, 520);
+      x.strokeStyle = '#2E2A24'; x.lineWidth = 3; x.beginPath(); x.moveTo(X0, LY); x.lineTo(X1, LY); x.stroke();
+      x.strokeStyle = LEMON; x.beginPath(); x.moveTo(X0, LY); x.lineTo(X0 + (X1 - X0) * hd, LY); x.stroke();
+      E.forEach((e, i) => {
+        const ex = X0 + (X1 - X0) * (i / 4), on = hd * 4 >= i - 0.02, up = i % 2 === 0;
+        this._dot(x, ex, LY, on ? 10 : 6, on ? LEMON : '#4A443B');
+        x.globalAlpha = on ? 1 : 0.35; x.textAlign = i === 0 ? 'left' : i === 4 ? 'right' : 'center'; const tx = i === 0 ? ex - 10 : i === 4 ? ex + 10 : ex;
+        this._f(x, 22, 800); x.fillStyle = on ? LEMON : STONE; x.fillText(String(e[0]), tx, up ? LY - 28 : LY + 46);
+        this._f(x, 19, 600); x.fillStyle = BONE; x.fillText(e[1], tx, up ? LY + 46 : LY - 50);
+        this._f(x, 13, 500, true); x.fillStyle = STONE; x.fillText(e[2], tx, up ? LY + 72 : LY - 28 - 50 + 26 + 26);
+        x.globalAlpha = 1; x.textAlign = 'left';
+      });
+      this._f(x, 14, 500, true); x.fillStyle = STONE; x.fillText('SCRUM · SPRINT PLANNING · DAILIES · BACKLOG · RETROS · ASYNC', 72, 762);
+      // Indicación: el stack ahora vive arriba de la tapa.
+      const a3 = rv(0.2, 0.32) * (1 - rv(0.84, 0.9)); x.globalAlpha = a3; this._f(x, 14, 600, true); x.fillStyle = LEMON; x.textAlign = 'right'; x.fillText('▲ STACK · 4 CAPAS', 1208, 118); x.textAlign = 'left'; x.globalAlpha = 1;
+      return;
+    }
+    if (mode === 'certv') {
+      const i = Math.max(0, st.mc), c = this.CERTS[i], R = this._certRect(i), im = this.img[c.img], u = st.cf - i;
+      this._f(x, 16, 500, true); x.fillStyle = STONE; x.fillText('maletin/credenciales — ' + (i + 1) + ' de 5 verificadas', 72, 78);
+      x.fillStyle = '#171512'; this._rrect(x, 72, 128, 780, 560, 16); x.fill();
+      if (im) x.drawImage(im, R.x, R.y, R.w, R.h);
+      const fl = 1 - this._ss(0.8, 1.2, u);
+      if (fl > 0) { x.strokeStyle = 'rgba(230,216,74,' + fl.toFixed(3) + ')'; x.lineWidth = 6; x.strokeRect(R.x - 3, R.y - 3, R.w + 6, R.h + 6); x.fillStyle = 'rgba(230,216,74,' + (fl * 0.12).toFixed(3) + ')'; x.fillRect(R.x, R.y, R.w, R.h); }
+      const X = 900;
+      this._f(x, 14, 600, true); x.fillStyle = LEMON; x.fillText(c.tag + (c.top ? ' · TOP 10' : ''), X, 168);
+      this._f(x, 40, 800); x.fillStyle = BONE; let y = this._wrap(x, c.title, X, 222, 320, 46);
+      this._f(x, 20, 600); x.fillStyle = '#C9C2B5'; x.fillText(c.org, X, y + 6); y += 50;
+      c.rows.forEach((r) => { this._f(x, 16, 400, true); x.fillStyle = BONE; y = this._wrap(x, r, X, y, 320, 26) + 4; });
+      if (c.by) { this._f(x, 16, 400, true); x.fillStyle = STONE; x.fillText('Certificado por ' + c.by, X, y + 10); y += 40; }
+      this._f(x, 15, 600, true); x.fillStyle = LEMON; x.fillText('✓ VERIFICADA', X, 650);
+      for (let j = 0; j < 5; j++) { const on = j <= i; x.strokeStyle = on ? LEMON : '#4A443B'; x.lineWidth = 2; this._rrect(x, X + j * 58, 672, 46, 16, 8); x.stroke(); if (on) { x.fillStyle = j === i ? LEMON : 'rgba(230,216,74,0.35)'; x.fill(); } }
+      return;
+    }
+    if (mode === 'form') {
+      const ver = st.id === 'cert' ? st.mc : 4;
+      this._f(x, 16, 500, true); x.fillStyle = STONE; x.fillText('formación.sh — base académica y certificaciones', 72, 74);
+      const A = [['UTN · FR TUCUMÁN', 'Técnico Universitario en Programación', 'abr 2024 — feb 2027'], ['UGR', 'Tecnicatura Universitaria en Ciberseguridad', 'mar 2026 — en curso']];
+      A.forEach((r, i) => { const y = 120 + i * 150; this._panel(x, 72, y, 520, 128); this._f(x, 14, 600, true); x.fillStyle = LEMON; x.fillText(r[0], 100, y + 40); this._f(x, 24, 700); x.fillStyle = BONE; const ny = this._wrap(x, r[1], 100, y + 76, 470, 28); this._f(x, 14, 400, true); x.fillStyle = STONE; x.fillText(r[2], 100, Math.min(y + 116, ny + 2)); });
+      this._f(x, 14, 600, true); x.fillStyle = STONE; x.fillText('EN CURSO', 100, 452); x.fillStyle = '#2E2A24'; x.fillRect(100, 470, 460, 6);
+      x.fillStyle = LEMON; x.fillRect(100, 470, 460 * 0.62, 6); this._f(x, 12, 500, true); x.fillStyle = STONE; x.fillText('UTN · avance estimado por fechas del plan', 100, 500);
+      // Registro de credenciales: se tildan a medida que entran a la pantalla desde el maletín.
+      const tl = 660; x.strokeStyle = '#2E2A24'; x.lineWidth = 2; x.beginPath(); x.moveTo(tl, 120); x.lineTo(tl, 740); x.stroke();
+      this.CERTS.forEach((c, i) => {
+        const y = 140 + i * 122, on = i <= ver;
+        if (on) { x.fillStyle = 'rgba(230,216,74,0.06)'; this._rrect(x, tl + 24, y - 20, 560, 104, 16); x.fill(); }
+        this._dot(x, tl, y + 22, on ? 10 : 6, on ? LEMON : '#4A443B');
+        this._f(x, 12, 600, true); x.fillStyle = on ? LEMON : STONE; x.fillText(c.tag + (c.top ? ' · TOP 10' : ''), tl + 48, y + 8);
+        this._f(x, 26, 700); x.fillStyle = on ? BONE : '#8C857A'; x.fillText(c.t, tl + 48, y + 44);
+        this._f(x, 14, 400, true); x.fillStyle = STONE; x.fillText(c.org + (c.by ? ' · certificado por ' + c.by : ''), tl + 48, y + 72);
+        this._f(x, 13, 600, true); x.textAlign = 'right'; x.fillStyle = on ? LEMON : '#5C564C'; x.fillText(on ? '✓ VERIFICADA' : 'EN EL MALETÍN', tl + 570, y + 8); x.textAlign = 'left';
+      });
+      return;
+    }
+    if (mode === 'pipe') {
+      this._f(x, 16, 500, true); x.fillStyle = STONE; x.fillText('deploy.sh — ciclo de entrega', 72, 72);
+      const S = [['Spec-Driven', 'Claude — diseño estructural · SDD · MCP · Skills'], ['Capa de acceso', 'JWT / OAuth2 — rotación de access y refresh · revisión manual'], ['Contenedores', 'Docker multi-etapa · Turbopack para frontend'], ['CI', 'GitHub Actions — build · type-check · lint · QA manual pre-merge'], ['Release', 'Docker // VPS // Vercel Edge + Cloudflare · verificación post-deploy']];
+      const prog = this._c01(st.k * 1.15) * 5, act = Math.min(4, Math.floor(prog));
+      S.forEach((s, i) => {
+        const y = 150 + i * 120, on = i === act, done = i < act;
+        x.strokeStyle = on ? LEMON : '#2E2A24'; x.lineWidth = 2; this._rrect(x, 72, y, 1136, 96, 16); x.stroke();
+        if (on) { x.fillStyle = 'rgba(230,216,74,0.06)'; x.fill(); x.fillStyle = 'rgba(230,216,74,0.22)'; x.fillRect(74, y + 92, 1132 * (prog - act), 3); }
+        this._f(x, 18, 600, true); x.fillStyle = on || done ? LEMON : STONE; x.fillText('0' + (i + 1), 104, y + 58);
+        this._f(x, 30, 700); x.fillStyle = BONE; x.fillText(s[0], 176, y + 46);
+        this._f(x, 17, 400, true); x.fillStyle = STONE; x.fillText(s[1], 176, y + 76);
+        this._f(x, 18, 600, true); x.textAlign = 'right'; x.fillStyle = done ? LEMON : on ? BONE : '#5C564C'; x.fillText(done ? '✓ OK' : on ? 'EN CURSO' + '...'.slice(0, 1 + Math.floor(t * 3) % 3) : '—', 1176, y + 58); x.textAlign = 'left';
+      });
+      return;
+    }
+    if (mode === 'cta') {
+      this._dot(x, 86, 150, 9, LEMON); this._f(x, 18, 600, true); x.fillStyle = LEMON; x.fillText('DISPONIBLE PARA EQUIPOS', 108, 157);
+      this._f(x, 84, 800); x.fillStyle = BONE; x.fillText('Escribime.', 72, 290);
+      this._f(x, 40, 500); x.fillStyle = BONE; x.fillText('ivozanacchi501@gmail.com', 72, 380);
+      this._f(x, 20, 400, true); x.fillStyle = STONE; x.fillText('linkedin.com/in/ivo-zanacchi-87822326a', 72, 450); x.fillText('github.com/Izan0501', 72, 490);
+      return;
+    }
+    // ── Captura real con barra de navegador, transición de página, cursor y hotspots.
+    const sh = st.shot; if (!sh) return;
+    const pan = this._panOf(st);
+    const e = st.prev ? this._ss(0, 0.16, st.l) : 1;
+    if (st.prev && e < 1) {
+      this._drawShot(x, st.prev, st, -e * W * 0.35, st.prev.pan ? 1 : 0);
+      x.fillStyle = 'rgba(11,10,9,' + (e * 0.6).toFixed(3) + ')'; x.fillRect(0, 44, W, 756);
+      x.save(); x.shadowColor = 'rgba(0,0,0,0.6)'; x.shadowBlur = 40; x.fillStyle = '#0B0A09'; x.fillRect((1 - e) * W, 44, W, 756); x.restore();
+      this._drawShot(x, sh, st, (1 - e) * W, pan);
+    } else this._drawShot(x, sh, st, 0, pan);
+    if (st.id === 'mel') { x.fillStyle = 'rgba(13,12,10,0.2)'; x.fillRect(0, 44, W, 756); }
+    // Barra de navegador
+    x.fillStyle = '#141210'; x.fillRect(0, 0, W, 44);
+    [26, 48, 70].forEach((cx) => this._dot(x, cx, 22, 6, '#3A3630'));
+    x.fillStyle = '#1E1B17'; this._rrect(x, W / 2 - 260, 9, 520, 26, 13); x.fill();
+    this._f(x, 14, 500, true); x.fillStyle = STONE; x.textAlign = 'center'; x.fillText(sh.url, W / 2, 27); x.textAlign = 'left';
+    // Barra de carga al cambiar de pantalla
+    const ld = this._c01(st.l / 0.2); if (ld < 1) { x.fillStyle = LEMON; x.fillRect(0, 42, W * ld, 2); }
+    this._f(x, 12, 500, true); x.fillStyle = STONE; x.textAlign = 'right'; x.fillText((st.si + 1) + ' / 3', W - 24, 27); x.textAlign = 'left';
+    if (st.id === 'dive') return;
+    // Hotspots + cursor
+    const cu = this._cursorAt(st);
+    if (cu) {
+      [[cu.h0, cu.c0], [cu.h1, cu.c1]].forEach((h, i) => {
+        if (h[1] <= 0 || (i === 1 && !sh.hs[1])) return;
+        const r = h[1] < 1 ? 14 + h[1] * 46 : 22 + Math.sin(t * 4 + i) * 3;
+        x.strokeStyle = 'rgba(230,216,74,' + (h[1] < 1 ? (1 - h[1]) * 0.9 : 0.85).toFixed(3) + ')'; x.lineWidth = 3; x.beginPath(); x.arc(h[0][0], h[0][1], r, 0, Math.PI * 2); x.stroke();
+        if (h[1] >= 1) this._dot(x, h[0][0], h[0][1], 5, LEMON);
+      });
+      const hideC = this._ss(0.88, 0.96, st.l);
+      if (hideC < 1) {
+        x.globalAlpha = 1 - hideC; x.save(); x.translate(cu.x, cu.y); const pr = (cu.c0 > 0 && cu.c0 < 0.4) || (cu.c1 > 0 && cu.c1 < 0.4) ? 0.85 : 1; x.scale(pr * 1.4, pr * 1.4);
+        x.beginPath(); x.moveTo(0, 0); x.lineTo(0, 24); x.lineTo(6.5, 18.5); x.lineTo(11, 28); x.lineTo(15, 26); x.lineTo(10.5, 16.8); x.lineTo(18, 16.5); x.closePath();
+        x.fillStyle = BONE; x.fill(); x.strokeStyle = '#0B0A09'; x.lineWidth = 1.6; x.stroke(); x.restore(); x.globalAlpha = 1;
+      }
+    }
+    // Superposición de flujo (Nave24 dashboard): contador vivo, anclado abajo a la derecha sin tapar KPIs.
+    if (st.id === 'nave' && st.si === 0) {
+      const arr = Math.floor(t * 1.35), fresh = 1 - ((t * 1.35) % 1), val = 3990 - (arr % 40);
+      const a = this._ss(0.1, 0.25, st.l); x.globalAlpha = a;
+      this._panel(x, 900, 610, 340, 160);
+      this._f(x, 13, 500, true); x.fillStyle = STONE; x.fillText('PRODUCTOS · SUPABASE REALTIME', 924, 642);
+      this._f(x, 64, 800); x.fillStyle = fresh > 0.75 ? LEMON : BONE; x.fillText(String(val), 922, 712);
+      this._f(x, 13, 400, true); x.fillStyle = fresh > 0.6 ? LEMON : '#C9C2B5'; x.fillText('T-B −1 · commit ' + arr + ' ✓', 924, 748);
+      x.globalAlpha = 1;
+    }
+    if (st.id === 'vee' && st.si === 2) {
+      const a = this._ss(0.05, 0.25, st.l); x.globalAlpha = a;
+      this._panel(x, 60, 660, 1160, 110);
+      const N = ['CV', 'Parseo', 'Embeddings', 'Scoring', 'Veredicto'], head = (t * 0.32) % 1;
+      N.forEach((n, i) => {
+        const cx = 150 + i * 245, on = head * 5 >= i && head * 5 < i + 1, done = head * 5 > i + 1;
+        if (i < 4) { x.strokeStyle = done ? LEMON : '#3A352E'; x.lineWidth = 3; x.beginPath(); x.moveTo(cx + 22, 700); x.lineTo(cx + 223, 700); x.stroke(); }
+        this._dot(x, cx, 700, on ? 13 : 9, on || done ? LEMON : '#3A352E');
+        this._f(x, 17, 600); x.fillStyle = on ? BONE : '#C9C2B5'; x.textAlign = 'center'; x.fillText(n, cx, 744); x.textAlign = 'left';
+      });
+      x.globalAlpha = 1;
+    }
+  }
+
+  _phHead(x, title, sub, top) {
+    const BONE = '#EEE9DF', STONE = '#A39C8F';
+    this._f(x, 22, 700); x.fillStyle = BONE; x.fillText(title, 24, top);
+    if (sub) { this._f(x, 11.5, 500, true); x.fillStyle = STONE; x.fillText(sub, 24, top + 24); }
+    x.strokeStyle = '#2E2A24'; x.lineWidth = 1; x.beginPath(); x.moveTo(0, top + 42); x.lineTo(360, top + 42); x.stroke();
+  }
+
+  _bubble(x, text, right, y, accent) {
+    this._f(x, 15.5, 500); const lines = []; const ws = text.split(' '); let l = '';
+    ws.forEach((w) => { const s2 = l ? l + ' ' + w : w; if (x.measureText(s2).width > 228 && l) { lines.push(l); l = w; } else l = s2; }); if (l) lines.push(l);
+    const bw = 254, bh = 22 + lines.length * 23, bx = right ? 360 - 20 - bw : 20;
+    x.fillStyle = right ? '#2B2716' : '#171512'; this._rrect(x, bx, y, bw, bh, 18); x.fill();
+    x.strokeStyle = right ? 'rgba(230,216,74,0.4)' : '#2E2A24'; x.lineWidth = 1.5; x.stroke();
+    x.fillStyle = '#EEE9DF'; lines.forEach((ln, i) => x.fillText(ln, bx + 14, y + 30 + i * 23));
+    return y + bh + 12;
+  }
+
+  // iPhone · perfil rápido: cifras reales que cuentan hacia arriba + contacto.
+  _phProf(x, st, t, top) {
+    const BONE = '#EEE9DF', STONE = '#A39C8F', LEMON = '#E6D84A', W = 360, k = st.k;
+    this._phHead(x, 'perfil.json', 'Ivo Zanacchi · Full-Stack Developer', top);
+    const N = [[5, 'sistemas reales', 'web · móvil · SaaS'], [2, 'en producción', 'Nave24 · Estudio'], [5, 'certificaciones', 'DevSchool · Coderhouse'], [2, 'carreras', 'UTN · UGR']];
+    const cnt = this._ss(0.08, 0.42, k);
+    N.forEach((n, i) => {
+      const cx = 16 + (i % 2) * 168, cy = top + 60 + Math.floor(i / 2) * 150, a = this._ss(0.06 + i * 0.05, 0.16 + i * 0.05, k);
+      x.globalAlpha = a; x.fillStyle = '#171512'; this._rrect(x, cx, cy + (1 - a) * 14, 160, 138, 18); x.fill(); x.strokeStyle = i === 0 ? 'rgba(230,216,74,0.5)' : '#2E2A24'; x.lineWidth = 1.5; x.stroke();
+      this._f(x, 56, 800); x.fillStyle = i === 0 ? LEMON : BONE; x.fillText(String(Math.round(n[0] * cnt)), cx + 16, cy + 66 + (1 - a) * 14);
+      this._f(x, 15, 600); x.fillStyle = BONE; x.fillText(n[1], cx + 16, cy + 96 + (1 - a) * 14);
+      this._f(x, 10.5, 500, true); x.fillStyle = STONE; x.fillText(n[2], cx + 16, cy + 120 + (1 - a) * 14);
+    });
+    x.globalAlpha = 1;
+    const y0 = top + 370, a = this._ss(0.3, 0.45, k); x.globalAlpha = a;
+    this._f(x, 11.5, 600, true); x.fillStyle = STONE; x.fillText('CONTACTO', 24, y0);
+    [['Email', 'ivozanacchi501@gmail.com'], ['LinkedIn', 'in/ivo-zanacchi-87822326a'], ['GitHub', 'github.com/Izan0501']].forEach((r, i) => {
+      const y = y0 + 18 + i * 58; x.fillStyle = '#141210'; this._rrect(x, 16, y, W - 32, 48, 14); x.fill();
+      this._f(x, 11, 600, true); x.fillStyle = STONE; x.fillText(r[0].toUpperCase(), 32, y + 20); this._f(x, 14, 600); x.fillStyle = BONE; x.fillText(r[1], 32, y + 39);
+    });
+    const yb = y0 + 200; x.fillStyle = LEMON; this._rrect(x, 16, yb, W - 32, 50, 25); x.fill();
+    this._f(x, 16, 700); x.fillStyle = '#0D0C0A'; x.textAlign = 'center'; x.fillText('Disponible para equipos', W / 2, yb + 32); x.textAlign = 'left';
+    x.globalAlpha = 1;
+  }
+
+  // iPhone · maletín abriéndose: estado de los cierres antes de la primera credencial.
+  _phCase(x, st, t, top) {
+    const BONE = '#EEE9DF', STONE = '#A39C8F', LEMON = '#E6D84A', W = 360, k = st.k;
+    this._phHead(x, 'maletin.sh', 'formación · 5 credenciales', top);
+    const L = [['cierre izquierdo', 0.04], ['cierre derecho', 0.055], ['tapa', 0.12], ['credencial 01 → Mac', 0.2]];
+    L.forEach((l, i) => {
+      const y = top + 90 + i * 56, done = k > l[1];
+      this._f(x, 14, 500, true); x.fillStyle = done ? LEMON : STONE; x.fillText(done ? '✓' : '…', 24, y); x.fillStyle = done ? BONE : STONE; x.fillText(l[0], 52, y);
+    });
+    const cx = W / 2, cy = top + 420, op = this._ss(0.03, 0.12, k);
+    x.strokeStyle = LEMON; x.lineWidth = 5; x.beginPath(); x.arc(cx, cy - 34 - op * 22, 26, Math.PI, 0); x.stroke();
+    x.fillStyle = '#171512'; this._rrect(x, cx - 44, cy - 34, 88, 72, 14); x.fill(); x.strokeStyle = '#4A443B'; x.lineWidth = 2; x.stroke();
+    this._dot(x, cx, cy, 7, op > 0.5 ? LEMON : STONE);
+    this._f(x, 13, 600, true); x.fillStyle = op > 0.5 ? LEMON : STONE; x.textAlign = 'center'; x.fillText(op > 0.5 ? 'ABIERTO' : 'CERRADO', cx, cy + 74); x.textAlign = 'left';
+  }
+
+  _drawPhone(st, t) {
+    const x = this.pctx, S = 1.5, W = 360, H = 767, BONE = '#EEE9DF', STONE = '#A39C8F', LEMON = '#E6D84A';
+    x.setTransform(S, 0, 0, S, 0, 0); x.textBaseline = 'alphabetic'; x.textAlign = 'left';
+    x.fillStyle = '#0B0A09'; x.fillRect(0, 0, W, H);
+    const top = 100, id = st.id, sh = st.shot, ph = sh ? sh.ph : id, l = st.l;
+    const typing = (ty) => { x.fillStyle = '#171512'; this._rrect(x, 20, ty, 78, 40, 20); x.fill(); for (let i = 0; i < 3; i++) this._dot(x, 42 + i * 17, ty + 20, 4, 'rgba(238,233,223,' + (0.3 + 0.6 * Math.max(0, Math.sin(t * 5 - i * 0.7))).toFixed(2) + ')'); };
+    if (id === 'prof') { this._phProf(x, st, t, top); }
+    else if (id === 'cert' && st.cert < 0) { this._phCase(x, st, t, top); }
+    else if (id === 'hero' || id === 'open') {
+      this._phHead(x, 'ivo_contact.sh', 'terminal interactiva', top);
+      const Lz = [['$ help', LEMON], ['[stack] [experience] [contact]', STONE], ['[github] [resume] [hire]', STONE], ['', ''], ['$ contact', LEMON], ['Email:', STONE], ['ivozanacchi501@gmail.com', BONE], ['LinkedIn:', STONE], ['in/ivo-zanacchi-87822326a', BONE], ['Archivo fuente:', STONE], ['github.com/Izan0501', BONE], ['', ''], ['$ hire', LEMON], ['ACCESO CONCEDIDO.', BONE], ['Enrutamiento prioritario activado.', STONE]];
+      const n = Math.floor(this._c01(st.k * 1.4 + 0.1) * Lz.length);
+      this._f(x, 13.5, 400, true);
+      for (let i = 0; i < n; i++) { x.fillStyle = Lz[i][1]; x.fillText(Lz[i][0], 24, top + 80 + i * 30); }
+    } else if (id === 'cert') {
+      const c = this.CERTS[Math.max(0, st.cert)];
+      this._phHead(x, 'Credencial', (Math.max(0, st.cert) + 1) + ' de 5 · ' + c.tag, top);
+      const im = this.img[c.img];
+      if (im) { x.save(); this._rrect(x, 20, top + 62, 320, 320 * im.height / im.width, 14); x.clip(); x.drawImage(im, 20, top + 62, 320, 320 * im.height / im.width); x.restore(); }
+      let y = top + 62 + 320 * 0.68 + 40;
+      this._f(x, 11.5, 600, true); x.fillStyle = LEMON; x.fillText(c.org.toUpperCase() + (c.top ? '  ·  TOP 10' : ''), 24, y);
+      this._f(x, 24, 800); x.fillStyle = BONE; y = this._wrap(x, c.title, 24, y + 32, 312, 28);
+      c.rows.forEach((r) => { this._f(x, 13.5, 400, true); x.fillStyle = '#C9C2B5'; x.fillText(r, 24, y + 4); y += 26; });
+      if (c.by) { this._f(x, 13.5, 400, true); x.fillStyle = STONE; x.fillText('Certificado por ' + c.by, 24, y + 4); y += 26; }
+      for (let i = 0; i < 5; i++) this._dot(x, W / 2 - 40 + i * 20, H - 36, i === st.cert ? 5 : 3.5, i === st.cert ? LEMON : '#4A443B');
+    } else if (ph === 'feed' || id === 'dive') {
+      const arr = Math.floor(t * 1.35), fresh = 1 - ((t * 1.35) % 1);
+      this._phHead(x, 'Terminal B', 'Supabase Realtime · conectado', top);
+      for (let i = 0; i < 8; i++) {
+        const y = top + 62 + i * 64, on = i === 0 && fresh > 0.55, sl = i === 0 ? (1 - this._ss(0.75, 1, fresh)) : 1;
+        x.globalAlpha = sl; x.fillStyle = on ? 'rgba(230,216,74,0.10)' : '#141210'; this._rrect(x, 16, y, W - 32, 54, 12); x.fill();
+        this._f(x, 15, 600, true); x.fillStyle = BONE; x.fillText('SKU · ' + (1100 + ((arr - i) * 7) % 97), 32, y + 33);
+        this._f(x, 15, 600, true); x.fillStyle = on ? LEMON : STONE; x.fillText('−1', 196, y + 33);
+        this._f(x, 11, 500, true); x.fillStyle = on ? LEMON : '#8C857A'; x.textAlign = 'right'; x.fillText('#' + (arr - i) + ' ✓', W - 32, y + 33); x.textAlign = 'left'; x.globalAlpha = 1;
+      }
+    } else if (ph === 'alert') {
+      this._phHead(x, 'Terminal B', 'alertas de reposición', top);
+      const a = this._ss(0.2, 0.4, l);
+      x.globalAlpha = a; x.save(); x.translate(0, (1 - a) * -30);
+      x.fillStyle = '#171512'; this._rrect(x, 16, top + 64, W - 32, 150, 18); x.fill(); x.strokeStyle = LEMON; x.lineWidth = 1.5; x.stroke();
+      this._f(x, 11.5, 600, true); x.fillStyle = LEMON; x.fillText('STOCK BAJO UMBRAL', 36, top + 96);
+      this._f(x, 20, 700); x.fillStyle = BONE; x.fillText('Agua 2L · 5 unidades', 36, top + 130);
+      this._f(x, 13, 400, true); x.fillStyle = STONE; x.fillText('umbral de reposición: 10', 36, top + 158);
+      x.fillStyle = LEMON; this._rrect(x, 36, top + 172, 130, 30, 15); x.fill(); this._f(x, 13, 700); x.fillStyle = '#14120E'; x.fillText('Reponer', 72, top + 192);
+      x.restore(); x.globalAlpha = 1;
+      [['bebidas', 151], ['bebidas', 294], ['bebidas', 8], ['alimentos', 50]].forEach((r, i) => { const y = top + 240 + i * 60; x.fillStyle = '#141210'; this._rrect(x, 16, y, W - 32, 50, 12); x.fill(); this._f(x, 14, 500, true); x.fillStyle = '#C9C2B5'; x.fillText(r[0], 32, y + 31); x.textAlign = 'right'; x.fillStyle = r[1] < 10 ? LEMON : STONE; x.fillText(String(r[1]), W - 32, y + 31); x.textAlign = 'left'; });
+    } else if (ph === 'sale') {
+      this._phHead(x, 'Nueva venta', 'ticket · se descuenta al confirmar', top);
+      const a = this._ss(0.15, 0.85, l);
+      [['Ítem A', '×1'], ['Ítem B', '×2']].forEach((r, i) => { const y = top + 66 + i * 58; x.fillStyle = '#141210'; this._rrect(x, 16, y, W - 32, 48, 12); x.fill(); this._f(x, 15, 500); x.fillStyle = BONE; x.fillText(r[0], 32, y + 30); x.textAlign = 'right'; x.fillStyle = STONE; x.fillText(r[1], W - 32, y + 30); x.textAlign = 'left'; });
+      x.fillStyle = a > 0.6 ? LEMON : '#2E2A24'; this._rrect(x, 16, top + 200, W - 32, 54, 27); x.fill();
+      this._f(x, 16, 700); x.fillStyle = a > 0.6 ? '#14120E' : STONE; x.textAlign = 'center'; x.fillText(a > 0.6 ? 'Venta confirmada ✓' : 'Confirmar venta', W / 2, top + 233); x.textAlign = 'left';
+      this._f(x, 13, 400, true); x.fillStyle = STONE; x.fillText('stock: −3 unidades en una transacción', 24, top + 290);
+    } else if (ph === 'score') {
+      const s = Math.round(92 * this._ss(0.1, 0.6, l));
+      this._phHead(x, 'CV #0412', 'candidato · ejemplo', top);
+      const cx = W / 2, cy = top + 200, r = 92;
+      x.lineWidth = 12; x.strokeStyle = '#211E1A'; x.beginPath(); x.arc(cx, cy, r, 0, Math.PI * 2); x.stroke();
+      x.strokeStyle = LEMON; x.lineCap = 'round'; x.beginPath(); x.arc(cx, cy, r, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * s / 100); x.stroke(); x.lineCap = 'butt';
+      this._f(x, 64, 800); x.fillStyle = BONE; x.textAlign = 'center'; x.fillText(String(s), cx, cy + 20);
+      this._f(x, 11.5, 500, true); x.fillStyle = STONE; x.fillText('MATCH IA', cx, cy + 48); x.textAlign = 'left';
+      [['Stack requerido', '✓'], ['Experiencia relevante', '✓'], ['Match semántico · Pinecone', '✓']].forEach((q, i) => { const y = top + 340 + i * 56; x.fillStyle = '#141210'; this._rrect(x, 16, y, W - 32, 46, 12); x.fill(); this._f(x, 14.5, 500); x.fillStyle = '#C9C2B5'; x.fillText(q[0], 32, y + 29); x.fillStyle = l > 0.3 + i * 0.12 ? LEMON : '#4A443B'; x.textAlign = 'right'; x.fillText(q[1], W - 32, y + 29); x.textAlign = 'left'; });
+    } else if (ph === 'twin') {
+      this._phHead(x, 'Digital Twin', 'entrevista al CV · ejemplo', top);
+      let y = top + 70;
+      if (l > 0.15) y = this._bubble(x, '¿Qué experiencia tenés con APIs en producción?', true, y);
+      if (l > 0.4) y = this._bubble(x, 'Según el CV: servicios FastAPI desplegados con Docker y CI.', false, y);
+      if (l > 0.65) y = this._bubble(x, '¿Y con bases vectoriales?', true, y);
+      if (l > 0.65 && l < 0.9) typing(y); else if (l >= 0.9) this._bubble(x, 'Indexación de perfiles en Pinecone.', false, y);
+    } else if (ph === 'verdict') {
+      this._phHead(x, 'Versus AI', 'comparación cara a cara', top);
+      const a = this._ss(0.2, 0.45, l);
+      x.globalAlpha = a; x.fillStyle = '#171512'; this._rrect(x, 16, top + 64, W - 32, 190, 18); x.fill(); x.strokeStyle = LEMON; x.lineWidth = 1.5; x.stroke();
+      this._f(x, 11.5, 600, true); x.fillStyle = LEMON; x.fillText('VEREDICTO LISTO', 36, top + 98);
+      this._f(x, 20, 700); x.fillStyle = BONE; this._wrap(x, 'El candidato B encaja mejor con el rol técnico.', 36, top + 132, W - 72, 26);
+      this._f(x, 11.5, 500, true); x.fillStyle = STONE; x.fillText('Gemini 2.5 Flash · datos de ejemplo', 36, top + 232); x.globalAlpha = 1;
+      ['tenant A', 'tenant B'].forEach((tn, i) => { const y = top + 290 + i * 60; x.fillStyle = '#141210'; this._rrect(x, 16, y, W - 32, 48, 12); x.fill(); this._f(x, 14, 500, true); x.fillStyle = '#C9C2B5'; x.fillText(tn + ' · pool aislado', 32, y + 30); this._dot(x, W - 36, y + 24, 5, i === 0 ? LEMON : '#4A443B'); });
+    } else if (ph === 'emini') {
+      x.fillStyle = '#0c0a0b'; x.fillRect(0, 60, W, H);
+      this._f(x, 15, 700, false, true); x.fillStyle = '#D6336C'; x.fillText('ZANACCHI', 24, top);
+      x.fillStyle = '#fff'; this._rrect(x, 220, top - 18, 116, 26, 13); x.fill(); this._f(x, 9.5, 700, true); x.fillStyle = '#14120E'; x.fillText('CONSULTA URGENTE', 228, top - 1);
+      this._f(x, 40, 400, false, true); x.fillStyle = BONE; x.font = 'italic 400 40px Georgia, serif'; x.fillText('ZANACCHI', 24, top + 120); x.fillStyle = '#9A949A'; x.fillText('LEGAL GROUP', 24, top + 166);
+      this._f(x, 14, 400); x.fillStyle = '#C9C2B5'; x.fillText('Ingeniería jurídica para resultados', 24, top + 220); x.fillText('determinantes.', 24, top + 240);
+      const pr = l > 0.3 && l < 0.45; x.fillStyle = '#fff'; this._rrect(x, 24, top + 280, 170, 40, 2); x.fill(); this._f(x, 11, 700, true); x.fillStyle = '#14120E'; x.fillText('CONSULTA DIRECTA', 40, top + 305);
+      if (pr) { x.strokeStyle = LEMON; x.lineWidth = 3; this._rrect(x, 18, top + 274, 182, 52, 4); x.stroke(); }
+      this._f(x, 10.5, 500, true); x.fillStyle = '#8C857A'; x.fillText('versión móvil · recreación del layout', 24, H - 40);
+    } else if (ph === 'areas') {
+      this._phHead(x, 'Áreas de práctica', 'estudiozanacchi.com', top);
+      [['Derecho del Consumidor', 'Estrategia ofensiva contra abusos corporativos'], ['Derecho Penal y Querellas', 'Representación activa y acompañamiento'], ['Violencia de Género', 'Medidas cautelares inmediatas']].forEach((r, i) => {
+        const y = top + 66 + i * 120, on = Math.floor(l * 3) === i;
+        x.fillStyle = on ? '#171512' : '#121110'; this._rrect(x, 16, y, W - 32, 104, 16); x.fill(); x.strokeStyle = on ? LEMON : '#2E2A24'; x.lineWidth = 1.5; x.stroke();
+        x.font = 'italic 400 19px Georgia, serif'; x.fillStyle = BONE; x.fillText(r[0], 32, y + 40);
+        this._f(x, 12.5, 400); x.fillStyle = STONE; this._wrap(x, r[1], 32, y + 68, W - 80, 18);
+      });
+    } else if (ph === 'echat' || ph === 'cchat') {
+      const isE = ph === 'echat';
+      const T4 = ['Odontología Estética', 'Aclaramiento Láser', 'Implantología Avanzada', 'Ortodoncia Invisible'];
+      this._phHead(x, isE ? 'Estudio Zanacchi' : 'Consultorio', isE ? 'consulta derivada desde el sitio' : 'mensaje pre-cargado desde el sitio', top);
+      let y = top + 72;
+      if (isE) {
+        const area = ['Defensa penal', 'Urgencias / detenciones', 'Derecho de familia'][Math.floor(t / 2.6) % 3];
+        if (l > 0.25) y = this._bubble(x, 'Naturaleza del conflicto: ' + area + '.', true, y);
+        if (l > 0.55) y = this._bubble(x, 'Hola, necesito asesoramiento sobre mi caso.', true, y);
+        if (l > 0.8) typing(y);
+      } else {
+        if (l > 0.15) y = this._bubble(x, 'Hola, quiero consultar por Ortodoncia Invisible.', true, y);
+        if (l > 0.5) y = this._bubble(x, 'Escaneo iTero · Fase 02 de 14.', false, y);
+        if (l > 0.5) { x.fillStyle = '#2E2A24'; x.fillRect(32, y + 6, W - 64, 6); x.fillStyle = LEMON; x.fillRect(32, y + 6, (W - 64) * (2 / 14) * this._ss(0.5, 0.8, l), 6); this._f(x, 11, 500, true); x.fillStyle = STONE; x.fillText('seguimiento del alineador', 32, y + 34); }
+      }
+      this._f(x, 10.5, 500, true); x.fillStyle = '#8C857A'; x.fillText('demo del flujo · sin datos reales', 24, H - 40);
+    } else if (ph === 'cmini') {
+      x.fillStyle = '#F2F5F6'; x.fillRect(0, 60, W, H);
+      this._f(x, 12, 700); x.fillStyle = '#1B2A3A'; x.fillText('Dra. María Dolores', 24, top);
+      x.font = '700 38px Georgia, serif'; x.fillStyle = '#16212E'; x.fillText('Arte y', 24, top + 90); x.fillText('Precisión', 24, top + 134); x.fillText('en su sonrisa.', 24, top + 178);
+      x.strokeStyle = '#7CC9BE'; x.lineWidth = 3; x.beginPath(); x.moveTo(24, top + 196); x.quadraticCurveTo(140, top + 206, 250, top + 194); x.stroke();
+      this._f(x, 13.5, 400); x.fillStyle = '#4A5866'; this._wrap(x, 'Tecnología digital de última generación en un entorno de absoluto confort.', 24, top + 236, 300, 20);
+      const pr = l > 0.3 && l < 0.45; x.fillStyle = '#1E9C8F'; this._rrect(x, 24, top + 300, 150, 40, 6); x.fill(); this._f(x, 11, 700, true); x.fillStyle = '#fff'; x.fillText('AGENDAR CITA →', 38, top + 325);
+      if (pr) { x.strokeStyle = '#B8A82E'; x.lineWidth = 3; this._rrect(x, 18, top + 294, 162, 52, 8); x.stroke(); }
+      this._f(x, 10.5, 500, true); x.fillStyle = '#5C6875'; x.fillText('versión móvil · recreación del layout', 24, H - 40);
+    } else if (ph === 'pick') {
+      const T4 = ['Odontología Estética', 'Aclaramiento Láser', 'Implantología Avanzada', 'Ortodoncia Invisible'], sel = Math.min(3, Math.floor(l * 4));
+      this._phHead(x, '¿Qué tratamiento?', 'el mensaje se arma solo', top);
+      T4.forEach((s, i) => { const y = top + 66 + i * 70, on = i === sel; x.strokeStyle = on ? LEMON : '#3A352E'; x.lineWidth = 2; this._rrect(x, 16, y, W - 32, 56, 14); x.stroke(); if (on) { x.fillStyle = 'rgba(230,216,74,0.08)'; x.fill(); } x.strokeStyle = on ? LEMON : '#5C564C'; x.beginPath(); x.arc(42, y + 28, 9, 0, Math.PI * 2); x.stroke(); if (on) this._dot(x, 42, y + 28, 4.5, LEMON); this._f(x, 16, on ? 600 : 400); x.fillStyle = on ? BONE : '#C9C2B5'; x.fillText(s, 64, y + 34); });
+      this._f(x, 13, 400, true); x.fillStyle = STONE; this._wrap(x, '→ “Hola, quiero consultar por ' + T4[sel] + '.”', 24, top + 370, 312, 20);
+    } else if (ph === 'gal') {
+      const im = this.img[sh.img], off = this.reduced ? 0 : (t * 26) % 300;
+      x.save(); x.beginPath(); x.rect(0, 64, W, 560); x.clip();
+      for (let i = -1; i < 3; i++) { const a = i * 300 - off + 30; x.save(); this._rrect(x, a, 74, 280, 540, 18); x.clip(); if (im) { const sx = ((i + 3) % 3) * (im.width / 3); x.drawImage(im, sx, 0, im.width / 3, im.height, a - 120, 74, 520, 540); } else { x.fillStyle = '#171512'; x.fillRect(a, 74, 280, 540); } x.restore(); }
+      x.restore();
+      this._f(x, 11.5, 500, true); x.fillStyle = STONE; x.fillText('RENDER EN VIVO · ESTA PÁGINA', 24, 664);
+      this._f(x, 44, 800); x.fillStyle = BONE; x.fillText((this.fps.val || '—') + ' fps', 24, 714);
+      this._f(x, 12, 500, true); x.fillStyle = LEMON; x.textAlign = 'right'; x.fillText((this.fps.ms ? this.fps.ms.toFixed(1) : '—') + ' ms/frame', W - 24, 714); x.textAlign = 'left';
+    } else if (id === 'pipe') {
+      this._phHead(x, 'GitHub Actions', 'push → main · checks', top);
+      const C = ['build', 'type-check', 'lint', 'QA manual · pre-merge', 'deploy · VPS / Vercel'], d = Math.floor(this._c01(st.k * 1.15) * 5);
+      C.forEach((c, i) => { const y = top + 64 + i * 64; x.fillStyle = '#141210'; this._rrect(x, 16, y, W - 32, 52, 12); x.fill(); this._f(x, 15, 500, true); x.fillStyle = BONE; x.fillText(c, 32, y + 32); x.textAlign = 'right'; x.fillStyle = i < d ? LEMON : i === d ? BONE : '#5C564C'; x.fillText(i < d ? '✓' : i === d ? '…' : '·', W - 32, y + 32); x.textAlign = 'left'; });
+    } else if (id === 'cta') {
+      this._f(x, 40, 800); x.fillStyle = BONE; x.fillText('Disponible.', 24, top + 140);
+      this._f(x, 15, 400); x.fillStyle = '#C9C2B5'; this._wrap(x, 'Para sumarme a un equipo de producto desde el primer sprint.', 24, top + 182, W - 48, 22);
+      ['ivozanacchi501@gmail.com', 'LinkedIn', 'GitHub'].forEach((s, i) => { const y = top + 260 + i * 66; x.strokeStyle = i === 0 ? LEMON : '#4A443B'; x.lineWidth = 2; this._rrect(x, 24, y, W - 48, 52, 26); x.stroke(); this._f(x, 15, 600); x.fillStyle = i === 0 ? LEMON : BONE; x.textAlign = 'center'; x.fillText(s, W / 2, y + 32); x.textAlign = 'left'; });
+    }
+    // Indicador de inicio + Dynamic Island (resorte) por encima de todo.
+    x.fillStyle = 'rgba(238,233,223,0.55)'; this._rrect(x, W / 2 - 60, H - 14, 120, 5, 3); x.fill();
+    const iw = Math.max(60, this.pisl.w), ih = Math.max(22, this.pisl.h), ix = (W - iw) / 2, iy = 14;
+    x.fillStyle = '#000'; this._rrect(x, ix, iy, iw, ih, ih / 2); x.fill();
+    let lb = null;
+    if (sh) lb = sh.isl[0] === 'fps' ? [(this.fps.val || '—') + ' fps', 'en vivo'] : sh.isl;
+    else if (id === 'prof') lb = ['Perfil', 'disponible'];
+    else if (id === 'cert' && st.cert < 0) lb = ['Maletín', 'abriendo'];
+    else if (id === 'cert') { const c = this.CERTS[Math.max(0, st.cert)]; lb = ['Cert ' + (Math.max(0, st.cert) + 1) + '/5', c.t.length > 14 ? c.t.slice(0, 13) + '…' : c.t]; }
+    else if (id === 'pipe') lb = ['CI', ['build', 'types', 'lint', 'QA', 'deploy'][Math.min(4, Math.floor(this._c01(st.k * 1.15) * 5))]];
+    if (lb && iw > 120) {
+      x.globalAlpha = this._c01((iw - 120) / 60);
+      this._dot(x, ix + 18, iy + ih / 2, 4 + Math.sin(t * 5) * 0.8, LEMON);
+      this._f(x, 12.5, 600); x.fillStyle = BONE; x.fillText(lb[0], ix + 30, iy + ih / 2 + 4);
+      this._f(x, 10.5, 500, true); x.fillStyle = STONE; x.textAlign = 'right'; x.fillText(lb[1], ix + iw - 14, iy + ih / 2 + 4); x.textAlign = 'left';
+      x.globalAlpha = 1;
+    }
+    if (id === 'cta' && ih > 50) {
+      x.globalAlpha = this._c01((ih - 50) / 20);
+      this._dot(x, ix + 30, iy + ih / 2, 8, LEMON);
+      this._f(x, 16, 700); x.fillStyle = BONE; x.fillText('Disponible', ix + 52, iy + ih / 2 - 3);
+      this._f(x, 11, 500, true); x.fillStyle = STONE; x.fillText('ivozanacchi501@gmail.com', ix + 52, iy + ih / 2 + 16);
+      x.globalAlpha = 1;
+    }
+  }
+
+  // Callouts 3D: punto real de la captura → codo → etiqueta, dibujados progresivamente.
+  _callouts(p, st) {
+    const sh = st.shot && st.id !== 'dive' ? st.shot : null;
+    this.callouts.forEach((co, i) => {
+      const hs = sh && sh.hs[i];
+      let w = 0;
+      if (hs) w = this._ss(0.42 + i * 0.34, 0.6 + i * 0.34, st.l) * (1 - this._ss(0.93, 0.995, st.l));
+      if (st.id === 'mel') w = 0;
+      if (w < 0.01) { co.spr.visible = false; co.line.visible = false; co.dot.visible = false; return; }
+      const key = hs[2] + '|' + hs[3];
+      if (key !== co.key) { co.key = key; co.spr.material.map.userData.draw(hs[2], hs[3], true); }
+      const xy = this._hsXY(sh, hs, this._panOf(st));
+      const P0 = this.v3.set((xy[0] / 1280 - 0.5) * 2.76, 1.06 + (0.5 - xy[1] / 800) * 1.725, 0.006); this.lid.localToWorld(P0);
+      // Etiquetas justo por encima de la tapa; se separan en altura solo si caen del mismo lado.
+      const other = sh.hs[1 - i];
+      let right = other ? hs[0] >= other[0] : hs[0] < 0.6;
+      // La etiqueta no puede salir del ancho de la Mac: si no entra del lado elegido, va del otro.
+      const eL = this.v3d.set(-1.5, 1.06, 0); this.lid.localToWorld(eL); const edgeL = eL.x;
+      const eR = this.v3d.set(1.5, 1.06, 0); this.lid.localToWorld(eR); const edgeR = eR.x;
+      if (right && P0.x + 0.08 + 1.05 > edgeR) right = false; else if (!right && P0.x - 0.08 - 1.05 < edgeL) right = true;
+      const ly = 2.25 + (other ? i * 0.27 : 0);
+      const P1 = this.v3b.set(P0.x, ly, P0.z + 0.25);
+      const lx = P1.x + (right ? 0.6 : -0.6);
+      const P2 = this.v3c.set(P1.x + (right ? 0.08 : -0.08), ly, P1.z);
+      const g = this._ss(0, 0.55, w), h2 = this._ss(0.4, 0.85, w);
+      const arr = co.line.geometry.attributes.position.array;
+      const A = P0, B = this.v3d.set(A.x + (P1.x - A.x) * g, A.y + (P1.y - A.y) * g, A.z + (P1.z - A.z) * g);
+      arr[0] = A.x; arr[1] = A.y; arr[2] = A.z; arr[3] = B.x; arr[4] = B.y; arr[5] = B.z;
+      arr[6] = B.x + (P2.x - P1.x) * h2; arr[7] = B.y; arr[8] = B.z;
+      co.line.geometry.attributes.position.needsUpdate = true;
+      co.line.visible = true; co.line.material.opacity = 0.9 * w;
+      co.dot.visible = true; co.dot.position.copy(A); co.dot.material.opacity = w; co.dot.scale.setScalar(0.8 + 0.4 * Math.sin(this.t * 5));
+      co.spr.visible = true; co.spr.position.set(lx, ly, P1.z); co.spr.material.opacity = this._ss(0.75, 1, w);
+      co.spr.center.set(right ? 0.0 : 1.0, 0.5); co.spr.position.x = P2.x;
+    });
+  }
+
+  // ───────────────────────── HUD DOM (sin setState: escrituras directas por ref)
+  _dom(dt, st) {
+    const p = this.p; st = st || this._state(p);
+    const ci = st.ci, c = this.CH[ci];
+    const sub = st.shot && st.id !== 'dive' ? (st.si + 1) + '/3' : st.id === 'cert' && st.cert >= 0 ? (st.cert + 1) + '/5' : '';
+    const sk = ci + '|' + sub;
+    if (sk !== this.subKey) {
+      const chChanged = ci !== this.chi; this.subKey = sk; this.chi = ci;
+      if (chChanged) this._xTop = null;
+      if (chChanged) document.querySelectorAll('.iz-copy.iz-x').forEach((el) => { el.classList.remove('iz-x'); const bt = el.querySelector('.iz-morebtn'); if (bt) { bt.setAttribute('aria-expanded', 'false'); bt.textContent = 'Ver detalle'; } });
+      const ch = this._get('islch'); if (ch) ch.textContent = c.label;
+      const ss = this._get('islsub'); if (ss) ss.textContent = sub;
+      const rn = this._get('railn'); if (rn) rn.textContent = c.n + ' / 11';
+      const cap = this._get('cap');
+      if (cap) {
+        if (st.shot && st.id !== 'dive') cap.innerHTML = '<b>Pantalla ' + (st.si + 1) + '/3</b> · ' + st.shot.cap;
+        else if (st.id === 'cert' && st.cert >= 0) { const cc = this.CERTS[st.cert]; cap.innerHTML = '<b>Credencial ' + (st.cert + 1) + '/5</b> · ' + cc.t + ' · ' + cc.org + (cc.by ? ' · ' + cc.by : ''); }
+        else cap.textContent = c.label;
+      }
+      for (let i = 0; i < 5; i++) { const li = this._get('cl' + i); if (li) li.setAttribute('data-on', st.id === 'cert' && st.cert === i ? 'true' : 'false'); }
+      if (!this.reduced && !this._islOpen()) { this.isl.vw += chChanged ? 700 : 320; this.isl.vh += chChanged ? 60 : 24; }
+      for (let i = 0; i < 10; i++) { const a = this._get('nl' + i); if (a) { const tci = this.NAVCH[i]; a.setAttribute('aria-current', tci === ci || (tci === 0 && ci === 1) || (tci === 5 && ci === 4) ? 'true' : 'false'); } }
+      const pj = this._get('nl10'); if (pj) pj.setAttribute('aria-current', ci >= 4 && ci <= 9 ? 'true' : 'false');
+    }
+    const isl = this._get('island'), lb = this._get('islch'), sb = this._get('islsub'), list = this._get('isllist');
+    // Tamaño objetivo: plegada = anillo + capítulo (+ sub); desplegada = medida real del panel (responsive por CSS).
+    this._islSync();
+    const open = this._islOpen();
+    const tw = open ? (list ? list.offsetLeft : 38) + ((list && list.offsetWidth) || 420) : Math.max(150, ((lb && lb.offsetWidth) || 80) + ((sb && sb.offsetWidth) ? sb.offsetWidth + 10 : 0) + 78);
+    const th = 40;
+    this._spring(this.isl, tw, th, dt);
+    if (isl) {
+      isl.style.width = this.isl.w.toFixed(1) + 'px'; isl.style.height = Math.max(30, this.isl.h).toFixed(1) + 'px';
+      // Centro sobre el escenario; recortado a la pantalla según el ancho actual (el resorte no la saca de cuadro).
+      const z = this._islZ || 1, vwp = this._vw || window.innerWidth, half = (this.isl.w * z) / 2, cx = Math.min(vwp - 8 - half, Math.max(Math.max(8, Math.min(this._islMinX || 8, vwp - 16 - 2 * half)) + half, this._islCX || vwp / 2));
+      isl.style.left = (cx / z).toFixed(1) + 'px';
+    }
+    const ring = this._get('islring'); if (ring) ring.setAttribute('stroke-dashoffset', (44 * (1 - p / this.PMAX)).toFixed(2));
+    const bar = this._get('railbar'); if (bar) bar.style.transform = 'scaleX(' + (p / this.PMAX).toFixed(4) + ')';
+
+    const narrow = (this.aspect || (window.innerWidth / Math.max(1, window.innerHeight))) < 0.95;
+    for (let i = 0; i < this.CH.length; i++) {
+      const el = this._get('t' + i); if (!el) continue;
+      const C = this.CH[i], span = C.b - C.a;
+      const fin = i === 0 ? 1 : this._ss(C.a - 0.05, C.a + Math.min(0.3, span * 0.22), p);
+      const fout = i === this.CH.length - 1 ? 0 : this._ss(C.b - Math.min(0.3, span * 0.22), C.b + 0.02, p);
+      const o = fin * (1 - fout);
+      if (Math.abs((el._o === undefined ? -1 : el._o) - o) < 0.002) continue; el._o = o;
+      el.style.opacity = o.toFixed(3);
+      el.style.visibility = o < 0.01 ? 'hidden' : 'visible';
+      el.style.transform = (narrow ? '' : 'translateY(-50%) ') + 'translateY(' + ((1 - fin) * 24 - fout * 24).toFixed(1) + 'px)';
+    }
+
+    this._teleT += dt;
+    if (this._teleT > 0.25) {
+      this._teleT = 0;
+      const fp = this._get('islfps'); if (fp) fp.textContent = (this.fps.val || '—') + ' fps';
+      const set = (k, v) => { const e = this._get(k); if (e) e.textContent = v; };
+      set('tfps', String(this.fps.val || '—')); set('tms', this.fps.ms ? this.fps.ms.toFixed(1) + ' ms' : '—');
+      if (this.R) { set('tdc', String(this.R.info.render.calls)); set('ttri', String(this.R.info.render.triangles)); }
+      set('tlid', (this.pose && this.pose.lidS !== undefined ? this.pose.lidS.toFixed(1) : '0') + '°'); set('tv', this.vel.toFixed(2)); set('tp', p.toFixed(2) + ' / ' + this.PMAX);
+    }
+  }
+
+  renderVals() {
+    const out = { islToggle: this.islToggle, islEnter: this.islEnter, islLeave: this.islLeave, onMove: this.onMove };
+    this.go.forEach((g, i) => { out['go' + i] = g; });
+    this.KEYS.forEach((k) => { out['ref_' + k] = this['ref_' + k]; });
+    return out;
+  }
+}
+</script>
+</body>
+</html>

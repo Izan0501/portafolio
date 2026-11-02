@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Mapa de capítulos y módulos</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Martian+Mono:wdth,wght@75..112.5,300..700&amp;family=Schibsted+Grotesk:wght@400..900&amp;display=swap">
+<style>
+body{margin:0;background:#0D0C0A}
+a{color:#E6D84A}a:hover{color:#F0E46A}
+.s-eb{margin:0 0 14px;font-family:"Martian Mono",ui-monospace,monospace;font-size:12px;font-stretch:87.5%;letter-spacing:0.05em;text-transform:uppercase;color:#A39C8F}
+.s-eb b{color:#E6D84A;font-weight:600}
+.s-h2{margin:0 0 12px;font-size:44px;line-height:1.02;font-weight:800;letter-spacing:-0.03em;color:#EEE9DF}
+.s-h3{margin:0 0 8px;font-size:20px;line-height:1.2;font-weight:700;letter-spacing:-0.01em;color:#EEE9DF}
+.s-p{margin:0;font-size:15px;line-height:1.6;color:#C9C2B5}
+.s-p strong{color:#EEE9DF;font-weight:600}
+.s-mono{margin:0;font-family:"Martian Mono",ui-monospace,monospace;font-size:12px;font-stretch:87.5%;line-height:1.7;color:#A39C8F}
+.s-card{padding:22px;border-radius:18px;background:#171512;box-shadow:inset 0 0 0 1px #2E2A24}
+.s-tbl{width:100%;border-collapse:collapse;font-size:13.5px;color:#C9C2B5}
+.s-tbl th{text-align:left;padding:10px;font-family:"Martian Mono",ui-monospace,monospace;font-size:10.5px;font-weight:500;letter-spacing:0.04em;text-transform:uppercase;color:#A39C8F;border-bottom:1px solid #2E2A24}
+.s-tbl td{padding:12px 10px;vertical-align:top;border-bottom:1px solid #211E1A;line-height:1.45}
+.s-tbl td:first-child{font-family:"Martian Mono",ui-monospace,monospace;font-size:11.5px;color:#E6D84A;white-space:nowrap}
+.s-tbl td strong{color:#EEE9DF;font-weight:600}
+.s-code{margin:0;padding:16px 18px;border-radius:12px;background:#0B0A09;box-shadow:inset 0 0 0 1px #2E2A24;font-family:"Martian Mono",ui-monospace,monospace;font-size:11.5px;font-stretch:87.5%;line-height:1.75;color:#C9C2B5;white-space:pre-wrap}
+.s-code b{color:#E6D84A;font-weight:500}
+.s-mod{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:20px;padding:24px;border-radius:18px;background:#171512;box-shadow:inset 0 0 0 1px #2E2A24}
+.s-tag{display:inline-block;padding:3px 9px;border-radius:999px;box-shadow:inset 0 0 0 1px #4A443B;font-family:"Martian Mono",ui-monospace,monospace;font-size:10.5px;color:#C9C2B5}
+.s-rule{height:1px;background:#2E2A24;border:0;margin:0}
+</style>
+</helmet>
+<div style="width: 1440px; min-height: 9200px; box-sizing: border-box; padding: 96px 96px 120px; background: #0D0C0A; color: #EEE9DF; font-family: 'Schibsted Grotesk', system-ui, sans-serif; display: flex; flex-direction: column; gap: 80px">
+
+<section style="display: flex; flex-direction: column; gap: 24px">
+<p class="s-eb"><b>C</b> · Coreografía</p>
+<h2 class="s-h2">Mapa capítulo a capítulo</h2>
+<p class="s-p" style="max-width: 900px; font-size: 17px">Unidad: <strong>svh de scroll</strong> (1.0 = una pantalla). Recorrido total 16.7 svh + 1 de descanso, 12 capítulos. Cada proyecto se divide en 3 sub-pantallas de 0.5 svh con la misma partitura: transición de página (0–16 %) → cursor al hotspot 1 y clic (16–52 %) → callout 1 → cursor al hotspot 2 y clic (55–90 %) → callout 2 → salida. Cada fila es un tramo de keyframes interpolado con smoothstep; la tapa usa una curva propia (resistencia inicial, llegada amortiguada). El preview del artboard 2 implementa exactamente esta tabla.</p>
+<div class="s-card" style="padding: 6px 10px">
+<table class="s-tbl">
+<thead><tr><th style="width: 92px">svh</th><th style="width: 150px">Capítulo</th><th>MacBook Pro</th><th>iPhone Pro</th><th style="width: 190px">Dynamic Island</th><th style="width: 230px">Propósito narrativo</th></tr></thead>
+<tbody>
+<tr><td>0 – 0.8</td><td><strong>00 Hero</strong></td><td><strong>Vista cenital</strong>: Mac plateada cerrada con ry = π, el monograma IZ se lee desde arriba. Cámara a 9 u de altura.</td><td>Fuera de cuadro (x 4.8).</td><td>HUD: «Inicio», anillo 0 %.</td><td>Presenta a Ivo antes de cualquier efecto: el titular manda y la marca IZ es lo primero que se ve.</td></tr>
+<tr><td>0 – 1.55</td><td><strong>01 Método</strong></td><td>La cámara baja en tres tramos (cenital → 3/4 → frontal) mientras la Mac <strong>gira π</strong> hasta su yaw de trabajo y la tapa abre 0° → 105° con resorte subamortiguado (K 140 · C 16). Parpadeo de encendido, barrido de escaneo, retroiluminación fila por fila.</td><td>Aún fuera.</td><td>Impulso de resorte al cambiar de capítulo.</td><td>El arranque muestra el método real: SDD + Claude, MCP, Skills, y el stack por capas.</td></tr>
+<tr><td>1.8 – 3.4</td><td><strong>02 Perfil</strong></td><td>Pantalla perfil: foto con esquineros, «Ivo Zanacchi» a 92 px, rol, base, 4 pilares como chips y <strong>trayectoria 2023 → 2027</strong> con cabezal que avanza. Cuatro <strong>módulos de stack</strong> (Frontend · Backend · Datos · Entrega) salen de la pantalla y se alinean sobre la tapa.</td><td>«perfil.json»: 5 sistemas · 2 en producción · 5 certificaciones · 2 carreras (contadores), contacto y «Disponible para equipos».</td><td>«Perfil · disponible».</td><td><strong>Credencial colgante 3D</strong>: cae con resorte (K 55 · C 6.5), oscila como péndulo con la velocidad de scroll y gira 180° para mostrar el dorso (UTN · UGR · SDD · Agile).</td></tr>
+<tr><td>3.4 – 6.6</td><td><strong>03 Formación</strong></td><td>Pantalla formación.sh: UTN y UGR + registro de credenciales que se tildan «✓ VERIFICADA» a medida que entran. Con cada absorción pasa a la vista «credencial n de 5» (imagen real + ficha).</td><td>«maletin.sh» (cierres, tapa) → «Credencial n/5» con la ficha real.</td><td>«Maletín · abriendo» → «Cert n/5 · nombre».</td><td><strong>Maletín 3D</strong> (cuero con grano, costuras, esquineros y cierres de latón, asa tubular, forro, placa grabada): entra deslizándose, saltan los cierres, abre la tapa con rebote y cada certificado sube de la pila, vuela en arco hasta la Mac, flota con barrido de verificación y entra a la pantalla; un pulso lo lleva al iPhone. Al final se cierra y sale.</td></tr>
+<tr><td>6.6 – 7.1</td><td><strong>04 Proyectos</strong></td><td>Screen Dive: zoom 1 → 1.45 antes del corte, la cámara entra a 2.2 u y la imagen asienta 1.35 → 1 ya en Nave24.</td><td>Se aparta (z 0.3).</td><td>—</td><td>Transición espacial limpia al recorrido de proyectos.</td></tr>
+<tr><td>7.1 – 8.6</td><td><strong>P/01 Nave24 Stock</strong><br>3 pantallas</td><td>Dashboard → Inventario → Nueva venta (capturas reales). Contador de productos vivo.</td><td>Terminal B → alerta «stock bajo umbral» → ticket de venta.</td><td>«Realtime» → «Stock bajo» → «Venta · stock −3 ✓».</td><td>Pulsos iPhone → Mac. Cursor y callouts sobre elementos reales.</td></tr>
+<tr><td>8.6 – 10.1</td><td><strong>P/02 VeeBot SaaS</strong><br>3 pantallas</td><td>Talent Hub → Digital Twin → Versus AI con vista explotada de 4 capas.</td><td>Anillo de match → entrevista al CV → «Veredicto listo».</td><td>«Gemini» → «Twin» → «Veredicto».</td><td>Callouts a «Calidad global», «Match IA», gemelo digital y pool del tenant.</td></tr>
+<tr><td>10.1 – 11.6</td><td><strong>P/03 Estudio Zanacchi</strong><br>3 pantallas</td><td>Hero → Áreas → Detalles del caso (paneo vertical).</td><td>Hero móvil → 3 áreas → chat del caso.</td><td>«Sitio · PROD» → «Áreas» → «Caso → chat».</td><td>Sedes Tucumán y Catamarca + pulsos Mac → iPhone.</td></tr>
+<tr><td>11.6 – 13.1</td><td><strong>P/04 Portafolio Mel</strong><br>3 pantallas</td><td>Retrocede, potencia 0.32: hero → slider → galería.</td><td>Al frente, escala 1.25, FPS reales.</td><td>«NN fps · en vivo».</td><td>El protagonista es el teléfono.</td></tr>
+<tr><td>13.1 – 14.6</td><td><strong>P/05 Consultorio</strong><br>3 pantallas</td><td>Hero → Tratamientos → Ortodoncia Invisible.</td><td>Hero móvil → selector → chat + «Fase 02/14».</td><td>«Sitio» → «Turno» → «Chat».</td><td>Callouts a elementos reales de cada pantalla.</td></tr>
+<tr><td>14.6 – 15.8</td><td><strong>10 Garantías</strong></td><td>deploy.sh: 5 etapas, la activa avanza con el scroll.</td><td>GitHub Actions: build · type-check · lint · QA · deploy.</td><td>«CI · etapa».</td><td>El proceso real.</td></tr>
+<tr><td>15.8 – 16.7</td><td><strong>11 Contacto</strong></td><td>Gira hacia el iPhone, tapa a 98°. «Escribime.» + email.</td><td>Al frente, escala 1.25.</td><td>Expandida 312 × 72.</td><td>Cierre: un solo llamado a la acción.</td></tr>
+</tbody>
+</table>
+</div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px">
+<div class="s-card"><h3 class="s-h3">Lectura de scroll</h3><p class="s-mono">scrollTop → ref (nunca estado)<br>p = damp(p, target, 7.5, dt) en el frame<br>texto: opacity/translate escritos al DOM<br>pin sticky único, div puro, sin transform</p></div>
+<div class="s-card"><h3 class="s-h3">Limpieza espacial</h3><p class="s-mono">Sin partículas libres. Los únicos objetos móviles<br>(pulsos, capas, sedes) existen solo dentro<br>de la ventana de su capítulo (_win con fundido)<br>y nunca cruzan el área de texto.</p></div>
+<div class="s-card"><h3 class="s-h3">Presupuesto medido</h3><p class="s-mono">11–42 draw calls · 2,9k–6,7k triángulos<br>2 InstancedMesh: 79 teclas + 79 luces<br>texturas redibujadas solo si cambia la clave<br>pausa por IntersectionObserver + visibility</p></div>
+<div class="s-card"><h3 class="s-h3">Callouts 3D</h3><p class="s-mono">hotspot (u, v) de la captura → coordenadas<br>de la tapa → localToWorld. Línea guía en 2<br>tramos que se dibuja con el progreso; etiqueta<br>sprite sin depthTest, nunca tapada por el Mac.</p></div>
+<div class="s-card"><h3 class="s-h3">Inercia física</h3><p class="s-mono">vel = damp(Δp/dt, λ 6). Mac ry +0.018·v,<br>iPhone rz −0.045·v y ry +0.05·v, cámara y<br>+0.03·v, maletín +0.01·v, credenciales +0.05·v,<br>péndulo de la credencial −0.09·v.<br>reduced-motion: vel = 0, bisagra sin rebote.</p></div>
+<div class="s-card"><h3 class="s-h3">Privacidad</h3><p class="s-mono">El DNI del certificado Full-Stack se tapa en<br>la copia publicada. En producción: reexportar<br>FullStack.png sin el DNI antes de servirlo<br>desde public/projects/certifications.</p></div>
+</div>
+</section>
+
+<hr class="s-rule">
+
+<section style="display: flex; flex-direction: column; gap: 24px">
+<p class="s-eb"><b>D</b> · Rendimiento, seguridad y SEO</p>
+<h2 class="s-h2">Guardarraíles de producción</h2>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px">
+<div class="s-card" style="display: flex; flex-direction: column; gap: 12px">
+<h3 class="s-h3">Canvas aislado (R3F)</h3>
+<pre class="s-code"><b>const</b> Stage = dynamic(() =&gt; import('./Stage'), { ssr: false });
+
+<b>const</b> GL = { antialias: true, powerPreference: 'high-performance' };
+<b>const</b> CAMERA = { fov: 30, near: 0.1, far: 60 };
+&lt;Canvas dpr={[1, 1.5]} frameloop="demand" gl={GL} camera={CAMERA}&gt;
+// useFrame lee progress.get() (MotionValue) → invalidate()
+// IntersectionObserver: fuera de viewport no se invalida
+// geometrías y materiales en un módulo compartido (useMemo global)</pre>
+<p class="s-p">$0: todo procedural (ExtrudeGeometry, InstancedMesh, CanvasTexture, ShaderMaterial). Sin HDRI, GLB ni servicios pagos.</p>
+</div>
+<div class="s-card" style="display: flex; flex-direction: column; gap: 12px">
+<h3 class="s-h3">Cabeceras HTTP (next.config.ts)</h3>
+<pre class="s-code"><b>Content-Security-Policy</b>  default-src 'self'; img-src 'self' data: blob:;
+  script-src 'self' 'nonce-…'; style-src 'self' 'unsafe-inline';
+  font-src 'self'; connect-src 'self'; frame-ancestors 'none';
+  base-uri 'self'; form-action 'self' mailto:
+<b>Strict-Transport-Security</b>  max-age=63072000; includeSubDomains; preload
+<b>X-Content-Type-Options</b>  nosniff
+<b>Referrer-Policy</b>  strict-origin-when-cross-origin
+<b>Permissions-Policy</b>  camera=(), microphone=(), geolocation=()
+<b>Cross-Origin-Opener-Policy</b>  same-origin</pre>
+<p class="s-p">Nonce generado en <strong>proxy.ts</strong> (el antiguo middleware en Next 16) para el JSON-LD inline. next/font sirve las fuentes desde el propio dominio, por eso font-src 'self' alcanza.</p>
+</div>
+<div class="s-card" style="display: flex; flex-direction: column; gap: 12px">
+<h3 class="s-h3">Metadata API + OpenGraph dinámico</h3>
+<pre class="s-code">app/layout.tsx       metadataBase, title.template, alternates (es/en)
+app/opengraph-image.tsx   next/og 1200×630: grafito + «Banco de pruebas»
+app/projects/[id]/opengraph-image.tsx   título, estado, captura real
+app/projects/[id]/page.tsx   generateMetadata desde projects.ts
+app/sitemap.ts · app/robots.ts</pre>
+</div>
+<div class="s-card" style="display: flex; flex-direction: column; gap: 12px">
+<h3 class="s-h3">JSON-LD</h3>
+<pre class="s-code">{ "@type": "Person", "name": "Ivo Zanacchi",
+  "jobTitle": "Desarrollador Full-Stack · DevOps",
+  "address": { "addressLocality": "San Miguel de Tucumán", "addressCountry": "AR" },
+  "email": "mailto:ivozanacchi501@gmail.com",
+  "sameAs": ["https://github.com/Izan0501",
+             "https://www.linkedin.com/in/ivo-zanacchi-87822326a"],
+  "alumniOf": ["UTN FRT", "UGR"] }
+// por proyecto: CreativeWork (+ url solo si liveUrl existe)
+// SoftwareSourceCode solo con codeRepository público</pre>
+</div>
+</div>
+</section>
+
+<hr class="s-rule">
+
+<section style="display: flex; flex-direction: column; gap: 20px">
+<p class="s-eb"><b>E</b> · Plan de implementación</p>
+<h2 class="s-h2">Módulos y Git Workflow Handoff</h2>
+<p class="s-p" style="max-width: 900px; font-size: 17px">Diez módulos, cada uno revisable por separado y en este orden. No se crean ramas, commits ni PRs desde acá: cada bloque queda listo para que lo confirmes y lo ejecutes vos hacia <strong>dev</strong>.</p>
+
+<div class="s-mod">
+<div><p class="s-eb"><b>M1</b> · Fundaciones</p><h3 class="s-h3">Tokens, fuentes y layout base</h3><p class="s-p">globals.css @theme con los tokens del DESIGN.md; next/font con Schibsted Grotesk y Martian Mono; quitar la grilla de 64 px; body overflow-x: clip; html lang por locale.</p><p class="s-mono" style="margin-top: 10px">src/app/globals.css · src/app/layout.tsx</p></div>
+<pre class="s-code"><b>📦 Git Workflow Handoff</b>
+Rama:   feature/m1-design-tokens-banco
+Commit: feat(design): add Banco de Pruebas tokens, fonts and base layout
+PR → dev: Introduce el sistema «Banco de pruebas»: paleta grafito/limón
+con contraste ≥ 4.5:1, Schibsted Grotesk + Martian Mono vía next/font,
+y overflow-x: clip en body para no romper sticky. Sin cambios de contenido.</pre>
+</div>
+
+<div class="s-mod">
+<div><p class="s-eb"><b>M2</b> · Motor 3D</p><h3 class="s-h3">Stage R3F, store de scroll y pausa</h3><p class="s-p">three + @react-three/fiber. Stage con ssr:false, dpr [1, 1.5], frameloop demand; scrollStore (MotionValue de motion + ref); hook useChapter; IntersectionObserver y visibilitychange.</p><p class="s-mono" style="margin-top: 10px">src/components/three/Stage.tsx · src/lib/scroll/scrollStore.ts · useChapter.ts</p></div>
+<pre class="s-code"><b>📦 Git Workflow Handoff</b>
+Rama:   feature/m2-r3f-stage-scroll-engine
+Commit: feat(three): add isolated R3F stage with ref-driven scroll engine
+PR → dev: Canvas cargado solo en cliente, lectura de scroll por
+MotionValue dentro de useFrame (cero useState), damping λ 7.5 y
+render pausado fuera del viewport. Bundle 3D aislado en un chunk.</pre>
+</div>
+
+<div class="s-mod">
+<div><p class="s-eb"><b>M3</b> · Modelo insignia</p><h3 class="s-h3">MacBook Pro procedural con bisagra</h3><p class="s-p">Base y tapa extruidas con bisel, 79 teclas + 79 luces de retroiluminación instanciadas, trackpad, bisagra, notch, monograma IZ. Tapa con pivote en el eje trasero y resorte subamortiguado; parpadeo de encendido; pantalla CanvasTexture con potencia ligada al ángulo; PointLight sobre el teclado.</p><p class="s-mono" style="margin-top: 10px">src/components/three/MacBook.tsx · screens/mac/*.ts</p></div>
+<pre class="s-code"><b>📦 Git Workflow Handoff</b>
+Rama:   feature/m3-macbook-procedural
+Commit: feat(three): add procedural MacBook Pro with scroll-driven hinge
+PR → dev: Modelo 100 % por código (sin GLB). La tapa abre 0° → 105°
+con curva amortiguada y la pantalla enciende con smoothstep sobre el
+ángulo. Materiales y geometrías compartidos; 1 draw call para el teclado.</pre>
+</div>
+
+<div class="s-mod">
+<div><p class="s-eb"><b>M4</b> · Ecosistema dual</p><h3 class="s-h3">iPhone Pro + Dynamic Island (3D y HUD)</h3><p class="s-p">Cuerpo de titanio, cámara, botones, pantalla con UV recalculadas. Isla dibujada en la textura con resorte K 380 / C 26. Navbar como Dynamic Island en DOM: plegada al bajar (anillo-loader de progreso + capítulo, sin FPS), desplegada al subir, al pasar el puntero, al tocarla o con foco de teclado. Siempre una fila de 40 px: al desplegarse se estira solo hacia los costados con 5 links clave (Inicio, Perfil, Formación, Proyectos, Contacto; sin «Inicio» bajo 440 px), centrada sobre el escenario 3D y viaje animado propio (easeInOutCubic, 0.5–1.7 s) que se cancela si el usuario scrollea; Escape la pliega.</p><p class="s-mono" style="margin-top: 10px">IPhonePro.tsx · screens/phone/*.ts · components/hud/DynamicIslandNav.tsx</p></div>
+<pre class="s-code"><b>📦 Git Workflow Handoff</b>
+Rama:   feature/m4-iphone-dynamic-island
+Commit: feat(hud): add iPhone Pro model and spring-driven Dynamic Island
+PR → dev: Dos islas sincronizadas al capítulo activo: la del teléfono
+(textura) y la de navegación (DOM, button + aria-expanded). Física de
+resorte sub-paso 1/240 s; reduced-motion las fija sin oscilación.</pre>
+</div>
+
+<div class="s-mod">
+<div><p class="s-eb"><b>M5</b> · Coreografía</p><h3 class="s-h3">Capítulos, keyframes y texto pinneado</h3><p class="s-p">chapters.ts genera keyframes desde projects.ts (orden, estado, arquitectura). Pin sticky único, bloques de copy con fundido escrito por ref, setViewOffset para la zona de exclusión, Screen Dive en 3.0 – 3.5 svh.</p><p class="s-mono" style="margin-top: 10px">src/components/experience/* · src/data/chapters.ts · src/app/page.tsx</p></div>
+<pre class="s-code"><b>📦 Git Workflow Handoff</b>
+Rama:   feature/m5-scroll-choreography
+Commit: feat(experience): add chapter keyframes, pinned copy and screen dive
+PR → dev: Reemplaza las 4 secciones planas por el recorrido de 11
+capítulos. Respeta el protocolo: sticky en div puro, sin overflow-hidden
+en main/section, will-change-transform en los hijos animados.</pre>
+</div>
+
+<div class="s-mod">
+<div><p class="s-eb"><b>M6</b> · Narrativas</p><h3 class="s-h3">Una animación con propósito por proyecto</h3><p class="s-p">3 sub-pantallas por proyecto desde gallery[] de projects.ts (nuevo campo opcional hotspots: [u, v, label] por imagen). Cursor, ripple de clic y callouts 3D con líneas guía. Pulsos Realtime, capas explotadas, sedes, FPS en vivo, tratamiento sincronizado.</p><p class="s-mono" style="margin-top: 10px">narratives/*.tsx · screens/mac/shot.ts · Callouts.tsx · data/projects.ts (hotspots)</p></div>
+<pre class="s-code"><b>📦 Git Workflow Handoff</b>
+Rama:   feature/m6-project-narratives
+Commit: feat(projects): add per-project screen tours with 3D callouts
+PR → dev: Cada proyecto recorre 3 capturas reales con transición de
+página, cursor y callouts anclados a elementos reales de la UI. El
+iPhone muestra la contraparte móvil de cada pantalla. Superposiciones
+rotuladas «demo del flujo»; copy en es/en vía Localized&lt;T&gt;.</pre>
+</div>
+
+<div class="s-mod">
+<div><p class="s-eb"><b>M6b</b> · Formación</p><h3 class="s-h3">Maletín 3D de credenciales + capítulo académico</h3><p class="s-p">Nuevo data/certifications.ts (institución, horas, semanas, fecha, certificador, Top 10) con las 5 imágenes reales. Maletín procedural (ExtrudeGeometry con huecos, TubeGeometry para el asa, cierres basculantes con resorte, luz interior), vuelo pila → arco → Mac con slerp de orientación, barrido de verificación, absorción alineada al rectángulo real de la pantalla y pulso al iPhone. Lista accesible sincronizada (data-on).</p><p class="s-mono" style="margin-top: 10px">three/Briefcase.tsx · three/CertFlight.tsx · data/certifications.ts · experience/FormationCopy.tsx</p></div>
+<pre class="s-code"><b>📦 Git Workflow Handoff</b>
+Rama:   feature/m6b-briefcase-certifications
+Commit: feat(formation): add 3D briefcase with certification flight
+PR → dev: Capítulo «Formación»: maletín 3D que se abre con el scroll;
+cada certificado real sube, vuela hasta la Mac, se verifica y se
+registra en pantalla e iPhone. Reemplaza CertificationWindows.tsx.
+FullStack.png se reexporta sin DNI.</pre>
+</div>
+
+<div class="s-mod">
+<div><p class="s-eb"><b>M6c</b> · Perfil</p><h3 class="s-h3">Credencial colgante + módulos de stack + cifras</h3><p class="s-p">Tarjeta física con frente (foto, rol, base, método, contacto) y dorso (UTN, UGR, SDD, Agile) sobre cinta; péndulo con resortes y giro de 180°. Cuatro módulos de stack salen de la pantalla y se ubican sobre la tapa. Pantalla de perfil con trayectoria 2023–2027 y iPhone con contadores reales.</p><p class="s-mono" style="margin-top: 10px">three/IdBadge.tsx · three/StackTiles.tsx · screens/mac/profile.ts · screens/phone/profile.ts · data/profile.ts</p></div>
+<pre class="s-code"><b>📦 Git Workflow Handoff</b>
+Rama:   feature/m6c-profile-badge
+Commit: feat(profile): add hanging ID badge, stack tiles and profile stats
+PR → dev: Capítulo «Perfil» reemplaza «Ecosistema»: credencial 3D que
+cae y gira (frente perfil / dorso formación), 4 módulos de stack que
+salen de la pantalla, trayectoria real y cifras en el iPhone.</pre>
+</div>
+
+<div class="s-mod">
+<div><p class="s-eb"><b>M7</b> · SEO</p><h3 class="s-h3">Metadata, OpenGraph dinámico y JSON-LD</h3><p class="s-p">metadataBase y alternates es/en; generateMetadata por proyecto; opengraph-image con next/og (home y cada proyecto); JSON-LD Person + CreativeWork; sitemap.ts y robots.ts.</p><p class="s-mono" style="margin-top: 10px">src/app/layout.tsx · opengraph-image.tsx · sitemap.ts · robots.ts · lib/seo/jsonld.ts</p></div>
+<pre class="s-code"><b>📦 Git Workflow Handoff</b>
+Rama:   feature/m7-seo-metadata-jsonld
+Commit: feat(seo): add localized metadata, dynamic OG images and JSON-LD
+PR → dev: Metadata API completa, OG 1200×630 generadas en edge, datos
+estructurados sin campos inventados (url solo si liveUrl existe).
+Sitemap con las rutas de proyectos.</pre>
+</div>
+
+<div class="s-mod">
+<div><p class="s-eb"><b>M8</b> · Seguridad y datos honestos</p><h3 class="s-h3">Cabeceras, nonce CSP y limpieza de métricas</h3><p class="s-p">headers() en next.config.ts, nonce en proxy.ts; eliminar uptime/latencias/pods no verificables del diccionario y de projects.ts (latency); reencodear capturas &gt; 1 MB y renombrar archivos con espacios.</p><p class="s-mono" style="margin-top: 10px">next.config.ts · src/proxy.ts · i18n/dictionaries/* · public/projects/*</p></div>
+<pre class="s-code"><b>📦 Git Workflow Handoff</b>
+Rama:   feature/m8-security-headers-data-honesty
+Commit: fix(security): add strict HTTP headers and remove unverifiable metrics
+PR → dev: CSP con nonce, HSTS, nosniff, Referrer y Permissions-Policy,
+frame-ancestors none. Se retiran cifras de telemetría que no se pueden
+medir; el sitio muestra solo FPS reales y estados PROD/DEV.</pre>
+</div>
+
+<div class="s-mod">
+<div><p class="s-eb"><b>M10</b> · Responsive</p><h3 class="s-h3">Layouts 320 → 2560 px por aspecto, alto y ancho libre</h3><p class="s-p">Modo compacto (≤ 1024 px o vertical): solo la Mac, sin iPhone, y cámara con encuadre automático que mete completo todo lo visible del capítulo en el área libre (entre isla y hoja, o a la derecha del copy); niebla relativa a la distancia. Hoja inferior en vertical, copy compacto en horizontal bajo y escala ×1.15 / ×1.42 en monitores grandes. Raíz en 100dvh sin alto mínimo fijo. Detalle visual en el artboard 4.</p><p class="s-mono" style="margin-top: 10px">experience/useViewportProfile.ts · three/CameraRig.tsx · styles/experience.css</p></div>
+<pre class="s-code"><b>📦 Git Workflow Handoff</b>
+Rama:   feature/m10-responsive-layouts
+Commit: feat(layout): add compact Mac-only mode with auto-framing camera
+PR → dev: Hoja inferior en vertical, copy compacto en horizontal bajo,
+escala en monitores grandes y encuadre 3D calculado con el ancho libre
+real. Se retiran el panel de rendimiento y la regla del banco.</pre>
+</div>
+
+<div class="s-mod">
+<div><p class="s-eb"><b>M11</b> · Contenido y sincronía</p><h3 class="s-h3">Copy profesional, encuadre automático y keyframes continuos</h3><p class="s-p">Rol «Full-Stack Developer» (Docker y CI/CD como parte de la entrega). Cada capítulo con bajada clara, desafío y solución reales, garantías del proceso y sin textos que expliquen animaciones. La cámara encuadra en todos los tamaños con puntos ponderados que entran y salen al ritmo del scroll; keyframes con interpolación cúbica monótona (velocidad continua, sin sobrepasos). En móvil, «Ver detalle» con reencuadre.</p><p class="s-mono" style="margin-top: 10px">content/chapters.ts · three/CameraFit.ts · three/keyframes.ts · experience/ChapterSheet.tsx</p></div>
+<pre class="s-code"><b>📦 Git Workflow Handoff</b>
+Rama:   feature/m11-content-fit-sync
+Commit: feat(experience): professional copy, auto-fit camera and monotone keyframes
+PR → dev: Copy orientado a resultados y garantías; rol Full-Stack
+Developer; encuadre automático para que el texto nunca tape los
+modelos; interpolación cúbica monótona en cámara y equipos; hoja
+móvil con «Ver detalle» y reencuadre.</pre>
+</div>
+
+<div class="s-mod">
+<div><p class="s-eb"><b>M9</b> · Limpieza</p><h3 class="s-h3">Retiro de componentes y navegación huérfana</h3><p class="s-p">Eliminar ThreeDCard, handwriting-text (y su .ttf), rotating-text, morphing-spinner, assets del scaffold y entradas de navbar sin sección (Topología, Telemetría, Terminal). Afinar el encuadre móvil del hero.</p><p class="s-mono" style="margin-top: 10px">src/components/ui/* · Navbar.tsx · public/*.svg</p></div>
+<pre class="s-code"><b>📦 Git Workflow Handoff</b>
+Rama:   chore/m9-remove-legacy-ui
+Commit: chore(ui): remove legacy decorative components and orphan nav items
+PR → dev: Borra código y assets sin uso tras el rediseño, alinea el
+navbar con los capítulos reales y ajusta la composición en &lt; 760 px.
+Sin cambios funcionales fuera de lo listado.</pre>
+</div>
+</section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":9200}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

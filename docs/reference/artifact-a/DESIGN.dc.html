@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Diagnóstico + DESIGN.md · Banco de pruebas</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Martian+Mono:wdth,wght@75..112.5,300..700&amp;family=Schibsted+Grotesk:wght@400..900&amp;display=swap">
+<style>
+body{margin:0;background:#0D0C0A}
+a{color:#E6D84A}a:hover{color:#F0E46A}
+.m-eb{margin:0 0 14px;font-family:"Martian Mono",ui-monospace,monospace;font-size:12px;font-stretch:87.5%;letter-spacing:0.05em;text-transform:uppercase;color:#A39C8F}
+.m-eb b{color:#E6D84A;font-weight:600}
+.m-h2{margin:0 0 12px;font-size:44px;line-height:1.02;font-weight:800;letter-spacing:-0.03em;color:#EEE9DF}
+.m-h3{margin:0 0 10px;font-size:22px;line-height:1.15;font-weight:700;letter-spacing:-0.015em;color:#EEE9DF}
+.m-p{margin:0;font-size:16px;line-height:1.6;color:#C9C2B5}
+.m-p strong{color:#EEE9DF;font-weight:600}
+.m-mono{font-family:"Martian Mono",ui-monospace,monospace;font-size:12.5px;font-stretch:87.5%;line-height:1.7;color:#A39C8F}
+.m-card{padding:24px;border-radius:18px;background:#171512;box-shadow:inset 0 0 0 1px #2E2A24}
+.m-tbl{width:100%;border-collapse:collapse;font-size:14px;color:#C9C2B5}
+.m-tbl th{text-align:left;padding:10px 12px;font-family:"Martian Mono",ui-monospace,monospace;font-size:11px;font-weight:500;letter-spacing:0.04em;text-transform:uppercase;color:#A39C8F;border-bottom:1px solid #2E2A24}
+.m-tbl td{padding:12px;vertical-align:top;border-bottom:1px solid #211E1A;line-height:1.45}
+.m-tbl td strong{color:#EEE9DF;font-weight:600}
+.m-prod{display:inline-block;padding:3px 8px;border-radius:999px;background:#E6D84A;color:#14120E;font-family:"Martian Mono",ui-monospace,monospace;font-size:10.5px;font-weight:600}
+.m-dev{display:inline-block;padding:3px 8px;border-radius:999px;box-shadow:inset 0 0 0 1px #4A443B;color:#C9C2B5;font-family:"Martian Mono",ui-monospace,monospace;font-size:10.5px;font-weight:500}
+.m-li{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px}
+.m-li li{display:grid;grid-template-columns:34px minmax(0,1fr);gap:10px;font-size:15px;line-height:1.55;color:#C9C2B5}
+.m-li li span{font-family:"Martian Mono",ui-monospace,monospace;font-size:11px;color:#E6D84A;padding-top:3px}
+.m-li li strong{color:#EEE9DF;font-weight:600}
+.m-sw{display:flex;flex-direction:column;gap:10px}
+.m-chip{height:88px;border-radius:14px;box-shadow:inset 0 0 0 1px #2E2A24}
+.m-code{margin:0;padding:18px 20px;border-radius:14px;background:#0B0A09;box-shadow:inset 0 0 0 1px #2E2A24;font-family:"Martian Mono",ui-monospace,monospace;font-size:12px;font-stretch:87.5%;line-height:1.75;color:#C9C2B5;white-space:pre-wrap}
+.m-code b{color:#E6D84A;font-weight:500}
+.m-rule{height:1px;background:#2E2A24;border:0;margin:0}
+</style>
+</helmet>
+<div style="width: 1440px; min-height: 6800px; box-sizing: border-box; padding: 96px 96px 120px; background: #0D0C0A; color: #EEE9DF; font-family: 'Schibsted Grotesk', system-ui, sans-serif; display: flex; flex-direction: column; gap: 88px">
+
+<header style="display: flex; flex-direction: column; gap: 22px">
+<p class="m-eb"><b>portafolio_dev</b> · Fase 1 · Análisis + diseño · 26 oct 2026</p>
+<h1 style="margin: 0; font-size: 96px; line-height: 0.94; font-weight: 800; letter-spacing: -0.045em; color: #EEE9DF; max-width: 1100px">Banco de pruebas.</h1>
+<p class="m-p" style="font-size: 21px; max-width: 860px">El portafolio deja de ser una lista de secciones y pasa a ser un banco de taller: cada sistema real de Ivo se monta sobre un MacBook y un iPhone procedurales, se enciende con el scroll y se mide con datos que la página puede probar.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 10px">
+<span class="m-dev">Diagnóstico</span><span class="m-dev">DESIGN.md</span><span class="m-dev">Preview 3D → artboard 2</span><span class="m-dev">Mapa + módulos → artboard 3</span>
+</div>
+</header>
+
+<section style="display: flex; flex-direction: column; gap: 28px">
+<p class="m-eb"><b>A</b> · Diagnóstico técnico</p>
+<h2 class="m-h2">Qué hay hoy en portafolio_dev</h2>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px">
+<div class="m-card"><h3 class="m-h3">Stack</h3><p class="m-mono">Next.js 16.2.10 (App Router)<br>React 19.2.4 · TypeScript 5<br>Tailwind v4 CSS-first (@theme)<br>motion 12 (LazyMotion) · Lenis 1.3<br>react-icons · sharp · clsx/tw-merge<br>Sin dependencias 3D</p></div>
+<div class="m-card"><h3 class="m-h3">Rutas y secciones</h3><p class="m-mono">/ → HeroPaths · TechStackBento ·<br>FeaturedSystems · EngineeringPipeline<br>/projects/[id] → ProjectDetail<br>(galería por pestañas)<br>Navbar · Footer · LanguageToggle<br>i18n propio es/en tipado (Dictionary)</p></div>
+<div class="m-card"><h3 class="m-h3">Datos y assets</h3><p class="m-mono">src/data/projects.ts (1.497 líneas)<br>Localized&lt;T&gt; junto a cada campo<br>57 capturas reales en public/projects<br>5 certificados · CV en PDF<br>foto de perfil (2 copias)</p></div>
+</div>
+
+<div class="m-card" style="padding: 8px 12px">
+<table class="m-tbl">
+<thead><tr><th style="width: 52px">#</th><th style="width: 230px">Proyecto</th><th style="width: 120px">Estado</th><th style="width: 220px">Arquitectura</th><th>Stack real</th><th style="width: 100px">Capturas</th></tr></thead>
+<tbody>
+<tr><td class="m-mono">01</td><td><strong>Nave24 Stock</strong><br>Inventario de depósito en tiempo real</td><td><span class="m-prod">PROD</span></td><td>Monolito + tiempo real · Supabase // Docker</td><td>React · Vite · TypeScript · Tailwind · FastAPI · PostgreSQL · Docker · Supabase</td><td class="m-mono">8</td></tr>
+<tr><td class="m-mono">02</td><td><strong>VeeBot SaaS</strong><br>Reclutamiento multi-tenant con IA</td><td><span class="m-dev">DEV</span></td><td>Microservicios · staging // CI/CD</td><td>React · Vite · Framer Motion · Tailwind · FastAPI · MongoDB · Pinecone · Gemini 2.5 Flash</td><td class="m-mono">21</td></tr>
+<tr><td class="m-mono">03</td><td><strong>Estudio Zanacchi</strong><br>Estudio jurídico · estudiozanacchi.com</td><td><span class="m-prod">PROD</span></td><td>SPA / CSR · Vercel Edge</td><td>React · Vite · Tailwind · Framer Motion · Google Maps API · WhatsApp API</td><td class="m-mono">14</td></tr>
+<tr><td class="m-mono">04</td><td><strong>Portafolio Mel</strong><br>Portfolio de fotografía</td><td><span class="m-dev">DEV</span></td><td>SPA / CSR · build de preview</td><td>React · Vite · TypeScript · Tailwind · Framer Motion · Google Maps API · WhatsApp API</td><td class="m-mono">9</td></tr>
+<tr><td class="m-mono">05</td><td><strong>Consultorio Odontológico</strong><br>Captación de pacientes</td><td><span class="m-dev">DEV</span></td><td>SPA / CSR · hosting estático</td><td>React · Vite · Tailwind · Framer Motion · Google Maps API · WhatsApp API</td><td class="m-mono">6</td></tr>
+</tbody>
+</table>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px">
+<div class="m-card">
+<h3 class="m-h3">Se conserva</h3>
+<ul class="m-li">
+<li><span>01</span><div><strong>Modelo de datos Localized&lt;T&gt;</strong>: la traducción vive junto al campo; TypeScript exige ambos idiomas.</div></li>
+<li><span>02</span><div><strong>liveUrl solo si existe</strong>: hoy únicamente estudiozanacchi.com. La regla de no inventar se extiende a todo el sitio.</div></li>
+<li><span>03</span><div><strong>Galerías por pestañas</strong> en /projects/[id] y las 57 capturas reales: alimentan las pantallas 3D.</div></li>
+<li><span>04</span><div><strong>Protocolo 100/100 de CLAUDE.md</strong>: sticky aislado, sin overflow-hidden en main/section, marquees en CSS.</div></li>
+<li><span>05</span><div><strong>Terminal ivo_contact.sh</strong>: pasa a vivir dentro del iPhone 3D, con los mismos comandos.</div></li>
+</ul>
+</div>
+<div class="m-card">
+<h3 class="m-h3">Se reemplaza</h3>
+<ul class="m-li">
+<li><span>01</span><div><strong>Telemetría no verificable</strong>: «99.99 % uptime», «cero caídas en 24 meses», «8 pods», «98.4 % hit rate», latencias de 0.29 ms. Un reclutador técnico lo detecta. Se cambia por FPS reales del navegador y estados PROD/DEV.</div></li>
+<li><span>02</span><div><strong>Identidad por defecto</strong>: neutral-950 + cyan-500 + grilla de 64 px + Inter/Fira Code, la estética terminal de plantilla.</div></li>
+<li><span>03</span><div><strong>Animación decorativa</strong>: ThreeDCard (tilt), handwriting-text, rotating-text, morphing-spinner. Ninguna explica un sistema.</div></li>
+<li><span>04</span><div><strong>Navegación huérfana</strong>: Topología, Telemetría y Terminal existen en el diccionario y el navbar, pero page.tsx no las monta.</div></li>
+</ul>
+</div>
+</div>
+
+<div class="m-card">
+<h3 class="m-h3">Deuda técnica detectada</h3>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 40px">
+<p class="m-p"><strong>SEO mínimo.</strong> metadata solo con title/description en inglés; sin OpenGraph, Twitter, JSON-LD, sitemap.ts ni robots.ts; html lang fijo al locale por defecto.</p>
+<p class="m-p"><strong>Sin cabeceras de seguridad.</strong> next.config.ts solo configura imágenes: falta CSP, HSTS, X-Content-Type-Options, Referrer-Policy, Permissions-Policy y frame-ancestors.</p>
+<p class="m-p"><strong>overflow-x-hidden en body.</strong> Rompe position: sticky en Safari y contradice el espíritu del protocolo; pasa a overflow-x: clip.</p>
+<p class="m-p"><strong>Capturas pesadas.</strong> consul-back.png 2,8 MB, estudio-back.png 2,1 MB; nombres con espacios («Screenshot 2026-09-06 at 8.05.46 PM.png») y typo «estudio-pipline».</p>
+<p class="m-p"><strong>Assets sin uso.</strong> file.svg, globe.svg, next.svg, vercel.svg, window.svg del scaffold y la foto de perfil duplicada (.JPG y .jpeg).</p>
+<p class="m-p"><strong>Fuente local sin uso aparente.</strong> shadows-into-light.ttf (handwriting) desaparece con el componente.</p>
+</div>
+</div>
+</section>
+
+<hr class="m-rule">
+
+<section style="display: flex; flex-direction: column; gap: 28px">
+<p class="m-eb"><b>B</b> · DESIGN.md</p>
+<h2 class="m-h2">Sistema «Banco de pruebas»</h2>
+<div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 40px">
+<p class="m-p" style="font-size: 18px"><strong>Concepto.</strong> Un banco de taller en penumbra. Cada sistema se monta, se enciende y se mide bajo una sola luz cálida. Nada flota sin motivo: lo que se mueve es un dato, un estado o una pieza de la arquitectura del proyecto que está en pantalla.</p>
+<p class="m-p" style="font-size: 18px"><strong>Origen.</strong> El acento es el limón de Tucumán, de donde es Ivo. Se usa como una lámpara de inspección: marca lo activo, lo que está en producción y la acción principal. Nunca decora.</p>
+</div>
+
+<h3 class="m-h3" style="margin-top: 12px">1 · Color</h3>
+<div style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 14px">
+<div class="m-sw"><div class="m-chip" style="background: #0D0C0A"></div><p class="m-mono"><strong style="color: #EEE9DF">grafito</strong><br>#0D0C0A · fondo</p></div>
+<div class="m-sw"><div class="m-chip" style="background: #171512"></div><p class="m-mono"><strong style="color: #EEE9DF">carbón</strong><br>#171512 · superficie</p></div>
+<div class="m-sw"><div class="m-chip" style="background: #211E1A"></div><p class="m-mono"><strong style="color: #EEE9DF">carbón-2</strong><br>#211E1A · elevada</p></div>
+<div class="m-sw"><div class="m-chip" style="background: #2E2A24"></div><p class="m-mono"><strong style="color: #EEE9DF">línea</strong><br>#2E2A24 · bordes</p></div>
+<div class="m-sw"><div class="m-chip" style="background: #4A443B"></div><p class="m-mono"><strong style="color: #EEE9DF">línea-fuerte</strong><br>#4A443B · contornos</p></div>
+<div class="m-sw"><div class="m-chip" style="background: #E6D84A"></div><p class="m-mono"><strong style="color: #EEE9DF">limón</strong><br>#E6D84A · acento ≤ 5 %</p></div>
+<div class="m-sw"><div class="m-chip" style="background: #EEE9DF"></div><p class="m-mono"><strong style="color: #EEE9DF">hueso</strong><br>#EEE9DF · 16.2:1</p></div>
+<div class="m-sw"><div class="m-chip" style="background: #C9C2B5"></div><p class="m-mono"><strong style="color: #EEE9DF">texto-2</strong><br>#C9C2B5 · 11.1:1</p></div>
+<div class="m-sw"><div class="m-chip" style="background: #A39C8F"></div><p class="m-mono"><strong style="color: #EEE9DF">piedra</strong><br>#A39C8F · 7.2:1</p></div>
+<div class="m-sw"><div class="m-chip" style="background: #8C857A"></div><p class="m-mono"><strong style="color: #EEE9DF">piedra-2</strong><br>#8C857A · 5.0:1 mín.</p></div>
+<div class="m-sw"><div class="m-chip" style="background: #F0E46A"></div><p class="m-mono"><strong style="color: #EEE9DF">limón-hover</strong><br>#F0E46A</p></div>
+<div class="m-sw"><div class="m-chip" style="background: #14120E"></div><p class="m-mono"><strong style="color: #EEE9DF">tinta</strong><br>#14120E sobre limón · 12.7:1</p></div>
+</div>
+<p class="m-p">Contrastes medidos contra grafito (#0D0C0A) y carbón (#171512); todo texto ≥ 4.5:1. <strong>PROD</strong> = cápsula limón rellena; <strong>DEV</strong> = cápsula con contorno línea-fuerte. Sin segundo acento: el color de estado nunca depende solo del tono.</p>
+
+<h3 class="m-h3" style="margin-top: 12px">2 · Tipografía</h3>
+<div style="display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 16px">
+<div class="m-card" style="display: flex; flex-direction: column; gap: 14px">
+<p class="m-mono">SCHIBSTED GROTESK · DISPLAY 800 · −0.035em</p>
+<p style="margin: 0; font-size: 68px; line-height: 0.98; font-weight: 800; letter-spacing: -0.035em; color: #EEE9DF">Sistemas que llegan enteros.</p>
+<p class="m-mono">SCHIBSTED GROTESK · CUERPO 400/500 · 16/1.55</p>
+<p class="m-p">Grotesca de origen editorial noruego, con más carácter que Inter y excelente en pesos altos. Martian Mono queda para HUD, metadatos y telemetría, a 87.5 % de ancho para que respire en líneas cortas.</p>
+<p style="margin: 0; font-family: 'Martian Mono', ui-monospace, monospace; font-stretch: 87.5%; font-size: 13px; color: #E6D84A">MARTIAN MONO · 11–13 px · HUD / METADATOS / CÓDIGO</p>
+</div>
+<div class="m-card"><p class="m-mono">ESCALA (px)<br>display 68 · h2 46 · h3 22<br>lead 20 · cuerpo 16 · small 14<br>mono 13 · 12 · 11<br><br>REGLAS<br>text-wrap: balance en títulos<br>text-wrap: pretty en párrafos<br>tabular-nums en cifras vivas<br>sin itálicas, sin mayúsculas en cuerpo</p></div>
+</div>
+
+<h3 class="m-h3" style="margin-top: 12px">3 · Grilla y zona de exclusión</h3>
+<div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px">
+<div class="m-card" style="display: flex; flex-direction: column; gap: 14px">
+<div style="position: relative; height: 200px; border-radius: 12px; background: #0B0A09; box-shadow: inset 0 0 0 1px #2E2A24">
+<div style="position: absolute; left: 6%; top: 22%; width: 31%; height: 56%; border-radius: 8px; box-shadow: inset 0 0 0 1px #4A443B; display: flex; align-items: center; justify-content: center"><span class="m-mono">texto 0–38 %</span></div>
+<div style="position: absolute; left: 42%; top: 12%; width: 54%; height: 76%; border-radius: 8px; box-shadow: inset 0 0 0 1px #E6D84A; display: flex; align-items: center; justify-content: center"><span class="m-mono" style="color: #E6D84A">sujeto 3D · centro al 68 %</span></div>
+</div>
+<p class="m-p">Escritorio: margen clamp(20px, 6vw, 96px), bloque de texto de 440 px máx. El sujeto 3D se desplaza con <strong>camera.setViewOffset</strong>, no moviendo la escena: el encuadre se corre y los modelos nunca invaden el texto.</p>
+</div>
+<div class="m-card" style="display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; gap: 14px; height: 200px">
+<div style="position: relative; width: 104px; border-radius: 12px; background: #0B0A09; box-shadow: inset 0 0 0 1px #2E2A24">
+<div style="position: absolute; left: 8%; right: 8%; top: 8%; height: 38%; border-radius: 6px; box-shadow: inset 0 0 0 1px #E6D84A"></div>
+<div style="position: absolute; left: 6%; right: 6%; bottom: 6%; height: 40%; border-radius: 6px; box-shadow: inset 0 0 0 1px #4A443B"></div>
+</div>
+<p class="m-p" style="flex: 1">Móvil (pantallas verticales): hoja inferior compacta con título y una bajada de 2–3 líneas; «Ver detalle» abre desafío, solución y stack, y la cámara se reencuadra para que el modelo siga completo encima. Encuadre automático en todos los tamaños: nada del texto tapa los modelos.</p>
+</div>
+<p class="m-mono">Ningún elemento decorativo dentro de la zona del sujeto: el banco es una superficie lisa con un pozo de luz que sigue a la Mac; sin reglas ni paneles de métricas en pantalla.</p>
+</div>
+</div>
+
+<h3 class="m-h3" style="margin-top: 12px">4 · Luz y materiales 3D</h3>
+<div class="m-card" style="padding: 8px 12px">
+<table class="m-tbl">
+<tbody>
+<tr><td style="width: 260px"><strong>Aluminio plateado</strong></td><td class="m-mono">MeshStandardMaterial · #C2C8CC · metalness 1 · roughness 0.30 · monograma IZ grabado (alphaMap, roughness 0.12) · softboxes procedurales PMREM con panel cenital suave para la vista desde arriba</td></tr>
+<tr><td><strong>Cuero y latón</strong></td><td class="m-mono">Maletín: cuero #2B2520 roughness 0.62 con bumpMap de grano procedural · latón #C8B46A metalness 1 · forro #1B1914 · costuras punteadas en hilo dorado</td></tr>
+<tr><td><strong>Titanio del iPhone</strong></td><td class="m-mono">#4A4740 · metalness 1 · roughness 0.30 · lentes con bisel cónico · botones laterales reales</td></tr>
+<tr><td><strong>Rim light</strong></td><td class="m-mono">DirectionalLight cálida #FFD3A1 · 2.6 · desde atrás-izquierda (−5, 6, −6): dibuja el filo del chasis cerrado en el hero</td></tr>
+<tr><td><strong>Relleno</strong></td><td class="m-mono">DirectionalLight fría #A8B8C8 · 0.35 · Hemisphere #3A342B / #0D0C0A · 0.5</td></tr>
+<tr><td><strong>Pantallas</strong></td><td class="m-mono">CanvasTexture + MeshBasicMaterial toneMapped:false · brillo = potencia × smoothstep(45°, 100°, bisagra) · PointLight 1.5 proyecta sobre el teclado</td></tr>
+<tr><td><strong>Banco</strong></td><td class="m-mono">ShaderMaterial grafito liso con pozo de luz que sigue a la Mac y niebla por distancia · sombras de contacto por blob, sin shadow maps</td></tr>
+<tr><td><strong>Marca</strong></td><td class="m-mono">Monograma «IZ» grabado en el dorso de la tapa. Ningún logo de terceros en los modelos.</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3 class="m-h3" style="margin-top: 12px">5 · Movimiento</h3>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px">
+<div class="m-card"><p class="m-mono"><strong style="color: #EEE9DF">SCROLL INERCIAL</strong><br>p = damp(p, scrollTop / h, λ 7.5, dt)<br>Lenis en producción; lectura por ref en useFrame<br>cero useState en scroll</p></div>
+<div class="m-card"><p class="m-mono"><strong style="color: #EEE9DF">RESORTE (ISLAS)</strong><br>K 380 · C 26 · sub-paso 1/240 s<br>impulso al cambiar de capítulo<br>(+700 px/s ancho, +60 alto)</p></div>
+<div class="m-card"><p class="m-mono"><strong style="color: #EEE9DF">UI</strong><br>cubic-bezier(0.22, 1, 0.36, 1)<br>160 ms press · 260 ms reveal<br>reduced-motion: sin damping,<br>animación ociosa × 0.25</p></div>
+</div>
+
+<h3 class="m-h3" style="margin-top: 12px">6 · Componentes firma</h3>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px">
+<div class="m-card"><h3 class="m-h3" style="font-size: 18px">Dynamic Island de navegación</h3><p class="m-p">Cápsula negra fija arriba: anillo de progreso, capítulo activo y FPS reales. Al pasar el cursor o con el botón se expande con resorte en la lista de capítulos. Accesible por teclado (button + aria-expanded).</p></div>
+<div class="m-card"><h3 class="m-h3" style="font-size: 18px">Dynamic Island del iPhone</h3><p class="m-p">Dibujada en la textura de pantalla: compacta (100 × 30), actividad (214 × 30: «Realtime · T-B → stock», «Gemini · scoring CV», «22 fps · en vivo») y expandida (312 × 72) en Contacto.</p></div>
+<div class="m-card"><h3 class="m-h3" style="font-size: 18px">Desafío + solución</h3><p class="m-p">Cada proyecto se cuenta como problema real y cómo se resolvió, sin describir animaciones. El copy habla de resultados y garantías, nunca de la interfaz del portfolio.</p></div>
+<div class="m-card"><h3 class="m-h3" style="font-size: 18px">Chips de stack</h3><p class="m-p">Nombres propios en Martian Mono, sin porcentajes ni niveles. El stack se demuestra en la pantalla, no se puntúa.</p></div>
+<div class="m-card"><h3 class="m-h3" style="font-size: 18px">Callout de inspección</h3><p class="m-p">Punto limón sobre un elemento real de la captura, línea guía de 2 tramos y etiqueta (título Schibsted 600 + detalle Martian Mono) por encima de la tapa. Máximo 2 por pantalla, nunca sobre el área de texto.</p></div>
+<div class="m-card"><h3 class="m-h3" style="font-size: 18px">Maletín de credenciales</h3><p class="m-p">Las 5 placas reales esperan apiladas en un maletín 3D. El scroll abre los cierres y la tapa; cada una sube, vuela hasta la Mac, se verifica y entra en la pantalla; el iPhone recibe la ficha.</p></div>
+<div class="m-card"><h3 class="m-h3" style="font-size: 18px">Credencial colgante</h3><p class="m-p">El perfil es un objeto: tarjeta con foto, rol y contacto que cae, oscila y gira para mostrar formación y método. El stack sale de la pantalla en cuatro módulos.</p></div>
+</div>
+
+<h3 class="m-h3" style="margin-top: 12px">7 · Prohibido</h3>
+<div class="m-card">
+<ul class="m-li" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 40px">
+<li><span>×</span><div>Gradientes violeta/neón, glassmorphism y bordes de color a un lado de tarjetas.</div></li>
+<li><span>×</span><div>Partículas decorativas sin dato detrás. Los únicos puntos que se mueven son pulsos de datos.</div></li>
+<li><span>×</span><div>Barras de habilidad («React 90 %») y métricas que no se puedan medir en vivo.</div></li>
+<li><span>×</span><div>Capturas de proyectos alteradas: siempre la imagen real, con superposición rotulada «demo del flujo».</div></li>
+<li><span>×</span><div>Logos de Apple, WhatsApp u otras marcas dentro de los modelos.</div></li>
+<li><span>×</span><div>Emojis en la interfaz; íconos solo en trazo propio.</div></li>
+</ul>
+</div>
+
+<h3 class="m-h3" style="margin-top: 12px">8 · Voz</h3>
+<div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px">
+<div class="m-card"><p class="m-p"><strong>es-AR, voseo.</strong> Frases cortas, verbos concretos, una idea por línea. «Desplazate», «Escribime», «Elegís el tratamiento». Sin superlativos ni «de clase mundial».</p></div>
+<div class="m-card"><p class="m-p"><strong>Honestidad como estilo.</strong> «Tests automatizados: en el roadmap, no los afirmamos todavía.» Lo que está en desarrollo se dice; lo que no se puede probar no se publica.</p></div>
+</div>
+
+<h3 class="m-h3" style="margin-top: 12px">9 · Tokens (globals.css, Tailwind v4)</h3>
+<pre class="m-code"><b>@theme</b> {
+  --color-grafito: #0D0C0A;   --color-carbon: #171512;   --color-carbon-2: #211E1A;
+  --color-linea: #2E2A24;     --color-linea-fuerte: #4A443B;
+  --color-hueso: #EEE9DF;     --color-texto-2: #C9C2B5;  --color-piedra: #A39C8F;  --color-piedra-2: #8C857A;
+  --color-limon: #E6D84A;     --color-limon-hover: #F0E46A;  --color-tinta: #14120E;
+  --font-sans: var(--font-schibsted);   --font-mono: var(--font-martian);
+  --ease-banco: cubic-bezier(0.22, 1, 0.36, 1);
+  --radius-panel: 18px;  --radius-pill: 999px;
+}</pre>
+</section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":6800}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>
