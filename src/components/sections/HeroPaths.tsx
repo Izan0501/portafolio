@@ -67,7 +67,7 @@ const HexagonAvatar: React.FC<HexagonAvatarProps> = ({ y, alt }) => (
           fill
           priority
           sizes="(max-width: 640px) 78vw, 450px"
-          src="/profile/ivodev.JPG"
+          src="/profile/ivodev.jpeg"
         />
         <div className="absolute inset-0 bg-emerald-500/10 pointer-events-none" />
       </div>
