@@ -39,7 +39,7 @@ export const es: Dictionary = {
     roles: ["ARQUITECTO", "INGENIERO", "PROGRAMADOR"],
     avatarAlt: "Arquitecto de sistemas",
     description:
-      "Soy un apasionado Desarrollador Full-Stack - DevOps radicado en Tucumán, Argentina. Enfocado en construir sistemas resilientes, escalables, sostenibles y eficientes, asegurando la disponibilidad y el rendimiento en entornos reales.",
+      "Soy un apasionado Desarrollador Full-Stack radicado en Tucumán, Argentina. Enfocado en construir sistemas resilientes, escalables, sostenibles y eficientes, asegurando la disponibilidad y el rendimiento en entornos reales.",
     ctaInspect: "INSPECCIONAR ARQUITECTURA",
     ctaDownload: "DESCARGAR CV",
     ctaDownloaded: "DESCARGADO ✓",
@@ -55,9 +55,9 @@ export const es: Dictionary = {
 
     architect: {
       eyebrow: "// 00. EL ARQUITECTO",
-      title: "Desarrollador Full-Stack y Arquitecto DevOps",
+      title: "Desarrollador Full-Stack",
       location: "Tucumán, Argentina",
-      bio: "Soy Ivo Zanacchi. Construyo sistemas full-stack en React.js/Vite + TypeScript y Next.js, respaldados por servicios en Python (FastAPI) y Node.js/Express sobre bases de datos relacionales (PostgreSQL/Supabase, MySQL), no relacionales (MongoDB, Firebase) y vectoriales (Pinecone, para RAG). Todo sistema arranca como una spec: diseño la estructura y la lógica junto con Claude, usando Spec-Driven Development extendido con MCP para contexto de proyecto en vivo y Skills versionados para conocimiento repetible, antes de escribir una sola línea. Una vez testeado, encaro el deploy con un enfoque DevOps que prioriza la estabilidad: contenerizo todo con Docker, lo empaqueto vía CI/CD y lo corro en un VPS o en Render según el proyecto.",
+      bio: "Soy Ivo Zanacchi. Construyo sistemas full-stack en React.js/Vite + TypeScript y Next.js, respaldados por servicios en Python (FastAPI) y Node.js/Express sobre bases de datos relacionales (PostgreSQL/Supabase, MySQL), no relacionales (MongoDB, Firebase) y vectoriales (Pinecone, para RAG). Todo sistema arranca como una spec: diseño la estructura y la lógica junto con Claude, usando Spec-Driven Development extendido con MCP para contexto de proyecto en vivo y Skills versionados para conocimiento repetible, antes de escribir una sola línea. Una vez testeado, encaro el deploy con un enfoque que prioriza la estabilidad: contenerizo todo con Docker, lo empaqueto vía CI/CD y lo corro en un VPS o en Render según el proyecto.",
       pillars: ["CÓDIGO LIMPIO", "ARQUITECTURA ESCALABLE", "SPEC-DRIVEN DEVELOPMENT", "CERO REGRESIONES"],
     },
 
@@ -116,7 +116,7 @@ export const es: Dictionary = {
       techStack:
         "Frontend: React.js/Vite + TypeScript, Next.js. Backend: Python (FastAPI), Node.js/Express. Bases de datos: PostgreSQL/Supabase, MySQL, MongoDB, Firebase, Pinecone (RAG). Workflow: diseño spec-driven (SDD) asistido por Claude con MCP + Skills, CI/CD, Docker → VPS.",
       experience:
-        "Ingeniero de Software Full-Stack y DevOps especializado en arquitecturas sin downtime, plataformas SaaS multi-tenant y auditorías de protocolos de red.",
+        "Ingeniero de Software Full-Stack especializado en arquitecturas sin downtime, plataformas SaaS multi-tenant y auditorías de protocolos de red.",
       emailLabel: "Email:",
       linkedinLabel: "LinkedIn:",
       githubLabel: "Archivo fuente:",
@@ -281,84 +281,6 @@ export const es: Dictionary = {
       edge: {
         targets: "Docker // VPS // Vercel Edge + Cloudflare",
         verification: "Verificación Manual Post-Despliegue",
-      },
-    },
-  },
-
-  // ── ArchitectureTopology ──────────────────────────────────────────────────
-  topology: {
-    eyebrow: "// 04. TOPOLOGÍA DE SISTEMA Y RUTEO DE DATOS",
-    heading: "Arquitectura Desacoplada Diseñada para Escalar.",
-    subheading:
-      "Cada capa está aislada, contenerizada y comunicada de forma asíncrona. Diseñada para evitar puntos únicos de falla manteniendo un throughput de datos sub-milisegundo entre clústeres globales.",
-    protocolLabel: "PROTOCOLO:",
-
-    nodes: {
-      gateway: {
-        layer: "CAPA EDGE // 01",
-        title: "Cloudflare Workers y API Gateway",
-        protocol: "HTTPS / HTTP3 / SSL",
-        status: "SALUDABLE (0.8ms)",
-      },
-      auth: {
-        layer: "SEGURIDAD // 02",
-        title: "Servicio JWT y OAuth2 Zero-Trust",
-        protocol: "gRPC / mTLS",
-        status: "PROTEGIDO",
-      },
-      core: {
-        layer: "CAPA DE CÓMPUTO // 03",
-        title: "Microservicios Python FastAPI y Node",
-        protocol: "AsyncIO / REST / WS",
-        status: "AUTO-ESCALADO (8 PODS)",
-      },
-      cache: {
-        layer: "EN MEMORIA // 04",
-        title: "Clúster de Caché Redis Distribuido",
-        protocol: "Protocolo RESP",
-        status: "TASA DE ACIERTO: 98.4%",
-      },
-      db: {
-        layer: "PERSISTENCIA // 05",
-        title: "MongoDB Particionado y PostgreSQL",
-        protocol: "TCP / Compatible ACID",
-        status: "SINCRONIZADO",
-      },
-      ai: {
-        layer: "MOTOR IA / RAG // 06",
-        title: "Pinecone Vector DB y Pipeline RAG",
-        protocol: "gRPC / Embeddings Alta Dimensión",
-        status: "INDEXADO",
-      },
-    },
-  },
-
-  // ── LiveTelemetryMatrix ───────────────────────────────────────────────────
-  telemetry: {
-    eyebrow: "// 05. TELEMETRÍA DE PRODUCCIÓN",
-    heading: "BENCHMARKS DE RENDIMIENTO VERIFICADOS.",
-    streamingLabel: "TRANSMITIENDO TELEMETRÍA EN VIVO DESDE PROD // US-EAST",
-
-    metrics: {
-      uptime: {
-        label: "UPTIME GLOBAL DEL CLÚSTER",
-        badge: "ALTA DISPONIBILIDAD",
-        subtext: "Cero caídas no planificadas en 24 meses de despliegues en producción.",
-      },
-      latency: {
-        label: "LATENCIA DEL API GATEWAY",
-        badge: "LATENCIA ULTRA BAJA",
-        subtext: "Tiempo de respuesta promedio entre las regiones edge de US-East y Sudamérica.",
-      },
-      concurrency: {
-        label: "CAPACIDAD DE THROUGHPUT",
-        badge: "CONCURRENCIA",
-        subtext: "Conexiones WebSocket simultáneas gestionadas por instancia contenerizada.",
-      },
-      security: {
-        label: "MITIGACIÓN DE VULNERABILIDADES",
-        badge: "ENDURECIDO OSI",
-        subtext: "Auditorías de seguridad automatizadas en CI/CD y aplicación de protocolos zero-trust.",
       },
     },
   },

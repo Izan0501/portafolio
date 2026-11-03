@@ -35,7 +35,7 @@ export const en = {
     roles: ["ARCHITECT", "ENGINEER", "DEVELOPER"],
     avatarAlt: "System Architect",
     description:
-      "I'm a passionate Full-Stack and DevOps Developer based in Tucumán, Argentina. Focused on building resilient, scalable, sustainable, and efficient systems, ensuring availability and performance in real-world environments.",
+      "I'm a passionate Full-Stack Developer based in Tucumán, Argentina. Focused on building resilient, scalable, sustainable, and efficient systems, ensuring availability and performance in real-world environments.",
     ctaInspect: "INSPECT ARCHITECTURE",
     ctaDownload: "DOWNLOAD CV",
     ctaDownloaded: "DOWNLOADED ✓",
@@ -51,9 +51,9 @@ export const en = {
 
     architect: {
       eyebrow: "// 00. THE ARCHITECT",
-      title: "Full-Stack Developer & DevOps Architect",
+      title: "Full-Stack Developer",
       location: "Tucumán, Argentina",
-      bio: "I'm Ivo Zanacchi. I build full-stack systems on React.js/Vite + TypeScript and Next.js, backed by Python (FastAPI) and Node.js/Express services across relational (PostgreSQL/Supabase, MySQL), non-relational (MongoDB, Firebase), and vector (Pinecone, for RAG) databases. Every system starts as a spec: I design the structure and logic with Claude, using Spec-Driven Development extended with MCP for live project context and versioned Skills for repeatable knowledge, before a single line ships. Once it's tested, I take a DevOps-first approach to keep every deployment stable: containerizing with Docker, shipping through CI/CD, and running it on a VPS or Render depending on the project.",
+      bio: "I'm Ivo Zanacchi. I build full-stack systems on React.js/Vite + TypeScript and Next.js, backed by Python (FastAPI) and Node.js/Express services across relational (PostgreSQL/Supabase, MySQL), non-relational (MongoDB, Firebase), and vector (Pinecone, for RAG) databases. Every system starts as a spec: I design the structure and logic with Claude, using Spec-Driven Development extended with MCP for live project context and versioned Skills for repeatable knowledge, before a single line ships. Once it's tested, I take an approach that keeps every deployment stable: containerizing with Docker, shipping through CI/CD, and running it on a VPS or Render depending on the project.",
       pillars: ["CLEAN CODE", "SCALABLE ARCHITECTURE", "SPEC-DRIVEN DEVELOPMENT", "ZERO-REGRESSION"],
     },
 
@@ -115,7 +115,7 @@ export const en = {
       techStack:
         "Frontend: React.js/Vite + TypeScript, Next.js. Backend: Python (FastAPI), Node.js/Express. DBs: PostgreSQL/Supabase, MySQL, MongoDB, Firebase, Pinecone (RAG). Workflow: Claude-assisted spec-driven design (SDD) with MCP + Skills, CI/CD, Docker → VPS.",
       experience:
-        "Full-Stack Software Engineer & DevOps specializing in zero-downtime architectures, multi-tenant SaaS platforms, and network protocol audits.",
+        "Full-Stack Software Engineer specializing in zero-downtime architectures, multi-tenant SaaS platforms, and network protocol audits.",
       emailLabel: "Email:",
       linkedinLabel: "LinkedIn:",
       githubLabel: "Source archive:",
@@ -280,84 +280,6 @@ export const en = {
       edge: {
         targets: "Docker // VPS // Vercel Edge + Cloudflare",
         verification: "Manual Post-Deploy Verification",
-      },
-    },
-  },
-
-  // ── ArchitectureTopology ──────────────────────────────────────────────────
-  topology: {
-    eyebrow: "// 04. SYSTEM TOPOLOGY & DATA ROUTING",
-    heading: "Decoupled Architecture Engineered for Scale.",
-    subheading:
-      "Every layer is isolated, containerized, and asynchronously communicated. Designed to prevent single points of failure while maintaining sub-millisecond data throughput across global clusters.",
-    protocolLabel: "PROTOCOL:",
-
-    nodes: {
-      gateway: {
-        layer: "EDGE LAYER // 01",
-        title: "Cloudflare Workers & API Gateway",
-        protocol: "HTTPS / HTTP3 / SSL",
-        status: "HEALTHY (0.8ms)",
-      },
-      auth: {
-        layer: "SECURITY // 02",
-        title: "Zero-Trust JWT & OAuth2 Service",
-        protocol: "gRPC / mTLS",
-        status: "SECURED",
-      },
-      core: {
-        layer: "COMPUTE LAYER // 03",
-        title: "Python FastAPI & Node Microservices",
-        protocol: "AsyncIO / REST / WS",
-        status: "AUTO-SCALING (8 PODS)",
-      },
-      cache: {
-        layer: "IN-MEMORY // 04",
-        title: "Distributed Redis Cache Cluster",
-        protocol: "RESP Protocol",
-        status: "HIT RATE: 98.4%",
-      },
-      db: {
-        layer: "PERSISTENCE // 05",
-        title: "MongoDB Sharded & PostgreSQL",
-        protocol: "TCP / ACID Compliant",
-        status: "SYNCHRONIZED",
-      },
-      ai: {
-        layer: "AI / RAG ENGINE // 06",
-        title: "Pinecone Vector DB & RAG Pipeline",
-        protocol: "gRPC / High-Dim Embeddings",
-        status: "INDEXED",
-      },
-    },
-  },
-
-  // ── LiveTelemetryMatrix (currently not mounted, kept in sync anyway) ──────
-  telemetry: {
-    eyebrow: "// 05. PRODUCTION TELEMETRY",
-    heading: "VERIFIED PERFORMANCE BENCHMARKS.",
-    streamingLabel: "STREAMING LIVE TELEMETRY FROM PROD // US-EAST",
-
-    metrics: {
-      uptime: {
-        label: "GLOBAL CLUSTER UPTIME",
-        badge: "HIGH AVAILABILITY",
-        subtext: "Zero unplanned outages over 24 months of production deployments.",
-      },
-      latency: {
-        label: "API GATEWAY LATENCY",
-        badge: "ULTRA-LOW LATENCY",
-        subtext: "Average response time across US-East and South American edge regions.",
-      },
-      concurrency: {
-        label: "THROUGHPUT CAPACITY",
-        badge: "CONCURRENCY",
-        subtext: "Simultaneous WebSocket connections handled per containerized instance.",
-      },
-      security: {
-        label: "VULNERABILITY MITIGATION",
-        badge: "OSI HARDENED",
-        subtext: "Automated CI/CD security audits and zero-trust protocol enforcement.",
       },
     },
   },

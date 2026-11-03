@@ -15,8 +15,12 @@ export type Locale = (typeof LOCALES)[number];
  * The server always renders this locale. The client swaps to the stored/detected
  * one after mount — keeping the first client render identical to the SSR output,
  * which is what avoids a hydration mismatch.
+ *
+ * Spanish by default (IMPLEMENTATION_PLAN.md §0.1-3, confirmed): SSR, metadata
+ * and JSON-LD render in `es`; English stays available through the Dynamic
+ * Island's ES|EN switch (M7).
  */
-export const DEFAULT_LOCALE: Locale = "en";
+export const DEFAULT_LOCALE: Locale = "es";
 
 export const LOCALE_STORAGE_KEY = "ivodev.locale";
 

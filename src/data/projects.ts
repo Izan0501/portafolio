@@ -1,3 +1,12 @@
+/**
+ * @deprecated Kept alive only for the legacy components that still read it
+ * directly (`FeaturedSystems.tsx`, `ProjectDetail.tsx`, `app/projects/[id]/page.tsx`).
+ * `src/content/projects.ts` is the real successor: it reuses every value in
+ * `PROJECTS_DATA` below, drops `latency` (IMPLEMENTATION_PLAN.md finding A2 —
+ * no fabricated metric), and adds `solution` + `showcase` hotspots ported
+ * from the approved artifact. Nothing in this file changes until M16 removes
+ * it along with the legacy components (IMPLEMENTATION_PLAN.md §1.3).
+ */
 import type { IconType } from "react-icons";
 import { FiCalendar, FiDatabase, FiGlobe, FiLayout, FiServer } from "react-icons/fi";
 import type { Locale } from "@/i18n/config";
@@ -114,6 +123,7 @@ const GALLERY_GROUPS = {
   portafolioMelContact: { id: "portafolio-mel-contact", label: { en: "CONTACT & BOOKING", es: "CONTACTO Y BOOKING" } },
 } satisfies Record<string, GalleryGroup>;
 
+/** @deprecated Use `PROJECTS` from `@/content/projects` for anything new — see the file-level note above. */
 export const PROJECTS_DATA: Project[] = [
   {
     id: "nave24-stock",

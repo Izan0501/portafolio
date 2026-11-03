@@ -67,6 +67,7 @@
 | A8 | `FeaturedSystems` carga un fondo de `images.unsplash.com` (`remotePatterns`). | Se elimina el host y el componente (M2, M16). |
 | A9 | Fondo con grilla fija `#ffffff05` y paleta cian. | Se reemplaza por la paleta grafito + limón (M3). |
 | A10 | DNI visible en `FullStack.png`. | Reexportar sin el dato (M2). |
+| A11 | `components/ui/handwriting-text.tsx` (usado por `HeroPaths.tsx`) carga `opentype.js` como `<script>` de terceros desde `cdn.jsdelivr.net` (40 KB, ~60 % sin usar — medido en la línea base de Lighthouse, `docs/baseline/lighthouse-m0.md`). | Se elimina en M16 junto con `handwriting-text.tsx` y `public/fonts/shadows-into-light.ttf`. No puede quedar ningún uso cuando entre la CSP de M14 (el dominio no está en `script-src`). |
 
 ### 1.2 Datos y activos reales que se conservan
 
@@ -154,6 +155,7 @@ No pude consultar el registro de npm desde este entorno: no hay red hacia `regis
 | `schema-dts` | devDep | La última | JSON-LD tipado |
 | `@next/bundle-analyzer` | devDep | Alineada a `next 16.2.x` | Presupuesto de JS |
 | `vitest` | devDep (opcional) | La última | Tests de las funciones puras de `lib/math` y `features/choreography` |
+| `vite` | devDep | `8.3.5` (satisface el peer `^6.4.0 \|\| ^7.0.0 \|\| ^8.0.0` de `vitest@5.1.0`) | `vitest` lo resuelve en runtime (no solo como peer declarado); sin él, `vitest` falla con `ERR_MODULE_NOT_FOUND` al arrancar. No toca el build de Next (Turbopack, completamente separado): usado solo por `vitest.config.mts` para resolver el alias `@/*` en los tests. Agregado en M1, autorizado por Ivo. |
 
 **No se agrega:** `framer-motion`, porque ya está `motion` (su sucesor) y duplicaría runtime; `@react-three/postprocessing`, que está fuera de presupuesto; `gsap`, porque Lenis + rAF alcanza.
 
