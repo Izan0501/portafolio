@@ -3,12 +3,9 @@ import withBundleAnalyzer from "@next/bundle-analyzer";
 
 const nextConfig: NextConfig = {
   images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "images.unsplash.com",
-      },
-    ],
+    // No remote hosts: FeaturedSystems.tsx's Unsplash background is a plain
+    // CSS url(), never next/image, so it never needed remotePatterns in the
+    // first place (plan finding A8). Every image this site serves is local.
     // AVIF first — Next negotiates by Accept header and falls back to WebP,
     // then the original, so this only ever helps. ~20-30% smaller than WebP
     // at equal quality on the photographic project screenshots this site serves.
