@@ -4,6 +4,18 @@ import React, { useEffect, useRef } from "react";
 import { ReactLenis, useLenis } from "lenis/react";
 import { usePathname } from "next/navigation";
 import { LazyMotion, domAnimation, MotionConfig } from "motion/react";
+import { useLenisBridge } from "@/features/scroll/useLenisBridge";
+
+/**
+ * Mounts the scroll engine (plan §2.2) inside `<ReactLenis>`'s own tree, so
+ * `useLenis()` resolves to the real instance. A separate component (not
+ * called directly in the provider body) purely so this file reads as "the
+ * bridge is one more thing inside the tree", matching `RouteChangeScrollReset`.
+ */
+const ScrollEngineMount: React.FC = () => {
+  useLenisBridge();
+  return null;
+};
 
 interface SmoothScrollProviderProps {
   children: React.ReactNode;
@@ -74,6 +86,14 @@ const RouteChangeScrollReset: React.FC = () => {
  * - Lenis: Physics-based smooth scrolling (lerp + duration tuned for immersive feel).
  *   Lenis is automatically disabled when the user prefers reduced motion (it detects
  *   `prefers-reduced-motion: reduce` natively via its own media query handling).
+ * - The scroll engine (plan §2.2): `autoRaf: false` hands control of Lenis's
+ *   own tick to `ScrollEngineMount`'s single rAF loop, which also damps the
+ *   mutable `scrollStore` every frame — "a single loop", not Lenis's
+ *   internal rAF and a second one for the choreography drifting apart.
+ *   Every existing `useLenis()` call (Navbar, CertificationWindows, the
+ *   project detail page, this file's own route-change reset, …) keeps
+ *   working exactly as before: it's the same `<ReactLenis>` instance, only
+ *   who calls `.raf()` on it changed.
  * - LazyMotion + domAnimation: Deferred Motion feature loading to save ~40kb of JS
  *   by stripping heavy 3D layout projection from the initial bundle.
  * - MotionConfig reducedMotion="user": Passes the OS-level preference into every
@@ -92,9 +112,11 @@ export const SmoothScrollProvider: React.FC<SmoothScrollProviderProps> = ({
         lerp: 0.07,
         duration: 1.2,
         smoothWheel: true,
+        autoRaf: false,
       }}
     >
       <RouteChangeScrollReset />
+      <ScrollEngineMount />
       {/* domAnimation strips heavy 3D layout projection from initial load, saving ~40kb */}
       <LazyMotion features={domAnimation} strict>
         {/*
