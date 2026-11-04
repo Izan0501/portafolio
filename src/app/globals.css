@@ -1,14 +1,60 @@
 @import "tailwindcss";
 
 /* ============================================================
-   DESIGN SYSTEM — Ivo Zanacchi Portfolio
+   DESIGN SYSTEM — Ivo Zanacchi Portfolio · «Banco de pruebas»
    Stack: Next.js 16 · Tailwind v4 CSS-first · Motion · Lenis
+
+   Tokens ported verbatim from the approved artifact's own DESIGN.md
+   (docs/reference/artifact-a/DESIGN.dc.html §9 "Tokens (globals.css,
+   Tailwind v4)") — this @theme block is close to a direct copy of that
+   source's own `@theme { ... }` listing, not a re-derivation.
    ============================================================ */
 
-/* --- Font variables registered in the theme layer --- */
-@theme inline {
-  --font-sans: var(--font-inter);
-  --font-mono: var(--font-fira-code);
+@theme {
+  /* --- Color — DESIGN.md §1, contrasts measured against grafito/carbón,
+     every text pair ≥ 4.5:1 (ratios noted in the source, kept here as a
+     record, not enforced by CSS) --- */
+  --color-grafito: #0d0c0a; /* fondo */
+  --color-carbon: #171512; /* superficie */
+  --color-carbon-2: #211e1a; /* elevada */
+  --color-linea: #2e2a24; /* bordes — 1px ópticos */
+  --color-linea-fuerte: #4a443b; /* contornos */
+  --color-hueso: #eee9df; /* texto primario · 16.2:1 */
+  --color-texto-2: #c9c2b5; /* texto secundario · 11.1:1 */
+  --color-piedra: #a39c8f; /* texto terciario · 7.2:1 */
+  --color-piedra-2: #8c857a; /* texto mínimo · 5.0:1 */
+  --color-limon: #e6d84a; /* acento ≤ 5% — lo activo, lo que está en producción */
+  --color-limon-hover: #f0e46a;
+  --color-tinta: #14120e; /* texto sobre limón · 12.7:1 */
+
+  /* --- Typography — DESIGN.md §2, next/font variables set in layout.tsx --- */
+  --font-sans: var(--font-schibsted);
+  --font-mono: var(--font-martian);
+
+  /* Escala (px, convertida a rem): display 68 · h2 46 · h3 22 · lead 20 ·
+     cuerpo 16 (el default de Tailwind, sin token propio) · small 14 ·
+     mono 13/12/11. display y h2 usan clamp() — los mismos topes y
+     coeficientes de vw que el artefacto aplica a .iz-h1/.iz-h2 en
+     Hero.dc.html — para que el tamaño responda al viewport sin un salto
+     brusco en los breakpoints; h3/lead/small quedan fijos, como los
+     especifica el DESIGN.md (no hay un clamp verificado para ellos en el
+     artefacto, así que no se inventa uno). */
+  --text-display: clamp(2.5rem, 4.6vw, 4.25rem); /* 40px → 68px */
+  --text-h2: clamp(1.875rem, 3.2vw, 2.875rem); /* 30px → 46px */
+  --text-h3: 1.375rem; /* 22px */
+  --text-lead: 1.25rem; /* 20px */
+  --text-small: 0.875rem; /* 14px */
+  --text-mono-13: 0.8125rem;
+  --text-mono-12: 0.75rem;
+  --text-mono-11: 0.6875rem;
+
+  /* --- Motion — DESIGN.md §5, the UI easing curve (scroll/spring easing
+     for the 3D recorrido lives in features/choreography, not CSS) --- */
+  --ease-banco: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* --- Radii — DESIGN.md §9 --- */
+  --radius-panel: 18px;
+  --radius-pill: 999px;
 }
 
 /* --- Global resets & base dark-mode declarations --- */
@@ -31,32 +77,55 @@ body {
   /* Prevent subpixel aliasing on dark backgrounds */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-variant-numeric: tabular-nums; /* DESIGN.md §2 — tabular-nums en cifras vivas */
 }
 
-/* === Focus ring — accessible but dark-mode premium === */
+/* DESIGN.md §2 — "text-wrap: balance en títulos, text-wrap: pretty en
+   párrafos, sin itálicas, sin mayúsculas en cuerpo". Applied as a base
+   rule rather than per-component so every heading/paragraph gets it,
+   including the legacy sections still mounted until M4-M12 replace them. */
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+p {
+  text-wrap: pretty;
+}
+
+/* Martian Mono is used throughout the artifact at 87.5% width (DESIGN.md
+   §2: "a 87.5% de ancho para que respire en líneas cortas") — the `wdth`
+   axis is loaded (layout.tsx `axes: ["wdth"]"`) specifically so this value
+   is real, not a fake oblique. */
+.font-mono {
+  font-stretch: 87.5%;
+}
+
+/* === Focus ring — DESIGN.md: limón is the one accent, used for what's
+   active/primary. Was cyan-500/60. === */
 *:focus-visible {
-  outline: 2px solid rgb(6 182 212 / 0.6); /* cyan-500/60 */
+  outline: 2px solid var(--color-limon);
   outline-offset: 3px;
   border-radius: 4px;
 }
 
-/* === Selection highlight (backs up Tailwind utility in layout) === */
+/* === Selection highlight (backs up the Tailwind utility in layout/page) === */
 ::selection {
-  background-color: rgb(6 182 212 / 0.2);
-  color: rgb(34 211 238);
+  background-color: color-mix(in srgb, var(--color-limon) 20%, transparent);
+  color: var(--color-limon);
 }
 
-/* === Scrollbar — styled to match dark theme === */
+/* === Scrollbar — styled to match the grafito/limón theme === */
 ::-webkit-scrollbar {
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: rgb(10 10 10);
+  background: var(--color-grafito);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgb(6 182 212 / 0.35);
+  background: color-mix(in srgb, var(--color-limon) 35%, transparent);
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgb(6 182 212 / 0.6);
+  background: color-mix(in srgb, var(--color-limon) 60%, transparent);
 }
