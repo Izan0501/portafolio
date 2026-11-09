@@ -48,7 +48,7 @@ export function ExperienceShell() {
             aria-hidden"); every fact it will eventually show also lives in
             the chapter copy below, in the DOM — nothing 3D-only is ever the
             sole source of a fact a screen reader or JS-off visitor needs. */}
-        <Stage />
+        <Stage locale={locale} />
 
         {CH.map((chapter) => {
           const copy = CHAPTERS[chapter.id];

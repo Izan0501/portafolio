@@ -7,18 +7,19 @@ import * as THREE from "three";
 import { FrameDriver } from "./FrameDriver";
 import { Environment } from "./Environment";
 import { Bench, type BenchProps } from "./Bench";
+import { MacBook } from "@/components/macbook/MacBook";
+import { disposeMaterialRegistry } from "@/components/three/materials/materialRegistry";
 import { useVisibilityPause } from "@/hooks/useVisibilityPause";
 import { QUALITY_TIERS, qualityTierForGPU } from "@/config/quality";
 import { disposeObject3D, disposeRenderer } from "@/lib/three/dispose";
+import type { Locale } from "@/i18n/config";
 
 /**
  * The 3D stage's foundation (plan M5): a lazily-mounted `<Canvas>` with the
  * renderer configured per DESIGN.md §4/plan §2.3, adaptive DPR, visibility
  * pause, full disposal on unmount, a no-WebGL fallback, and a dev-only
- * `?perf` HUD. No MacBook/iPhone/camera choreography lives here — that's
- * M6-M8; this module only has to prove the stage itself is correct and
- * cheap when nothing real is on it yet (`<Bench/>` + the procedural
- * `<Environment/>` are the only things actually drawn).
+ * `?perf` HUD. M6 adds the first real object on it (`<MacBook/>`) — iPhone
+ * and camera choreography still don't live here, that's M7/M8.
  *
  * Imported via `next/dynamic(() => import('@/components/three/Stage'), {
  * ssr: false, loading: () => <StagePoster/> })` from whichever Client
@@ -109,9 +110,10 @@ function FrameloopController({ shouldRun }: { shouldRun: boolean }) {
 export interface StageProps {
   /** Forwarded to `<Bench>` — no real pose exists before M6, so this is optional and defaults to the bench's own origin-centered pool. */
   benchProps?: BenchProps;
+  locale: Locale;
 }
 
-export function Stage({ benchProps }: StageProps) {
+export function Stage({ benchProps, locale }: StageProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const glRef = useRef<THREE.WebGLRenderer | null>(null);
   const sceneRef = useRef<THREE.Scene | null>(null);
@@ -155,13 +157,17 @@ export function Stage({ benchProps }: StageProps) {
   }, []);
 
   // Full teardown on unmount (plan §2.3 "Limpieza"): every geometry/material/
-  // texture still in the scene (Bench's shader material, anything M6+ adds),
-  // plus the renderer's own render-list cache. `Environment.tsx` disposes its
-  // own PMREM generator/texture in its own cleanup — not duplicated here.
+  // texture still in the scene (Bench's shader material, the MacBook's own
+  // geometries/canvas textures), plus the renderer's own render-list cache
+  // and the shared material registry (M6: `alu`/`aluD`/`well`/`key`/`glass`/
+  // `black`, module-singleton, not part of the scene graph `disposeObject3D`
+  // walks). `Environment.tsx` disposes its own PMREM generator/texture in
+  // its own cleanup — not duplicated here.
   useEffect(() => {
     return () => {
       if (sceneRef.current) disposeObject3D(sceneRef.current);
       if (glRef.current) disposeRenderer(glRef.current);
+      disposeMaterialRegistry();
     };
   }, []);
 
@@ -191,6 +197,7 @@ export function Stage({ benchProps }: StageProps) {
         <FrameDriver />
         <Environment />
         <Bench {...benchProps} />
+        <MacBook locale={locale} />
         {tierName === "high" && <PerformanceMonitor onIncline={() => setDpr(1.5)} onDecline={() => setDpr(1)} flipflops={3} />}
       </Canvas>
       {showPerfHud && <PerfHud glRef={glRef} />}
