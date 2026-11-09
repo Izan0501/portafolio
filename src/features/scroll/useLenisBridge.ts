@@ -6,6 +6,7 @@ import type Lenis from "lenis";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import { scrollStore, advanceScrollStore, setScrollTarget } from "./scrollStore";
 import { scrollPMotionValue } from "./scrollMotionValue";
+import { isFrameDriverActive } from "./frameDriverRegistry";
 
 type LenisInstance = Lenis;
 
@@ -57,7 +58,9 @@ export function useLenisBridge(): void {
 
   // The single rAF loop: advances Lenis itself (autoRaf: false in the
   // provider) and damps scrollStore.p toward .pt from the same tick, so the
-  // two are never one frame apart.
+  // two are never one frame apart. Skips its own advance whenever
+  // `FrameDriver` (inside the Canvas, M5) is already doing it that tick —
+  // see frameDriverRegistry's own comment for why exactly one must run.
   const lastRef = useRef<number | null>(null);
   useEffect(() => {
     if (!lenis) return undefined;
@@ -67,7 +70,10 @@ export function useLenisBridge(): void {
 
     const tick = (now: number) => {
       raf = requestAnimationFrame(tick);
-      if (paused) return;
+      if (paused || isFrameDriverActive(now)) {
+        lastRef.current = null; // next time this loop resumes driving, dt starts fresh
+        return;
+      }
 
       const last = lastRef.current ?? now;
       const dt = Math.min(0.05, Math.max(0.0001, (now - last) / 1000));
