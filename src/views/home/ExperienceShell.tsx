@@ -1,10 +1,21 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useI18n } from "@/i18n/LanguageProvider";
 import { CH, PMAX } from "@/config/chapters";
 import { CHAPTERS } from "@/content/chapters";
 import { NarrativeChapter } from "./chapters/NarrativeChapter";
 import { ProjectChapterPlaceholder } from "./chapters/ProjectChapterPlaceholder";
+import { StagePoster } from "@/components/three/StagePoster";
+
+// M5: the three.js/R3F chunk is dynamically imported, ssr:false, so it never
+// enters the initial bundle (plan §2.1) — StagePoster (a flat grafito fill;
+// no real render of the Mac exists yet, see M2's report) covers both the
+// chunk's own load and `Stage`'s internal `useDetectGPU()` suspense.
+const Stage = dynamic(() => import("@/components/three/Stage").then((mod) => mod.Stage), {
+  ssr: false,
+  loading: () => <StagePoster />,
+});
 
 /**
  * The 3D recorrido's shell (plan §2.1, §3.3): one tall spacer giving the
@@ -33,10 +44,11 @@ export function ExperienceShell() {
   return (
     <div className="relative w-full" style={{ height: `${PMAX * 100}dvh` }}>
       <div className="sticky top-0 h-dvh w-full">
-        {/* M5 mounts <Stage/> (next/dynamic, ssr:false) here — the canvas is
-            aria-hidden (plan §4: "el 3D va aria-hidden"); every fact it
-            shows also lives in the chapter copy below, in the DOM. */}
-        <div className="absolute inset-0" aria-hidden="true" />
+        {/* The canvas inside <Stage> is aria-hidden (plan §4: "el 3D va
+            aria-hidden"); every fact it will eventually show also lives in
+            the chapter copy below, in the DOM — nothing 3D-only is ever the
+            sole source of a fact a screen reader or JS-off visitor needs. */}
+        <Stage />
 
         {CH.map((chapter) => {
           const copy = CHAPTERS[chapter.id];
