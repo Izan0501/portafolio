@@ -8,6 +8,7 @@ import { FrameDriver } from "./FrameDriver";
 import { Environment } from "./Environment";
 import { Bench, type BenchProps } from "./Bench";
 import { MacBook } from "@/components/macbook/MacBook";
+import { IPhonePro } from "@/components/iphone-island/IPhonePro";
 import { disposeMaterialRegistry } from "@/components/three/materials/materialRegistry";
 import { useVisibilityPause } from "@/hooks/useVisibilityPause";
 import { QUALITY_TIERS, qualityTierForGPU } from "@/config/quality";
@@ -18,8 +19,8 @@ import type { Locale } from "@/i18n/config";
  * The 3D stage's foundation (plan M5): a lazily-mounted `<Canvas>` with the
  * renderer configured per DESIGN.md §4/plan §2.3, adaptive DPR, visibility
  * pause, full disposal on unmount, a no-WebGL fallback, and a dev-only
- * `?perf` HUD. M6 adds the first real object on it (`<MacBook/>`) — iPhone
- * and camera choreography still don't live here, that's M7/M8.
+ * `?perf` HUD. M6 added the MacBook; M7 adds `<IPhonePro/>` — camera
+ * choreography still doesn't live here, that's M8.
  *
  * Imported via `next/dynamic(() => import('@/components/three/Stage'), {
  * ssr: false, loading: () => <StagePoster/> })` from whichever Client
@@ -198,6 +199,7 @@ export function Stage({ benchProps, locale }: StageProps) {
         <Environment />
         <Bench {...benchProps} />
         <MacBook locale={locale} />
+        <IPhonePro locale={locale} />
         {tierName === "high" && <PerformanceMonitor onIncline={() => setDpr(1.5)} onDecline={() => setDpr(1)} flipflops={3} />}
       </Canvas>
       {showPerfHud && <PerfHud glRef={glRef} />}

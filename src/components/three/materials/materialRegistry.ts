@@ -12,11 +12,10 @@ import * as THREE from "three";
  * this file is imported from both server and client code paths before
  * `Stage`'s Canvas ever mounts.
  *
- * Only the materials M6 (MacBook) actually uses are built so far — `ti`
- * (iPhone titanium), `leather`/`brass`/`lining` (briefcase), `card`
- * (cert plates/stack tiles) and `lemon` (accents) are real values already
- * verified against the artifact, filled in as M7/M9/M10 need them rather
- * than guessed now.
+ * M6 (MacBook) built `alu`/`aluD`/`well`/`key`/`glass`/`black`. M7 (iPhone)
+ * adds `ti` (titanium) and `lens` (camera glass) — real values verified
+ * against the artifact's own registry (`this.mat`, lines 603-618), not
+ * guessed. `leather`/`brass`/`lining`/`card`/`lemon` stay for M9/M10 to add.
  */
 export interface MaterialRegistry {
   /** Aluminum — chassis, trackpad bezel. #C2C8CC metalness 1 roughness 0.30. */
@@ -27,10 +26,14 @@ export interface MaterialRegistry {
   well: THREE.MeshStandardMaterial;
   /** Individual keycaps. #151513 metalness 0.05 roughness 0.75. */
   key: THREE.MeshStandardMaterial;
-  /** Lid glass bezel / trackpad front glass. #050505 metalness 0 roughness 0.08. */
+  /** Lid glass bezel / trackpad front glass / iPhone front glass. #050505 metalness 0 roughness 0.08. */
   glass: THREE.MeshStandardMaterial;
   /** Flat unlit black — the screen notch. */
   black: THREE.MeshBasicMaterial;
+  /** iPhone titanium — body, camera plate, side buttons. #4A4740 metalness 1 roughness 0.30. */
+  ti: THREE.MeshStandardMaterial;
+  /** Camera lenses. #0A0A0C metalness 0.6 roughness 0.12. */
+  lens: THREE.MeshStandardMaterial;
 }
 
 let registry: MaterialRegistry | null = null;
@@ -43,6 +46,8 @@ export function getMaterialRegistry(): MaterialRegistry {
     key: new THREE.MeshStandardMaterial({ color: 0x151513, metalness: 0.05, roughness: 0.75 }),
     glass: new THREE.MeshStandardMaterial({ color: 0x050505, metalness: 0, roughness: 0.08 }),
     black: new THREE.MeshBasicMaterial({ color: 0x000000 }),
+    ti: new THREE.MeshStandardMaterial({ color: 0x4a4740, metalness: 1, roughness: 0.3 }),
+    lens: new THREE.MeshStandardMaterial({ color: 0x0a0a0c, metalness: 0.6, roughness: 0.12 }),
   };
   return registry;
 }
