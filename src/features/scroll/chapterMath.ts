@@ -1,5 +1,5 @@
 import type { ChapterRange } from "@/types/content";
-import { smoothstep } from "@/lib/math/ease";
+import { clamp01, smoothstep } from "@/lib/math/ease";
 
 /** The chapter index whose `[a, b)` range contains `p` (clamped to the last chapter for `p` at/after its end). */
 export function chapterIndexAt(p: number, chapters: readonly ChapterRange[]): number {
@@ -7,6 +7,11 @@ export function chapterIndexAt(p: number, chapters: readonly ChapterRange[]): nu
     if (p < chapters[i].b || i === chapters.length - 1) return i;
   }
   return chapters.length - 1;
+}
+
+/** `p`'s progress *within* a chapter, 0..1 (artifact `_state`, line 1317: `k = c01((p - c.a) / (c.b - c.a))`) — drives per-chapter content like the iPhone's typewriter (M7) instead of the global `p` the Mac's `boot` screen uses. */
+export function chapterProgressAt(p: number, chapter: ChapterRange): number {
+  return clamp01((p - chapter.a) / (chapter.b - chapter.a));
 }
 
 export interface ChapterFadeWindow {

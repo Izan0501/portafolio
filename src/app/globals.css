@@ -129,3 +129,272 @@ p {
 ::-webkit-scrollbar-thumb:hover {
   background: color-mix(in srgb, var(--color-limon) 60%, transparent);
 }
+
+/* ============================================================
+   Dynamic Island Nav (M7) — ported 1:1 from the approved artifact
+   (docs/reference/artifact-a/Hero.dc.html, .iz-isl* rules, lines 67-90,
+   96-97, 114, 140). Colors mapped to this project's own tokens where they
+   match a named one; `#000`/`#1A1814`/`#1E1C14` kept exact — the artifact
+   deliberately uses near-black/near-carbon shades slightly off the
+   general-purpose grafito/carbon tokens for this one element sitting on
+   its own black pill, not an oversight to "fix" by snapping them to the
+   nearest token.
+   ============================================================ */
+.iz-isl {
+  position: fixed;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  width: 190px;
+  height: 40px;
+  border-radius: var(--radius-pill);
+  background: #000;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.07), 0 18px 40px rgba(0, 0, 0, 0.5);
+  font-family: var(--font-sans);
+  will-change: width;
+}
+.iz-isl-btn {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 16px 0 11px;
+  margin: 0;
+  border: 0;
+  background: none;
+  color: var(--color-hueso);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+.iz-isl-ring {
+  flex: 0 0 auto;
+}
+.iz-isl-ch {
+  flex: 0 0 auto;
+  text-align: left;
+  display: inline-block;
+}
+.iz-isl-hint {
+  margin-left: auto;
+  display: inline-flex;
+  width: 14px;
+  height: 14px;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.7;
+}
+.iz-isl-hint i {
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-right: 1.5px solid var(--color-piedra);
+  border-bottom: 1.5px solid var(--color-piedra);
+  transform: rotate(-45deg);
+}
+.iz-isl-ch,
+.iz-isl-hint,
+.iz-isl-lang-folded {
+  transition: opacity 200ms ease 120ms;
+}
+.iz-open .iz-isl-btn {
+  padding: 0 0 0 11px;
+}
+.iz-open .iz-isl-ch,
+.iz-open .iz-isl-hint,
+.iz-open .iz-isl-lang-folded {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 80ms ease;
+}
+.iz-isl-panel {
+  position: absolute;
+  left: 38px;
+  top: 0;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 14px 0 0;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(-10px);
+  transition: opacity 100ms ease, transform 140ms ease, visibility 0s linear 140ms;
+}
+.iz-open .iz-isl-panel {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition: opacity 240ms var(--ease-banco) 70ms, transform 300ms var(--ease-banco) 50ms, visibility 0s;
+}
+.iz-isl-row {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  white-space: nowrap;
+}
+.iz-isl-a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 12px;
+  border-radius: 15px;
+  color: var(--color-texto-2);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 160ms ease, color 160ms ease;
+}
+.iz-isl-a:hover {
+  background: #1a1814;
+  color: var(--color-hueso);
+}
+.iz-isl-a[aria-current="true"] {
+  background: #1e1c14;
+  color: var(--color-hueso);
+}
+.iz-isl-a[aria-current="true"]::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--color-limon);
+}
+.iz-open .iz-isl-row li {
+  animation: izIslIn 340ms var(--ease-banco) both;
+}
+.iz-open .iz-isl-row li:nth-child(2) {
+  animation-delay: 30ms;
+}
+.iz-open .iz-isl-row li:nth-child(3) {
+  animation-delay: 60ms;
+}
+.iz-open .iz-isl-row li:nth-child(4) {
+  animation-delay: 90ms;
+}
+.iz-open .iz-isl-row li:nth-child(5) {
+  animation-delay: 120ms;
+}
+@keyframes izIslIn {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.iz-isl-sep {
+  width: 1px;
+  height: 18px;
+  background: var(--color-linea);
+  flex: 0 0 auto;
+}
+/* ES|EN switch — new in M7, no artifact precedent (confirmed: no language
+   text/class anywhere in the source). Styled from the same tokens as the
+   rest of the island rather than ported from nothing. */
+.iz-isl-lang {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 24px;
+  padding: 0 8px;
+  border-radius: 12px;
+  border: 0;
+  background: transparent;
+  color: var(--color-piedra);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  font-stretch: 87.5%;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.iz-isl-lang:hover {
+  color: var(--color-hueso);
+}
+.iz-isl-lang-on {
+  color: var(--color-limon);
+}
+.iz-isl-lang-sep {
+  opacity: 0.4;
+}
+.iz-isl-lang-expanded {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 80ms ease;
+}
+.iz-open .iz-isl-lang-expanded {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 200ms ease 150ms;
+}
+
+@media (max-width: 440px) {
+  .iz-isl-home {
+    display: none;
+  }
+  .iz-isl-a {
+    padding: 0 9px;
+    font-size: 12.5px;
+  }
+  .iz-isl-a[aria-current="true"]::before {
+    display: none;
+  }
+}
+/* Plan M7 (no artifact precedent — the source only has 440px/340px
+   breakpoints, confirmed; this one is new, per the plan's explicit text). */
+@media (max-width: 360px) {
+  .iz-isl-profile {
+    display: none;
+  }
+}
+@media (max-width: 340px) {
+  .iz-isl-row {
+    gap: 0;
+  }
+  .iz-isl-a {
+    padding: 0 6px;
+    font-size: 11.5px;
+  }
+  .iz-isl-panel {
+    left: 36px;
+  }
+  .iz-open .iz-isl-btn {
+    padding-left: 9px;
+  }
+}
+@media (min-width: 1680px) {
+  .iz-isl {
+    zoom: 1.15;
+  }
+}
+@media (min-width: 2200px) {
+  .iz-isl {
+    zoom: 1.42;
+  }
+}
+@media (min-aspect-ratio: 19/20) and (max-height: 540px) {
+  .iz-isl {
+    top: 8px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .iz-open .iz-isl-row li {
+    animation: none;
+  }
+}

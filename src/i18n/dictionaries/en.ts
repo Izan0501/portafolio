@@ -9,25 +9,6 @@
  * placeholder tokens — that keeps interpolation type-safe and avoids a parser.
  */
 export const en = {
-  // ── Navbar ────────────────────────────────────────────────────────────────
-  nav: {
-    architectureLabel: "// ARCHITECTURE",
-    architectureAria: "Architecture menu",
-    dropdownHeader: "// CLUSTER SPECS & TELEMETRY",
-    ctaPrefix: "INITIATE ",
-    ctaCore: "CLI ↵",
-    languageAria: "Switch language",
-    languageTitle: "Switch to Spanish",
-    items: {
-      stack: { label: "// 01. STACK", description: "Engineer Identity & Toolchain" },
-      systems: { label: "// 02. SYSTEMS", badge: "PROD", description: "Flagship Systems & Deployments" },
-      pipeline: { label: "// 03. PIPELINE", description: "Distributed RAG & Vector Storage" },
-      topology: { label: "// 04. TOPOLOGY", description: "Network Architecture & Routing" },
-      telemetry: { label: "// 05. TELEMETRY", description: "Sub-millisecond Cluster Audits" },
-      terminal: { label: "// 06. TERMINAL", badge: "CLI", description: "Interactive Command Execution" },
-    },
-  },
-
   // ── Hero ──────────────────────────────────────────────────────────────────
   hero: {
     eyebrow: "// SYSTEM ARCHITECT: IVO ZANACCHI",

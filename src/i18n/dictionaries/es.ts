@@ -13,25 +13,6 @@ import type { Dictionary } from "./en";
  *    identifiers, not copy. Their *output* is fully translated.
  */
 export const es: Dictionary = {
-  // ── Navbar ────────────────────────────────────────────────────────────────
-  nav: {
-    architectureLabel: "// ARQUITECTURA",
-    architectureAria: "Menú de arquitectura",
-    dropdownHeader: "// SPECS DEL CLÚSTER Y TELEMETRÍA",
-    ctaPrefix: "INICIAR ",
-    ctaCore: "CLI ↵",
-    languageAria: "Cambiar idioma",
-    languageTitle: "Cambiar a inglés",
-    items: {
-      stack: { label: "// 01. STACK", description: "Identidad del Ingeniero y Stack" },
-      systems: { label: "// 02. SISTEMAS", badge: "PROD", description: "Sistemas Insignia y Despliegues" },
-      pipeline: { label: "// 03. PIPELINE", description: "Almacenamiento vectorial y RAG distribuido" },
-      topology: { label: "// 04. TOPOLOGÍA", description: "Arquitectura de red y enrutamiento" },
-      telemetry: { label: "// 05. TELEMETRÍA", description: "Auditorías de clúster sub-milisegundo" },
-      terminal: { label: "// 06. TERMINAL", badge: "CLI", description: "Ejecución interactiva de comandos" },
-    },
-  },
-
   // ── Hero ──────────────────────────────────────────────────────────────────
   hero: {
     eyebrow: "// ARQUITECTO DE SISTEMAS: IVO ZANACCHI",

@@ -3,7 +3,7 @@ import { Schibsted_Grotesk, Martian_Mono } from "next/font/google";
 import "./globals.css";
 import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
 import { LanguageProvider } from "@/i18n/LanguageProvider";
-import { Navbar } from "@/components/navigation/Navbar";
+import { DynamicIslandNav } from "@/components/iphone-island/DynamicIslandNav";
 import { ConditionalFooter } from "@/components/navigation/ConditionalFooter";
 import { DEFAULT_LOCALE } from "@/i18n/config";
 
@@ -59,7 +59,7 @@ export default function RootLayout({
               instance and re-measure scroll height when copy length changes. */}
           <LanguageProvider>
             <div className="min-h-screen w-full relative flex flex-col justify-between">
-              <Navbar />
+              <DynamicIslandNav />
               <main className="relative z-10 flex-grow w-full">
                 {children}
               </main>

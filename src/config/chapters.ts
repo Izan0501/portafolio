@@ -1,4 +1,5 @@
-import type { ChapterRange } from "@/types/content";
+import type { ChapterId, ChapterRange } from "@/types/content";
+import type { Locale } from "@/i18n/config";
 
 /**
  * Chapter/scroll constants, ported 1:1 from the approved artifact
@@ -36,6 +37,31 @@ export const CH: readonly ChapterRange[] = [
  */
 export const NAV_TELEPORT: readonly number[] = [0, 2.0, 3.5, 7.2, 8.7, 10.2, 11.7, 13.2, 14.75, 16.7] as const;
 export const NAV_TELEPORT_CHAPTER_INDEX: readonly number[] = [0, 2, 3, 5, 6, 7, 8, 9, 10, 11] as const;
+
+/**
+ * Short bilingual chapter names for the Dynamic Island (M7) — the plegada
+ * state's `<span class="iz-isl-ch">` shows whichever of the 12 real
+ * chapters is active, not just the 5 with a direct link below. `CH[i].label`
+ * stays Spanish-only (it's the artifact's own debug/reference value, M4);
+ * this is the bilingual copy the nav UI actually renders. Project names
+ * (Nave24, VeeBot, Estudio Zanacchi, Mel, Consultorio) are proper nouns —
+ * same text in both locales, same choice already made for `boot.ts`'s
+ * terminal commands.
+ */
+export const CHAPTER_SHORT_LABEL: Record<ChapterId, Record<Locale, string>> = {
+  hero: { es: "Inicio", en: "Home" },
+  open: { es: "Método", en: "Method" },
+  prof: { es: "Perfil", en: "Profile" },
+  cert: { es: "Formación", en: "Formation" },
+  dive: { es: "Proyectos", en: "Projects" },
+  nave: { es: "Nave24 Stock", en: "Nave24 Stock" },
+  vee: { es: "VeeBot SaaS", en: "VeeBot SaaS" },
+  est: { es: "Estudio Zanacchi", en: "Estudio Zanacchi" },
+  mel: { es: "Portafolio Mel", en: "Portafolio Mel" },
+  con: { es: "Consultorio", en: "Consultorio" },
+  pipe: { es: "Garantías", en: "Guarantees" },
+  cta: { es: "Contacto", en: "Contact" },
+};
 
 /**
  * The 5 links the Dynamic Island actually renders (plan Anexo A + artifact's
