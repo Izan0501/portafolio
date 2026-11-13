@@ -6,9 +6,10 @@ import { PerformanceMonitor, useDetectGPU } from "@react-three/drei";
 import * as THREE from "three";
 import { FrameDriver } from "./FrameDriver";
 import { Environment } from "./Environment";
-import { Bench, type BenchProps } from "./Bench";
-import { MacBook } from "@/components/macbook/MacBook";
-import { IPhonePro } from "@/components/iphone-island/IPhonePro";
+import { Bench, type BenchHandle, type BenchProps } from "./Bench";
+import { CameraDirector } from "./CameraDirector";
+import { MacBook, type MacBookHandle } from "@/components/macbook/MacBook";
+import { IPhonePro, type IPhoneProHandle } from "@/components/iphone-island/IPhonePro";
 import { disposeMaterialRegistry } from "@/components/three/materials/materialRegistry";
 import { useVisibilityPause } from "@/hooks/useVisibilityPause";
 import { QUALITY_TIERS, qualityTierForGPU } from "@/config/quality";
@@ -19,8 +20,9 @@ import type { Locale } from "@/i18n/config";
  * The 3D stage's foundation (plan M5): a lazily-mounted `<Canvas>` with the
  * renderer configured per DESIGN.md §4/plan §2.3, adaptive DPR, visibility
  * pause, full disposal on unmount, a no-WebGL fallback, and a dev-only
- * `?perf` HUD. M6 added the MacBook; M7 adds `<IPhonePro/>` — camera
- * choreography still doesn't live here, that's M8.
+ * `?perf` HUD. M6 added the MacBook, M7 the iPhone and island nav. M8
+ * adds `<CameraDirector/>`, which now owns the camera every frame — the
+ * `camera={{...}}` prop below is only the seed for the very first frame.
  *
  * Imported via `next/dynamic(() => import('@/components/three/Stage'), {
  * ssr: false, loading: () => <StagePoster/> })` from whichever Client
@@ -118,6 +120,9 @@ export function Stage({ benchProps, locale }: StageProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const glRef = useRef<THREE.WebGLRenderer | null>(null);
   const sceneRef = useRef<THREE.Scene | null>(null);
+  const macRef = useRef<MacBookHandle>(null);
+  const phoneRef = useRef<IPhoneProHandle>(null);
+  const benchRef = useRef<BenchHandle>(null);
 
   const shouldRun = useVisibilityPause(containerRef);
   const gpu = useDetectGPU();
@@ -197,9 +202,10 @@ export function Stage({ benchProps, locale }: StageProps) {
         <FrameloopController shouldRun={shouldRun} />
         <FrameDriver />
         <Environment />
-        <Bench {...benchProps} />
-        <MacBook locale={locale} />
-        <IPhonePro locale={locale} />
+        <Bench ref={benchRef} {...benchProps} />
+        <MacBook ref={macRef} locale={locale} />
+        <IPhonePro ref={phoneRef} locale={locale} />
+        <CameraDirector macRef={macRef} phoneRef={phoneRef} benchRef={benchRef} />
         {tierName === "high" && <PerformanceMonitor onIncline={() => setDpr(1.5)} onDecline={() => setDpr(1)} flipflops={3} />}
       </Canvas>
       {showPerfHud && <PerfHud glRef={glRef} />}

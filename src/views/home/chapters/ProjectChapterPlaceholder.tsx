@@ -27,6 +27,7 @@ export function ProjectChapterPlaceholder({ chapter, copy, locale }: { chapter: 
 
   return (
     <m.div
+      data-chapter-id={chapter.id}
       style={{ opacity, y, pointerEvents }}
       className="absolute left-[clamp(20px,6vw,96px)] top-1/2 w-[min(440px,36vw)] max-w-[calc(100vw-40px)] -translate-y-1/2 transform-gpu"
     >
