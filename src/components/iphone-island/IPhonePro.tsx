@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { getMaterialRegistry } from "@/components/three/materials/materialRegistry";
@@ -59,7 +59,12 @@ export interface IPhoneProProps {
   locale: Locale;
 }
 
-export function IPhonePro({ locale }: IPhoneProProps) {
+/** The group `CameraDirector` (M8) reads the world matrix from for its weighted-point fit — the iPhone's 4 corners (artifact `_fitCam`, line 1255). */
+export interface IPhoneProHandle {
+  group: THREE.Group;
+}
+
+export const IPhonePro = forwardRef<IPhoneProHandle, IPhoneProProps>(function IPhonePro({ locale }, ref) {
   const mat = getMaterialRegistry();
   const groupRef = useRef<THREE.Group>(null);
 
@@ -160,6 +165,8 @@ export function IPhonePro({ locale }: IPhoneProProps) {
     }
   });
 
+  useImperativeHandle(ref, () => ({ group: groupRef.current as THREE.Group }), []);
+
   return (
     <group ref={groupRef}>
       <mesh geometry={bodyGeometry} material={mat.ti} />
@@ -174,6 +181,6 @@ export function IPhonePro({ locale }: IPhoneProProps) {
       ))}
     </group>
   );
-}
+});
 
 export default IPhonePro;

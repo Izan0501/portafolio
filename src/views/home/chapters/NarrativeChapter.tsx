@@ -24,6 +24,11 @@ import { Button } from "@/components/ui/Button";
  * in its fade window (CLAUDE.md rule 4 + plan §3.3: "will-change se agrega
  * al entrar... y se quita al salir") — `useTransform` below ties it
  * directly to the same opacity curve instead of a separate effect.
+ *
+ * `data-chapter-id` (M8): `CameraDirector` measures the active chapter's
+ * real `getBoundingClientRect()` through this attribute to find the free
+ * area 3D content can occupy (artifact `_layout`'s `_copyFrac`/`_sheetTop`,
+ * which measure its own per-chapter DOM elements the same way).
  */
 export function NarrativeChapter({ chapter, copy, locale }: { chapter: ChapterRange; copy: NarrativeChapterCopy; locale: Locale }) {
   const opacity = useTransform(scrollPMotionValue, (p) => chapterFadeWindow(chapter, p).opacity);
@@ -35,6 +40,7 @@ export function NarrativeChapter({ chapter, copy, locale }: { chapter: ChapterRa
 
   return (
     <m.div
+      data-chapter-id={chapter.id}
       style={{ opacity, y, willChange, pointerEvents }}
       className="absolute left-[clamp(20px,6vw,96px)] top-1/2 w-[min(440px,36vw)] max-w-[calc(100vw-40px)] -translate-y-1/2 transform-gpu"
     >

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { forwardRef, useImperativeHandle, useMemo } from "react";
 import * as THREE from "three";
 
 /**
@@ -22,6 +22,15 @@ import * as THREE from "three";
  * uniform, empty for now) for M6+ to populate as each procedural object
  * lands on the bench, instead of this file growing a second shader pass
  * later.
+ *
+ * Fog (M8): a single `uNear` uniform, with the far edge baked into the
+ * shader as `uNear + 15.0` — ported from the artifact's real fog, not the
+ * two independent fixed uniforms (`uFogNear`/`uFogFar` = 6/22) M5 shipped
+ * before `CameraDirector` existed to drive it. `setFogNear` is exposed
+ * through a ref (not a reactive prop) because `CameraDirector` writes it
+ * every frame from the camera-to-target distance — a prop here would mean
+ * either React state changing on scroll (forbidden, plan §2.2) or Bench
+ * re-rendering every frame for no reason.
  */
 
 const MAX_BLOBS = 8;
@@ -44,8 +53,7 @@ const FRAGMENT_SHADER = /* glsl */ `
   uniform vec3 uPoolColor;
   uniform vec2 uPoolCenter;
   uniform float uPoolRadius;
-  uniform float uFogNear;
-  uniform float uFogFar;
+  uniform float uNear;
   uniform int uBlobCount;
   uniform vec2 uBlobCenters[${MAX_BLOBS}];
   uniform float uBlobRadii[${MAX_BLOBS}];
@@ -68,7 +76,7 @@ const FRAGMENT_SHADER = /* glsl */ `
     color = mix(color, color * 0.55, shadow * 0.8);
 
     float camDist = distance(vWorldPosition, cameraPosition);
-    float fog = smoothstep(uFogNear, uFogFar, camDist);
+    float fog = smoothstep(uNear, uNear + 15.0, camDist);
     color = mix(color, uColor * 0.7, fog);
 
     gl_FragColor = vec4(color, 1.0);
@@ -99,14 +107,18 @@ interface BenchUniforms {
   uPoolColor: { value: THREE.Color };
   uPoolCenter: { value: THREE.Vector2 };
   uPoolRadius: { value: number };
-  uFogNear: { value: number };
-  uFogFar: { value: number };
+  uNear: { value: number };
   uBlobCount: { value: number };
   uBlobCenters: { value: THREE.Vector2[] };
   uBlobRadii: { value: number[] };
 }
 
-export function Bench({ poolCenter = [0, 0], poolRadius = 2.2, blobs = [], size = 40 }: BenchProps) {
+/** `CameraDirector` writes fog distance through this every frame. */
+export interface BenchHandle {
+  setFogNear: (near: number) => void;
+}
+
+export const Bench = forwardRef<BenchHandle, BenchProps>(function Bench({ poolCenter = [0, 0], poolRadius = 2.2, blobs = [], size = 40 }, ref) {
   // Created once, mutated in place on every render after — the standard
   // R3F pattern for a uniforms object (three.js's own `ShaderMaterial`
   // uniforms are mutable by design: `uniform.value = x` *is* the public
@@ -119,8 +131,7 @@ export function Bench({ poolCenter = [0, 0], poolRadius = 2.2, blobs = [], size 
       uPoolColor: { value: new THREE.Color("#211e1a") }, // --color-carbon-2
       uPoolCenter: { value: new THREE.Vector2(...poolCenter) },
       uPoolRadius: { value: poolRadius },
-      uFogNear: { value: 6 },
-      uFogFar: { value: 22 },
+      uNear: { value: 9 }, // artifact's own floor (Math.max(9, cd + 1)) — a reasonable default before the first frame sets a real one
       uBlobCount: { value: 0 },
       uBlobCenters: { value: Array.from({ length: MAX_BLOBS }, () => new THREE.Vector2()) },
       uBlobRadii: { value: new Array(MAX_BLOBS).fill(0) },
@@ -141,10 +152,20 @@ export function Bench({ poolCenter = [0, 0], poolRadius = 2.2, blobs = [], size 
     }
   }
 
+  useImperativeHandle(
+    ref,
+    () => ({
+      setFogNear: (near: number) => {
+        uniforms.uNear.value = near;
+      },
+    }),
+    [uniforms],
+  );
+
   return (
     <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]} receiveShadow={false}>
       <planeGeometry args={[size, size]} />
       <shaderMaterial vertexShader={VERTEX_SHADER} fragmentShader={FRAGMENT_SHADER} uniforms={uniforms} />
     </mesh>
   );
-}
+});

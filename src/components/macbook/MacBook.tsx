@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { getMaterialRegistry } from "@/components/three/materials/materialRegistry";
@@ -54,7 +54,13 @@ export interface MacBookProps {
   locale: Locale;
 }
 
-export function MacBook({ locale }: MacBookProps) {
+/** The two groups `CameraDirector` (M8) reads world matrices from for its weighted-point fit — the base's 4 corners and the lid's own edge (artifact `_fitCam`, lines 1247-1248). */
+export interface MacBookHandle {
+  macGroup: THREE.Group;
+  lidGroup: THREE.Group;
+}
+
+export const MacBook = forwardRef<MacBookHandle, MacBookProps>(function MacBook({ locale }, ref) {
   const mat = getMaterialRegistry();
   const groupRef = useRef<THREE.Group>(null);
   const keyboardRef = useRef<KeyboardHandle>(null);
@@ -146,6 +152,15 @@ export function MacBook({ locale }: MacBookProps) {
     }
   });
 
+  useImperativeHandle(
+    ref,
+    () => ({
+      macGroup: groupRef.current as THREE.Group,
+      lidGroup: lidRef.current!.group,
+    }),
+    [],
+  );
+
   return (
     <group ref={groupRef}>
       <mesh geometry={baseGeometry} material={mat.alu} />
@@ -156,6 +171,6 @@ export function MacBook({ locale }: MacBookProps) {
       <Lid ref={lidRef} />
     </group>
   );
-}
+});
 
 export default MacBook;
