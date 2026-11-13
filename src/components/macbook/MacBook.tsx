@@ -18,10 +18,15 @@ import { drawBoot, bootScreenKey } from "./screens/boot";
 import { drawProfile, profileScreenKey } from "./screens/profile";
 import { drawCertV, certvScreenKey } from "./screens/certv";
 import { drawForm, formScreenKey } from "./screens/form";
+import { drawShot, shotScreenKey } from "./screens/shot";
 import { screenPower } from "./screenPower";
 import { formationProgress } from "@/features/chapters/certFlight";
+import { shotWindowAt } from "@/features/chapters/projectShots";
 import { getCredentialTexture } from "@/components/three/textures/credentialImages";
+import { getShowcaseImage } from "@/components/three/textures/showcaseImages";
 import { CREDENTIALS } from "@/content/credentials";
+import { CHAPTERS } from "@/content/chapters";
+import { getProjectContent } from "@/content/projects";
 import {
   BASE_BEVEL,
   HINGE_LENGTH,
@@ -177,6 +182,22 @@ export const MacBook = forwardRef<MacBookHandle, MacBookProps>(function MacBook(
           const verifiedCount = Math.min(CREDENTIALS.length, Math.max(0, activeIndex + 1));
           const key = formScreenKey(verifiedCount, locale, new Date());
           lid.redrawScreen(key, (ctx) => drawForm(ctx, { verifiedCount, locale, now: new Date() }));
+        }
+        break;
+      }
+      case "nave":
+      case "vee":
+      case "est":
+      case "mel":
+      case "con": {
+        const copy = CHAPTERS[chapter.id];
+        const project = copy.kind === "project" ? getProjectContent(copy.projectId) : undefined;
+        if (project) {
+          const chapterProgress = chapterProgressAt(p, chapter);
+          const { index: shotIndex, progress: shotProgress } = shotWindowAt(chapterProgress, project.showcase.length);
+          const hasImage = getShowcaseImage(project.showcase[shotIndex]?.src ?? "", "L") !== null;
+          const key = shotScreenKey(project.id, shotIndex, shotProgress, hasImage, scrollStore.t, locale);
+          lid.redrawScreen(key, (ctx) => drawShot(ctx, { project, shotIndex, shotProgress, t: scrollStore.t, locale }));
         }
         break;
       }

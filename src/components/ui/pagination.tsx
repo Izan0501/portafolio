@@ -2,10 +2,9 @@ import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { cn } from "@/lib/utils";
 
 /**
- * Numbered page control — same mono/cyan pill language as this site's
- * gallery tab bar, so the two read as one family even though they sit at
- * opposite ends of a section (tabs at top for jumping to any section
- * directly, this at the bottom for moving to the next one in order).
+ * Numbered page control — same mono/limón pill language as this site's
+ * gallery tab bar (M11 re-style off the legacy cyan/neon palette; the
+ * page/totalPages/onChange logic itself was already sound, kept as-is).
  *
  * Flat props, not a compound `<Pagination.Item>` API: every current and
  * foreseeable use of this is the exact same shape (page/totalPages/onChange)
@@ -34,7 +33,7 @@ export function Pagination({ page, totalPages, onChange, pageLabels, className }
     <nav aria-label="Section pages" className={cn("flex items-center justify-center gap-2", className)}>
       <button
         aria-label="Previous section"
-        className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-neutral-900/70 text-neutral-400 transition-colors duration-200 enabled:hover:border-cyan-500/40 enabled:hover:text-cyan-300 disabled:cursor-not-allowed disabled:opacity-30"
+        className="flex h-9 w-9 items-center justify-center rounded-full shadow-[inset_0_0_0_1px_var(--color-linea)] bg-carbon text-piedra transition-colors duration-200 enabled:hover:border-limon/40 enabled:hover:text-limon disabled:cursor-not-allowed disabled:opacity-30"
         disabled={page === 1}
         onClick={() => onChange(page - 1)}
         type="button"
@@ -50,10 +49,10 @@ export function Pagination({ page, totalPages, onChange, pageLabels, className }
             aria-current={isActive ? "page" : undefined}
             aria-label={pageLabels?.[p - 1] ? `Go to ${pageLabels[p - 1]}` : `Go to page ${p}`}
             className={cn(
-              "flex h-9 w-9 items-center justify-center rounded-full border font-mono text-xs transition-all duration-200 cursor-pointer",
+              "flex h-9 w-9 items-center justify-center rounded-full font-mono text-xs transition-all duration-200 cursor-pointer",
               isActive
-                ? "bg-cyan-500/15 text-cyan-300 border-cyan-500/40 shadow-[0_0_15px_rgba(34,211,238,0.15)]"
-                : "bg-transparent text-neutral-400 border-transparent hover:text-white hover:bg-white/5",
+                ? "bg-limon/15 text-limon shadow-[inset_0_0_0_1px_var(--color-limon)]"
+                : "bg-transparent text-piedra shadow-[inset_0_0_0_1px_transparent] hover:text-hueso hover:bg-carbon-2",
             )}
             onClick={() => onChange(p)}
             type="button"
@@ -65,7 +64,7 @@ export function Pagination({ page, totalPages, onChange, pageLabels, className }
 
       <button
         aria-label="Next section"
-        className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-neutral-900/70 text-neutral-400 transition-colors duration-200 enabled:hover:border-cyan-500/40 enabled:hover:text-cyan-300 disabled:cursor-not-allowed disabled:opacity-30"
+        className="flex h-9 w-9 items-center justify-center rounded-full shadow-[inset_0_0_0_1px_var(--color-linea)] bg-carbon text-piedra transition-colors duration-200 enabled:hover:border-limon/40 enabled:hover:text-limon disabled:cursor-not-allowed disabled:opacity-30"
         disabled={page === totalPages}
         onClick={() => onChange(page + 1)}
         type="button"

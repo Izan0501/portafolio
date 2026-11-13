@@ -5,6 +5,7 @@ import { useLenis } from "lenis/react";
 import { advanceScrollStore, scrollStore } from "@/features/scroll/scrollStore";
 import { scrollPMotionValue } from "@/features/scroll/scrollMotionValue";
 import { frameDriverRegistry } from "@/features/scroll/frameDriverRegistry";
+import { updateFpsStore } from "@/features/scroll/fpsStore";
 
 /**
  * The in-Canvas half of the single scroll loop (plan §2.2). Mounted inside
@@ -30,6 +31,7 @@ export function FrameDriver(): null {
     lenis.raf(performance.now());
     advanceScrollStore(delta);
     scrollPMotionValue.set(scrollStore.p);
+    updateFpsStore(delta);
   }, -1);
 
   return null;

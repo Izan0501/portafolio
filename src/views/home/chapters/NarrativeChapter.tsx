@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/Button";
 
 /**
  * Renders one narrative chapter's copy (hero/open/prof/cert/dive/pipe/cta —
- * the project chapters use `ProjectChapterPlaceholder` instead, see M11).
+ * the project chapters use `Projects.tsx` instead, M11).
  *
  * Always mounted, never conditionally rendered — "el texto se lee completo
  * con JS deshabilitado" (plan M4 quality gate) needs every chapter's copy
