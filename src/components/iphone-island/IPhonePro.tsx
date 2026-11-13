@@ -16,7 +16,11 @@ import { SPRING, createSpring, stepSpring } from "@/features/choreography/spring
 import { clamp } from "@/lib/math/ease";
 import { drawPhoneScreen, phoneScreenKey } from "./PhoneScreen";
 import { drawProfile as drawPhoneProfile, profileScreenKey as phoneProfileScreenKey } from "./screens/profile";
+import { drawCase, drawCaseCredential, caseScreenKey, caseCredentialScreenKey } from "./screens/case";
 import { drawIslandTexture } from "./IslandTexture";
+import { formationProgress } from "@/features/chapters/certFlight";
+import { getCredentialTexture } from "@/components/three/textures/credentialImages";
+import { CREDENTIALS } from "@/content/credentials";
 import { phoneScreenPower } from "./screenPower";
 import { islandTargetSize } from "./islandTargetSize";
 import {
@@ -164,6 +168,25 @@ export const IPhonePro = forwardRef<IPhoneProHandle, IPhoneProProps>(function IP
           drawPhoneProfile(ctx, { chapterProgress, locale });
           drawIslandTexture(ctx, { islandWidth, islandHeight });
         });
+      } else if (chapterId === "cert") {
+        const cf = formationProgress(chapterProgress);
+        const activeIndex = Math.floor(cf - 0.8);
+        if (activeIndex >= 0 && activeIndex < CREDENTIALS.length && chapterProgress < 0.94) {
+          const credential = CREDENTIALS[activeIndex];
+          const localProgress = cf - activeIndex;
+          const texEntry = getCredentialTexture(credential);
+          const key = `${caseCredentialScreenKey(activeIndex, localProgress, texEntry !== null, locale)}|${Math.round(islandWidth)}|${Math.round(islandHeight)}`;
+          screen.redrawIfKeyChanged(key, (ctx) => {
+            drawCaseCredential(ctx, { credential, localProgress, activeIndex, image: texEntry?.image ?? null, locale });
+            drawIslandTexture(ctx, { islandWidth, islandHeight });
+          });
+        } else {
+          const key = `${caseScreenKey(chapterProgress, locale)}|${Math.round(islandWidth)}|${Math.round(islandHeight)}`;
+          screen.redrawIfKeyChanged(key, (ctx) => {
+            drawCase(ctx, chapterProgress, locale);
+            drawIslandTexture(ctx, { islandWidth, islandHeight });
+          });
+        }
       } else {
         // Every chapter without a screen of its own yet (cert/dive/etc.,
         // M10-M12) falls back to the contact terminal — the pre-existing

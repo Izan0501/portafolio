@@ -6,6 +6,7 @@ import { CH, PMAX } from "@/config/chapters";
 import { CHAPTERS } from "@/content/chapters";
 import { NarrativeChapter } from "./chapters/NarrativeChapter";
 import { Profile } from "./chapters/Profile";
+import { Formation } from "./chapters/Formation";
 import { ProjectChapterPlaceholder } from "./chapters/ProjectChapterPlaceholder";
 import { StagePoster } from "@/components/three/StagePoster";
 
@@ -54,13 +55,13 @@ export function ExperienceShell() {
         {CH.map((chapter) => {
           const copy = CHAPTERS[chapter.id];
           if (copy.kind !== "narrative") return <ProjectChapterPlaceholder key={chapter.id} chapter={chapter} copy={copy} locale={locale} />;
-          // Perfil gets its own component (M9): its 4 facts count up in
-          // sync with the Mac/iPhone screens instead of appearing static.
-          return chapter.id === "prof" ? (
-            <Profile key={chapter.id} chapter={chapter} copy={copy} locale={locale} />
-          ) : (
-            <NarrativeChapter key={chapter.id} chapter={chapter} copy={copy} locale={locale} />
-          );
+          // Perfil (M9) and Formación (M10) get their own components —
+          // Perfil's 4 facts count up in sync with the 3D screens;
+          // Formación's certificate list syncs `data-on` with the
+          // certificate actively being verified in 3D.
+          if (chapter.id === "prof") return <Profile key={chapter.id} chapter={chapter} copy={copy} locale={locale} />;
+          if (chapter.id === "cert") return <Formation key={chapter.id} chapter={chapter} copy={copy} locale={locale} />;
+          return <NarrativeChapter key={chapter.id} chapter={chapter} copy={copy} locale={locale} />;
         })}
       </div>
     </div>
