@@ -12,6 +12,8 @@ import { ProfileBadge } from "./ProfileBadge";
 import { StackTiles } from "./StackTiles";
 import { Briefcase, type BriefcaseHandle } from "./Briefcase";
 import { CertPlates } from "./CertPlates";
+import { VeeLayers, type VeeLayersHandle } from "./VeeLayers";
+import { OfficePins } from "./OfficePins";
 import { PulseLine } from "./PulseLine";
 import { MacBook, type MacBookHandle } from "@/components/macbook/MacBook";
 import { IPhonePro, type IPhoneProHandle } from "@/components/iphone-island/IPhonePro";
@@ -134,6 +136,7 @@ export function Stage({ benchProps, locale }: StageProps) {
   const phoneRef = useRef<IPhoneProHandle>(null);
   const benchRef = useRef<BenchHandle>(null);
   const briefcaseRef = useRef<BriefcaseHandle>(null);
+  const veeLayersRef = useRef<VeeLayersHandle>(null);
 
   const shouldRun = useVisibilityPause(containerRef);
   const gpu = useDetectGPU();
@@ -220,7 +223,9 @@ export function Stage({ benchProps, locale }: StageProps) {
         <StackTiles macRef={macRef} locale={locale} />
         <Briefcase ref={briefcaseRef} />
         <CertPlates macRef={macRef} briefcaseRef={briefcaseRef} />
-        <PulseLine macRef={macRef} phoneRef={phoneRef} />
+        <VeeLayers ref={veeLayersRef} macRef={macRef} />
+        <OfficePins macRef={macRef} />
+        <PulseLine macRef={macRef} phoneRef={phoneRef} veeLayersRef={veeLayersRef} />
         <CameraDirector macRef={macRef} phoneRef={phoneRef} benchRef={benchRef} />
         {tierName === "high" && <PerformanceMonitor onIncline={() => setDpr(1.5)} onDecline={() => setDpr(1)} flipflops={3} />}
       </Canvas>

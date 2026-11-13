@@ -266,29 +266,15 @@ export const en = {
   },
 
   // ── ProjectDetail ─────────────────────────────────────────────────────────
-  projectDetail: {
-    backToMatrix: "BACK",
-    returnToMatrix: "< RETURN",
+  projectView: {
+    back: "← Back to the recorrido",
     live: "LIVE",
-    building: "BUILDING",
-    deployStatusLabel: "DEPLOY STATUS:",
-    latencyLabel: "LATENCY:",
-    architectureLabel: "ARCHITECTURE:",
-    challengeHeading: "// THE CHALLENGE",
-    scopeHeading: "// SCOPE & SOLUTION",
-    featuresHeading: "// ARCHITECTURE & FEATURES",
-    initializeLive: "INITIALIZE LIVE SYSTEM",
-
-    terminal: {
-      fileName: (id: string) => `deploy.sh — ${id}`,
-      deployCommand: (target: string) => `$ deploy --target=${target}`,
-      provisioning: (architecture: string) => `Provisioning ${architecture} services...`,
-      stack: (stack: string) => `Stack: ${stack}`,
-      healthCheck: "Health check... ",
-      latencyProbe: "Latency probe: ",
-      stable: "Deployment stable",
-      stagingReady: "Staging build ready",
-    },
+    inDevelopment: "IN DEVELOPMENT",
+    challengeHeading: "The challenge",
+    solutionHeading: "The solution",
+    stackHeading: "Stack",
+    galleryHeading: "Screenshots",
+    viewLive: "View live",
   },
 
   // ── Footer ────────────────────────────────────────────────────────────────

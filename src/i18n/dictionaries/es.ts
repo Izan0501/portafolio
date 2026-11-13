@@ -267,29 +267,18 @@ export const es: Dictionary = {
   },
 
   // ── ProjectDetail ─────────────────────────────────────────────────────────
-  projectDetail: {
-    backToMatrix: "VOLVER",
-    returnToMatrix: "< VOLVER",
+  // M11: replaces the legacy `projectDetail` namespace (cyberpunk tone,
+  // included a `latencyProbe` string for the metric the plan already
+  // dropped as unverifiable) — no translation reused from it.
+  projectView: {
+    back: "← Volver al recorrido",
     live: "EN VIVO",
-    building: "EN CONSTRUCCIÓN",
-    deployStatusLabel: "ESTADO DEL DEPLOY:",
-    latencyLabel: "LATENCIA:",
-    architectureLabel: "ARQUITECTURA:",
-    challengeHeading: "// EL DESAFÍO",
-    scopeHeading: "// ALCANCE Y SOLUCIÓN",
-    featuresHeading: "// ARQUITECTURA Y FUNCIONALIDADES",
-    initializeLive: "INICIAR SISTEMA EN VIVO",
-
-    terminal: {
-      fileName: (id: string) => `deploy.sh — ${id}`,
-      deployCommand: (target: string) => `$ deploy --target=${target}`,
-      provisioning: (architecture: string) => `Aprovisionando servicios ${architecture}...`,
-      stack: (stack: string) => `Stack: ${stack}`,
-      healthCheck: "Chequeo de salud... ",
-      latencyProbe: "Sonda de latencia: ",
-      stable: "Despliegue estable",
-      stagingReady: "Build de staging listo",
-    },
+    inDevelopment: "EN DESARROLLO",
+    challengeHeading: "El desafío",
+    solutionHeading: "La solución",
+    stackHeading: "Stack",
+    galleryHeading: "Capturas",
+    viewLive: "Ver en vivo",
   },
 
   // ── Footer ────────────────────────────────────────────────────────────────

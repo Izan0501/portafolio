@@ -7,7 +7,7 @@ import { CHAPTERS } from "@/content/chapters";
 import { NarrativeChapter } from "./chapters/NarrativeChapter";
 import { Profile } from "./chapters/Profile";
 import { Formation } from "./chapters/Formation";
-import { ProjectChapterPlaceholder } from "./chapters/ProjectChapterPlaceholder";
+import { Projects } from "./chapters/Projects";
 import { StagePoster } from "@/components/three/StagePoster";
 
 // M5: the three.js/R3F chunk is dynamically imported, ssr:false, so it never
@@ -54,7 +54,9 @@ export function ExperienceShell() {
 
         {CH.map((chapter) => {
           const copy = CHAPTERS[chapter.id];
-          if (copy.kind !== "narrative") return <ProjectChapterPlaceholder key={chapter.id} chapter={chapter} copy={copy} locale={locale} />;
+          // Project chapters (M11): the real 3D showcase exists now, so
+          // `Projects` replaces the M4 placeholder.
+          if (copy.kind !== "narrative") return <Projects key={chapter.id} chapter={chapter} copy={copy} locale={locale} />;
           // Perfil (M9) and Formación (M10) get their own components —
           // Perfil's 4 facts count up in sync with the 3D screens;
           // Formación's certificate list syncs `data-on` with the

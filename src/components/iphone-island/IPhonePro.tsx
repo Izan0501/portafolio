@@ -17,10 +17,14 @@ import { clamp } from "@/lib/math/ease";
 import { drawPhoneScreen, phoneScreenKey } from "./PhoneScreen";
 import { drawProfile as drawPhoneProfile, profileScreenKey as phoneProfileScreenKey } from "./screens/profile";
 import { drawCase, drawCaseCredential, caseScreenKey, caseCredentialScreenKey } from "./screens/case";
+import { drawProjectScreen, projectScreenKey } from "./screens/projectScreens";
 import { drawIslandTexture } from "./IslandTexture";
 import { formationProgress } from "@/features/chapters/certFlight";
+import { shotWindowAt } from "@/features/chapters/projectShots";
 import { getCredentialTexture } from "@/components/three/textures/credentialImages";
 import { CREDENTIALS } from "@/content/credentials";
+import { CHAPTERS } from "@/content/chapters";
+import { getProjectContent } from "@/content/projects";
 import { phoneScreenPower } from "./screenPower";
 import { islandTargetSize } from "./islandTargetSize";
 import {
@@ -187,10 +191,21 @@ export const IPhonePro = forwardRef<IPhoneProHandle, IPhoneProProps>(function IP
             drawIslandTexture(ctx, { islandWidth, islandHeight });
           });
         }
+      } else if (["nave", "vee", "est", "mel", "con"].includes(chapterId)) {
+        const copy = CHAPTERS[chapter.id];
+        const project = copy.kind === "project" ? getProjectContent(copy.projectId) : undefined;
+        if (project) {
+          const { index: shotIndex } = shotWindowAt(chapterProgress, project.showcase.length);
+          const key = `${projectScreenKey(project.id, shotIndex, scrollStore.t, locale)}|${Math.round(islandWidth)}|${Math.round(islandHeight)}`;
+          screen.redrawIfKeyChanged(key, (ctx) => {
+            drawProjectScreen(ctx, { project, shotIndex, t: scrollStore.t, locale });
+            drawIslandTexture(ctx, { islandWidth, islandHeight });
+          });
+        }
       } else {
-        // Every chapter without a screen of its own yet (cert/dive/etc.,
-        // M10-M12) falls back to the contact terminal — the pre-existing
-        // M7 behavior (there was no dispatch at all before M9), kept as-is
+        // Every chapter without a screen of its own yet (dive/pipe/cta,
+        // M12) falls back to the contact terminal — the pre-existing M7
+        // behavior (there was no dispatch at all before M9), kept as-is
         // rather than switched to the Mac's "freeze the last frame"
         // strategy, which M9's scope didn't ask for.
         const key = `${phoneScreenKey(chapterProgress, locale)}|${Math.round(islandWidth)}|${Math.round(islandHeight)}`;

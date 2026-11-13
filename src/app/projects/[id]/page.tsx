@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { PROJECTS_DATA, getProjectById } from "@/data/projects";
-import { ProjectDetail } from "@/components/sections/ProjectDetail";
+import { PROJECTS, getProjectContent } from "@/content/projects";
+import { ProjectView } from "@/views/project/ProjectView";
 import { DEFAULT_LOCALE } from "@/i18n/config";
 
 interface ProjectPageProps {
@@ -9,12 +9,12 @@ interface ProjectPageProps {
 }
 
 export function generateStaticParams() {
-  return PROJECTS_DATA.map((project) => ({ id: project.id }));
+  return PROJECTS.map((project) => ({ id: project.id }));
 }
 
 export async function generateMetadata({ params }: ProjectPageProps): Promise<Metadata> {
   const { id } = await params;
-  const project = getProjectById(id);
+  const project = getProjectContent(id);
 
   if (!project) {
     return {};
@@ -31,11 +31,11 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
 
 export default async function ProjectPage({ params }: ProjectPageProps) {
   const { id } = await params;
-  const project = getProjectById(id);
+  const project = getProjectContent(id);
 
   if (!project) {
     notFound();
   }
 
-  return <ProjectDetail id={id} />;
+  return <ProjectView project={project} />;
 }
