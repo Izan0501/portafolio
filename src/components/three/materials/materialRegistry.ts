@@ -13,10 +13,13 @@ import * as THREE from "three";
  * `Stage`'s Canvas ever mounts.
  *
  * M6 (MacBook) built `alu`/`aluD`/`well`/`key`/`glass`/`black`. M7 (iPhone)
- * added `ti` (titanium) and `lens` (camera glass). M9 adds `card` (ID
- * badge, stack tiles) — real values verified against the artifact's own
- * registry (`this.mat`, lines 603-618), not guessed. `leather`/`brass`/
- * `lining`/`lemon` stay for M10 to add.
+ * added `ti` (titanium) and `lens` (camera glass). M9 added `card` (ID
+ * badge, stack tiles). M10 adds `leather`/`brass`/`lining`/`lemon`
+ * (briefcase, cert plates, pulse particles) — the full registry now
+ * matches the plan's own list (§2.3) exactly. `lining` is registered for
+ * completeness but `Briefcase.tsx`'s own interior lining uses its own
+ * ad-hoc material instead (artifact: the real lining isn't built from
+ * `this.mat.lining` either — confirmed, not an oversight to fix).
  */
 export interface MaterialRegistry {
   /** Aluminum — chassis, trackpad bezel. #C2C8CC metalness 1 roughness 0.30. */
@@ -37,6 +40,14 @@ export interface MaterialRegistry {
   lens: THREE.MeshStandardMaterial;
   /** ID badge card stock, stack tiles. #1A1815 metalness 0.4 roughness 0.5. */
   card: THREE.MeshStandardMaterial;
+  /** Briefcase leather — body, lid, handle. #2B2520 roughness 0.62, non-metal. */
+  leather: THREE.MeshStandardMaterial;
+  /** Brass — briefcase lip, corners, feet, hasps, nameplate. #C8B46A metalness 1 roughness 0.32. */
+  brass: THREE.MeshStandardMaterial;
+  /** Interior lining — registered for completeness; `Briefcase.tsx` builds its own ad-hoc lining material instead (see module comment). #1B1914 roughness 0.95, non-metal. */
+  lining: THREE.MeshStandardMaterial;
+  /** Flat unlit lemon accent — pulse particles, scan lines. #E6D84A, unlit (never tone-mapped). */
+  lemon: THREE.MeshBasicMaterial;
 }
 
 let registry: MaterialRegistry | null = null;
@@ -52,6 +63,10 @@ export function getMaterialRegistry(): MaterialRegistry {
     ti: new THREE.MeshStandardMaterial({ color: 0x4a4740, metalness: 1, roughness: 0.3 }),
     lens: new THREE.MeshStandardMaterial({ color: 0x0a0a0c, metalness: 0.6, roughness: 0.12 }),
     card: new THREE.MeshStandardMaterial({ color: 0x1a1815, metalness: 0.4, roughness: 0.5 }),
+    leather: new THREE.MeshStandardMaterial({ color: 0x2b2520, metalness: 0, roughness: 0.62 }),
+    brass: new THREE.MeshStandardMaterial({ color: 0xc8b46a, metalness: 1, roughness: 0.32 }),
+    lining: new THREE.MeshStandardMaterial({ color: 0x1b1914, metalness: 0, roughness: 0.95 }),
+    lemon: new THREE.MeshBasicMaterial({ color: 0xe6d84a, toneMapped: false }),
   };
   return registry;
 }

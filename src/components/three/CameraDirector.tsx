@@ -10,7 +10,7 @@ import { MAC_DEPTH, MAC_WIDTH, LID_HEIGHT } from "@/components/macbook/dimension
 import { scrollStore } from "@/features/scroll/scrollStore";
 import { poseAt } from "@/features/choreography/keyframes";
 import { damp } from "@/lib/math/damp";
-import { clamp, smoothstep, win } from "@/lib/math/ease";
+import { clamp, mix, smoothstep, win } from "@/lib/math/ease";
 import { viewportStore } from "@/hooks/useViewportProfile";
 import { assertExclusion, centroidOf, computeFreeArea, fitCamera, type FreeAreaRect } from "@/features/choreography/cameraFit";
 
@@ -94,8 +94,9 @@ export function CameraDirector({ macRef, phoneRef, benchRef }: CameraDirectorPro
   const pointPool = useRef<THREE.Vector3[]>([]);
   if (pointPool.current.length === 0) {
     // 8 Mac base/lid points + 4 iPhone corners + 3 badge + 2 stack-tile
-    // anchors (M9) — extend this count as M10+ adds more optional points.
-    pointPool.current = Array.from({ length: 17 }, () => new THREE.Vector3());
+    // anchors (M9) + 3 briefcase anchors (M10) — extend this count as
+    // M11+ adds more optional points.
+    pointPool.current = Array.from({ length: 20 }, () => new THREE.Vector3());
   }
 
   useFrame((state, delta) => {
@@ -189,10 +190,41 @@ export function CameraDirector({ macRef, phoneRef, benchRef }: CameraDirectorPro
       }
     }
 
+    // Briefcase (M10): 3 points, same parallel-formula pattern as the
+    // badge (not `localToWorld` on `Briefcase` — the artifact computes
+    // these from the same X/Z the briefcase is posed with).
+    const briefcaseWeight = win(p, 3.45, 6.45, 0.2);
+    if (briefcaseWeight > 0.001) {
+      const briefcaseX = compact ? pose.mac[0] + 0.3 : 2.3;
+      const briefcaseZ = compact ? 2.8 : 1.45;
+      const baseCentroid = centroidOf(basePoints);
+      for (const [dx, dy, dz] of [
+        [-0.75, 0, 0.55],
+        [0.75, 0, 0.55],
+        [0.75, 1.0, -0.4],
+      ] as const) {
+        const v = pool[n++];
+        v.set(briefcaseX + dx, dy, briefcaseZ + dz);
+        v.lerp(baseCentroid, 1 - briefcaseWeight);
+        allPoints.push(v);
+      }
+    }
+
     // --- direction: authored cam/tgt from poseAt, smoothed ---
     const rawCam = new THREE.Vector3(...pose.cam);
     const rawTgt = new THREE.Vector3(...pose.tgt);
     const rawDirection = rawCam.clone().sub(rawTgt).normalize();
+    // Compact-only: during Formación, tilt the view down proportionally to
+    // how horizontal it already is (artifact lines 1259-1260) — this is
+    // the plan's "cámara elevada en modo compacto", not a fixed angle.
+    if (compact) {
+      const formationCompactWeight = win(p, 3.3, 6.5, 0.15);
+      if (formationCompactWeight > 0) {
+        const horizontal = Math.hypot(rawDirection.x, rawDirection.z);
+        rawDirection.y = mix(rawDirection.y, Math.max(rawDirection.y, 0.45 * horizontal), formationCompactWeight);
+        rawDirection.normalize();
+      }
+    }
     if (!smoothedDirection.current) smoothedDirection.current = rawDirection.clone();
     else smoothedDirection.current.lerp(rawDirection, reduced ? 1 : 1 - Math.exp(-3 * delta)).normalize();
     const direction = smoothedDirection.current;

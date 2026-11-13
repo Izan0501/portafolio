@@ -22,8 +22,9 @@ import { LID_BEVEL, LID_HEIGHT, LID_PIVOT, MAC_WIDTH } from "./dimensions";
 
 const MONOGRAM_RESOLUTION = { width: 256, height: 256 };
 const NOTCH_SIZE: readonly [number, number] = [0.3, 0.07];
-const SCREEN_SIZE: readonly [number, number] = [2.76, 1.725];
-const SCREEN_POSITION: readonly [number, number, number] = [0, 1.06, 0.0024];
+/** World-space screen plane size/position — exported so `certFlight.ts` (M10) can convert the Mac canvas's own pixel rects to world coordinates without duplicating these numbers. */
+export const SCREEN_SIZE: readonly [number, number] = [2.76, 1.725];
+export const SCREEN_POSITION: readonly [number, number, number] = [0, 1.06, 0.0024];
 const NOTCH_POSITION: readonly [number, number, number] = [0, 1.06 + 0.8625 - 0.025, 0.0032];
 const GLASS_SIZE: readonly [number, number] = [2.95, 1.99];
 const MONOGRAM_SIZE: readonly [number, number] = [0.5, 0.5];

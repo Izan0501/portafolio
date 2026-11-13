@@ -16,7 +16,12 @@ import { Keyboard, type KeyboardHandle } from "./Keyboard";
 import { Lid, type LidHandle } from "./Lid";
 import { drawBoot, bootScreenKey } from "./screens/boot";
 import { drawProfile, profileScreenKey } from "./screens/profile";
+import { drawCertV, certvScreenKey } from "./screens/certv";
+import { drawForm, formScreenKey } from "./screens/form";
 import { screenPower } from "./screenPower";
+import { formationProgress } from "@/features/chapters/certFlight";
+import { getCredentialTexture } from "@/components/three/textures/credentialImages";
+import { CREDENTIALS } from "@/content/credentials";
 import {
   BASE_BEVEL,
   HINGE_LENGTH,
@@ -155,6 +160,24 @@ export const MacBook = forwardRef<MacBookHandle, MacBookProps>(function MacBook(
         const chapterProgress = chapterProgressAt(p, chapter);
         const key = profileScreenKey(chapterProgress, scrollStore.t, locale);
         lid.redrawScreen(key, (ctx) => drawProfile(ctx, { chapterProgress, t: scrollStore.t, locale }));
+        break;
+      }
+      case "cert": {
+        const chapterProgress = chapterProgressAt(p, chapter);
+        const cf = formationProgress(chapterProgress);
+        // Artifact `_screens`: `mode = st.mc >= 0 && st.k < 0.94 ? 'certv' : 'form'`.
+        const activeIndex = Math.floor(cf - 0.8);
+        if (activeIndex >= 0 && activeIndex < CREDENTIALS.length && chapterProgress < 0.94) {
+          const credential = CREDENTIALS[activeIndex];
+          const localProgress = cf - activeIndex;
+          const texEntry = getCredentialTexture(credential);
+          const key = certvScreenKey(activeIndex, localProgress, texEntry !== null, locale);
+          lid.redrawScreen(key, (ctx) => drawCertV(ctx, { index: activeIndex, credential, localProgress, image: texEntry?.image ?? null, locale }));
+        } else {
+          const verifiedCount = Math.min(CREDENTIALS.length, Math.max(0, activeIndex + 1));
+          const key = formScreenKey(verifiedCount, locale, new Date());
+          lid.redrawScreen(key, (ctx) => drawForm(ctx, { verifiedCount, locale, now: new Date() }));
+        }
         break;
       }
       default:

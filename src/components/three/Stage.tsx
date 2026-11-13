@@ -10,6 +10,9 @@ import { Bench, type BenchHandle, type BenchProps } from "./Bench";
 import { CameraDirector } from "./CameraDirector";
 import { ProfileBadge } from "./ProfileBadge";
 import { StackTiles } from "./StackTiles";
+import { Briefcase, type BriefcaseHandle } from "./Briefcase";
+import { CertPlates } from "./CertPlates";
+import { PulseLine } from "./PulseLine";
 import { MacBook, type MacBookHandle } from "@/components/macbook/MacBook";
 import { IPhonePro, type IPhoneProHandle } from "@/components/iphone-island/IPhonePro";
 import { disposeMaterialRegistry } from "@/components/three/materials/materialRegistry";
@@ -25,9 +28,11 @@ import type { Locale } from "@/i18n/config";
  * `?perf` HUD. M6 added the MacBook, M7 the iPhone and island nav. M8
  * added `<CameraDirector/>`, which now owns the camera every frame — the
  * `camera={{...}}` prop below is only the seed for the very first frame.
- * M9 adds the first chapter-specific objects, `<ProfileBadge/>`/
+ * M9 added the first chapter-specific objects, `<ProfileBadge/>`/
  * `<StackTiles/>` — both real children of the Mac's lid group, not the
- * scene root (see those files' own comments).
+ * scene root. M10 adds `<Briefcase/>`/`<CertPlates/>`/`<PulseLine/>` —
+ * `PulseLine` is a shared mechanism M11 will extend, not Formación-only
+ * (see its own comment).
  *
  * Imported via `next/dynamic(() => import('@/components/three/Stage'), {
  * ssr: false, loading: () => <StagePoster/> })` from whichever Client
@@ -128,6 +133,7 @@ export function Stage({ benchProps, locale }: StageProps) {
   const macRef = useRef<MacBookHandle>(null);
   const phoneRef = useRef<IPhoneProHandle>(null);
   const benchRef = useRef<BenchHandle>(null);
+  const briefcaseRef = useRef<BriefcaseHandle>(null);
 
   const shouldRun = useVisibilityPause(containerRef);
   const gpu = useDetectGPU();
@@ -212,6 +218,9 @@ export function Stage({ benchProps, locale }: StageProps) {
         <IPhonePro ref={phoneRef} locale={locale} />
         <ProfileBadge />
         <StackTiles macRef={macRef} locale={locale} />
+        <Briefcase ref={briefcaseRef} />
+        <CertPlates macRef={macRef} briefcaseRef={briefcaseRef} />
+        <PulseLine macRef={macRef} phoneRef={phoneRef} />
         <CameraDirector macRef={macRef} phoneRef={phoneRef} benchRef={benchRef} />
         {tierName === "high" && <PerformanceMonitor onIncline={() => setDpr(1.5)} onDecline={() => setDpr(1)} flipflops={3} />}
       </Canvas>
