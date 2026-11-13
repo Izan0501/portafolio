@@ -7,7 +7,7 @@ import { getMaterialRegistry } from "@/components/three/materials/materialRegist
 import { roundedRectShape } from "@/components/three/geometry/roundedRectShape";
 import type { Locale } from "@/i18n/config";
 import { CH } from "@/config/chapters";
-import { chapterIndexAt } from "@/features/scroll/chapterMath";
+import { chapterIndexAt, chapterProgressAt } from "@/features/scroll/chapterMath";
 import { scrollStore } from "@/features/scroll/scrollStore";
 import { poseAt } from "@/features/choreography/keyframes";
 import { SPRING, createSpring, stepSpring } from "@/features/choreography/springs";
@@ -15,6 +15,7 @@ import { clamp, smoothstep as ss } from "@/lib/math/ease";
 import { Keyboard, type KeyboardHandle } from "./Keyboard";
 import { Lid, type LidHandle } from "./Lid";
 import { drawBoot, bootScreenKey } from "./screens/boot";
+import { drawProfile, profileScreenKey } from "./screens/profile";
 import { screenPower } from "./screenPower";
 import {
   BASE_BEVEL,
@@ -37,18 +38,16 @@ import {
  * screen redraw) and writes it straight into the refs `Keyboard`/`Lid`
  * expose — no React state anywhere on this path (plan §2.2).
  *
- * Only the `hero`/`open` chapters have a screen draw so far
- * (`screenDrawForChapter` below) — `prof`/`certv`/`form`/`pipe`/`cta` are
- * real artifact modes too, but belong to chapters M6 doesn't build geometry
- * for yet (Perfil/Formación/Proyectos/Garantías/Contacto, M9-M12). Outside
- * `hero`/`open` the screen simply keeps showing its last `boot` frame
- * rather than drawing something invented — a documented gap, not a guess.
+ * `hero`/`open`/`prof` have a real screen draw so far (the `switch` inside
+ * the `useFrame` below) — `certv`/`form`/`pipe`/`cta` are real artifact
+ * modes too, but belong to chapters M6-M9 don't build geometry for yet
+ * (Formación/Proyectos/Garantías/Contacto, M10-M12). Outside those, the
+ * screen simply keeps showing its last frame rather than drawing
+ * something invented — a documented gap, not a guess. Each screen keeps
+ * its own param shape (`boot`/`profile` take different progress units —
+ * global `p` vs. in-chapter `k`), so this dispatches with an explicit
+ * `switch` instead of returning "the function to call" generically.
  */
-
-function screenDrawForChapter(chapterId: string): typeof drawBoot | null {
-  if (chapterId === "hero" || chapterId === "open") return drawBoot;
-  return null;
-}
 
 export interface MacBookProps {
   locale: Locale;
@@ -143,12 +142,23 @@ export const MacBook = forwardRef<MacBookHandle, MacBookProps>(function MacBook(
       if (glow.instanceColor) glow.instanceColor.needsUpdate = true;
     }
 
-    // Screen content: only `hero`/`open` have a real draw so far.
-    const chapterId = CH[chapterIndexAt(p, CH)].id;
-    const draw = screenDrawForChapter(chapterId);
-    if (draw) {
-      const key = bootScreenKey(p, scrollStore.t, locale);
-      lid.redrawScreen(key, (ctx) => draw(ctx, { p, t: scrollStore.t, locale }));
+    // Screen content.
+    const chapter = CH[chapterIndexAt(p, CH)];
+    switch (chapter.id) {
+      case "hero":
+      case "open": {
+        const key = bootScreenKey(p, scrollStore.t, locale);
+        lid.redrawScreen(key, (ctx) => drawBoot(ctx, { p, t: scrollStore.t, locale }));
+        break;
+      }
+      case "prof": {
+        const chapterProgress = chapterProgressAt(p, chapter);
+        const key = profileScreenKey(chapterProgress, scrollStore.t, locale);
+        lid.redrawScreen(key, (ctx) => drawProfile(ctx, { chapterProgress, t: scrollStore.t, locale }));
+        break;
+      }
+      default:
+        break;
     }
   });
 

@@ -93,8 +93,9 @@ export function CameraDirector({ macRef, phoneRef, benchRef }: CameraDirectorPro
   const smoothedCenter = useRef<THREE.Vector3 | null>(null);
   const pointPool = useRef<THREE.Vector3[]>([]);
   if (pointPool.current.length === 0) {
-    // 8 Mac base/lid points + 4 iPhone corners — extend this count as M9+ adds more optional points.
-    pointPool.current = Array.from({ length: 12 }, () => new THREE.Vector3());
+    // 8 Mac base/lid points + 4 iPhone corners + 3 badge + 2 stack-tile
+    // anchors (M9) — extend this count as M10+ adds more optional points.
+    pointPool.current = Array.from({ length: 17 }, () => new THREE.Vector3());
   }
 
   useFrame((state, delta) => {
@@ -146,6 +147,43 @@ export function CameraDirector({ macRef, phoneRef, benchRef }: CameraDirectorPro
           v.set(x, y, 0);
           phone.group.localToWorld(v);
           v.lerp(baseCentroid, 1 - phoneWeight); // equivalent to blendTowardCentroid(v, baseCentroid, phoneWeight), in place
+          allPoints.push(v);
+        }
+      }
+    }
+
+    // ID badge (M9): 3 points, artifact-style "parallel formula" rather
+    // than reading `ProfileBadge`'s real transform (line 1241-1243 of the
+    // research pass: the artifact itself computes these from the same
+    // X/Z the badge is posed with, not via `localToWorld` on the real
+    // object — confirmed, not a simplification here).
+    const badgeWeight = win(p, 1.9, 3.25, 0.16);
+    if (badgeWeight > 0.001) {
+      const badgeX = compact ? pose.mac[0] + 1.95 : 2.05;
+      const badgeZ = compact ? 1.0 : 1.65;
+      const baseCentroid = centroidOf(basePoints);
+      for (const [dx, by] of [
+        [-0.38, 1.4],
+        [0.38, 1.4],
+        [0.38, 0.3],
+      ] as const) {
+        const v = pool[n++];
+        v.set(badgeX + dx, by, badgeZ);
+        v.lerp(baseCentroid, 1 - badgeWeight);
+        allPoints.push(v);
+      }
+    }
+
+    // Stack tiles (M9): 2 points, real `localToWorld` on the lid, desktop only.
+    if (!compact) {
+      const stackWeight = win(p, 2.04, 3.24, 0.08);
+      if (stackWeight > 0.001) {
+        const baseCentroid = centroidOf(basePoints);
+        for (const x of [-1.6, 1.6]) {
+          const v = pool[n++];
+          v.set(x, 2.78, 0.32);
+          mac.lidGroup.localToWorld(v);
+          v.lerp(baseCentroid, 1 - stackWeight);
           allPoints.push(v);
         }
       }

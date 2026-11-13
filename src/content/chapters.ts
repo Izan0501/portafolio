@@ -98,6 +98,14 @@ export const CHAPTERS: Record<ChapterId, ChapterCopy> = {
       es: "En equipo: sprint planning, dailies, refinamiento de backlog, retrospectivas y comunicación asíncrona.",
       en: "On a team: sprint planning, dailies, backlog grooming, retrospectives and async communication.",
     },
+    // Same 5 real milestones the Mac screen draws (M9, `macbook/screens/profile.ts`'s `TIMELINE`) — kept here too so they're indexable, not only visible inside the aria-hidden canvas.
+    timeline: [
+      { year: 2023, title: { es: "Ciberseguridad", en: "Cybersecurity" }, detail: { es: "Coderhouse · nov", en: "Coderhouse · nov" } },
+      { year: 2024, title: { es: "JavaScript · Apps TOP 10", en: "JavaScript · Top 10 Apps" }, detail: { es: "Coderhouse · UTN inicia", en: "Coderhouse · UTN starts" } },
+      { year: 2025, title: { es: "Python", en: "Python" }, detail: { es: "Coderhouse · dic", en: "Coderhouse · dec" } },
+      { year: 2026, title: { es: "Ciberseguridad", en: "Cybersecurity" }, detail: { es: "UGR · en curso", en: "UGR · ongoing" } },
+      { year: 2027, title: { es: "Técnico en Programación", en: "Programming Technician" }, detail: { es: "UTN · meta feb", en: "UTN · target feb" } },
+    ],
   },
 
   cert: {

@@ -15,6 +15,7 @@ import { poseAt } from "@/features/choreography/keyframes";
 import { SPRING, createSpring, stepSpring } from "@/features/choreography/springs";
 import { clamp } from "@/lib/math/ease";
 import { drawPhoneScreen, phoneScreenKey } from "./PhoneScreen";
+import { drawProfile as drawPhoneProfile, profileScreenKey as phoneProfileScreenKey } from "./screens/profile";
 import { drawIslandTexture } from "./IslandTexture";
 import { phoneScreenPower } from "./screenPower";
 import { islandTargetSize } from "./islandTargetSize";
@@ -157,11 +158,24 @@ export const IPhonePro = forwardRef<IPhoneProHandle, IPhoneProProps>(function IP
 
     if (pow > 0.002) {
       const chapterProgress = chapterProgressAt(p, chapter);
-      const key = `${phoneScreenKey(chapterProgress, locale)}|${Math.round(islandWidth)}|${Math.round(islandHeight)}`;
-      screen.redrawIfKeyChanged(key, (ctx) => {
-        drawPhoneScreen(ctx, { chapterProgress, locale });
-        drawIslandTexture(ctx, { islandWidth, islandHeight });
-      });
+      if (chapterId === "prof") {
+        const key = `${phoneProfileScreenKey(chapterProgress, locale)}|${Math.round(islandWidth)}|${Math.round(islandHeight)}`;
+        screen.redrawIfKeyChanged(key, (ctx) => {
+          drawPhoneProfile(ctx, { chapterProgress, locale });
+          drawIslandTexture(ctx, { islandWidth, islandHeight });
+        });
+      } else {
+        // Every chapter without a screen of its own yet (cert/dive/etc.,
+        // M10-M12) falls back to the contact terminal — the pre-existing
+        // M7 behavior (there was no dispatch at all before M9), kept as-is
+        // rather than switched to the Mac's "freeze the last frame"
+        // strategy, which M9's scope didn't ask for.
+        const key = `${phoneScreenKey(chapterProgress, locale)}|${Math.round(islandWidth)}|${Math.round(islandHeight)}`;
+        screen.redrawIfKeyChanged(key, (ctx) => {
+          drawPhoneScreen(ctx, { chapterProgress, locale });
+          drawIslandTexture(ctx, { islandWidth, islandHeight });
+        });
+      }
     }
   });
 
