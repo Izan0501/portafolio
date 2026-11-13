@@ -13,9 +13,10 @@ import * as THREE from "three";
  * `Stage`'s Canvas ever mounts.
  *
  * M6 (MacBook) built `alu`/`aluD`/`well`/`key`/`glass`/`black`. M7 (iPhone)
- * adds `ti` (titanium) and `lens` (camera glass) — real values verified
- * against the artifact's own registry (`this.mat`, lines 603-618), not
- * guessed. `leather`/`brass`/`lining`/`card`/`lemon` stay for M9/M10 to add.
+ * added `ti` (titanium) and `lens` (camera glass). M9 adds `card` (ID
+ * badge, stack tiles) — real values verified against the artifact's own
+ * registry (`this.mat`, lines 603-618), not guessed. `leather`/`brass`/
+ * `lining`/`lemon` stay for M10 to add.
  */
 export interface MaterialRegistry {
   /** Aluminum — chassis, trackpad bezel. #C2C8CC metalness 1 roughness 0.30. */
@@ -34,6 +35,8 @@ export interface MaterialRegistry {
   ti: THREE.MeshStandardMaterial;
   /** Camera lenses. #0A0A0C metalness 0.6 roughness 0.12. */
   lens: THREE.MeshStandardMaterial;
+  /** ID badge card stock, stack tiles. #1A1815 metalness 0.4 roughness 0.5. */
+  card: THREE.MeshStandardMaterial;
 }
 
 let registry: MaterialRegistry | null = null;
@@ -48,6 +51,7 @@ export function getMaterialRegistry(): MaterialRegistry {
     black: new THREE.MeshBasicMaterial({ color: 0x000000 }),
     ti: new THREE.MeshStandardMaterial({ color: 0x4a4740, metalness: 1, roughness: 0.3 }),
     lens: new THREE.MeshStandardMaterial({ color: 0x0a0a0c, metalness: 0.6, roughness: 0.12 }),
+    card: new THREE.MeshStandardMaterial({ color: 0x1a1815, metalness: 0.4, roughness: 0.5 }),
   };
   return registry;
 }

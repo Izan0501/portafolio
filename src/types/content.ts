@@ -129,6 +129,8 @@ export interface NarrativeChapterCopy {
     institution: string;
     period: Localized<string>;
   }[];
+  /** Perfil's real 2023-2027 timeline (M9) — the same milestones the Mac screen's `profile.ts` draws, kept in the DOM so they're indexable (CLAUDE.md: "el 3D va aria-hidden", so anything real it shows needs a DOM twin). Distinct from `education`: this is a career timeline, not a list of formal degrees/certifications (that's 'cert'/M10's role for `education`). */
+  timeline?: { year: number; title: Localized<string>; detail: Localized<string> }[];
   steps?: { index: string; title: Localized<string>; detail: Localized<string> }[];
   ctas?: ChapterCta[];
 }

@@ -8,6 +8,8 @@ import { FrameDriver } from "./FrameDriver";
 import { Environment } from "./Environment";
 import { Bench, type BenchHandle, type BenchProps } from "./Bench";
 import { CameraDirector } from "./CameraDirector";
+import { ProfileBadge } from "./ProfileBadge";
+import { StackTiles } from "./StackTiles";
 import { MacBook, type MacBookHandle } from "@/components/macbook/MacBook";
 import { IPhonePro, type IPhoneProHandle } from "@/components/iphone-island/IPhonePro";
 import { disposeMaterialRegistry } from "@/components/three/materials/materialRegistry";
@@ -21,8 +23,11 @@ import type { Locale } from "@/i18n/config";
  * renderer configured per DESIGN.md §4/plan §2.3, adaptive DPR, visibility
  * pause, full disposal on unmount, a no-WebGL fallback, and a dev-only
  * `?perf` HUD. M6 added the MacBook, M7 the iPhone and island nav. M8
- * adds `<CameraDirector/>`, which now owns the camera every frame — the
+ * added `<CameraDirector/>`, which now owns the camera every frame — the
  * `camera={{...}}` prop below is only the seed for the very first frame.
+ * M9 adds the first chapter-specific objects, `<ProfileBadge/>`/
+ * `<StackTiles/>` — both real children of the Mac's lid group, not the
+ * scene root (see those files' own comments).
  *
  * Imported via `next/dynamic(() => import('@/components/three/Stage'), {
  * ssr: false, loading: () => <StagePoster/> })` from whichever Client
@@ -205,6 +210,8 @@ export function Stage({ benchProps, locale }: StageProps) {
         <Bench ref={benchRef} {...benchProps} />
         <MacBook ref={macRef} locale={locale} />
         <IPhonePro ref={phoneRef} locale={locale} />
+        <ProfileBadge />
+        <StackTiles macRef={macRef} locale={locale} />
         <CameraDirector macRef={macRef} phoneRef={phoneRef} benchRef={benchRef} />
         {tierName === "high" && <PerformanceMonitor onIncline={() => setDpr(1.5)} onDecline={() => setDpr(1)} flipflops={3} />}
       </Canvas>
