@@ -19,6 +19,8 @@ import { drawProfile, profileScreenKey } from "./screens/profile";
 import { drawCertV, certvScreenKey } from "./screens/certv";
 import { drawForm, formScreenKey } from "./screens/form";
 import { drawShot, shotScreenKey } from "./screens/shot";
+import { drawPipeline, pipelineScreenKey } from "./screens/pipeline";
+import { drawCta, ctaScreenKey } from "./screens/cta";
 import { screenPower } from "./screenPower";
 import { formationProgress } from "@/features/chapters/certFlight";
 import { shotWindowAt } from "@/features/chapters/projectShots";
@@ -199,6 +201,17 @@ export const MacBook = forwardRef<MacBookHandle, MacBookProps>(function MacBook(
           const key = shotScreenKey(project.id, shotIndex, shotProgress, hasImage, scrollStore.t, locale);
           lid.redrawScreen(key, (ctx) => drawShot(ctx, { project, shotIndex, shotProgress, t: scrollStore.t, locale }));
         }
+        break;
+      }
+      case "pipe": {
+        const chapterProgress = chapterProgressAt(p, chapter);
+        const key = pipelineScreenKey(chapterProgress, scrollStore.t, locale);
+        lid.redrawScreen(key, (ctx) => drawPipeline(ctx, { chapterProgress, t: scrollStore.t, locale }));
+        break;
+      }
+      case "cta": {
+        const key = ctaScreenKey(locale);
+        lid.redrawScreen(key, (ctx) => drawCta(ctx, { locale }));
         break;
       }
       default:

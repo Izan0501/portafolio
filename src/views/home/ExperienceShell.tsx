@@ -8,6 +8,8 @@ import { NarrativeChapter } from "./chapters/NarrativeChapter";
 import { Profile } from "./chapters/Profile";
 import { Formation } from "./chapters/Formation";
 import { Projects } from "./chapters/Projects";
+import { Guarantees } from "./chapters/Guarantees";
+import { Contact } from "./chapters/Contact";
 import { StagePoster } from "@/components/three/StagePoster";
 
 // M5: the three.js/R3F chunk is dynamically imported, ssr:false, so it never
@@ -63,6 +65,13 @@ export function ExperienceShell() {
           // certificate actively being verified in 3D.
           if (chapter.id === "prof") return <Profile key={chapter.id} chapter={chapter} copy={copy} locale={locale} />;
           if (chapter.id === "cert") return <Formation key={chapter.id} chapter={chapter} copy={copy} locale={locale} />;
+          // Garantías (M12): the 5 pipeline stages sync `data-on` with the
+          // stage actively "in progress" in the 3D `deploy.sh` screen,
+          // same mechanism as Formación's certificate list.
+          if (chapter.id === "pipe") return <Guarantees key={chapter.id} chapter={chapter} copy={copy} locale={locale} />;
+          // Contacto (M12): adds the real CV download link on top of the
+          // generic `copy.ctas` rendering `NarrativeChapter` already does.
+          if (chapter.id === "cta") return <Contact key={chapter.id} chapter={chapter} copy={copy} locale={locale} />;
           return <NarrativeChapter key={chapter.id} chapter={chapter} copy={copy} locale={locale} />;
         })}
       </div>

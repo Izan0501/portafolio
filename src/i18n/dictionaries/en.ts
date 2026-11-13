@@ -277,52 +277,26 @@ export const en = {
     viewLive: "View live",
   },
 
+  // ── Contact chapter (M12) ─────────────────────────────────────────────────
+  contact: {
+    downloadCv: "Download CV",
+  },
+
   // ── Footer ────────────────────────────────────────────────────────────────
+  // M12: replaces the legacy namespace (cyberpunk tone; a fabricated
+  // "SALTA, AR" location — `config/site.ts`'s real one is Tucumán; dead
+  // anchors to sections the recorrido no longer has; an unused WhatsApp
+  // channel). No translation reused from it.
   footer: {
-    badges: {
-      cluster: "SYS_ARCH // CLUSTER 100/100",
-      diagnostic: "CAD DIAGNOSTIC: READY FOR SCAN",
-      protocol: "ZERO-REGRESSION PROTOCOL",
-    },
-    watermarkLegend: "// ARCHITECTED WITHOUT COMPROMISE //",
-    watermarkHint: "[HOVER TO EXECUTE BLUEPRINT SCAN]",
-
-    ticker: {
-      operational: "ALL CLUSTERS OPERATIONAL // GLOBAL EDGE",
-      latencyLabel: "LATENCY:",
-      uptimeLabel: "UPTIME:",
-      locationLabel: "LOCATION:",
-      locationValue: "SALTA, AR // UTC-3",
-      buildLabel: "BUILD:",
-    },
-
-    brandName: "IVO ZANACCHI",
-    philosophy:
-      "Engineering high-concurrency backend microservices, resilient cloud infrastructure, and ultra-fluid web applications. Built for zero-regression and maximum scalability.",
-    availability: "READY FOR HIGH-TICKET ENGINEERING COLLABORATION.",
-
-    modulesHeading: "// SYSTEM MODULES",
-    modules: {
-      stack: "01. ARCHITECTURE STACK",
-      systems: "02. FLAGSHIP SYSTEMS",
-      pipeline: "03. EXECUTION PIPELINE",
-      topology: "04. SYSTEM TOPOLOGY",
-      telemetry: "05. LIVE TELEMETRY",
-      terminal: "06. CLI TERMINAL HUB",
-    },
-
-    channelsHeading: "// TRANSMISSION CHANNELS",
+    availability: "Available for projects and to join product teams.",
+    channelsHeading: "Contact",
     channels: {
-      github: "GITHUB PROTOCOL",
-      linkedin: "LINKEDIN NETWORK",
-      email: "DIRECT ENCRYPTION (EMAIL)",
-      emailAction: "→ INITIATE",
-      whatsapp: "SECURE CHANNEL (WHATSAPP)",
-      whatsappAction: "→ INITIATE",
+      github: "GitHub",
+      linkedin: "LinkedIn",
+      email: "Email",
     },
-
-    copyright: (year: number) => `© ${year} IVO ZANACCHI. ALL RIGHTS RESERVED.`,
-    builtWith: "ENGINEERED WITH NEXT.JS 16 // FRAMER MOTION // TAILWIND CSS",
+    copyright: (year: number) => `© ${year} Ivo Zanacchi.`,
+    builtWith: "Built with Next.js, Motion and Tailwind CSS.",
   },
 };
 
