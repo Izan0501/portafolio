@@ -31,22 +31,23 @@ const REFERENCE_SIZES: ReadonlyArray<readonly [number, number]> = [
   [2560, 1440],
 ];
 
-function isCompact(width: number, height: number): boolean {
-  return width / height < 0.95 || width <= 1024;
+/** Artifact `_fitCam` line 1210: `a < 0.95` — aspect alone, no width term (M13 fix: this used to also be `|| width <= 1024`, which made this sweep validate the very bug it should have caught — see `useViewportProfile.ts`'s own `isNarrow`). */
+function isNarrow(width: number, height: number): boolean {
+  return width / height < 0.95;
 }
 
 describe("camera fit sweep — 13 reference sizes", () => {
   for (const [width, height] of REFERENCE_SIZES) {
     it(`${width}×${height}: free area never collapses`, () => {
-      const compact = isCompact(width, height);
-      const area = computeFreeArea({ compact, copyFraction: 0.365, sheetTop: height * 0.55, viewportWidth: width, viewportHeight: height });
+      const narrow = isNarrow(width, height);
+      const area = computeFreeArea({ narrow, copyFraction: 0.365, sheetTop: height * 0.55, viewportWidth: width, viewportHeight: height });
       expect(area.x1 - area.x0).toBeGreaterThan(40);
       expect(area.y1 - area.y0).toBeGreaterThan(40);
     });
 
     it(`${width}×${height}: fitCamera returns a finite, positive distance for a representative point cloud`, () => {
-      const compact = isCompact(width, height);
-      const area = computeFreeArea({ compact, copyFraction: 0.365, sheetTop: height * 0.55, viewportWidth: width, viewportHeight: height });
+      const narrow = isNarrow(width, height);
+      const area = computeFreeArea({ narrow, copyFraction: 0.365, sheetTop: height * 0.55, viewportWidth: width, viewportHeight: height });
       // A representative Mac-sized cloud (base + lid corners), independent of any real scene.
       const points = [
         new THREE.Vector3(-1.5, 0, -1.04),
@@ -65,7 +66,7 @@ describe("camera fit sweep — 13 reference sizes", () => {
         freeArea: area,
         viewportWidth: width,
         viewportHeight: height,
-        marginFactor: compact ? 0.92 : 0.94,
+        marginFactor: narrow ? 0.92 : 0.94,
       });
       expect(Number.isFinite(result.distance)).toBe(true);
       expect(result.distance).toBeGreaterThan(0);

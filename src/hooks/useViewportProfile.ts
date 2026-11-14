@@ -24,6 +24,21 @@ export interface ViewportProfile {
   aspect: number;
   /** Artifact `this._compact` — vertical or ≤1024px wide: only the Mac is framed, the iPhone hides. */
   compact: boolean;
+  /**
+   * Artifact's own separate `narrow` (`_fitCam`, line 1210: `const a =
+   * this.aspect || 1.6, narrow = a < 0.95, compact = this._compact`) —
+   * a *different* condition from `compact`, used for a different
+   * decision: whether the text column becomes a bottom sheet (plan M13).
+   * `compact` alone (`width <= 1024` even at a wide aspect, e.g.
+   * 1024×768) is *not* narrow — that size keeps the side-column layout,
+   * just a thinner one (`globals.css`'s own `(min-aspect-ratio:19/20)
+   * and (max-width:1024px)` rule). Conflating the two here would have
+   * made `CameraDirector` read a meaningless `sheetTop` at that exact
+   * size instead of the real `copyFraction` — confirmed as a real bug
+   * introduced in M8, caught while building M13 against the real
+   * 1024×768 reference size.
+   */
+  narrow: boolean;
 }
 
 /** Artifact `_layout`, line 543: `(w / hh) < 0.95 || w <= 1024`. Exported so the condition itself has a unit test independent of `window`. */
@@ -31,15 +46,20 @@ export function isCompact(width: number, height: number): boolean {
   return width / height < 0.95 || width <= 1024;
 }
 
+/** Artifact `_fitCam`, line 1210: `a < 0.95` — aspect alone, no width term. */
+export function isNarrow(width: number, height: number): boolean {
+  return width / height < 0.95;
+}
+
 function computeProfile(): ViewportProfile {
   const width = window.innerWidth || 1;
   const height = window.innerHeight || 1;
   const aspect = width / height;
-  return { width, height, aspect, compact: isCompact(width, height) };
+  return { width, height, aspect, compact: isCompact(width, height), narrow: isNarrow(width, height) };
 }
 
 /** Mutated in place — the stable reference `CameraDirector`'s `useFrame` reads directly, same pattern as `scrollStore`. */
-export const viewportStore: ViewportProfile = typeof window === "undefined" ? { width: 1280, height: 800, aspect: 1.6, compact: false } : computeProfile();
+export const viewportStore: ViewportProfile = typeof window === "undefined" ? { width: 1280, height: 800, aspect: 1.6, compact: false, narrow: false } : computeProfile();
 
 /**
  * A fresh object each time something actually changes — `useSyncExternalStore`

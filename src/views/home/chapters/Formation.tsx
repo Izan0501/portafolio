@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { m, useAnimationFrame, useTransform } from "motion/react";
+import { useAnimationFrame, useTransform } from "motion/react";
 import type { ChapterRange, NarrativeChapterCopy } from "@/types/content";
 import type { Locale } from "@/i18n/config";
 import { scrollPMotionValue } from "@/features/scroll/scrollMotionValue";
@@ -9,6 +9,7 @@ import { chapterFadeWindow, chapterProgressAt } from "@/features/scroll/chapterM
 import { scrollStore } from "@/features/scroll/scrollStore";
 import { formationProgress } from "@/features/chapters/certFlight";
 import { CREDENTIALS } from "@/content/credentials";
+import { Sheet } from "@/components/ui/Sheet";
 
 /**
  * The Formación chapter's copy — a dedicated component (plan M10) for
@@ -49,33 +50,31 @@ export function Formation({ chapter, copy, locale }: { chapter: ChapterRange; co
 
   const itemRefs = useActiveCertificateRefs(chapter);
 
+  const moreContent = copy.education && (
+    <ol className="flex flex-col gap-2 list-none p-0">
+      {copy.education.map((entry) => (
+        <li key={entry.code} className="grid grid-cols-[34px_minmax(0,1fr)] gap-2 text-[14px] leading-[1.45] text-texto-2">
+          <span className="font-mono text-[11px] text-limon pt-0.5">{entry.code}</span>
+          <div>
+            <strong className="text-hueso font-semibold">{entry.degree[locale]}</strong>
+            {entry.institution ? ` · ${entry.institution}` : ""} · {entry.period[locale]}
+          </div>
+        </li>
+      ))}
+    </ol>
+  );
+
   return (
-    <m.div
-      data-chapter-id={chapter.id}
-      style={{ opacity, y, willChange, pointerEvents }}
-      className="absolute left-[clamp(20px,6vw,96px)] top-1/2 w-[min(440px,36vw)] max-w-[calc(100vw-40px)] -translate-y-1/2 transform-gpu"
-    >
-      <p className="font-mono text-[12px] uppercase tracking-[0.04em] text-piedra mb-[18px]">
+    <Sheet chapter={chapter} style={{ opacity, y, willChange, pointerEvents }} locale={locale} moreContent={moreContent}>
+      <p className="iz-eyebrow font-mono text-[12px] uppercase tracking-[0.04em] text-piedra mb-[18px]">
         <b className="text-limon font-semibold">{copy.eyebrowIndex}</b> · {copy.eyebrowLabel[locale]}
       </p>
-      <h2 className="text-h2 font-extrabold tracking-[-0.03em] leading-[1.02] text-hueso mb-3.5">{copy.heading[locale]}</h2>
-      <p className="text-lead leading-[1.55] text-texto-2">{copy.lead[locale]}</p>
+      <h2 id={`heading-${chapter.id}`} className="text-h2 font-extrabold tracking-[-0.03em] leading-[1.02] text-hueso mb-3.5">
+        {copy.heading[locale]}
+      </h2>
+      <p className="iz-lead text-lead leading-[1.55] text-texto-2">{copy.lead[locale]}</p>
 
-      {copy.education && (
-        <ol className="mt-3.5 flex flex-col gap-2 list-none p-0">
-          {copy.education.map((entry) => (
-            <li key={entry.code} className="grid grid-cols-[34px_minmax(0,1fr)] gap-2 text-[14px] leading-[1.45] text-texto-2">
-              <span className="font-mono text-[11px] text-limon pt-0.5">{entry.code}</span>
-              <div>
-                <strong className="text-hueso font-semibold">{entry.degree[locale]}</strong>
-                {entry.institution ? ` · ${entry.institution}` : ""} · {entry.period[locale]}
-              </div>
-            </li>
-          ))}
-        </ol>
-      )}
-
-      <ul className="mt-4 flex flex-col gap-1.5 list-none p-0" aria-label={locale === "es" ? "Certificaciones" : "Certifications"}>
+      <ul className="iz-certs mt-4 flex flex-col gap-1.5 list-none p-0" aria-label={locale === "es" ? "Certificaciones" : "Certifications"}>
         {CREDENTIALS.map((credential, i) => (
           <li
             key={credential.id}
@@ -90,7 +89,7 @@ export function Formation({ chapter, copy, locale }: { chapter: ChapterRange; co
           </li>
         ))}
       </ul>
-    </m.div>
+    </Sheet>
   );
 }
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { m, useTransform } from "motion/react";
+import { useTransform } from "motion/react";
 import type { ChapterRange, ProjectChapterCopy } from "@/types/content";
 import type { Locale } from "@/i18n/config";
 import { scrollPMotionValue } from "@/features/scroll/scrollMotionValue";
@@ -8,6 +8,7 @@ import { chapterFadeWindow } from "@/features/scroll/chapterMath";
 import { getProjectContent } from "@/content/projects";
 import { Chip } from "@/components/ui/Chip";
 import { Button } from "@/components/ui/Button";
+import { Sheet } from "@/components/ui/Sheet";
 
 /**
  * A project chapter's DOM copy (plan M11) — replaces
@@ -17,6 +18,14 @@ import { Button } from "@/components/ui/Button";
  * the full indexable detail page (`/projects/[id]`, also rewritten in
  * M11) — the placeholder had neither, since there was no real 3D
  * presentation yet to point back to.
+ *
+ * M13: challenge/solution/stack move into `moreContent` — the artifact's
+ * own split for every one of its 5 project chapters (`t5`-`t9`): the
+ * scope line stays always-visible, "Ver detalle" reveals the rest. The
+ * link to the full `/projects/[id]` page is named "Ver página completa"
+ * here, not "Ver detalle" — that label is already `<Sheet>`'s own
+ * expand/collapse toggle, and reusing it for a *second*, different
+ * action (navigating away) on the same sheet would read as broken.
  */
 export function Projects({ chapter, copy, locale }: { chapter: ChapterRange; copy: ProjectChapterCopy; locale: Locale }) {
   const project = getProjectContent(copy.projectId);
@@ -27,21 +36,9 @@ export function Projects({ chapter, copy, locale }: { chapter: ChapterRange; cop
 
   if (!project) return null;
 
-  return (
-    <m.div
-      data-chapter-id={chapter.id}
-      style={{ opacity, y, willChange, pointerEvents }}
-      className="absolute left-[clamp(20px,6vw,96px)] top-1/2 w-[min(440px,36vw)] max-w-[calc(100vw-40px)] -translate-y-1/2 transform-gpu"
-    >
-      <p className="font-mono text-[12px] uppercase tracking-[0.04em] text-piedra mb-[18px]">
-        <b className="text-limon font-semibold">{copy.eyebrowIndex}</b> · {project.statusLabel[locale]}
-      </p>
-      <h2 className="text-h2 font-extrabold tracking-[-0.03em] leading-[1.02] text-hueso mb-3.5">{project.title}</h2>
-      <p className="font-mono text-[11.5px] leading-[1.7] text-piedra mb-3.5">
-        {project.architecture[locale]} · {project.location[locale]}
-      </p>
-      <p className="text-lead leading-[1.55] text-texto-2">{project.scope[locale]}</p>
-      <p className="text-[16px] leading-[1.55] text-texto-2 mt-3.5">
+  const moreContent = (
+    <>
+      <p className="text-[16px] leading-[1.55] text-texto-2">
         <strong className="text-hueso font-semibold">{locale === "es" ? "El desafío: " : "The challenge: "}</strong>
         {project.challenge[locale]}
       </p>
@@ -56,9 +53,24 @@ export function Projects({ chapter, copy, locale }: { chapter: ChapterRange; cop
           </li>
         ))}
       </ul>
+    </>
+  );
+
+  return (
+    <Sheet chapter={chapter} style={{ opacity, y, willChange, pointerEvents }} locale={locale} moreContent={moreContent}>
+      <p className="iz-eyebrow font-mono text-[12px] uppercase tracking-[0.04em] text-piedra mb-[18px]">
+        <b className="text-limon font-semibold">{copy.eyebrowIndex}</b> · {project.statusLabel[locale]}
+      </p>
+      <h2 id={`heading-${chapter.id}`} className="text-h2 font-extrabold tracking-[-0.03em] leading-[1.02] text-hueso mb-3.5">
+        {project.title}
+      </h2>
+      <p className="font-mono text-[11.5px] leading-[1.7] text-piedra mb-3.5">
+        {project.architecture[locale]} · {project.location[locale]}
+      </p>
+      <p className="iz-lead text-lead leading-[1.55] text-texto-2">{project.scope[locale]}</p>
       <div className="mt-[22px] flex flex-wrap gap-2.5">
         <Button variant="primary" href={`/projects/${project.id}`}>
-          {locale === "es" ? "Ver detalle" : "View details"}
+          {locale === "es" ? "Ver página completa" : "View full page"}
         </Button>
         {project.liveUrl && (
           <Button variant="secondary" href={project.liveUrl}>
@@ -66,7 +78,7 @@ export function Projects({ chapter, copy, locale }: { chapter: ChapterRange; cop
           </Button>
         )}
       </div>
-    </m.div>
+    </Sheet>
   );
 }
 

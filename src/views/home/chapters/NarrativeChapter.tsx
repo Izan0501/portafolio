@@ -1,6 +1,6 @@
 "use client";
 
-import { m, useTransform } from "motion/react";
+import { useTransform } from "motion/react";
 import type { ChapterRange } from "@/types/content";
 import type { NarrativeChapterCopy } from "@/types/content";
 import type { Locale } from "@/i18n/config";
@@ -8,10 +8,14 @@ import { scrollPMotionValue } from "@/features/scroll/scrollMotionValue";
 import { chapterFadeWindow } from "@/features/scroll/chapterMath";
 import { Chip } from "@/components/ui/Chip";
 import { Button } from "@/components/ui/Button";
+import { Sheet } from "@/components/ui/Sheet";
 
 /**
- * Renders one narrative chapter's copy (hero/open/prof/cert/dive/pipe/cta —
- * the project chapters use `Projects.tsx` instead, M11).
+ * Renders one narrative chapter's copy — in practice only hero/open/dive
+ * today (prof/cert/pipe/cta each got their own dedicated component by
+ * M12; the project chapters use `Projects.tsx`, M11), kept generic over
+ * every `NarrativeChapterCopy` field in case a future narrative-only
+ * chapter reuses it without a dedicated component of its own.
  *
  * Always mounted, never conditionally rendered — "el texto se lee completo
  * con JS deshabilitado" (plan M4 quality gate) needs every chapter's copy
@@ -25,10 +29,14 @@ import { Button } from "@/components/ui/Button";
  * al entrar... y se quita al salir") — `useTransform` below ties it
  * directly to the same opacity curve instead of a separate effect.
  *
- * `data-chapter-id` (M8): `CameraDirector` measures the active chapter's
- * real `getBoundingClientRect()` through this attribute to find the free
- * area 3D content can occupy (artifact `_layout`'s `_copyFrac`/`_sheetTop`,
- * which measure its own per-chapter DOM elements the same way).
+ * M13: `<Sheet>` (not a bare `<m.div>` anymore) handles the desktop/mobile
+ * split — same `data-chapter-id` `CameraDirector` already measured
+ * through pre-M13, now also the artifact's own "Ver detalle" mechanism.
+ * `detail` paragraphs go in `moreContent` — the artifact's own split for
+ * "open" (`t1`): the lead stays always-visible, the longer SDD paragraph
+ * (and its accompanying `trust` chips) are a tap away. A chapter with
+ * `trust` but no `detail` (hero/`t0`) has nothing to hide behind a
+ * button in the artifact either, so its `trust` stays always-visible.
  */
 export function NarrativeChapter({ chapter, copy, locale }: { chapter: ChapterRange; copy: NarrativeChapterCopy; locale: Locale }) {
   const opacity = useTransform(scrollPMotionValue, (p) => chapterFadeWindow(chapter, p).opacity);
@@ -37,22 +45,39 @@ export function NarrativeChapter({ chapter, copy, locale }: { chapter: ChapterRa
   const pointerEvents = useTransform(opacity, (o) => (o > 0.5 ? "auto" : "none"));
 
   const Heading = copy.headingLevel;
+  const hasDetail = Boolean(copy.detail?.length);
+  const trustInMore = hasDetail && Boolean(copy.trust);
+
+  const moreContent = hasDetail ? (
+    <>
+      {copy.detail?.map((paragraph, i) => (
+        <p key={i} className="text-[16px] leading-[1.55] text-texto-2 mt-3.5 first:mt-0">
+          {paragraph[locale]}
+        </p>
+      ))}
+      {trustInMore && (
+        <ul className="mt-3.5 flex flex-wrap gap-1.5" aria-label={locale === "es" ? "Garantías de trabajo" : "Work guarantees"}>
+          {copy.trust?.[locale].map((item) => (
+            <li key={item}>
+              <Chip variant="trust">{item}</Chip>
+            </li>
+          ))}
+        </ul>
+      )}
+    </>
+  ) : undefined;
 
   return (
-    <m.div
-      data-chapter-id={chapter.id}
-      style={{ opacity, y, willChange, pointerEvents }}
-      className="absolute left-[clamp(20px,6vw,96px)] top-1/2 w-[min(440px,36vw)] max-w-[calc(100vw-40px)] -translate-y-1/2 transform-gpu"
-    >
-      <p className="font-mono text-[12px] uppercase tracking-[0.04em] text-piedra mb-[18px]">
+    <Sheet chapter={chapter} style={{ opacity, y, willChange, pointerEvents }} locale={locale} moreContent={moreContent}>
+      <p className="iz-eyebrow font-mono text-[12px] uppercase tracking-[0.04em] text-piedra mb-[18px]">
         <b className="text-limon font-semibold">{copy.eyebrowIndex}</b> · {copy.eyebrowLabel[locale]}
       </p>
-      <Heading className={Heading === "h1" ? "text-display font-extrabold tracking-[-0.035em] leading-[0.98] text-hueso mb-5" : "text-h2 font-extrabold tracking-[-0.03em] leading-[1.02] text-hueso mb-3.5"}>
+      <Heading id={`heading-${chapter.id}`} className={Heading === "h1" ? "text-display font-extrabold tracking-[-0.035em] leading-[0.98] text-hueso mb-5" : "text-h2 font-extrabold tracking-[-0.03em] leading-[1.02] text-hueso mb-3.5"}>
         {copy.heading[locale]}
       </Heading>
-      <p className="text-lead leading-[1.55] text-texto-2">{copy.lead[locale]}</p>
+      <p className="iz-lead text-lead leading-[1.55] text-texto-2">{copy.lead[locale]}</p>
 
-      {copy.trust && (
+      {copy.trust && !trustInMore && (
         <ul className="mt-4 flex flex-wrap gap-1.5" aria-label={locale === "es" ? "Garantías de trabajo" : "Work guarantees"}>
           {copy.trust[locale].map((item) => (
             <li key={item}>
@@ -73,12 +98,6 @@ export function NarrativeChapter({ chapter, copy, locale }: { chapter: ChapterRa
         </dl>
       )}
 
-      {copy.detail?.map((paragraph, i) => (
-        <p key={i} className="text-[16px] leading-[1.55] text-texto-2 mt-3.5">
-          {paragraph[locale]}
-        </p>
-      ))}
-
       {copy.team && <p className="text-[16px] leading-[1.55] text-texto-2 mt-3.5">{copy.team[locale]}</p>}
 
       {copy.education && (
@@ -96,7 +115,7 @@ export function NarrativeChapter({ chapter, copy, locale }: { chapter: ChapterRa
       )}
 
       {copy.steps && (
-        <ol className="mt-2 flex flex-col gap-2 list-none p-0">
+        <ol className="iz-steps mt-2 flex flex-col gap-2 list-none p-0">
           {copy.steps.map((step) => (
             <li key={step.index} className="grid grid-cols-[34px_minmax(0,1fr)] gap-2 text-[14px] leading-[1.45] text-texto-2">
               <span className="font-mono text-[11px] text-limon pt-0.5">{step.index}</span>
@@ -118,6 +137,6 @@ export function NarrativeChapter({ chapter, copy, locale }: { chapter: ChapterRa
           ))}
         </div>
       )}
-    </m.div>
+    </Sheet>
   );
 }

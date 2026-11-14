@@ -13,6 +13,9 @@ import { damp } from "@/lib/math/damp";
 import { clamp, mix, smoothstep, win } from "@/lib/math/ease";
 import { viewportStore } from "@/hooks/useViewportProfile";
 import { assertExclusion, centroidOf, computeFreeArea, fitCamera, type FreeAreaRect } from "@/features/choreography/cameraFit";
+import { CH } from "@/config/chapters";
+import { chapterIndexAt } from "@/features/scroll/chapterMath";
+import { sheetTopFor } from "@/components/ui/sheetStore";
 
 /**
  * Drives the real `THREE.PerspectiveCamera` every frame — ported from the
@@ -55,7 +58,7 @@ const IPHONE_FIT_CORNERS: ReadonlyArray<readonly [number, number]> = [
   [-0.42, 0.8],
   [0.42, 0.8],
 ];
-/** Compact mode has no `Sheet.tsx` (M13) to measure yet — the artifact's own fallback when it has no per-chapter sheet measurement either. */
+/** Fallback only until the active chapter's `<Sheet>` (M13) has measured itself once — the artifact's own fallback when it has no per-chapter sheet measurement either (`ST[ci] || vh * 0.55`, line 1289). */
 const COMPACT_SHEET_TOP_FALLBACK_FRACTION = 0.55;
 
 const UP = new THREE.Vector3(0, 1, 0);
@@ -110,7 +113,7 @@ export function CameraDirector({ macRef, phoneRef, benchRef }: CameraDirectorPro
     const reduced = scrollStore.reduced;
     const p = scrollStore.p;
     const pose = poseAt(p);
-    const { width: vw, height: vh, compact } = viewportStore;
+    const { width: vw, height: vh, compact, narrow } = viewportStore;
 
     mac.macGroup.updateMatrixWorld(true);
     let n = 0;
@@ -230,10 +233,17 @@ export function CameraDirector({ macRef, phoneRef, benchRef }: CameraDirectorPro
     const direction = smoothedDirection.current;
 
     // --- free area: measured from the real DOM, smoothed ---
+    // `Sheet.tsx` (M13) registers each chapter's real top edge as it's
+    // measured — only the active chapter's own entry matters here, same
+    // as the artifact's `ST[ci]` (line 1289). Falls back to the fixed
+    // fraction only before the active chapter's `<Sheet>` has had a
+    // chance to measure itself (e.g. the very first narrow-mode frame).
+    const activeChapterId = CH[chapterIndexAt(p, CH)].id;
+    const sheetTop = sheetTopFor(activeChapterId, vh * COMPACT_SHEET_TOP_FALLBACK_FRACTION);
     const rawFreeArea = computeFreeArea({
-      compact,
+      narrow,
       copyFraction: copyFraction.current,
-      sheetTop: vh * COMPACT_SHEET_TOP_FALLBACK_FRACTION,
+      sheetTop,
       viewportWidth: vw,
       viewportHeight: vh,
     });
@@ -258,7 +268,7 @@ export function CameraDirector({ macRef, phoneRef, benchRef }: CameraDirectorPro
       freeArea,
       viewportWidth: vw,
       viewportHeight: vh,
-      marginFactor: compact ? 0.92 : 0.94,
+      marginFactor: narrow ? 0.92 : 0.94,
     });
     assertExclusion(freeArea, fit, camera.near);
 
