@@ -25,6 +25,20 @@ const eslintConfig = defineConfig([
       "react-hooks/refs": "off",
     },
   },
+  // M14 (plan §5.1: "Enlaces externos: siempre con rel='noopener
+  // noreferrer' y target='_blank'. Se valida en el lint") — the rule
+  // ships with `eslint-config-next/core-web-vitals` but at severity 0
+  // (confirmed with `eslint --print-config`); this turns it on instead
+  // of adding a new plugin. Default options already require `noopener`
+  // or `noreferrer` on any `target="_blank"` link, which is what actually
+  // prevents the `window.opener` tabnabbing vulnerability the plan is
+  // guarding against — every real external link in this codebase already
+  // sets both, so this only adds a guardrail against a future one that doesn't.
+  {
+    rules: {
+      "react/jsx-no-target-blank": "error",
+    },
+  },
   // Override default ignores of eslint-config-next.
   globalIgnores([
     // Default ignores of eslint-config-next:
