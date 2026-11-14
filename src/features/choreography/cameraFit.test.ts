@@ -98,22 +98,22 @@ describe("fitCamera", () => {
 
 describe("computeFreeArea", () => {
   it("wide mode: starts past the measured copy column, ends near the viewport's right edge", () => {
-    const area = computeFreeArea({ compact: false, copyFraction: 0.365, sheetTop: 0, viewportWidth: 1000, viewportHeight: 800 });
+    const area = computeFreeArea({ narrow: false, copyFraction: 0.365, sheetTop: 0, viewportWidth: 1000, viewportHeight: 800 });
     expect(area.x0).toBeCloseTo(365 + 24, 5);
     expect(area.x1).toBe(980);
     expect(area.y0).toBe(62);
     expect(area.y1).toBe(782);
   });
 
-  it("compact mode: spans nearly the full width, bounded above by the text sheet", () => {
-    const area = computeFreeArea({ compact: true, copyFraction: 0.365, sheetTop: 500, viewportWidth: 400, viewportHeight: 800 });
+  it("narrow mode: spans nearly the full width, bounded above by the text sheet", () => {
+    const area = computeFreeArea({ narrow: true, copyFraction: 0.365, sheetTop: 500, viewportWidth: 400, viewportHeight: 800 });
     expect(area.x0).toBe(10);
     expect(area.x1).toBe(390);
     expect(area.y1).toBe(490);
   });
 
-  it("compact mode: never collapses below a 120px-tall floor even with a very high sheet", () => {
-    const area = computeFreeArea({ compact: true, copyFraction: 0.365, sheetTop: 70, viewportWidth: 400, viewportHeight: 800 });
+  it("narrow mode: never collapses below a 120px-tall floor even with a very high sheet", () => {
+    const area = computeFreeArea({ narrow: true, copyFraction: 0.365, sheetTop: 70, viewportWidth: 400, viewportHeight: 800 });
     expect(area.y1 - area.y0).toBeGreaterThanOrEqual(120);
   });
 });

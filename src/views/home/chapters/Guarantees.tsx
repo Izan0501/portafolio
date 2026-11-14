@@ -1,13 +1,14 @@
 "use client";
 
 import { useRef } from "react";
-import { m, useAnimationFrame, useTransform } from "motion/react";
+import { useAnimationFrame, useTransform } from "motion/react";
 import type { ChapterRange, NarrativeChapterCopy } from "@/types/content";
 import type { Locale } from "@/i18n/config";
 import { scrollPMotionValue } from "@/features/scroll/scrollMotionValue";
 import { chapterFadeWindow, chapterProgressAt } from "@/features/scroll/chapterMath";
 import { scrollStore } from "@/features/scroll/scrollStore";
 import { pipelineStageAt } from "@/features/chapters/pipelineProgress";
+import { Sheet } from "@/components/ui/Sheet";
 
 /**
  * The Garantías chapter's copy — a dedicated component (plan M12), same
@@ -47,18 +48,16 @@ export function Guarantees({ chapter, copy, locale }: { chapter: ChapterRange; c
   const itemRefs = useActiveStageRefs(chapter, steps.length);
 
   return (
-    <m.div
-      data-chapter-id={chapter.id}
-      style={{ opacity, y, willChange, pointerEvents }}
-      className="absolute left-[clamp(20px,6vw,96px)] top-1/2 w-[min(440px,36vw)] max-w-[calc(100vw-40px)] -translate-y-1/2 transform-gpu"
-    >
-      <p className="font-mono text-[12px] uppercase tracking-[0.04em] text-piedra mb-[18px]">
+    <Sheet chapter={chapter} style={{ opacity, y, willChange, pointerEvents }} locale={locale}>
+      <p className="iz-eyebrow font-mono text-[12px] uppercase tracking-[0.04em] text-piedra mb-[18px]">
         <b className="text-limon font-semibold">{copy.eyebrowIndex}</b> · {copy.eyebrowLabel[locale]}
       </p>
-      <h2 className="text-h2 font-extrabold tracking-[-0.03em] leading-[1.02] text-hueso mb-3.5">{copy.heading[locale]}</h2>
-      <p className="text-lead leading-[1.55] text-texto-2">{copy.lead[locale]}</p>
+      <h2 id={`heading-${chapter.id}`} className="text-h2 font-extrabold tracking-[-0.03em] leading-[1.02] text-hueso mb-3.5">
+        {copy.heading[locale]}
+      </h2>
+      <p className="iz-lead text-lead leading-[1.55] text-texto-2">{copy.lead[locale]}</p>
 
-      <ol className="mt-4 flex flex-col gap-2 list-none p-0" aria-label={locale === "es" ? "Etapas del proceso" : "Process stages"}>
+      <ol className="iz-steps mt-4 flex flex-col gap-2 list-none p-0" aria-label={locale === "es" ? "Etapas del proceso" : "Process stages"}>
         {steps.map((step, i) => (
           <li
             key={step.index}
@@ -74,7 +73,7 @@ export function Guarantees({ chapter, copy, locale }: { chapter: ChapterRange; c
           </li>
         ))}
       </ol>
-    </m.div>
+    </Sheet>
   );
 }
 

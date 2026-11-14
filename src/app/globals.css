@@ -382,15 +382,120 @@ p {
   .iz-isl {
     zoom: 1.15;
   }
+  /* M13: the artifact also zooms `.iz-copy` at this breakpoint — large
+     monitors would otherwise leave the text column looking tiny next to
+     the 3D stage (plan M13: "pantallas grandes... escalan para no quedar
+     diminutos"). */
+  .iz-copy {
+    zoom: 1.15;
+    width: min(500px, 30vw);
+  }
 }
 @media (min-width: 2200px) {
   .iz-isl {
     zoom: 1.42;
   }
+  .iz-copy {
+    zoom: 1.42;
+  }
+}
+@media (min-aspect-ratio: 19/20) and (max-width: 1024px) {
+  /* M13: "horizontal compacto" — still a side column (wide aspect), but
+     narrow/short enough that the full-width column from desktop would
+     crowd the 3D stage. Artifact lines 98-103. */
+  .iz-copy {
+    width: min(400px, 40vw);
+  }
 }
 @media (min-aspect-ratio: 19/20) and (max-height: 540px) {
   .iz-isl {
     top: 8px;
+  }
+  /* M13: a short wide viewport (e.g. a phone in landscape) — the side
+     column can now be taller than the viewport itself, so it becomes its
+     own scroll container instead of overflowing past the bottom edge.
+     Artifact lines 104-114. */
+  .iz-copy {
+    max-height: calc(100% - 64px);
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+  .iz-copy:not([data-expanded="true"]) .iz-lead {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+@media (max-aspect-ratio: 19/20) {
+  /* M13: the real bottom sheet — vertical viewports (phones/tablets in
+     portrait) put the 3D stage up top and the text column becomes a
+     fixed sheet anchored to the bottom edge, matching `_sheetTop`'s own
+     expectation of where the sheet's top edge is. Artifact lines
+     116-127; `position`/`top`/`transform` overrides undo `Sheet.tsx`'s
+     desktop absolute-centered positioning — same specificity-by-cascade-
+     order pattern already used for `.iz-isl`'s own overrides (M7). */
+  .iz-copy {
+    position: fixed;
+    left: max(12px, calc(50% - 340px));
+    right: max(12px, calc(50% - 340px));
+    top: auto;
+    bottom: 12px;
+    width: auto;
+    max-width: none;
+    transform: none;
+    padding: 18px;
+    border-radius: var(--radius-panel);
+    background: rgba(13, 12, 10, 0.9);
+    box-shadow: inset 0 0 0 1px var(--color-linea);
+    max-height: 52%;
+    overflow-y: auto;
+    scrollbar-width: none;
+    box-sizing: border-box;
+  }
+  .iz-copy[data-expanded="true"] {
+    max-height: 72%;
+  }
+  .iz-copy:not([data-expanded="true"]) .iz-lead {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .iz-copy:not([data-expanded="true"]) .iz-more {
+    display: none;
+  }
+  .iz-morebtn {
+    display: inline-flex;
+  }
+  /* `--text-lead` (20px) is sized for the desktop side column — on a
+     ~350px-wide bottom sheet it reads oversized next to everything else
+     in it. Artifact's own `.iz-p{font-size:15px}` at this breakpoint. */
+  .iz-lead {
+    font-size: 15px;
+  }
+}
+@media (max-aspect-ratio: 19/20) and (max-width: 400px) {
+  .iz-copy {
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    padding: 14px;
+  }
+}
+@media (max-aspect-ratio: 19/20) and (max-height: 700px) {
+  /* M13 plan quality gate: "listas de 2 columnas en teléfonos chicos" —
+     Formación's certificate list and Garantías' stage list are both real,
+     already-short lists that read fine as 2 columns once a single column
+     would push the sheet too tall on a short phone screen. */
+  .iz-copy:not([data-expanded="true"]) .iz-lead {
+    -webkit-line-clamp: 2;
+  }
+  .iz-certs,
+  .iz-steps {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 4px 8px;
   }
 }
 @media (prefers-reduced-motion: reduce) {

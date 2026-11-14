@@ -116,18 +116,26 @@ export function fitCamera(input: CameraFitInput): CameraFitResult {
 }
 
 export interface FreeAreaParams {
-  compact: boolean;
+  /**
+   * Artifact `narrow` (`_fitCam` line 1210: `a < 0.95`, aspect alone) —
+   * *not* the broader `compact` (`useViewportProfile.ts`'s own, `width
+   * <= 1024` even at a wide aspect). Conflating the two here was a real
+   * M8 bug: at e.g. 1024×768 (wide, `compact` true, `narrow` false),
+   * the artifact still uses the side-column `copyFraction` branch below,
+   * not `sheetTop` — confirmed fixed in M13.
+   */
+  narrow: boolean;
   /** Fraction of viewport width the text column occupies (artifact `_copyFrac`, measured from the real DOM — `CameraDirector` passes it in instead of this file touching the DOM). */
   copyFraction: number;
-  /** Compact-mode only: the top edge of the active chapter's text sheet, in CSS pixels from the viewport top (artifact `_sheetTop`). No `Sheet.tsx` exists before M13, so callers pass a fixed fallback (artifact's own default: `vh * 0.55`) until then. */
+  /** Narrow-mode only: the top edge of the active chapter's text sheet, in CSS pixels from the viewport top (artifact `_sheetTop`, read from `Sheet.tsx`/`sheetStore.ts`, M13). */
   sheetTop: number;
   viewportWidth: number;
   viewportHeight: number;
 }
 
 /** The raw (un-damped) free-area rect for the current layout (artifact lines 1286-1291). */
-export function computeFreeArea({ compact, copyFraction, sheetTop, viewportWidth, viewportHeight }: FreeAreaParams): FreeAreaRect {
-  if (compact) {
+export function computeFreeArea({ narrow, copyFraction, sheetTop, viewportWidth, viewportHeight }: FreeAreaParams): FreeAreaRect {
+  if (narrow) {
     const y0 = 62;
     return { x0: 10, x1: viewportWidth - 10, y0, y1: Math.max(y0 + 120, sheetTop - 10) };
   }
