@@ -118,8 +118,12 @@ const CenterImage: React.FC<CenterImageProps> = ({ progress }) => {
           clipPath,
           backgroundSize,
           opacity,
-          backgroundImage:
-            "linear-gradient(to bottom, rgba(10,10,10,0.4), rgba(10,10,10,0.85)), url('https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=2670&auto=format&fit=crop')",
+          // M14 (plan §5.1: "sin dominios de terceros en runtime"): was a
+          // remote Unsplash photo, blocked outright now by the CSP's
+          // `img-src 'self' data: blob:` — replaced with a local dark
+          // radial gradient, same purely-atmospheric role the photo had
+          // behind this overlay (decorative backdrop, no actual content).
+          backgroundImage: "radial-gradient(circle at 50% 30%, rgba(42,42,42,0.9), rgba(10,10,10,0.95))",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
         }}
