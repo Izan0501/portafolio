@@ -6,6 +6,8 @@ import { LanguageProvider } from "@/i18n/LanguageProvider";
 import { DynamicIslandNav } from "@/components/iphone-island/DynamicIslandNav";
 import { ConditionalFooter } from "@/components/navigation/ConditionalFooter";
 import { DEFAULT_LOCALE } from "@/i18n/config";
+import { rootMetadata } from "@/lib/seo/metadata";
+import { buildPersonJsonLd, buildProfilePageJsonLd, buildWebSiteJsonLd } from "@/lib/seo/jsonld";
 
 // DESIGN.md §2 · Tipografía (docs/reference/artifact-a/DESIGN.dc.html).
 // Both are variable fonts in Next's real Google font catalog (verified against
@@ -24,11 +26,7 @@ const martianMono = Martian_Mono({
   axes: ["wdth"],
 });
 
-export const metadata: Metadata = {
-  title: "Ivo Zanacchi | Full-Stack Software Engineer & DevOps",
-  description:
-    "High-performance software architecture, scalable backend systems, and precision-engineered web applications.",
-};
+export const metadata: Metadata = rootMetadata;
 
 export default function RootLayout({
   children,
@@ -50,6 +48,14 @@ export default function RootLayout({
             __html: `if ("scrollRestoration" in window.history) { window.history.scrollRestoration = "manual"; }`,
           }}
         />
+        {/* JSON-LD (plan §5.2) — no `nonce` needed, same reason as the
+            script above: M14's CSP already allows `script-src
+            'unsafe-inline'`. Each entity its own `<script>` tag rather
+            than one `@graph` array, so any one of the three validates
+            independently against the Rich Results Test. */}
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(buildPersonJsonLd()) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(buildProfilePageJsonLd()) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(buildWebSiteJsonLd()) }} />
       </head>
       <body
         className={`${schibstedGrotesk.variable} ${martianMono.variable} font-sans bg-grafito text-hueso antialiased selection:bg-limon/20 selection:text-limon overflow-x-clip`}
