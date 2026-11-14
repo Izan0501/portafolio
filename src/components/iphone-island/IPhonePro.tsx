@@ -18,6 +18,8 @@ import { drawPhoneScreen, phoneScreenKey } from "./PhoneScreen";
 import { drawProfile as drawPhoneProfile, profileScreenKey as phoneProfileScreenKey } from "./screens/profile";
 import { drawCase, drawCaseCredential, caseScreenKey, caseCredentialScreenKey } from "./screens/case";
 import { drawProjectScreen, projectScreenKey } from "./screens/projectScreens";
+import { drawPipelinePhone, pipelinePhoneScreenKey } from "./screens/pipeline";
+import { drawCtaPhone, ctaPhoneScreenKey } from "./screens/cta";
 import { drawIslandTexture } from "./IslandTexture";
 import { formationProgress } from "@/features/chapters/certFlight";
 import { shotWindowAt } from "@/features/chapters/projectShots";
@@ -25,6 +27,7 @@ import { getCredentialTexture } from "@/components/three/textures/credentialImag
 import { CREDENTIALS } from "@/content/credentials";
 import { CHAPTERS } from "@/content/chapters";
 import { getProjectContent } from "@/content/projects";
+import { SITE } from "@/config/site";
 import { phoneScreenPower } from "./screenPower";
 import { islandTargetSize } from "./islandTargetSize";
 import {
@@ -202,9 +205,21 @@ export const IPhonePro = forwardRef<IPhoneProHandle, IPhoneProProps>(function IP
             drawIslandTexture(ctx, { islandWidth, islandHeight });
           });
         }
+      } else if (chapterId === "pipe") {
+        const key = `${pipelinePhoneScreenKey(chapterProgress, locale)}|${Math.round(islandWidth)}|${Math.round(islandHeight)}`;
+        screen.redrawIfKeyChanged(key, (ctx) => {
+          drawPipelinePhone(ctx, { chapterProgress, locale });
+          drawIslandTexture(ctx, { islandWidth, islandHeight });
+        });
+      } else if (chapterId === "cta") {
+        const key = `${ctaPhoneScreenKey(locale)}|${Math.round(islandWidth)}|${Math.round(islandHeight)}`;
+        screen.redrawIfKeyChanged(key, (ctx) => {
+          drawCtaPhone(ctx, { locale });
+          drawIslandTexture(ctx, { islandWidth, islandHeight, expandedContact: { label: locale === "es" ? "Disponible" : "Available", sub: SITE.email } });
+        });
       } else {
-        // Every chapter without a screen of its own yet (dive/pipe/cta,
-        // M12) falls back to the contact terminal — the pre-existing M7
+        // Every chapter without a screen of its own yet (dive, M13+)
+        // falls back to the contact terminal — the pre-existing M7
         // behavior (there was no dispatch at all before M9), kept as-is
         // rather than switched to the Mac's "freeze the last frame"
         // strategy, which M9's scope didn't ask for.

@@ -281,51 +281,25 @@ export const es: Dictionary = {
     viewLive: "Ver en vivo",
   },
 
+  // ── Contact chapter (M12) ─────────────────────────────────────────────────
+  contact: {
+    downloadCv: "Descargar CV",
+  },
+
   // ── Footer ────────────────────────────────────────────────────────────────
+  // M12: replaces the legacy namespace (cyberpunk tone; a fabricated
+  // "SALTA, AR" location — `config/site.ts`'s real one is Tucumán; dead
+  // anchors to sections the recorrido no longer has; an unused WhatsApp
+  // channel). No translation reused from it.
   footer: {
-    badges: {
-      cluster: "SYS_ARCH // CLÚSTER 100/100",
-      diagnostic: "DIAGNÓSTICO CAD: LISTO PARA ESCANEO",
-      protocol: "PROTOCOLO CERO REGRESIONES",
-    },
-    watermarkLegend: "// ARQUITECTURA SIN CONCESIONES //",
-    watermarkHint: "[PASÁ EL CURSOR PARA EJECUTAR EL ESCANEO]",
-
-    ticker: {
-      operational: "TODOS LOS CLÚSTERES OPERATIVOS // EDGE GLOBAL",
-      latencyLabel: "LATENCIA:",
-      uptimeLabel: "UPTIME:",
-      locationLabel: "UBICACIÓN:",
-      locationValue: "SALTA, AR // UTC-3",
-      buildLabel: "BUILD:",
-    },
-
-    brandName: "IVO ZANACCHI",
-    philosophy:
-      "Ingeniería de microservicios backend de alta concurrencia, infraestructura cloud resiliente y aplicaciones web ultra fluidas. Construido para cero regresiones y máxima escalabilidad.",
-    availability: "DISPONIBLE PARA COLABORACIONES DE INGENIERÍA DE ALTO NIVEL.",
-
-    modulesHeading: "// MÓDULOS DEL SISTEMA",
-    modules: {
-      stack: "01. STACK DE ARQUITECTURA",
-      systems: "02. SISTEMAS INSIGNIA",
-      pipeline: "03. PIPELINE DE EJECUCIÓN",
-      topology: "04. TOPOLOGÍA DEL SISTEMA",
-      telemetry: "05. TELEMETRÍA EN VIVO",
-      terminal: "06. TERMINAL CLI",
-    },
-
-    channelsHeading: "// CANALES DE TRANSMISIÓN",
+    availability: "Disponible para proyectos y para sumarme a equipos de producto.",
+    channelsHeading: "Contacto",
     channels: {
-      github: "PROTOCOLO GITHUB",
-      linkedin: "RED LINKEDIN",
-      email: "CIFRADO DIRECTO (EMAIL)",
-      emailAction: "→ INICIAR",
-      whatsapp: "CANAL SEGURO (WHATSAPP)",
-      whatsappAction: "→ INICIAR",
+      github: "GitHub",
+      linkedin: "LinkedIn",
+      email: "Email",
     },
-
-    copyright: (year: number) => `© ${year} IVO ZANACCHI. TODOS LOS DERECHOS RESERVADOS.`,
-    builtWith: "CONSTRUIDO CON NEXT.JS 16 // FRAMER MOTION // TAILWIND CSS",
+    copyright: (year: number) => `© ${year} Ivo Zanacchi.`,
+    builtWith: "Construido con Next.js, Motion y Tailwind CSS.",
   },
 };
