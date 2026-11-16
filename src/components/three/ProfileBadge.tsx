@@ -252,9 +252,17 @@ export function ProfileBadge() {
     };
   }, [bodyGeometry, faceGeometry, clipGeometry, ringGeometry, strapGeometry]);
 
-  const front = useCanvasTexture({ width: 528, height: 768 });
-  const back = useCanvasTexture({ width: 528, height: 768 });
-  const strap = useCanvasTexture({ width: 64, height: 1024 });
+  // fix/m17 (Directiva 1): 2× the resolution these used to render at —
+  // both draw functions already scale their content to the real canvas
+  // size (`drawBadgeFace`'s own `ctx.setTransform(width/528, ...)`,
+  // `drawStrapTexture`'s `ctx.canvas.width/height` reads), so raising
+  // these is a pure sharpness win, no redraw-logic change needed. Same
+  // 528:768 aspect preserved exactly (vs. the literal 1024×1536 the
+  // directive suggested, whose aspect doesn't quite match this card's
+  // real `CARD_WIDTH`/`CARD_HEIGHT` geometry).
+  const front = useCanvasTexture({ width: 1056, height: 1536 });
+  const back = useCanvasTexture({ width: 1056, height: 1536 });
+  const strap = useCanvasTexture({ width: 128, height: 2048 });
 
   const frontMaterial = useMemo(() => new THREE.MeshBasicMaterial({ map: front.texture, toneMapped: false }), [front.texture]);
   const backMaterial = useMemo(() => new THREE.MeshBasicMaterial({ map: back.texture, toneMapped: false }), [back.texture]);

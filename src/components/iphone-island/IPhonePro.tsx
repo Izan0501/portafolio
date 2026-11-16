@@ -69,6 +69,8 @@ import {
 
 export interface IPhoneProProps {
   locale: Locale;
+  /** fix/m17 (Directiva 1): `resolveScreenTier` (Stage.tsx) decides this per viewport/GPU — defaults to "M" (the pre-fix behavior) if a caller omits it. */
+  screenTier?: ScreenTier;
 }
 
 /** The group `CameraDirector` (M8) reads the world matrix from for its weighted-point fit — the iPhone's 4 corners (artifact `_fitCam`, line 1255). */
@@ -76,11 +78,10 @@ export interface IPhoneProHandle {
   group: THREE.Group;
 }
 
-export const IPhonePro = forwardRef<IPhoneProHandle, IPhoneProProps>(function IPhonePro({ locale }, ref) {
+export const IPhonePro = forwardRef<IPhoneProHandle, IPhoneProProps>(function IPhonePro({ locale, screenTier = "M" }, ref) {
   const mat = getMaterialRegistry();
   const groupRef = useRef<THREE.Group>(null);
 
-  const screenTier: ScreenTier = "M";
   const screen = useCanvasTexture(PHONE_SCREEN_RESOLUTION[screenTier]);
   const screenMaterial = useMemo(
     () => new THREE.MeshBasicMaterial({ map: screen.texture, toneMapped: false, color: 0x000000 }),

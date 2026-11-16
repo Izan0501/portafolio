@@ -4,6 +4,7 @@ import { PROFILE } from "@/content/profile";
 import { CREDENTIALS } from "@/content/credentials";
 import type { ProjectContent } from "@/types/content";
 import type { Locale } from "@/i18n/config";
+import { mediaDerivativePath } from "@/lib/media";
 
 /**
  * JSON-LD builders (plan §5.2) — typed with `schema-dts` (already a real
@@ -98,7 +99,7 @@ export function buildProjectJsonLd(project: ProjectContent, locale: Locale): Wit
     "@type": "CreativeWork",
     name: project.title,
     description: project.scope[locale],
-    image: absoluteUrl(project.heroImage),
+    image: absoluteUrl(mediaDerivativePath(project.heroImage)),
     creator: { "@type": "Person", name: SITE.name, url: SITE_URL },
     keywords: project.stack.join(", "),
     creativeWorkStatus: STATUS_LABEL[project.status],

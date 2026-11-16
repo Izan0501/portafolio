@@ -20,6 +20,8 @@ import { IPhonePro, type IPhoneProHandle } from "@/components/iphone-island/IPho
 import { disposeMaterialRegistry } from "@/components/three/materials/materialRegistry";
 import { useVisibilityPause } from "@/hooks/useVisibilityPause";
 import { QUALITY_TIERS, qualityTierForGPU } from "@/config/quality";
+import { useViewportProfile } from "@/hooks/useViewportProfile";
+import { resolveScreenTier } from "@/components/three/textures/screenTiers";
 import { disposeObject3D, disposeRenderer } from "@/lib/three/dispose";
 import type { Locale } from "@/i18n/config";
 
@@ -142,6 +144,12 @@ export function Stage({ benchProps, locale }: StageProps) {
   const gpu = useDetectGPU();
   const tierName = qualityTierForGPU(gpu.tier);
   const tier = QUALITY_TIERS[tierName];
+  // fix/m17 (Directiva 1): the upgrade-to-L condition `screenTiers.ts`
+  // always documented but never had a real caller for — reactive (not
+  // `viewportStore` read directly) so the Mac/iPhone screens actually
+  // sharpen up if the window resizes across the 1440px threshold.
+  const { width: viewportWidth, compact } = useViewportProfile();
+  const screenTier = resolveScreenTier(tier.screenTextureTier, viewportWidth, compact);
   const showPerfHud = useHasPerfQueryParam();
 
   // Lazy initializer, not useState(null) + a setting effect: this component
@@ -217,8 +225,8 @@ export function Stage({ benchProps, locale }: StageProps) {
         <FrameDriver />
         <Environment />
         <Bench ref={benchRef} {...benchProps} />
-        <MacBook ref={macRef} locale={locale} />
-        <IPhonePro ref={phoneRef} locale={locale} />
+        <MacBook ref={macRef} locale={locale} screenTier={screenTier} />
+        <IPhonePro ref={phoneRef} locale={locale} screenTier={screenTier} />
         <ProfileBadge />
         <StackTiles macRef={macRef} locale={locale} />
         <Briefcase ref={briefcaseRef} />
@@ -227,7 +235,12 @@ export function Stage({ benchProps, locale }: StageProps) {
         <OfficePins macRef={macRef} />
         <PulseLine macRef={macRef} phoneRef={phoneRef} veeLayersRef={veeLayersRef} />
         <CameraDirector macRef={macRef} phoneRef={phoneRef} benchRef={benchRef} />
-        {tierName === "high" && <PerformanceMonitor onIncline={() => setDpr(1.5)} onDecline={() => setDpr(1)} flipflops={3} />}
+        {/* fix/m17 (Directiva 1): incline ceiling raised 1.5 → 2 for sharper
+            text/UI on high-DPR displays — `onDecline` still drops all the
+            way to 1, so a device that can't sustain it keeps the same
+            performance floor as before; this only raises what a device
+            that *can* sustain more gets to use. */}
+        {tierName === "high" && <PerformanceMonitor onIncline={() => setDpr(2)} onDecline={() => setDpr(1)} flipflops={3} />}
       </Canvas>
       {showPerfHud && <PerfHud glRef={glRef} />}
     </div>

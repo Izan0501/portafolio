@@ -297,6 +297,21 @@ p {
     transform: none;
   }
 }
+/* M16: route-loading.tsx's spinner — pure CSS (CLAUDE.md rule 6), replacing
+   `morphing-spinner.tsx`'s `style jsx` + legacy cyan on its own removal. */
+@keyframes izSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.iz-spinner {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2.5px solid var(--color-linea-fuerte);
+  border-top-color: var(--color-limon);
+  animation: izSpin 800ms linear infinite;
+}
 .iz-isl-sep {
   width: 1px;
   height: 18px;
@@ -500,6 +515,9 @@ p {
 }
 @media (prefers-reduced-motion: reduce) {
   .iz-open .iz-isl-row li {
+    animation: none;
+  }
+  .iz-spinner {
     animation: none;
   }
 }

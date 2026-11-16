@@ -4,6 +4,7 @@ import { ImageResponse } from "next/og";
 import { notFound } from "next/navigation";
 import { PROJECTS, getProjectContent } from "@/content/projects";
 import { DEFAULT_LOCALE } from "@/i18n/config";
+import { mediaDerivativePath } from "@/lib/media";
 
 /**
  * Without its own `generateStaticParams`, Next doesn't reuse `page.tsx`'s
@@ -17,7 +18,9 @@ export function generateStaticParams() {
 
 /**
  * Per-project dynamic OG image (plan §5.2) — same palette as the home OG,
- * over the project's own real `heroImage` (M2's base) with a dark
+ * over the project's own real `heroImage`, read from its M2-optimized
+ * 2048px derivative in `public/media/**` (the only copy left once M16
+ * removes the original, unoptimized `public/projects/**`) with a dark
  * overlay for text legibility. `params` arrives as a `Promise` here —
  * confirmed as a real Next 16 breaking change in `docs/next16-notes.md`
  * §5, not assumed from the v15 (synchronous) signature.
@@ -30,7 +33,7 @@ export default async function Image({ params }: { params: Promise<{ id: string }
   const project = getProjectContent(id);
   if (!project) notFound();
 
-  const imageBuffer = await readFile(join(process.cwd(), "public", project.heroImage));
+  const imageBuffer = await readFile(join(process.cwd(), "public", mediaDerivativePath(project.heroImage, 2048)));
   const imageDataUrl = `data:image/png;base64,${imageBuffer.toString("base64")}`;
 
   return new ImageResponse(

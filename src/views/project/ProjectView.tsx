@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Image from "next/image";
+import { mediaDerivativePath } from "@/lib/media";
 import Link from "next/link";
 import { FiArrowLeft, FiExternalLink } from "react-icons/fi";
 import type { ProjectContent } from "@/types/content";
@@ -17,11 +18,12 @@ import { Pagination } from "@/components/ui/pagination";
  * `content/projects.ts` directly instead, same source the 3D recorrido's
  * `Projects.tsx` chapter already uses.
  *
- * Gallery images use `next/image` against the *original* files
- * (`public/projects/...`) — `next.config.ts` already negotiates
- * AVIF/WebP via its own optimizer, so this page never touches the
- * `public/media/...` derivatives `showcaseImages.ts`/`credentialImages.ts`
- * generate for the 2D canvas screens, which can't use that optimizer.
+ * Gallery images use `next/image` against the M2-optimized 2048px
+ * derivative in `public/media/...` (`mediaDerivativePath`), not the
+ * original `public/projects/...` file — M11 originally pointed this at
+ * the original and let `next.config.ts`'s own optimizer negotiate
+ * AVIF/WebP from it, but M16 removes every unoptimized original once
+ * nothing reads it directly anymore, this page included.
  */
 export function ProjectView({ project }: { project: ProjectContent }) {
   const { locale, t: dictionary } = useI18n();
@@ -124,7 +126,7 @@ export function ProjectView({ project }: { project: ProjectContent }) {
             <figure>
               <div className="relative w-full aspect-video rounded-panel overflow-hidden shadow-[inset_0_0_0_1px_var(--color-linea)] bg-carbon">
                 <Image
-                  src={activeImage.src}
+                  src={mediaDerivativePath(activeImage.src, 2048)}
                   alt={activeImage.alt[locale]}
                   fill
                   sizes="(min-width: 960px) 960px, 100vw"

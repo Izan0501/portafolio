@@ -99,11 +99,26 @@ function quadraticBezier(p0: THREE.Vector3, control: THREE.Vector3, p1: THREE.Ve
 
 /**
  * A single certificate's full pose at local progress `u` (artifact lines
- * 1420-1446). `index` only matters for the resting stack jitter the
- * artifact applies before `u` goes positive — once in flight, every
- * certificate follows the same 4-phase curve.
+ * 1420-1446). `index` is the certificate's own fixed slot (0-4) — used
+ * only as a per-certificate *phase offset* inside the two oscillating
+ * terms below (float bob, spin jitter), exactly like the artifact's own
+ * `i`, so the 5 plates don't bob/jitter in lockstep. `lean` is the
+ * scroll-velocity lean (artifact's own term in `_certs`, clamped ±2.5,
+ * same source `Briefcase.tsx` already reads via `scrollStore.vel`) —
+ * feeds a small extra spin while the user is actively scrolling fast.
+ *
+ * fix/m17 (real bug, found by re-diffing against the artifact line by
+ * line): the float bob used to read `Math.sin(t * 1.6 + u * 10)` — `u`
+ * is the *flight progress*, which changes continuously and fast while
+ * scrolling, so that extra `u * 10` term stacked a second, fast-varying
+ * frequency on top of the oscillation and read as jitter instead of a
+ * slow float. The artifact's own line 1431 is `Math.sin(this.t * 1.6 +
+ * i) * 0.012` — `i`, the certificate's fixed index, not `u`. Same fix
+ * applies to `spin`'s own second term (line 1437), which this port had
+ * dropped entirely rather than mis-ported — added back here, using `i`
+ * from the start this time.
  */
-export function certFlightState(u: number, points: CertFlightPoints, t: number, reduced: boolean): CertFlightState {
+export function certFlightState(u: number, points: CertFlightPoints, t: number, reduced: boolean, index: number, lean: number): CertFlightState {
   if (u <= 0) {
     return { visible: true, position: points.stack.clone(), scale: 0.72, orientationBlend: 0, spin: 0, frameFlash: 0, scanProgress: 0 };
   }
@@ -124,7 +139,7 @@ export function certFlightState(u: number, points: CertFlightPoints, t: number, 
   } else if (u < 0.78) {
     const control = points.up.clone().add(points.show).multiplyScalar(0.5).add(new THREE.Vector3(0, 0.55, 0.35));
     position = quadraticBezier(points.up, control, points.show, arc);
-    const floatBob = u >= 0.55 && !reduced ? Math.sin(t * 1.6 + u * 10) * 0.012 : 0;
+    const floatBob = u >= 0.55 && !reduced ? Math.sin(t * 1.6 + index) * 0.012 : 0;
     position.y += floatBob;
     scale = 0.86 + (1 - 0.86) * arc;
   } else {
@@ -134,7 +149,8 @@ export function certFlightState(u: number, points: CertFlightPoints, t: number, 
   }
 
   const orientationBlend = smoothstep(0.04, 0.5, u);
-  const spin = u < 0.55 ? Math.sin(arc * Math.PI) * 0.45 : 0;
+  const spinJitter = reduced ? 0 : Math.sin(t * 0.8 + index) * 0.02 * win(u, 0.55, 0.78, 0.04);
+  const spin = Math.sin(arc * Math.PI) * 0.45 + spinJitter + lean * 0.05;
   const frameFlash = smoothstep(0.5, 0.6, u) * (1 - smoothstep(0.8, 0.9, u));
   const scanWindow = win(u, 0.58, 0.76, 0.02);
   const scanProgress = scanWindow > 0.002 ? smoothstep(0.58, 0.76, u) : 0;
