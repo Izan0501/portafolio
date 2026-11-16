@@ -31,21 +31,9 @@ describe("securityHeaders", () => {
     expect(permissionsPolicy).toContain("interest-cohort=()");
   });
 
-  it("defaults to Report-Only — the safer mode if CSP_ENFORCE is simply unset on a fresh deploy", () => {
-    delete process.env.CSP_ENFORCE;
+  it("enforces the real, blocking CSP by default — the Report-Only trial period is over", () => {
     const headers = securityHeaders(false);
-    expect(findHeader(headers, "Content-Security-Policy-Report-Only")).toContain("default-src 'self'");
-    expect(findHeader(headers, "Content-Security-Policy")).toBeUndefined();
-  });
-
-  it("switches to the real, blocking header only once CSP_ENFORCE=true", () => {
-    process.env.CSP_ENFORCE = "true";
-    try {
-      const headers = securityHeaders(false);
-      expect(findHeader(headers, "Content-Security-Policy")).toContain("default-src 'self'");
-      expect(findHeader(headers, "Content-Security-Policy-Report-Only")).toBeUndefined();
-    } finally {
-      delete process.env.CSP_ENFORCE;
-    }
+    expect(findHeader(headers, "Content-Security-Policy")).toContain("default-src 'self'");
+    expect(findHeader(headers, "Content-Security-Policy-Report-Only")).toBeUndefined();
   });
 });

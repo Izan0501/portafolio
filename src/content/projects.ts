@@ -1,4 +1,4 @@
-import { PROJECTS_DATA } from "@/data/projects";
+import { PROJECTS_DATA } from "@/content/projectsData";
 import type { Localized, ProjectContent, ShowcaseShot } from "@/types/content";
 
 /**

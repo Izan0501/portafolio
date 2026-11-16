@@ -62,9 +62,18 @@ export function getMaterialRegistry(): MaterialRegistry {
     black: new THREE.MeshBasicMaterial({ color: 0x000000 }),
     ti: new THREE.MeshStandardMaterial({ color: 0x4a4740, metalness: 1, roughness: 0.3 }),
     lens: new THREE.MeshStandardMaterial({ color: 0x0a0a0c, metalness: 0.6, roughness: 0.12 }),
-    card: new THREE.MeshStandardMaterial({ color: 0x1a1815, metalness: 0.4, roughness: 0.5 }),
-    leather: new THREE.MeshStandardMaterial({ color: 0x2b2520, metalness: 0, roughness: 0.62 }),
-    brass: new THREE.MeshStandardMaterial({ color: 0xc8b46a, metalness: 1, roughness: 0.32 }),
+    // `side: THREE.DoubleSide` on card/leather/brass (fix/m17): the
+    // briefcase lid and the certificate plates are real volumetric
+    // geometry (extruded walls, a boxed plate), but Three's default
+    // `FrontSide` still culls a face's back from whichever angle the
+    // camera ends up seeing it from as the lid swings open and the
+    // camera reframes around it — confirmed as the real cause of the
+    // "lid turns invisible" report, not a geometry problem (the lid
+    // already had real thickness and its pivot was already on the real
+    // hinge edge before this fix).
+    card: new THREE.MeshStandardMaterial({ color: 0x1a1815, metalness: 0.4, roughness: 0.5, side: THREE.DoubleSide }),
+    leather: new THREE.MeshStandardMaterial({ color: 0x2b2520, metalness: 0, roughness: 0.62, side: THREE.DoubleSide }),
+    brass: new THREE.MeshStandardMaterial({ color: 0xc8b46a, metalness: 1, roughness: 0.32, side: THREE.DoubleSide }),
     lining: new THREE.MeshStandardMaterial({ color: 0x1b1914, metalness: 0, roughness: 0.95 }),
     lemon: new THREE.MeshBasicMaterial({ color: 0xe6d84a, toneMapped: false }),
   };

@@ -52,43 +52,61 @@ describe("certFlightState", () => {
   };
 
   it("rests in the stack before its turn (u ≤ 0)", () => {
-    const state = certFlightState(-0.2, points, 0, false);
+    const state = certFlightState(-0.2, points, 0, false, 0, 0);
     expect(state.visible).toBe(true);
     expect(state.position.equals(points.stack)).toBe(true);
     expect(state.scale).toBeCloseTo(0.72, 5);
   });
 
   it("is invisible once fully absorbed (u ≥ 0.95)", () => {
-    expect(certFlightState(0.96, points, 0, false).visible).toBe(false);
+    expect(certFlightState(0.96, points, 0, false, 0, 0).visible).toBe(false);
   });
 
   it("is between stack and up during 'subida' (u < 0.28)", () => {
-    const state = certFlightState(0.1, points, 0, false);
+    const state = certFlightState(0.1, points, 0, false, 0, 0);
     expect(state.position.y).toBeGreaterThan(points.stack.y);
     expect(state.position.y).toBeLessThan(points.up.y);
   });
 
   it("rises above both up and show during the arc (Bézier control point lift)", () => {
-    const state = certFlightState(0.42, points, 0, true); // reduced=true removes the float bob for a clean comparison
+    const state = certFlightState(0.42, points, 0, true, 0, 0); // reduced=true removes the float bob for a clean comparison
     expect(state.position.y).toBeGreaterThan(points.up.y);
     expect(state.position.y).toBeGreaterThan(points.show.y);
   });
 
   it("settles near 'show' while floating (u in [0.55, 0.78))", () => {
-    const state = certFlightState(0.65, points, 0, true);
+    const state = certFlightState(0.65, points, 0, true, 0, 0);
     expect(state.position.x).toBeCloseTo(points.show.x, 1);
     expect(state.position.z).toBeCloseTo(points.show.z, 1);
   });
 
   it("is between show and screen while absorbing (u in [0.78, 0.95))", () => {
-    const state = certFlightState(0.86, points, 0, false);
+    const state = certFlightState(0.86, points, 0, false, 0, 0);
     expect(state.position.z).toBeGreaterThan(points.screen.z);
     expect(state.position.z).toBeLessThan(points.show.z);
   });
 
   it("flashes briefly mid-arc and never outside that window", () => {
-    expect(certFlightState(0.55, points, 0, false).frameFlash).toBeGreaterThan(0);
-    expect(certFlightState(0.1, points, 0, false).frameFlash).toBe(0);
-    expect(certFlightState(0.95 - 0.001, points, 0, false).frameFlash).toBeLessThan(0.01);
+    expect(certFlightState(0.55, points, 0, false, 0, 0).frameFlash).toBeGreaterThan(0);
+    expect(certFlightState(0.1, points, 0, false, 0, 0).frameFlash).toBe(0);
+    expect(certFlightState(0.95 - 0.001, points, 0, false, 0, 0).frameFlash).toBeLessThan(0.01);
+  });
+
+  it("fix/m17: the float bob's phase comes from the certificate's fixed index, not from flight progress u — using u there (a real bug found by re-diffing the artifact) would stack a second, fast-changing frequency on the oscillation and read as jitter instead of a slow float", () => {
+    // Two different u values, same t and index: if the bob still (incorrectly)
+    // depended on u, these two bob offsets would differ; fixed, they must match
+    // exactly, since `Math.sin(t*1.6 + index)` never changes within this call.
+    const t = 1.23;
+    const stateAtU60 = certFlightState(0.6, points, t, false, 2, 0);
+    const stateAtU70 = certFlightState(0.7, points, t, false, 2, 0);
+    const bobAt60 = stateAtU60.position.y - points.show.y;
+    const bobAt70 = stateAtU70.position.y - points.show.y;
+    expect(bobAt60).toBeCloseTo(bobAt70, 10);
+  });
+
+  it("spin jitter and lean both come from real artifact terms, not just the base arc swing", () => {
+    const withoutLean = certFlightState(0.4, points, 5, false, 1, 0);
+    const withLean = certFlightState(0.4, points, 5, false, 1, 2);
+    expect(withLean.spin - withoutLean.spin).toBeCloseTo(2 * 0.05, 5);
   });
 });

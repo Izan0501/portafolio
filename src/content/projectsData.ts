@@ -1,14 +1,17 @@
 /**
- * @deprecated Kept alive only for the legacy components that still read it
- * directly (`FeaturedSystems.tsx`, `ProjectDetail.tsx`, `app/projects/[id]/page.tsx`).
- * `src/content/projects.ts` is the real successor: it reuses every value in
- * `PROJECTS_DATA` below, drops `latency` (IMPLEMENTATION_PLAN.md finding A2 —
- * no fabricated metric), and adds `solution` + `showcase` hotspots ported
- * from the approved artifact. Nothing in this file changes until M16 removes
- * it along with the legacy components (IMPLEMENTATION_PLAN.md §1.3).
+ * The 5 real projects' raw source data — moved here from `src/data/projects.ts`
+ * in M16 once `FeaturedSystems.tsx`/`ProjectDetail.tsx` (its last two legacy
+ * readers) were removed; `app/projects/[id]/page.tsx` had already stopped
+ * reading it directly back in M11. `content/projects.ts` is the only
+ * consumer now: it reuses every value here — id, title, status,
+ * architecture, stack, scope, challenge, objectives, the full 52-screenshot
+ * gallery, liveUrl — and drops `latency` on the way out (plan finding A2 —
+ * no fabricated metric), adding `solution` + `showcase` hotspots of its own.
+ *
+ * `icon`/`IconType` (react-icons) existed only for `FeaturedSystems.tsx`'s
+ * own visual icon per project — removed here along with that component,
+ * not carried forward as unused data.
  */
-import type { IconType } from "react-icons";
-import { FiCalendar, FiDatabase, FiGlobe, FiLayout, FiServer } from "react-icons/fi";
 import type { Locale } from "@/i18n/config";
 
 export type ProjectStatus = "PROD" | "DEV";
@@ -58,7 +61,6 @@ export interface Project {
   stack: string[];
   location: Localized<string>;
   latency: Localized<string>;
-  icon: IconType;
   heroImage: string;
   scope: Localized<string>;
   challenge: Localized<string>;
@@ -79,7 +81,6 @@ export interface ResolvedProject {
   stack: string[];
   location: string;
   latency: string;
-  icon: IconType;
   heroImage: string;
   scope: string;
   challenge: string;
@@ -135,7 +136,6 @@ export const PROJECTS_DATA: Project[] = [
     stack: ["React", "Vite", "TypeScript", "Tailwind", "FastAPI", "PostgreSQL", "Docker", "Supabase"],
     location: { en: "SUPABASE // DOCKER", es: "SUPABASE // DOCKER" },
     latency: { en: "0.35ms", es: "0.35ms" },
-    icon: FiDatabase,
     heroImage: "/projects/nave24stock/stock-back.png",
     scope: {
       en: "A real-time warehouse inventory system tracking stock levels, movements, and reorder thresholds across multiple storage locations.",
@@ -232,7 +232,6 @@ export const PROJECTS_DATA: Project[] = [
     stack: ["React", "Vite", "Framer Motion", "Tailwind", "FastAPI", "MongoDB", "Pinecone", "Gemini 2.5 Flash"],
     location: { en: "STAGING // CI/CD PIPELINE", es: "STAGING // CI/CD PIPELINE" },
     latency: { en: "5.7ms (staging)", es: "5.7ms (staging)" },
-    icon: FiServer,
     heroImage: "/projects/veeBot/bot-back1.png",
     scope: {
       en: "A multi-tenant SaaS recruiting platform where an AI pipeline scores, compares, and interviews every candidate CV, turning raw résumés into structured, searchable talent intelligence for recruiting agencies. The analysis engine has since moved from Groq's Llama 3.3 70B Versatile to Gemini 2.5 Flash for deeper contextual scoring.",
@@ -735,7 +734,6 @@ export const PROJECTS_DATA: Project[] = [
     stack: ["React", "Vite", "Tailwind", "Framer Motion", "Google Maps API", "WhatsApp API"],
     location: { en: "VERCEL EDGE // GLOBAL CDN", es: "VERCEL EDGE // CDN GLOBAL" },
     latency: { en: "0.29ms", es: "0.29ms" },
-    icon: FiGlobe,
     heroImage: "/projects/estudio/estudio-back.png",
     scope: {
       en: "A high-performance marketing and client-intake site for a criminal and consumer-law practice, built as a React/Vite SPA with an aggressive editorial brand identity, WhatsApp-routed case intake, and Google Maps–located offices across two provinces.",
@@ -1071,7 +1069,6 @@ export const PROJECTS_DATA: Project[] = [
     stack: ["React", "Vite", "TypeScript", "Tailwind", "Framer Motion", "Google Maps API", "WhatsApp API"],
     location: { en: "PREVIEW BUILD // DEV", es: "BUILD DE PREVIEW // DEV" },
     latency: { en: "6.1ms (staging)", es: "6.1ms (staging)" },
-    icon: FiLayout,
     heroImage: "/projects/portafolio-mel/portafolio-back.png",
     scope: {
       en: "A kinetic, image-forward photography portfolio built as a TypeScript React/Vite SPA, showcasing creative work with fluid Framer Motion transitions and a distinct visual identity.",
@@ -1286,7 +1283,6 @@ export const PROJECTS_DATA: Project[] = [
     stack: ["React", "Vite", "Tailwind", "Framer Motion", "Google Maps API", "WhatsApp API"],
     location: { en: "STATIC HOSTING // DEV", es: "HOSTING ESTÁTICO // DEV" },
     latency: { en: "8.4ms (staging)", es: "8.4ms (staging)" },
-    icon: FiCalendar,
     heroImage: "/projects/consultorio/consul-back.png",
     scope: {
       en: "A marketing and patient-acquisition site for a dental practice specializing in high-complexity treatments, showcasing services, 3D/iTero scanning technology, and doctor credentials, with every enquiry routed straight to an encrypted WhatsApp chat.",
@@ -1461,7 +1457,6 @@ export function resolveProject(project: Project, locale: Locale): ResolvedProjec
     stack: project.stack,
     location: project.location[locale],
     latency: project.latency[locale],
-    icon: project.icon,
     heroImage: project.heroImage,
     scope: project.scope[locale],
     challenge: project.challenge[locale],

@@ -12,6 +12,7 @@ import { CH } from "@/config/chapters";
 import { chapterIndexAt, chapterProgressAt } from "@/features/scroll/chapterMath";
 import { scrollStore } from "@/features/scroll/scrollStore";
 import { certFlightState, certLocalProgress, certRectToLidLocal, certScreenRect, certRectWorldWidth, formationProgress, type CertFlightPoints } from "@/features/chapters/certFlight";
+import { clamp } from "@/lib/math/ease";
 
 /**
  * The 5 real certificate plates — ported 1:1 from the artifact's cert-plate
@@ -66,7 +67,7 @@ export function CertPlates({ macRef, briefcaseRef }: CertPlatesProps) {
   }, [backGeometry, faceGeometry, scanGeometry]);
 
   const scanMaterial = useMemo(
-    () => new THREE.MeshBasicMaterial({ color: 0xe6d84a, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false }),
+    () => new THREE.MeshBasicMaterial({ color: 0xe6d84a, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false, side: THREE.DoubleSide }),
     [],
   );
   useEffect(() => () => scanMaterial.dispose(), [scanMaterial]);
@@ -79,6 +80,7 @@ export function CertPlates({ macRef, briefcaseRef }: CertPlatesProps) {
     const p = scrollStore.p;
     const chapter = CH[chapterIndexAt(p, CH)];
     const live = chapter.id === "cert" && p > 3.1 && p < 6.85;
+    const lean = clamp(scrollStore.vel, -2.5, 2.5);
 
     for (let i = 0; i < CREDENTIAL_COUNT; i++) {
       const plate = plateRefs.current[i];
@@ -106,7 +108,7 @@ export function CertPlates({ macRef, briefcaseRef }: CertPlatesProps) {
         screenWorldWidth: certRectWorldWidth(rect),
       };
 
-      const state = certFlightState(u, points, scrollStore.t, scrollStore.reduced);
+      const state = certFlightState(u, points, scrollStore.t, scrollStore.reduced, i, lean);
       plate.visible = state.visible;
       if (!state.visible) continue;
 
@@ -144,7 +146,13 @@ export function CertPlates({ macRef, briefcaseRef }: CertPlatesProps) {
         <group key={credential.id} ref={(el) => { plateRefs.current[i] = el; }} visible={false}>
           <mesh geometry={backGeometry} material={mat.card} scale={[1.56, 1.0, 0.014]} />
           <mesh ref={(el) => { faceRefs.current[i] = el; }} geometry={faceGeometry} position={[0, 0, 0.008]}>
-            <meshStandardMaterial emissive={0xffffff} emissiveIntensity={0.1} roughness={0.5} metalness={0} toneMapped={false} />
+            {/* fix/m17 (Directiva 2): DoubleSide — this face rotates
+                during the flight (`plate.rotateY(state.spin)`, the
+                orientation slerp), so without it the real credential
+                image would briefly vanish whenever that rotation exposes
+                its back, exactly the "invisible" failure mode this fix
+                is about. */}
+            <meshStandardMaterial emissive={0xffffff} emissiveIntensity={0.1} roughness={0.5} metalness={0} toneMapped={false} side={THREE.DoubleSide} />
           </mesh>
           <mesh ref={(el) => { scanRefs.current[i] = el; }} geometry={scanGeometry} material={scanMaterial} position={[0, 0.5, 0.01]} visible={false} />
         </group>

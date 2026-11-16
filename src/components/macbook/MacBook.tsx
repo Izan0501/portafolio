@@ -14,6 +14,7 @@ import { SPRING, createSpring, stepSpring } from "@/features/choreography/spring
 import { clamp, smoothstep as ss } from "@/lib/math/ease";
 import { Keyboard, type KeyboardHandle } from "./Keyboard";
 import { Lid, type LidHandle } from "./Lid";
+import type { ScreenTier } from "@/components/three/textures/screenTiers";
 import { drawBoot, bootScreenKey } from "./screens/boot";
 import { drawProfile, profileScreenKey } from "./screens/profile";
 import { drawCertV, certvScreenKey } from "./screens/certv";
@@ -63,6 +64,8 @@ import {
 
 export interface MacBookProps {
   locale: Locale;
+  /** fix/m17 (Directiva 1): forwarded straight to `<Lid>` — `resolveScreenTier` (Stage.tsx) decides this per viewport/GPU, this component has no opinion of its own. */
+  screenTier?: ScreenTier;
 }
 
 /** The two groups `CameraDirector` (M8) reads world matrices from for its weighted-point fit — the base's 4 corners and the lid's own edge (artifact `_fitCam`, lines 1247-1248). */
@@ -71,7 +74,7 @@ export interface MacBookHandle {
   lidGroup: THREE.Group;
 }
 
-export const MacBook = forwardRef<MacBookHandle, MacBookProps>(function MacBook({ locale }, ref) {
+export const MacBook = forwardRef<MacBookHandle, MacBookProps>(function MacBook({ locale, screenTier }, ref) {
   const mat = getMaterialRegistry();
   const groupRef = useRef<THREE.Group>(null);
   const keyboardRef = useRef<KeyboardHandle>(null);
@@ -235,7 +238,7 @@ export const MacBook = forwardRef<MacBookHandle, MacBookProps>(function MacBook(
       <Keyboard ref={keyboardRef} />
       <mesh geometry={trackpadGeometry} material={mat.aluD} rotation={[-Math.PI / 2, 0, 0]} position={TRACKPAD_POSITION} />
       <mesh geometry={hingeGeometry} material={mat.aluD} rotation={[0, 0, Math.PI / 2]} position={HINGE_POSITION} />
-      <Lid ref={lidRef} />
+      <Lid ref={lidRef} screenTier={screenTier} />
     </group>
   );
 });

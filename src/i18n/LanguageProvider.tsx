@@ -20,7 +20,7 @@ interface LanguageContextValue {
   locale: Locale;
   setLocale: (next: Locale) => void;
   toggleLocale: () => void;
-  /** Active dictionary — accessed as `t.hero.titleLine`, fully type-checked. */
+  /** Active dictionary — accessed as `t.footer.copyright`, fully type-checked. */
   t: Dictionary;
 }
 

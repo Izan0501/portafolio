@@ -220,7 +220,7 @@ export const Briefcase = forwardRef<BriefcaseHandle>(function Briefcase(_props, 
     stitching.redrawIfKeyChanged("stitch", (ctx) => drawStitching(ctx, 2));
   }, [stitching]);
   const stitchMaterial = useMemo(
-    () => new THREE.MeshBasicMaterial({ map: stitching.texture, transparent: true, toneMapped: false, depthWrite: false }),
+    () => new THREE.MeshBasicMaterial({ map: stitching.texture, transparent: true, toneMapped: false, depthWrite: false, side: THREE.DoubleSide }),
     [stitching.texture],
   );
   useEffect(() => () => stitchMaterial.dispose(), [stitchMaterial]);
@@ -237,7 +237,7 @@ export const Briefcase = forwardRef<BriefcaseHandle>(function Briefcase(_props, 
   useEffect(() => {
     lining.redrawIfKeyChanged("lining", drawLiningTexture);
   }, [lining]);
-  const liningMaterial = useMemo(() => new THREE.MeshStandardMaterial({ map: lining.texture, roughness: 0.95 }), [lining.texture]);
+  const liningMaterial = useMemo(() => new THREE.MeshStandardMaterial({ map: lining.texture, roughness: 0.95, side: THREE.DoubleSide }), [lining.texture]);
   useEffect(() => () => liningMaterial.dispose(), [liningMaterial]);
 
   useFrame((_state, delta) => {

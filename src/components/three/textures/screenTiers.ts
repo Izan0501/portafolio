@@ -3,10 +3,30 @@
  * §3.1 "Nitidez en las pantallas 3D". `S` is mobile, `M` the floor every
  * render-quality tier uses (plan §2.3: low GPU tier always uses M, never
  * the sharper L — `config/quality.ts`'s own `screenTextureTier`), `L` for
- * a wide/high-DPR desktop (M8's `useViewportProfile` decides when to
- * upgrade to it — not built yet, so every screen defaults to `M` until then).
+ * a wide/high-DPR desktop.
+ *
+ * fix/m17 (Directiva 1): the upgrade-to-`L` condition below is the part
+ * that was "not built yet" — every Mac/iPhone screen defaulted to `M`
+ * regardless of device, confirmed as the real cause of the Mac screen
+ * reading as blurry on a sharp desktop display (`useCanvasTexture.ts`'s
+ * anisotropy/mipmap setup was already correct; the texture itself was
+ * simply never asked to be bigger).
  */
 export type ScreenTier = "S" | "M" | "L";
+
+/**
+ * `floor` is `config/quality.ts`'s own `screenTextureTier` (never lower
+ * than `M`, and `low`-GPU tier's own ceiling — a weak GPU doesn't get a
+ * sharper texture just because the display happens to be wide). Only
+ * raises to `L` on a wide-enough, non-compact viewport — a vertical or
+ * narrow one (phones, small tablets) never benefits from a texture bigger
+ * than what it can actually show at readable size.
+ */
+export function resolveScreenTier(floor: ScreenTier, viewportWidth: number, compact: boolean): ScreenTier {
+  if (floor === "L") return "L";
+  if (!compact && viewportWidth >= 1440) return "L";
+  return floor;
+}
 
 export interface ScreenResolution {
   width: number;
